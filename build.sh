@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Builds artifact.html (fragment for publishing), index.html (standalone page) and dev.html (with ?debug test hooks).
+set -e
+cd "$(dirname "$0")"
+HEAD='<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"></head><body>'
+pack() {
+  cat src/page.html
+  echo '<script>'
+  echo "(()=>{'use strict';"
+  for f in src/js/*.js; do
+    if [ "$1" = "nodebug" ] && [[ "$f" == *debug* ]]; then continue; fi
+    cat "$f"; echo
+  done
+  echo '})();'
+  echo '</script>'
+}
+pack nodebug > artifact.html
+{ echo "$HEAD"; echo '<script>window.CATAKLEM_LOCAL=1</script>'; cat artifact.html; echo '</body></html>'; } > index.html
+{ echo "$HEAD"; echo '<script>window.CATAKLEM_LOCAL=1</script>'; pack; echo '</body></html>'; } > dev.html
+mkdir -p docs
+{ echo "$HEAD"; cat artifact.html; echo '</body></html>'; } > docs/index.html
+touch docs/.nojekyll
+echo "built: $(wc -c < artifact.html) bytes"
