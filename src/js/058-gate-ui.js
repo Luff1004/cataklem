@@ -22,11 +22,13 @@ function renderPortals() {
       '<div class="ptx"><span class="eyebrow">' + esc(g.ord) + (kills ? ' · 격파 ' + kills + '회' : '') + '</span><b>' + (open ? esc(g.name) : '???') + '</b>' +
       '<p>' + (open ? esc(g.sub) + '. ' + esc(g.line) : esc(josa(GATES[i - 1].name, '을', '를')) + ' 쓰러뜨리면 문의 위치가 보인다.') + '</p>' +
       (open ? '<div class="prow">' + req + btn + '</div><span class="rew">' + (kills ? '다시 잡으면 파편 ' + Math.round(g.reward * .4) + ', ' + esc(CORE_NAME[g.id]) : '첫 격파: 파편 ' + g.reward + ', ' + esc(CORE_NAME[g.id]) + ', 직업 <b>' + esc(cls.name) + '</b>') + '</span>' : '') +
+      (LOCAL && open ? '<div class="acts"><span>막 골라 시작</span>' + Array.from({ length: g.id === 'unknown' ? 7 : 3 }, (_, k) => '<button data-act="' + (k + 1) + '">' + (k + 1) + '막</button>').join('') + '</div>' : '') +
       '<div class="forge"><i></i></div></div>';
     const cb = card.querySelector('[data-craft]');
     if (cb) cb.addEventListener('click', () => craftPortal(g, card));
     const gb = card.querySelector('[data-go]');
     if (gb) gb.addEventListener('click', () => { SFX.portal(); startBossFlow(g.id); });
+    card.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', () => { SFX.portal(); startBossFlow(g.id, +b.dataset.act); }));
     host.appendChild(card);
   });
 }
@@ -52,12 +54,13 @@ function wipe(mid) {
   w.hidden = false; w.className = 'in';
   setTimeout(() => { mid(); w.className = 'out'; setTimeout(() => { w.hidden = true; w.className = ''; wipeBusy = false; }, 650); }, 600);
 }
-function startBossFlow(id) {
+function startBossFlow(id, act = 1) {
   audioInit();
   if (!LOCAL) { SAVE.portals[id] = 0; persist(); }
   STATE = 'wipe';
   wipe(() => {
     setupBossRun(id);
+    G.startAct = act;
     $('hud').hidden = true; hudCache = {};
     openDraft();
   });
@@ -74,7 +77,7 @@ function openDraft() {
 function openRelic() {
   STATE = 'level'; G.choice = 'relic'; INPUT.joy = null; updMove();
   show('scrLevel');
-  $('lvEye').textContent = G.gate.name + ' · ' + (G.boss ? G.boss.phase : 2) + '막';
+  $('lvEye').textContent = G.gate.name + ' · ' + (G.boss ? phaseOf(G.boss) : 2) + '막';
   $('lvTitle').textContent = '유물을 고른다';
   CHOICES = relicChoices(); renderCards();
   $('lvNote').textContent = '거물이 흘린 것. 이 문 안에서만 힘을 쓴다.';
@@ -91,6 +94,21 @@ function beginFight() {
   if (G.u) { AU.track = 'unknown'; AU.uPhase = 1; }
   banner(G.gate.name, '싸워라', 'warn');
   G.boss.cd = 1.2;
+  if (G.startAct > 1) applyStartAct(G.startAct);
+}
+/* local testing: jump straight to an act, playing that act's own transition */
+function applyStartAct(n) {
+  const e = G.boss;
+  if (e.bk === 'unknown') {
+    G.relicPend += [3, 6].filter(k => k < n).length;
+    e.phase = n - 1; e.hp = e.maxHp * U_FLOORS[n - 1]; G.uPhaseT = 999;
+    startUCut(n);
+    return;
+  }
+  const S = e.share || e;
+  if (n === 3) { G.relicPend++; S.phase = 1; }
+  S.hp = e.maxHp * (n === 2 ? .66 : .33) - 1; e.hp = S.hp; if (e.other) e.other.hp = S.hp;
+  banner(n + '막부터', '로컬 테스트', 'good');
 }
 
 /* ---------- after the gate ---------- */

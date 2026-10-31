@@ -389,6 +389,10 @@ img{max-width:100%}
 .cr-line{margin:0;font:700 16px/1.8 var(--f-body);max-width:22em}
 .cr-end{font:400 clamp(70px,24vw,130px)/1 var(--f-display);color:var(--ink);text-shadow:5px 4px 0 var(--pink)}
 #credits .skip{position:absolute;right:var(--sr);bottom:calc(var(--sb) + 14px);opacity:.5;font:800 11px/1 var(--f-body)}
+.portal .acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px;padding-top:8px;border-top:2px dotted var(--ink-30)}
+.portal .acts span{font:800 11px/1 var(--f-body);color:var(--teal);margin-right:2px}
+.portal .acts button{border:2px solid var(--ink);background:var(--paper);color:var(--ink);font:700 12px/1 var(--f-mono);padding:7px 8px;border-radius:2px}
+.portal .acts button:active{background:var(--pink)}
 @keyframes sunGlow{50%{text-shadow:0 0 18px rgba(255,210,63,.9),0 0 40px rgba(255,79,158,.6)}}
 @keyframes stampIn{0%{transform:scale(1.6) rotate(-4deg);opacity:0}60%{transform:scale(.96) rotate(1deg);opacity:1}100%{transform:none}}
 #wipe{position:fixed;inset:0;z-index:40;background:var(--ink-deep);clip-path:circle(0% at 50% 55%);pointer-events:auto}
