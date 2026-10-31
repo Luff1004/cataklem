@@ -15,7 +15,8 @@ const allf = s => s.split(' ').every(sf);
 function setf(f) { SAVE.story.flags[f] = 1; persist(); if (WD) refreshBlk(); }
 function addCoin(n) { SAVE.story.coin = Math.max(0, Math.round(SAVE.story.coin + n)); if (n > 0) { SFX.gem(6); TX.push({ x: P.x, y: P.y - 30, vy: -40, life: .9, max: .9, v: '+' + Math.round(n) + ' 동전', crit: false, healTxt: true, dead: false }); } }
 function addItem(k, n = 1) { const it = SAVE.story.items; it[k] = Math.max(0, (it[k] || 0) + n); if (n > 0) { const nm = ITEM_NAME[k] || k; banner(nm + (n > 1 ? ' ×' + n : ''), '얻었다', 'good'); SFX.pick(); } persist(); }
-const ITEM_NAME = { potion: '물약', bigpotion: '큰 물약', stone: '단단한 돌', page: '낙서 조각', salt_heart: '소금 심장', charm: '불씨 부적' };
+const ITEM_NAME = { potion: '물약', bigpotion: '큰 물약', stone: '단단한 돌', page: '낙서 조각', salt_heart: '소금 심장', charm: '불씨 부적', mushroom: '버섯', jar: '물 항아리', sentence: '찢긴 문장' };
+function giveCharm() { SAVE.story.charms++; applyStats(); P.hp = P.maxHp; persist(); banner('불씨 부적', '최대 체력 +15', 'good'); SFX.heal(); }
 function giveSword(id) {
   const S = SAVE.story;
   if (!S.swords.includes(id)) S.swords.push(id);
@@ -387,6 +388,7 @@ function pushBoxes(dt) {
   G.pushT = (G.pushT || 0) + dt;
   if (G.pushT < .22) return;
   G.pushT = 0;
+  if (WD.ents.some(e => e.k === 'plate' && e.tx === box.tx && e.ty === box.ty)) return;
   const nx = box.tx + dir[0], ny = box.ty + dir[1];
   if (solidT(nx, ny) || EXIT_CH[WD.grid[ny][nx]] || WD.ents.some(e => e !== box && e.tx === nx && e.ty === ny && (e.k === 'box' || e.k === 'door'))) { SFX.deny(); return; }
   box.tx = nx; box.ty = ny; box.ax = box.x; box.ay = box.y; box.x = (nx + .5) * TL; box.y = (ny + .5) * TL; box.mt = 0;
@@ -622,9 +624,10 @@ function renderSMenu() {
     '<div class="tiles">' + tile('LV ' + S.lv, '레벨') + tile(Math.round(P.hp) + '/' + Math.round(P.maxHp), '체력') + tile(fmtNum(S.coin), '동전') + tile(fmtTime(S.playT), '이야기 시간') + '</div>' +
     '<div><div class="label"><span class="eyebrow">할 일</span><span>' + done + ' / ' + STORY_STEPS.length + '</span></div><p class="lead">' + esc(step ? step.t : '모든 이야기를 마쳤다.') + '</p>' +
     (S.bounty ? '<p class="note">의뢰: ' + esc(S.bounty.name) + ' ' + S.bounty.got + ' / ' + S.bounty.need + (S.bounty.done ? ' · 끝' : '') + '</p>' : '') + '</div>' +
+    (() => { const sq = SIDE_QUESTS.filter(q => S.seen[q.at] && !sf(q.f)); return sq.length ? '<div><div class="label"><span class="eyebrow">곁일</span><span>' + SIDE_QUESTS.filter(q => sf(q.f)).length + ' / ' + SIDE_QUESTS.length + ' 끝냄</span></div>' + sq.map(q => '<p class="note">' + esc(q.t) + ' · ' + esc(q.who) + '</p>').join('') + '</div>' : ''; })() +
     '<div><div class="label"><span class="eyebrow">칼</span><span>눌러서 바꿔 든다</span></div><div class="shop" id="smSwords"></div></div>' +
     '<div><div class="label"><span class="eyebrow">가진 것</span></div><p class="note">' +
-      ['potion', 'bigpotion', 'stone', 'page', 'salt_heart'].filter(k => S.items[k]).map(k => esc(ITEM_NAME[k]) + ' ' + S.items[k]).join(' · ') + (S.charms ? ' · 불씨 부적 ' + S.charms : '') + '</p></div>' +
+      ['potion', 'bigpotion', 'stone', 'page', 'salt_heart', 'mushroom', 'jar', 'sentence'].filter(k => S.items[k]).map(k => esc(ITEM_NAME[k]) + ' ' + S.items[k]).join(' · ') + (S.charms ? ' · 불씨 부적 ' + S.charms : '') + '</p></div>' +
     '<p class="note">기록은 횃불에 불을 붙일 때 남는다. 나가면 마지막 횃불에서 이어진다.</p>';
   const host = $('smSwords');
   for (const id of SWORD_ORDER) {

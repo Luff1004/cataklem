@@ -110,7 +110,7 @@ const AREAS = {
     '#........................#',
     '##########################'],
     legend: { U: ['door', { to: 'field', at: 'well', label: '들판으로' }], B: ['box'], P: ['plate', { g: 'a' }], G: ['gate', { g: 'a' }], C: ['chest', { id: 'w_page', item: 'page' }], M: ['npc', { id: 'momo', unless: 'momo_found', well: 1 }] },
-    note: '돌을 발판에 올리면 문이 열린다', mobs: [['blob', 3], ['mini', 4]] },
+    note: '돌을 발판에 올리면 문이 열린다. 꼬이면 나갔다 오면 된다', mobs: [['blob', 3], ['mini', 4]] },
   quarry: { name: '채석장', reg: 1, w: 26, h: 18, dens: .16, seed: 11, rock: 1, exits: { S: 'field' },
     mobs: [['brute', 3], ['splitter', 4], ['blob', 4]], drop: ['stone', .22],
     ents: [['npc', 12, 4, { id: 'dur' }], ['pot', 4, 3], ['chest', 22, 3, { id: 'q_page', item: 'page' }]] },
