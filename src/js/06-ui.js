@@ -1,5 +1,5 @@
 /* ================= screens ================= */
-const SCREENS = ['scrStory', 'scrSShop', 'scrSMenu', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
+const SCREENS = ['scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
 function show(id) { for (const s of SCREENS) $(s).hidden = s !== id; }
 function hideAll() { for (const s of SCREENS) $(s).hidden = true; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -403,7 +403,7 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   INPUT.keys[k] = true; updMove();
   if (k === ' ' && STATE === 'play' && G.mode !== 'story') { useUlt(); e.preventDefault(); }
-  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); }
+  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); if (k === 'm' && STATE === 'play') openStoryMap(); }
   if (k === 'shift' || k === 'k') tryDash();
   if (k === 'escape') { if (STATE === 'play') pauseGame(); else if (STATE === 'pause') resumeGame(); else if (STATE === 'smenu') closeStoryScreen(); }
   if (STATE === 'level' && ['1', '2', '3', '4'].includes(k)) { const i = +k - 1, el = $('cards').children[i]; if (el && CHOICES[i]) chooseCard(i, el); }
@@ -427,6 +427,9 @@ $('sAct').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventD
 $('sDash').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); tryDash(); });
 $('sPot').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); usePotion(); });
 $('sMenu').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openSMenu(); });
+$('sMap').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openStoryMap(); });
+$('mapBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
+$('smMap').addEventListener('click', () => { SFX.tap(); openStoryMap(); });
 $('sDlg').addEventListener('pointerdown', e => { e.preventDefault(); advanceDlg(); });
 $('ssBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
 $('smBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });

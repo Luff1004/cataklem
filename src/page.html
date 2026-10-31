@@ -269,6 +269,35 @@ body.story .rotate{display:none!important}
 i.coin{display:inline-block;width:13px;height:13px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);vertical-align:-2px}
 .stbody{display:flex;flex-direction:column;gap:14px}
 .smb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.smb .smq{grid-column:1/3}
+.s-map{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
+.s-map i{display:block;width:20px;height:16px;border:2.5px solid var(--ink);border-radius:2px;background:linear-gradient(90deg,transparent 30%,var(--ink) 30% 40%,transparent 40% 62%,var(--ink) 62% 72%,transparent 72%)}
+#scrSMap{gap:10px}
+.mapwrap{flex:1;min-height:0;overflow:auto;border:2.5px solid var(--ink);border-radius:3px;background-color:#ECEDE7;background-image:radial-gradient(var(--ink-30) 1px,transparent 1.3px);background-size:14px 14px;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.mapin{position:relative}
+.mapin svg{position:absolute;left:0;top:0;pointer-events:none}
+.mn{position:absolute;width:100px;min-height:40px;transform:translate(-50%,-50%);border:2px solid var(--ink);border-radius:3px;background:var(--paper);font:800 11px/1.15 var(--f-body);display:grid;place-items:center;text-align:center;padding:3px 5px;color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.mn.r1{background:#F7E6EC}.mn.r2{background:#DCEFE9}.mn.r3{background:#F6EDCC}.mn.r4{background:#DFEEF3}.mn.r5{background:#ECE3EF}
+.mn.unseen{opacity:.75;border-style:dashed}
+.mn.fog{background:rgba(228,229,223,.6);border-style:dashed;color:var(--ink-30);box-shadow:none;font:400 16px/1 var(--f-display);width:44px}
+.mn.here{outline:3px solid var(--pink);outline-offset:2px}
+.mn.goal{box-shadow:0 0 0 4px var(--yellow),3px 3px 0 4px var(--ink)}
+.mn.sel{border-width:3px}
+.mn .mk{position:absolute;top:-9px;right:-7px;display:flex;gap:2px}
+.b-t,.b-b,.b-p,.b-q,.lg-goal{display:inline-grid;place-items:center;width:13px;height:13px;border-radius:50%;border:2px solid var(--ink);font:900 9px/1 var(--f-body);font-style:normal;color:var(--ink)}
+.b-t{background:var(--yellow)}.b-b{background:var(--pink)}.b-p{background:var(--teal)}.b-q{background:var(--paper)}
+.lg-goal{border-radius:2px;background:var(--yellow)}
+.maplegend{display:flex;flex-wrap:wrap;gap:4px 12px;font:800 11px/1 var(--f-body);color:var(--ink)}
+.maplegend span{display:flex;gap:5px;align-items:center}
+.mapinfo{border:2.5px solid var(--ink);border-radius:3px;background:var(--paper);padding:10px 12px;min-height:70px;display:flex;flex-direction:column;gap:8px}
+.mapinfo:empty{display:none}
+.mapinfo p{margin:0;font:700 13px/1.5 var(--f-body)}
+.mapinfo .mi-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mapinfo .mi-h b{font:400 19px/1 var(--f-display)}
+.mapinfo .mi-h span{font:800 11px/1 var(--f-body);color:var(--pink)}
+.mapinfo .goal{background:var(--yellow);padding:1px 4px}
+.mapinfo .btn{font-size:17px;padding:12px 14px}
+@media (orientation:landscape){#scrSMap{display:grid;grid-template-columns:1fr 280px;grid-template-rows:auto 1fr auto;column-gap:12px}#scrSMap .shead{grid-column:1/3}#scrSMap .mapwrap{grid-row:2/4}#scrSMap .maplegend{grid-column:2;grid-row:3}#scrSMap .mapinfo{grid-column:2;grid-row:2;align-self:start}}
 body.story #hud:not(.arena) .xp,body.story #hud:not(.arena) .hrow,body.story #hud:not(.arena) .slots,body.story #hud:not(.arena) .combo,body.story #hud:not(.arena) .ult,body.story #hud:not(.arena) .dashb,body.story #hud:not(.arena) .hint{display:none!important}
 body.story #hud:not(.arena) .bossbar{top:calc(var(--st) + 86px)}
 body.story #hud:not(.arena) .banner{left:50%;right:auto;top:calc(var(--st) + 104px);transform:translateX(-50%) skewY(-2deg);width:max-content;max-width:calc(100vw - 32px);font-size:19px;padding:7px 16px 8px;box-shadow:0 4px 0 var(--pink);border-radius:2px;animation-duration:2.2s}
@@ -527,12 +556,18 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
 <section class="screen sheet" id="scrSMenu" hidden>
   <div class="shead"><button class="back" id="smBack" aria-label="닫기"></button><h2>멈춤</h2><span class="right"></span></div>
   <div class="scroll"><div class="stbody" id="smBody"></div></div>
-  <div class="smb"><button class="btn" id="smResume">계속</button><button class="btn ghost" id="smQuit">타이틀로</button></div>
+  <div class="smb"><button class="btn ghost" id="smMap">지도</button><button class="btn" id="smResume">계속</button><button class="btn ghost smq" id="smQuit">타이틀로</button></div>
+</section>
+<section class="screen sheet" id="scrSMap" hidden>
+  <div class="shead"><button class="back" id="mapBack" aria-label="닫기"></button><h2>지도</h2><span class="right"><b class="num" id="mapSeen"></b></span></div>
+  <div class="mapwrap" id="mapWrap"><div class="mapin" id="mapIn"></div></div>
+  <div class="maplegend"><span><i class="b-t"></i>횃불</span><span><i class="b-b"></i>보스</span><span><i class="b-p"></i>문</span><span><i class="b-q">!</i>곁일</span><span><i class="lg-goal"></i>할 일</span></div>
+  <div class="mapinfo" id="mapInfo"></div>
 </section>
 <div id="sHud" hidden>
   <div class="s-top">
     <div class="s-hp"><span class="lv" id="sLv">LV 1</span><div class="bar"><i id="sHpFill"></i><b id="sHpTxt"></b></div><div class="xpb"><i id="sXpFill"></i></div></div>
-    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
+    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-map" id="sMap" aria-label="지도"><i></i></button><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
   </div>
   <p class="s-obj" id="sObj"></p>
   <button class="s-pot" id="sPot" hidden><span>물약</span><b id="sPotN">0</b></button>
