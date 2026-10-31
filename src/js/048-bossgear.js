@@ -307,24 +307,27 @@ function uFinal(e, dt) {
   e.drawScale = lerp(e.drawScale || 1, 2.3, 1 - Math.exp(-dt * 2));
   e.x = lerp(e.x, P.x * .5, 1 - Math.exp(-dt * .8)); e.y = lerp(e.y, -RH - 470, 1 - Math.exp(-dt * 2));
   if (e.hp <= e.hpFloor + .5 && G.uPhaseT >= U_MIN[7]) { startFinisher(e); return Z0; }
+  const lvl = G.uPhaseT > 160 ? 2 : G.uPhaseT > 80 ? 1 : 0;
+  if (lvl > (e.esc || 0)) { e.esc = lvl; banner(lvl === 1 ? '하늘이 무너진다' : '마지막 빛', lvl === 1 ? '더 많이, 더 빨리 떨어진다' : '버텨라. 거의 다 왔다', 'warn'); SFX.roar(); pulseScreen(1.6); shake(14); AU.uPhase = 7 + lvl; }
   if (e.busy <= 0 && e.cd <= 0) {
     const k = pickAtk(e, { meteor: 3, slam: 3.8, sweep: 2.2, scrawl: 1.4 });
     if (k === 'meteor') {
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 7 + lvl * 2; i++) {
         const near = i < 2, x = near ? clamp(P.x + rnd(-90, 90), -RW + 50, RW - 50) : clamp(P.x + rnd(-420, 420), -RW + 50, RW - 50), y = near ? clamp(P.y + rnd(-60, 60), -RH + 40, RH - 40) : rnd(-RH + 40, RH - 40);
         TG.push({ x, y, r: 72, t: -i * .13, dur: 1.15, kind: 'emeteor', dead: false, cb: () => { ringFx(x, y, 80, COL.ink, .35, 7); burst(x, y, 14, COL.deep, 260); splat(x, y, 100, false); if (STATE === 'play' && d2(P.x, P.y, x, y) < (72 + P.r * .5) ** 2) hurtPlayer(26); if (gate('fm', 80)) SFX.boom(true); shake(6); } });
       }
-      e.busy = 1.6; e.cd = .5;
+      e.busy = 1.6 - lvl * .2; e.cd = .5 - lvl * .12;
     } else if (k === 'slam') {
-      const n = Math.random() < .5 ? 2 : 1;
+      const n = (Math.random() < .5 ? 2 : 1) + (lvl >= 2 ? 1 : 0);
       for (let i = 0; i < n; i++) {
         const x = clamp(P.x + (i ? rnd(160, 260) * (Math.random() < .5 ? -1 : 1) : rnd(-60, 60)), -RW + 70, RW - 70);
         later(e, i * .55, () => { HZ.push({ k: 'line', x1: x, y1: -RH - 300, x2: x, y2: RH + 30, w: 74, warn: .85, dur: .25, dmg: 30, t: 0, dead: false, scrib: 1 }); SFX.swish(); later(e, .87, () => spawnLimb(e, x)); });
       }
-      e.busy = 1.4 + n * .5; e.cd = .5;
+      e.busy = 1.2 + n * .45 - lvl * .15; e.cd = .5 - lvl * .12;
     } else if (k === 'sweep') {
       HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 240, w: 50, gap: -clamp(P.x + rnd(-220, 220), -RW + 110, RW - 110), gw: 160, dmg: 24, warn: .8, t: 0, dead: false });
-      SFX.wave(); e.busy = 2.2; e.cd = .5;
+      if (lvl >= 1) later(e, 1.1, () => HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 260, w: 50, gap: -clamp(P.x + rnd(-200, 200), -RW + 110, RW - 110), gw: 150, dmg: 24, warn: .7, t: 0, dead: false }));
+      SFX.wave(); e.busy = 2.2 + lvl * .6; e.cd = .5 - lvl * .12;
     } else {
       for (let s = 0; s < 3; s++) { const sx = clamp(P.x + (s - 1) * 260, -RW, RW); for (let i = 0; i < 9; i++) later(e, i * .09, () => fireEB(sx, -RH - 30, Math.PI / 2 + rnd(-.25, .25), 170, 11, false, { wig: 2.2, life: 4 })); }
       SFX.scratch(); e.busy = 1.4; e.cd = .5;

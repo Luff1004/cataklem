@@ -201,6 +201,7 @@ function hurtEnemy(e, dmg, kx = 0, ky = 0, quiet) {
   let d = dmg * P.might * (crit ? P.critMul : 1) * rnd(.92, 1.08);
   if (e.limbOf) {
     const b = e.limbOf;
+    d *= .31;
     if (b.hp - d < b.hpFloor) d = Math.max(0, b.hp - b.hpFloor);
     b.hp -= d; G.dmgDealt += d; e.flash = .09;
     G.ult = Math.min(G.ultNeed, G.ult + d / b.maxHp * G.ultNeed * 7 * P.ultMul);

@@ -1,7 +1,7 @@
 /* ================= UNKNOWN: the scribble with no face ================= */
 const CW = 180, CL = 3500;
 const U_FLOORS = [null, 5 / 6, 4 / 6, 3 / 6, 2 / 6, 2 / 6, 1 / 6, 0];
-const U_MIN = [0, 55, 55, 60, 60, 0, 65, 50];
+const U_MIN = [0, 55, 55, 60, 60, 0, 65, 230];
 const U_LINES = [null, null, '그것은 이름이 없다.', '보면 볼수록 늘어난다.', '벽 너머에도 있었다.', '도망쳐.', '길은 그것이 만든다. 그리고 지운다.', '끝까지 지워지지 않는다.'];
 
 function freshU() { return { stage: 'arena', circle: true, circleR: ARENA_R, corr: false, broken: false, scarred: false, segs: [], carvers: [], chaseT: 0, mazeT: 0 }; }
@@ -284,7 +284,7 @@ function endCut() {
   const c = G.cut, e = G.boss;
   e.phase = c.next; e.inv = 0; e.cd = 1.4; G.uPhaseT = 0;
   e.hpFloor = e.maxHp * U_FLOORS[e.phase];
-  if (e.phase === 7) { e.hpFloor = 1; e.inv = 1e9; }
+  if (e.phase === 7) { e.hpFloor = 1; e.inv = 1e9; e.hp = e.maxHp; hudCache = {}; }
   P.hp = P.maxHp; heal(0);
   G.cutBlack = 0; G.camZoom = 1;
   const el = $('cutscene'); el.classList.add('out'); setTimeout(() => { if (STATE !== 'cut') el.hidden = true; }, 700);
