@@ -56,7 +56,9 @@ function openStoryStart() {
       '<p class="note">' + esc(step ? '할 일: ' + step.t : '이야기를 끝까지 봤다.') + '</p>' +
       '<button class="btn ghost" id="btnStoryNew">처음부터 다시</button>';
   }
+  if (LOCAL) h += '<div><div class="label"><span class="eyebrow">파트 골라 시작</span><span>로컬 전용 · 이야기 기록을 덮어쓴다</span></div><div class="parts">' + STORY_PARTS.map((p, i) => '<button class="btn ghost" data-part="' + i + '">' + esc(p.name) + '<span class="sub">LV ' + p.lv + (p.swords.length ? ' · ' + esc(SWORDS[p.swords[p.swords.length - 1]].name) : '') + '</span></button>').join('') + '</div></div>';
   b.innerHTML = h;
+  b.querySelectorAll('[data-part]').forEach(x => x.addEventListener('click', () => { SFX.tap(); startStoryPart(+x.dataset.part); }));
   $('btnStoryGo').firstChild.textContent = S ? '이어 하기' : '시작한다';
   $('stSub').textContent = S ? AREAS[S.cp.area].name : '등불 마을';
   const nb = $('btnStoryNew');

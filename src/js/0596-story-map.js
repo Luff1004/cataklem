@@ -122,3 +122,37 @@ function renderMapInfo() {
     goTo(id, { x: (t.tx + .5) * TL, y: (t.ty + 1.4) * TL });
   });
 }
+
+/* ---------- local builds: jump into any part of the story ---------- */
+const STORY_PARTS = [
+  { name: '1. 등불 마을', upto: null, area: 'village', lv: 1, swords: [] },
+  { name: '2. 무너진 마을 터', upto: 'scribble', area: 'crossroad', lv: 5, swords: ['wood'] },
+  { name: '3. 종탑', upto: 'beat_colossus', area: 'belltower', lv: 7, swords: ['wood', 'stone'] },
+  { name: '4. 잠긴 숲', upto: 'gate_bell', area: 'forest_gate', lv: 8, swords: ['wood', 'stone'] },
+  { name: '5. 숲의 심장', upto: 'gate_loom', area: 'oak_hollow', lv: 13, swords: ['wood', 'stone', 'copper'] },
+  { name: '6. 소금 사막', upto: 'beat_grove', area: 'oasis', lv: 15, swords: ['wood', 'stone', 'copper'] },
+  { name: '7. 모래 왕', upto: 'gate_sun', area: 'sink_pit', lv: 20, swords: ['wood', 'stone', 'copper', 'salt'] },
+  { name: '8. 얼어붙은 항구', upto: 'beat_sandking', area: 'harbor', lv: 22, swords: ['wood', 'stone', 'copper', 'salt'] },
+  { name: '9. 바다뱀', upto: 'gate_tide', area: 'tide_gate', lv: 27, swords: ['wood', 'stone', 'copper', 'salt', 'ice'] },
+  { name: '10. 하늘 틈', upto: 'beat_leviathan', area: 'plaza', lv: 29, swords: ['wood', 'stone', 'copper', 'salt', 'ice'] },
+  { name: '11. 지우는 손', upto: 'gate_sky', area: 'sky_stair', lv: 33, swords: ['wood', 'stone', 'copper', 'salt', 'ice', 'ink'] },
+  { name: '12. 하늘 끝', upto: 'beat_author', area: 'sky_edge', lv: 35, swords: ['wood', 'stone', 'copper', 'salt', 'ice', 'ink'] },
+  { name: '13. 이름 없는 문', upto: 'got_scrib', area: 'sky_edge', lv: 37, swords: ['wood', 'stone', 'copper', 'salt', 'ice', 'ink', 'scrib'] },
+];
+function startStoryPart(i) {
+  const pt = STORY_PARTS[i], S = SAVE.story = freshStory();
+  const n = pt.upto ? STORY_STEPS.findIndex(s => s.f === pt.upto) + 1 : 0;
+  for (let k = 0; k < n; k++) { const f = STORY_STEPS[k].f; S.flags[f] = 1; const a = STEP_AT[f]; if (a) S.seen[a] = 1; }
+  if (S.flags.beat_oak) S.flags.got_copper = 1;
+  if (pt.swords.includes('stone')) S.flags.got_stone = 1;
+  if (S.flags.beat_colossus) S.ak.field = 8;
+  S.swords = pt.swords.slice(); S.sword = pt.swords[pt.swords.length - 1] || null;
+  if (S.sword) S.plus[S.sword] = Math.min(4, Math.floor(i / 3));
+  S.lv = pt.lv; S.coin = 150 * i; S.items = { potion: 3 + Math.floor(i / 3), bigpotion: Math.floor(i / 4) }; S.charms = Math.floor(i / 2);
+  S.seen[pt.area] = 1;
+  const t = areaEnts(pt.area).find(e => e.k === 'torch');
+  if (t) { S.lit[pt.area + ':' + t.tx + ',' + t.ty] = 1; S.cp = { area: pt.area, x: (t.tx + .5) * TL, y: (t.ty + 1.4) * TL }; }
+  else S.cp = { area: pt.area, x: 13 * TL, y: 9 * TL };
+  persist(); startStory();
+  banner(pt.name.replace(/^\d+\. /, ''), '로컬 · 이 파트부터', 'good');
+}
