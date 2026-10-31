@@ -246,7 +246,7 @@ const AREAS = {
   tide_gate: { name: '물때의 문', reg: 4, w: 24, h: 18, dens: .06, seed: 69, water: 1, exits: { W: 'iceberg_field', E: ['leviathan_bay', 'gate_tide beat_lighthouse', '바닷물이 문을 막고 있다. 문 안의 것과 등대를 먼저 잠재워야 한다.'] },
     mobs: [['slush', 4], ['gull', 3]], ents: [['portal', 12, 6, { gate: 'tide' }], ['torch', 6, 12]] },
   leviathan_bay: { name: '바다뱀 만', reg: 4, arena: 1, w: 30, h: 22, seed: 71, water: 3, exits: { W: 'tide_gate', E: ['plaza', 'beat_leviathan', '얼음 바다뱀이 만을 감고 있다.'] },
-    ents: [['torch', 3, 11], ['boss', 16, 10, { id: 'leviathan', hp: 32000 }]] },
+    ents: [['torch', 3, 11], ['boss', 16, 10, { id: 'leviathan', hp: 27000 }]] },
 
   /* ---------------- region 5: 하늘 틈 ---------------- */
   plaza: { name: '찢긴 광장', reg: 5, w: 28, h: 18, dens: .06, seed: 81, exits: { W: 'leviathan_bay', E: 'paper_maze', S: 'ink_river' },

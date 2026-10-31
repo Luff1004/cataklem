@@ -25,6 +25,7 @@ function giveSword(id) {
   ringFx(P.x, P.y, 120, COL.yellow, .5, 8);
   banner(SWORDS[id].name, '손에 쥐었다', 'good');
 }
+function storyReload() { if (WD) refreshBlk(); }
 function payPages() {
   const S = SAVE.story, have = S.items.page || 0;
   while (S.pagesPaid < have) { S.pagesPaid++; addCoin(40 * S.pagesPaid); if (S.pagesPaid % 4 === 0) { S.charms++; banner('불씨 부적', '최대 체력 +15', 'good'); } }
@@ -212,6 +213,7 @@ function freeSpot(ok) {
 }
 function storySpawnMob(type, x, y, elite) {
   const e = spawnEnemy(type, x, y, elite);
+  if (elite) { e.hp = e.maxHp = e.maxHp * .4; }
   e.idle = true; e.hx = x; e.hy = y; e.story = 1; e.wa = rnd(TAU); e.wt = rnd(1, 3);
   return e;
 }
