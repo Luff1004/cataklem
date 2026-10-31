@@ -50,6 +50,7 @@ if (/debug/.test(location.search)) {
     get U() { return G.u; }, get INPUT() { return INPUT; }, get OB() { return OB; },
     tick(dt) { setCam(G.camX, G.camY); step(dt); if (STATE === 'cut') updateCut(dt); },
     walk(x, y) { return walkable(x, y); },
+    st: { enter: (id, how) => enterArea(id, how || {}), wd: () => WD, act: () => doAct(), near: () => nearAct(), adv: () => advanceDlg(), S: () => SAVE.story, areas: () => Object.keys(AREAS), setf, give: giveSword, gate: id => storyGate(id), gateEnd: w => storyGateEnd(w) },
     finish() { const e = G.boss; e.hp = 1; G.uPhaseT = 999; },
     run() { document.getElementById('btnPlay').click(); document.getElementById('btnGo').click(); },
     bench() { const t = performance.now(); for (let i = 0; i < 20; i++) render(0); const r = (performance.now() - t) / 20; const t2 = performance.now(); for (let i = 0; i < 20; i++) step(1 / 60); return { render: r.toFixed(2), step: ((performance.now() - t2) / 20).toFixed(2) }; },

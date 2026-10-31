@@ -31,6 +31,7 @@ function render(rdt) {
   setCam(G.camX + sx, G.camY + sy);
   drawBG();
   if (G.mode === 'boss') drawArenaFloor();
+  if (G.mode === 'story') drawStoryWorld();
   if (G.u && G.u.stage === 'final') drawFinalAmbience();
 
   // decals
@@ -84,6 +85,7 @@ function render(rdt) {
   drawProjectiles();
   drawIntroFx();
   drawBossGear();
+  if (G.mode === 'story') drawStoryOver();
   drawHeaven();
 
   // enemy bullets
@@ -123,6 +125,7 @@ function render(rdt) {
   drawNovaFx();
   if (G.dark > .02) drawDark();
   drawIntroTop();
+  if (G.mode === 'story') drawStoryTop();
   drawTexts();
   drawIndicators();
   drawOverlay();

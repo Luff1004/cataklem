@@ -1,5 +1,5 @@
 /* ================= screens ================= */
-const SCREENS = ['scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
+const SCREENS = ['scrStory', 'scrSShop', 'scrSMenu', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
 function show(id) { for (const s of SCREENS) $(s).hidden = s !== id; }
 function hideAll() { for (const s of SCREENS) $(s).hidden = true; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -42,6 +42,28 @@ function openTitle() {
   $('btnAgain').textContent = '한 번 더';
   AU.intensity = 0; AU.track = '';
   syncToggles();
+}
+
+/* ---------- story start ---------- */
+function openStoryStart() {
+  STATE = 'title'; show('scrStory');
+  const S = SAVE.story, b = $('stBody');
+  let h = '<p class="lead">등불 마을에서 시작하는 긴 이야기. 나무검 한 자루로 시작해 칼을 바꿔 가며 다섯 땅을 지난다. 사람을 만나고, 퍼즐을 풀고, 문 너머의 거물들을 닫는다.</p>' +
+    '<p class="note">횃불에 불을 붙이면 기록된다. 폰을 가로로 돌려도 된다. 공격은 알아서 나가고, 오른쪽 아래 단추로 말을 걸거나 조사한다.</p>';
+  if (S) {
+    const step = STORY_STEPS.find(x => !sf(x.f)), done = STORY_STEPS.filter(x => sf(x.f)).length;
+    h += '<div class="tiles">' + tile('LV ' + S.lv, '레벨') + tile(AREAS[S.cp.area].name, '마지막 횃불') + tile(fmtTime(S.playT), '이야기 시간') + tile(done + ' / ' + STORY_STEPS.length, '진행') + '</div>' +
+      '<p class="note">' + esc(step ? '할 일: ' + step.t : '이야기를 끝까지 봤다.') + '</p>' +
+      '<button class="btn ghost" id="btnStoryNew">처음부터 다시</button>';
+  }
+  b.innerHTML = h;
+  $('btnStoryGo').firstChild.textContent = S ? '이어 하기' : '시작한다';
+  $('stSub').textContent = S ? AREAS[S.cp.area].name : '등불 마을';
+  const nb = $('btnStoryNew');
+  if (nb) nb.addEventListener('click', () => {
+    if (!nb.dataset.armed) { nb.dataset.armed = '1'; nb.textContent = '기록이 지워진다. 한 번 더 누르기'; SFX.deny(); return; }
+    SAVE.story = freshStory(); persist(); SFX.tap(); startStory();
+  });
 }
 
 /* ---------- prep ---------- */
@@ -150,6 +172,7 @@ function startRun() {
   banner(MAPS[G.rift].name, '첫째 밤 · ' + MAPS[G.rift].sub);
 }
 function pauseGame() {
+  if (G && G.mode === 'story') { openSMenu(); return; }
   if (STATE !== 'play') return;
   STATE = 'pause'; INPUT.joy = null; updMove();
   show('scrPause');
@@ -280,6 +303,7 @@ function closeChest() {
 
 /* ---------- result ---------- */
 function endRun(win) {
+  if (G.mode === 'story') { storyDeath(); return; }
   if (G.mode === 'boss') { endBossRun(win); return; }
   STATE = 'result';
   INPUT.joy = null; updMove();
@@ -378,9 +402,10 @@ document.addEventListener('gesturestart', e => e.preventDefault());
 addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   INPUT.keys[k] = true; updMove();
-  if (k === ' ' && STATE === 'play') { useUlt(); e.preventDefault(); }
+  if (k === ' ' && STATE === 'play' && G.mode !== 'story') { useUlt(); e.preventDefault(); }
+  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); }
   if (k === 'shift' || k === 'k') tryDash();
-  if (k === 'escape') { if (STATE === 'play') pauseGame(); else if (STATE === 'pause') resumeGame(); }
+  if (k === 'escape') { if (STATE === 'play') pauseGame(); else if (STATE === 'pause') resumeGame(); else if (STATE === 'smenu') closeStoryScreen(); }
   if (STATE === 'level' && ['1', '2', '3', '4'].includes(k)) { const i = +k - 1, el = $('cards').children[i]; if (el && CHOICES[i]) chooseCard(i, el); }
 });
 addEventListener('keyup', e => { INPUT.keys[e.key.toLowerCase()] = false; updMove(); });
@@ -396,6 +421,17 @@ document.addEventListener('touchend', () => audioInit(), { passive: true });
 /* buttons */
 $('btnPlay').addEventListener('click', () => { audioInit(); SFX.tap(); openPrep(); });
 $('btnShop').addEventListener('click', () => { audioInit(); SFX.tap(); openShop(); });
+$('btnStory').addEventListener('click', () => { audioInit(); SFX.tap(); openStoryStart(); });
+$('btnStoryGo').addEventListener('click', () => { SFX.tap(); startStory(); });
+$('sAct').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); doAct(); });
+$('sDash').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); tryDash(); });
+$('sPot').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); usePotion(); });
+$('sMenu').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openSMenu(); });
+$('sDlg').addEventListener('pointerdown', e => { e.preventDefault(); advanceDlg(); });
+$('ssBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
+$('smBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
+$('smResume').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
+$('smQuit').addEventListener('click', () => { SFX.tap(); leaveStory(); });
 $('btnRec').addEventListener('click', () => { audioInit(); SFX.tap(); openRec(); });
 $('btnQuest').addEventListener('click', () => { audioInit(); SFX.tap(); openQuest(); });
 $('btnGo').addEventListener('click', () => { SFX.tap(); startRun(); });
@@ -448,7 +484,7 @@ function frame(now) {
       perfAcc += rdt; perfN++;
       if (perfN >= 150) { if (perfAcc / perfN > .024 && QUALITY === 1) { QUALITY = .72; resize(); } perfAcc = 0; perfN = 0; if (G.time > 60) perfChecked = 1; }
     }
-  } else if (G && (STATE === 'level' || STATE === 'chest' || STATE === 'pause' || (STATE === 'wipe' && G.mode === 'boss'))) {
+  } else if (G && (STATE === 'level' || STATE === 'chest' || STATE === 'pause' || STATE === 'talk' || STATE === 'smenu' || (STATE === 'wipe' && G.mode === 'boss'))) {
     render(0);
   } else {
     renderTitle(rdt);

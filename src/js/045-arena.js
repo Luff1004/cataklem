@@ -83,7 +83,7 @@ function spawnArenaAdd(type, x, y, hp) {
   return e;
 }
 function tryDash() {
-  if (STATE !== 'play' || G.mode !== 'boss' || P.dashCd > 0) return;
+  if (STATE !== 'play' || (G.mode !== 'boss' && G.mode !== 'story') || P.dashCd > 0) return;
   let dx = INPUT.mx, dy = INPUT.my, l = Math.hypot(dx, dy);
   if (l < .2) { dx = P.face; dy = 0; l = 1; }
   P.dashX = dx / l; P.dashY = dy / l; P.dashT = .17 * G.rel.dashDist; P.dashCd = 1.5 * G.rel.dashCd * (P.dashMul || 1); P.inv = Math.max(P.inv, .32 + (P.dashInv || 0));

@@ -121,6 +121,7 @@ function edgePoint(margin = 60) {
 }
 function spawnEnemy(type, x, y, elite = false) {
   if (G.mode === 'normal') { const sw = curMap().sub2[type]; if (sw) type = sw; }
+  else if (G.mode === 'story' && WD) { const sw = MAPS[WD.reg].sub2[type]; if (sw) type = sw; }
   const d = ENEMY[type];
   const m = G.time / 60, hpm = (1 + m * .28 + m * m * .05) * G.rf.hp * (elite ? 8 : 1);
   const scl = elite ? 1.5 : 1;
@@ -243,6 +244,7 @@ function killEnemy(e) {
   G.combo++; G.comboT = 1.3; if (G.combo > G.maxCombo) G.maxCombo = G.combo;
   if (!e.boss) G.ult = Math.min(G.ultNeed, G.ult + (e.elite ? 14 : 1) * P.ultMul * (G.combo >= 40 ? 1.5 : 1));
   if (e.boss) { bossDown(e); return; }
+  if (G.mode === 'story') { storyKill(e); return; }
   if (e.xp) dropGem(e.x, e.y, e.xp * (e.elite ? 14 : 1));
   if (e.elite) { PK.push({ kind: 'chest', x: e.x, y: e.y, t: 0, dead: false }); shake(6); G.hitstop = .06; burst(e.x, e.y, 14, COL.yellow, 200); }
   else {
@@ -444,6 +446,7 @@ function bossAI(e, dt, ux, uy, dist) {
 }
 const B0 = e => BOSS[e.bk].arch || e.bk;
 function bossDown(e) {
+  if (G.mode === 'story') { storyBossDown(e); return; }
   G.boss = null; G.bosses++;
   $('bossBar').hidden = true;
   shake(18); G.hitstop = .2; G.slowT = .9; G.flash = .7; SFX.boom(true); buzz([50, 40, 160]);
@@ -524,6 +527,7 @@ function chestRewards(boss) {
 function step(dt) {
   G.time += dt;
   if (G.mode === 'boss') arenaStep(dt);
+  else if (G.mode === 'story') { if (WD && STATE === 'play') storyTick(dt); }
   else if (STATE === 'play') director(dt);
   AU.intensity = G.boss ? 3 : G.time > 200 ? 2 : 1;
 
@@ -570,7 +574,7 @@ function step(dt) {
   if (G.u && G.u.stage === 'chase') { ty = P.y + 30; tx = P.x * .4; }
   else if (G.u && G.u.stage === 'final') { tx = clamp(P.x, -RW + VHW * .8, RW - VHW * .8); ty = P.y * .3; }
   else if (G.mode === 'boss' && G.boss && !G.boss.dead && STATE !== 'intro' && !(G.u && G.u.stage === 'maze')) { tx = lerp(tx, G.boss.x, .22); ty = lerp(ty, G.boss.y, .22); }
-  G.camX = lerp(G.camX, tx, k); G.camY = lerp(G.camY, ty, k);
+  if (G.mode === 'story' && WD) storyCam(dt); else { G.camX = lerp(G.camX, tx, k); G.camY = lerp(G.camY, ty, k); }
   for (const g of GH) { g.life -= dt; if (g.life <= 0) g.dead = true; }
 
   sweep(HZ); sweep(OB); sweep(VX); sweep(GH);
@@ -591,7 +595,9 @@ function updatePlayer(dt) {
     P.dashT -= dt; P.vx = P.dashX * 760; P.vy = P.dashY * 760;
     GH.push({ x: P.x, y: P.y, life: .28, max: .28, dead: false });
   } else { P.vx = lerp(P.vx, mx * P.speed * spMul, f); P.vy = lerp(P.vy, my * P.speed * spMul, f); }
+  if (G.mode === 'story' && WD) storyMove(dt);
   P.x += P.vx * dt; P.y += P.vy * dt;
+  if (G.mode === 'story' && WD) storyCollideP();
   if (G.mode === 'boss') {
     if (G.pull > 0 && G.boss && !G.boss.dead && STATE === 'play') { const dx = G.boss.x - P.x, dy = G.boss.y - P.y, d = Math.hypot(dx, dy) || 1; P.x += dx / d * G.pull * dt; P.y += dy / d * G.pull * dt; if (Math.random() < .6) PT.push({ x: P.x + rnd(-200, 200), y: P.y + rnd(-200, 200), vx: dx / d * 260, vy: dy / d * 260, life: .5, max: .5, s: rnd(2, 4), c: COL.white, dead: false }); }
     uClampPlayer();
@@ -609,6 +615,12 @@ function updateEnemies(dt) {
   for (let i = 0; i < E.length; i++) {
     const e = E[i]; if (e.dead) continue;
     e.t += dt; if (e.flash > 0) e.flash -= dt;
+    if (e.idle) {
+      e.wt -= dt; if (e.wt <= 0) { e.wt = rnd(1.5, 3.5); e.wa = Math.random() < .35 ? -1 : Math.atan2(e.hy - e.y, e.hx - e.x) + rnd(-1.4, 1.4); }
+      if (e.wa !== -1) { e.x += Math.cos(e.wa) * e.spd * .3 * dt; e.y += Math.sin(e.wa) * e.spd * .3 * dt; if (Math.abs(Math.cos(e.wa)) > .2) e.face = Math.cos(e.wa) > 0 ? 1 : -1; }
+      if (WD) storyCollideE(e);
+      continue;
+    }
     if (e.ai === 'limb') { e.life -= dt; if (e.life <= 0) { e.dead = true; continue; } }
     if (e.ai === 'shard') { updateShard(e, dt); continue; }
     const dx = P.x - e.x, dy = P.y - e.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
@@ -631,6 +643,7 @@ function updateEnemies(dt) {
     if (e.slowT > 0) { e.slowT -= dt; mvx *= .5; mvy *= .5; }
     e.x += (mvx + e.kx) * dt; e.y += (mvy + e.ky) * dt;
     e.kx *= kd; e.ky *= kd;
+    if (G.mode === 'story' && WD && !e.under) storyCollideE(e);
     if (Math.abs(mvx) + Math.abs(mvy) > 4) e.mvA = Math.atan2(mvy, mvx);
     if (G.mode === 'boss' && !e.under && !e.hidden && !(G.u && G.u.stage !== 'arena')) { const dl = Math.hypot(e.x, e.y), lim = (G.u ? G.u.circleR : ARENA_R) - e.r * .6; if (dl > lim) { e.x *= lim / dl; e.y *= lim / dl; } }
     if (Math.abs(mvx) > 2) e.face = mvx > 0 ? 1 : -1;
@@ -646,7 +659,7 @@ function updateEnemies(dt) {
       }
     }
     if (e.dmg > 0 && !e.hidden && !e.under && (e.introScale === undefined || e.introScale > .9) && dist < e.r * .85 + P.r) hurtPlayer(e.boss && e.st === 'dash' ? e.dmg * 1.4 : e.dmg);
-    if (G.mode === 'boss') continue;
+    if (G.mode !== 'normal') continue;
     if (!e.boss && (Math.abs(dx) > vhw + 420 || Math.abs(dy) > vhh + 420)) { const p = edgePoint(70); e.x = p[0]; e.y = p[1]; e.kx = e.ky = 0; }
     if (e.boss && dist > Math.max(vhw, vhh) * 2.4) { const p = edgePoint(30); e.x = p[0]; e.y = p[1]; }
   }

@@ -113,6 +113,7 @@ function applyStartAct(n) {
 
 /* ---------- after the gate ---------- */
 function endBossRun(win) {
+  if (STORY_GATE) { storyGateEnd(win); return; }
   STATE = 'result'; AU.track = '';
   $('cutscene').hidden = true;
   INPUT.joy = null; updMove();

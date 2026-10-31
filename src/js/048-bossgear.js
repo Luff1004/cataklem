@@ -175,7 +175,7 @@ function drawBossGear() {
         wt();
       } else {
         for (let k = 0; k < 4; k++) {
-          ctx.globalAlpha = (k === 3 ? .5 : .85) * (1 - q); ctx.strokeStyle = k === 3 ? COL.pink : COL.deep; ctx.lineWidth = lw * (k === 0 ? 1 : .4);
+          ctx.globalAlpha = (k === 3 ? .5 : .85) * (1 - q); ctx.strokeStyle = k === 3 ? COL.pink : s.col && k === 1 ? s.col : COL.deep; ctx.lineWidth = lw * (k === 0 ? 1 : .4);
           ctx.beginPath(); const r = s.R * (.6 + k * .1) + rnd(-4, 4);
           for (let j = 0; j <= 10; j++) { const aa = a0 + (a1 - a0) * j / 10, rr = r + rnd(-6, 6); j ? ctx.lineTo(P.x + Math.cos(aa) * rr + (k === 3 ? 3 : 0), P.y + Math.sin(aa) * rr) : ctx.moveTo(P.x + Math.cos(aa) * rr, P.y + Math.sin(aa) * rr); }
           ctx.stroke();

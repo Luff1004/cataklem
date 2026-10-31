@@ -263,6 +263,50 @@ img{max-width:100%}
 @keyframes bob{50%{transform:translateX(-50%) translateY(-5px)}}
 .rotate{position:fixed;inset:0;z-index:50;background:var(--paper);display:none;place-items:center;text-align:center;padding:24px;font:800 16px/1.6 var(--f-body)}
 @media (orientation:landscape) and (max-height:500px){.rotate{display:grid}}
+body.story .rotate{display:none!important}
+/* ---------- story mode ---------- */
+.btn.story{background:var(--teal);box-shadow:5px 5px 0 var(--ink)}
+i.coin{display:inline-block;width:13px;height:13px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);vertical-align:-2px}
+.stbody{display:flex;flex-direction:column;gap:14px}
+.smb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+body.story #hud .xp,body.story #hud .hrow,body.story #hud .slots,body.story #hud .combo,body.story #hud .ult,body.story #hud .dashb,body.story #hud .hint{display:none!important}
+body.story #hud .bossbar{top:calc(var(--st) + 86px)}
+#sHud{position:fixed;inset:0;z-index:11;pointer-events:none}
+.s-top{position:absolute;left:var(--sl);right:var(--sr);top:calc(var(--st) + 10px);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.s-hp{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;row-gap:4px;align-items:center;width:min(250px,56vw);background:rgba(228,229,223,.92);border:2.5px solid var(--ink);border-radius:3px;padding:6px 8px;box-shadow:3px 3px 0 var(--ink)}
+.s-hp .lv{grid-row:span 2;font:400 18px/1 var(--f-display);color:var(--ink)}
+.s-hp .bar{position:relative;height:15px;border:2px solid var(--ink);background:var(--paper);border-radius:2px;overflow:hidden}
+.s-hp .bar i{position:absolute;inset:0 auto 0 0;width:100%;background:var(--pink)}
+.s-hp .bar b{position:absolute;inset:0;display:grid;place-items:center;font:700 10px/1 var(--f-mono);color:var(--ink);text-shadow:0 0 3px var(--paper),0 0 3px var(--paper)}
+.s-hp .xpb{height:4px;background:var(--ink-30);border-radius:2px;overflow:hidden}
+.s-hp .xpb i{display:block;height:100%;width:0;background:var(--teal)}
+.s-r{display:flex;gap:8px;align-items:center}
+.s-coin{display:flex;gap:6px;align-items:center;background:rgba(228,229,223,.92);border:2.5px solid var(--ink);border-radius:3px;padding:8px 10px;font:700 15px/1 var(--f-mono);color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.s-menu{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
+.s-menu i,.s-menu i::before,.s-menu i::after{display:block;width:18px;height:3px;background:var(--ink);position:relative}
+.s-menu i::before,.s-menu i::after{content:"";position:absolute;left:0}.s-menu i::before{top:-6px}.s-menu i::after{top:6px}
+.s-obj{position:absolute;left:var(--sl);top:calc(var(--st) + 62px);margin:0;max-width:min(320px,70vw);font:800 12px/1.4 var(--f-body);color:var(--ink);background:rgba(255,210,63,.92);border:2px solid var(--ink);padding:5px 8px;border-radius:2px}
+.s-obj:empty{display:none}
+.s-act{position:absolute;right:calc(var(--sr) + 2px);bottom:calc(var(--sb) + 26px);width:88px;height:88px;border-radius:50%;pointer-events:auto;border:3px solid var(--ink);background:var(--yellow);box-shadow:4px 4px 0 var(--ink);display:grid;place-items:center;padding:6px;font:400 15px/1.1 var(--f-display);color:var(--ink);text-align:center}
+.s-dash{display:grid!important;right:calc(var(--sr) + 100px)}
+.s-pot{position:absolute;left:var(--sl);bottom:calc(var(--sb) + 30px);pointer-events:auto;display:flex;gap:6px;align-items:center;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--pink);padding:10px 12px;font:400 15px/1 var(--f-display);color:var(--ink)}
+.s-pot b{font:700 13px/1 var(--f-mono);background:var(--pink);color:var(--paper);padding:3px 5px;border-radius:2px}
+#sDlg{position:fixed;inset:0;z-index:15;display:flex;align-items:flex-end;justify-content:center;padding:0 var(--sr) calc(var(--sb) + 16px) var(--sl);background:linear-gradient(transparent 55%,rgba(20,27,64,.35))}
+.d-box{position:relative;width:min(640px,100%);background:var(--paper);border:3px solid var(--ink);border-radius:3px;box-shadow:6px 6px 0 var(--pink);padding:16px 18px 18px}
+.d-name{display:flex;gap:8px;align-items:baseline;margin:-30px 0 8px;}
+.d-name b{background:var(--ink);color:var(--paper);font:400 18px/1 var(--f-display);padding:8px 12px;border-radius:2px}
+.d-name span{font:800 11px/1 var(--f-body);color:var(--pink);background:var(--paper);padding:3px 5px;border:2px solid var(--ink)}
+#dText{margin:0;min-height:3.2em;font:700 16px/1.6 var(--f-body);color:var(--ink);white-space:pre-wrap}
+.d-ch{display:flex;gap:10px;margin-top:12px}
+.d-ch:empty{display:none}
+.d-ch .btn{font-size:17px;padding:12px}
+.d-more{position:absolute;right:14px;bottom:10px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;border-top:9px solid var(--pink);animation:bob 1s ease-in-out infinite}
+@media (orientation:landscape){
+  .s-act{width:78px;height:78px}
+  .s-obj{top:calc(var(--st) + 10px);left:50%;transform:translateX(-50%);max-width:40vw;text-align:center}
+  .d-box{width:min(720px,80vw)}
+  body.story #hud .bossbar{top:calc(var(--st) + 50px)}
+}
 /* ---------- workshop tabs and portals ---------- */
 .tabs{position:relative;display:grid;grid-template-columns:1fr 1fr;border:2.5px solid var(--ink);border-radius:3px;overflow:hidden}
 .tabs button{border:0;background:var(--paper);color:var(--ink);font:400 18px/1 var(--f-display);padding:12px 6px 11px}
@@ -449,6 +493,7 @@ img{max-width:100%}
     <p class="tagline">하늘이 무너진 뒤로 해는 뜨지 않았다. 잉크처럼 번지는 것들 사이에서 <em>불씨 하나</em>가 아직 버티고 있다.</p>
   </div>
   <div class="menu">
+    <button class="btn story" id="btnStory">이야기<span class="sub">등불 마을에서 시작</span></button>
     <button class="btn" id="btnPlay">밤으로 나간다<span class="sub" id="playSub">균열 1</span></button>
     <div class="three">
       <button class="btn ghost" id="btnShop">작업대<span class="qbadge pb" id="pBadge" hidden>문</span></button>
@@ -465,6 +510,32 @@ img{max-width:100%}
     </div>
   </div>
 </section>
+
+<section class="screen sheet" id="scrStory" hidden>
+  <div class="shead"><button class="back" data-back aria-label="뒤로"></button><h2>이야기</h2><span class="right"></span></div>
+  <div class="scroll"><div class="stbody" id="stBody"></div></div>
+  <button class="btn" id="btnStoryGo">이어 하기<span class="sub" id="stSub"></span></button>
+</section>
+<section class="screen sheet" id="scrSShop" hidden>
+  <div class="shead"><button class="back" id="ssBack" aria-label="닫기"></button><h2 id="ssTitle">가게</h2><span class="right"><i class="coin"></i><b class="num" id="ssCoin">0</b></span></div>
+  <div class="scroll"><div class="shop" id="ssList"></div></div>
+</section>
+<section class="screen sheet" id="scrSMenu" hidden>
+  <div class="shead"><button class="back" id="smBack" aria-label="닫기"></button><h2>멈춤</h2><span class="right"></span></div>
+  <div class="scroll"><div class="stbody" id="smBody"></div></div>
+  <div class="smb"><button class="btn" id="smResume">계속</button><button class="btn ghost" id="smQuit">타이틀로</button></div>
+</section>
+<div id="sHud" hidden>
+  <div class="s-top">
+    <div class="s-hp"><span class="lv" id="sLv">LV 1</span><div class="bar"><i id="sHpFill"></i><b id="sHpTxt"></b></div><div class="xpb"><i id="sXpFill"></i></div></div>
+    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
+  </div>
+  <p class="s-obj" id="sObj"></p>
+  <button class="s-pot" id="sPot" hidden><span>물약</span><b id="sPotN">0</b></button>
+  <button class="s-act" id="sAct" hidden><span id="sActL"></span></button>
+  <button class="dashb s-dash" id="sDash" aria-label="구르기"><span></span></button>
+</div>
+<div id="sDlg" hidden><div class="d-box"><div class="d-name"><b id="dName"></b><span id="dRole"></span></div><p id="dText"></p><div class="d-ch" id="dChoices"></div><i class="d-more" id="dMore"></i></div></div>
 
 <section class="screen sheet" id="scrPrep" hidden>
   <div class="shead"><button class="back" data-back aria-label="뒤로"></button><h2>출발 준비</h2><span class="right"><i class="shard"></i><b class="num" id="pShards">0</b></span></div>
