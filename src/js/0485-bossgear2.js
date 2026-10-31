@@ -55,7 +55,7 @@ Object.assign(WEAPONS, {
       }
       for (const h of w.hs) {
         h.d += (h.out ? 900 : -1100) * dt;
-        if (h.out && h.d >= S.range) { h.out = false; h.hit = new Set(); SFX.clank(); }
+        if (h.out && h.d >= S.range) { h.out = false; h.hit = new Set(); if (gate('harp', 400)) tone(880, .05, { type: 'triangle', vol: .025 }); }
         h.x = P.x + Math.cos(h.a) * h.d; h.y = P.y + Math.sin(h.a) * h.d;
         gq(h.x, h.y, 90, e => {
           if (e.dead || e.hidden || e.under || h.hit.has(e) || d2(h.x, h.y, e.x, e.y) > (16 + e.r) ** 2) return;
@@ -81,7 +81,7 @@ Object.assign(WEAPONS, {
           const x = t.x, y = t.y;
           (G.pillars = G.pillars || []).push({ x, y, t0: performance.now() });
           aoe(x, y, S.r * P.area, S.dmg, 260); ringFx(x, y, S.r * P.area, COL.yellow, .4, 8); burst(x, y, 18, COL.yellow, 280);
-          shake(7); SFX.boom(false); if (gate('sund', 200)) SFX.heaven();
+          shake(7); if (gate('sund', 300)) SFX.boom(false);
         }));
       }
     },
@@ -97,10 +97,10 @@ Object.assign(WEAPONS, {
       const v = w.stk >= S.need;
       hurtEnemy(t, S.dmg * (v ? S.verdict : 1), (t.x - P.x) * 2, (t.y - P.y) * 2);
       if (v) {
-        w.stk = 0; G.hitstop = Math.max(G.hitstop, .07); shake(9); SFX.bell(); SFX.boom(false);
+        w.stk = 0; G.hitstop = Math.max(G.hitstop, .07); shake(9); if (gate('gav', 300)) { SFX.thud(); tone(330, .12, { type: 'triangle', vol: .05 }); }
         ringFx(t.x, t.y, 90, COL.yellow, .35, 9); burst(t.x, t.y, 20, COL.yellow, 260);
         TX.push({ x: t.x, y: t.y - t.r - 18, vy: -30, life: .9, max: .9, v: '판결', crit: true, dead: false });
-      } else { burst(t.x, t.y, 6, COL.ink, 150); SFX.clank(); }
+      } else burst(t.x, t.y, 6, COL.ink, 150);
       G.gavelFx = { x: t.x, y: t.y, t0: performance.now(), big: v };
       return true;
     },
@@ -127,7 +127,7 @@ function gearHurt() {
 function bellRing(S, k) {
   const r = S.r * P.area * (k < 1 ? .7 : 1);
   aoe(P.x, P.y, r, S.dmg * k, 300); ringFx(P.x, P.y, r, COL.yellow, .35, 9); ringFx(P.x, P.y, r * .6, COL.ink, .3, 5);
-  if (gate('bellr', 120)) SFX.bellSmall();
+  if (k >= 1 && gate('bellr', 600)) SFX.bellSmall();
   if (S.twice && k >= 1) later2(.22, () => { aoe(P.x, P.y, r * 1.3, S.dmg * .6, 200); ringFx(P.x, P.y, r * 1.3, COL.pink, .35, 6); });
 }
 function arcHit(a, R, arc, dmg, col) {
