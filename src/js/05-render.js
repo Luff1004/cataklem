@@ -187,6 +187,8 @@ function drawEnemies() {
     if (e.dead) continue;
     if (e.type === 'unknown') { drawUnknown(e); continue; }
     if (e.type === 'limb') { drawLimb(e); continue; }
+    if (e.type === 'skyshard') { drawShard(e); continue; }
+    if (e.type === 'scribbler') { drawScribBall(e); continue; }
     const S = SPR[e.type];
     if (!S || !onScreen(e.x, e.y, S.size * e.scl)) continue;
     if (e.hidden) { const k = clamp(1 - (e.leap || 0) / 1.5, 0, 1); ctx.globalAlpha = .5 + k * .5; spr(SP.shadow, e.x, e.y + e.r * .3, e.r * (1.4 + k * 1.4), e.r * (.5 + k * .5)); ctx.globalAlpha = 1; continue; }

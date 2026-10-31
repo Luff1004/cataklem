@@ -21,7 +21,7 @@ function updateHazards2(dt) {
       if (live && P.x * h.nx + P.y * h.ny > 0) hurtPlayer(h.dmg);
       if (h.t > h.warn + h.dur) h.dead = true;
     } else if (h.k === 'bloom') {
-      if (live && !h.lit) { h.lit = true; pulseScreen(1.6); shake(14); SFX.boom(true); for (let k = 0; k < 40; k++) { const a = rnd(TAU), r = rnd(0, ARENA_R); PT.push({ x: Math.cos(a) * r, y: Math.sin(a) * r, vx: rnd(-80, 80), vy: rnd(-160, -40), life: rnd(.6, 1.2), max: 1.2, s: rnd(4, 8), c: k % 3 ? COL.pink : COL.white, dead: false }); } }
+      if (live && !h.lit) { h.lit = true; if (h.gold) { G.flash = .8; G.novaFx = { x: G.eye ? G.eye.x : 0, y: -RH - 150, t0: performance.now(), rot: rnd(TAU) }; SFX.nova(); } pulseScreen(1.6); shake(14); SFX.boom(true); for (let k = 0; k < 40; k++) { const a = rnd(TAU), r = rnd(0, ARENA_R); PT.push({ x: Math.cos(a) * r, y: Math.sin(a) * r, vx: rnd(-80, 80), vy: rnd(-160, -40), life: rnd(.6, 1.2), max: 1.2, s: rnd(4, 8), c: k % 3 ? COL.pink : COL.white, dead: false }); } }
       if (live && h.t < h.warn + .3 && !h.safes.some(s => d2(P.x, P.y, s.x, s.y) < s.r * s.r)) hurtPlayer(h.dmg);
       if (h.t > h.warn + .5) h.dead = true;
     }

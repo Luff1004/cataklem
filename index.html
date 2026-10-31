@@ -1664,6 +1664,7 @@ const ENEMY = {
   brute: { r: 22, hp: 58, spd: 36, dmg: 14, xp: 6, ai: 'chase', kb: .75 },
   echo: { r: 20, hp: 700, spd: 0, dmg: 10, xp: 0, ai: 'echo', kb: 1 },
   sat: { r: 16, hp: 900, spd: 0, dmg: 12, xp: 0, ai: 'sat', kb: 1 },
+  scribbler: { r: 15, hp: 500, spd: 125, dmg: 14, xp: 0, ai: 'chase', kb: .2 },
   sprout: { r: 18, hp: 800, spd: 0, dmg: 10, xp: 0, ai: 'turret', kb: 1 },
 };
 const BOSS = {
@@ -1952,6 +1953,7 @@ function fan(e, a, n, spread, spd, dmg) { for (let i = 0; i < n; i++) fireEB(e.x
 
 function hurtEnemy(e, dmg, kx = 0, ky = 0, quiet) {
   if (e.dead || e.inv > 0 || e.hidden || e.under) return 0;
+  if (e.ai === 'shard') { shardStruck(e); return 0; }
   const crit = Math.random() < P.crit;
   let d = dmg * P.might * (crit ? P.critMul : 1) * rnd(.92, 1.08);
   if (e.limbOf) {
@@ -2007,6 +2009,7 @@ function killEnemy(e) {
   burst(e.x, e.y, e.elite ? 16 : 6, COL.ink, e.elite ? 230 : 140);
   if (Math.random() < .45) burst(e.x, e.y, 2, COL.pink, 110);
   SFX.kill();
+  if (e.type === 'scribbler') { HZ.push({ k: 'pool', x: e.x, y: e.y, r: 60, warn: .4, dur: 4, dmg: 10, t: 0, dead: false, scrib: 1 }); burst(e.x, e.y, 14, COL.deep, 240); }
   if (e.type === 'splitter') for (let k = 0; k < 2; k++) { const m = spawnEnemy('mini', e.x + rnd(-8, 8), e.y + rnd(-8, 8)); m.kx = rnd(-140, 140); m.ky = rnd(-140, 140); }
   if (e.type === 'bomber') bomberBlast(e, true);
 }
@@ -2354,6 +2357,7 @@ function updateEnemies(dt) {
     const e = E[i]; if (e.dead) continue;
     e.t += dt; if (e.flash > 0) e.flash -= dt;
     if (e.ai === 'limb') { e.life -= dt; if (e.life <= 0) { e.dead = true; continue; } }
+    if (e.ai === 'shard') { updateShard(e, dt); continue; }
     const dx = P.x - e.x, dy = P.y - e.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
     let mvx = 0, mvy = 0;
     if (e.arena || e.ai === 'echo' || e.ai === 'sat') { const m = arenaAI(e, dt, ux, uy, dist); mvx = m[0]; mvy = m[1]; }
@@ -2571,7 +2575,7 @@ function setupBossRun(id) {
   G.mode = 'boss'; G.gate = gate; G.rf = RIFT[1]; G.draftLeft = G.draftMax = id === 'unknown' ? 5 : 4; G.u = id === 'unknown' ? freshU() : null; G.sprint = 1; G.heartT = 20; G.rodT = 2.5; G.enraged = false;
   G.ultNeed = 150; G.rerolls = 2 + (SAVE.shop.reroll || 0);
   G.rel.hp = 60;
-  G.weapons = []; G.buildDirty = true;
+  G.weapons = []; G.buildDirty = true; RW = 620;
   if (id === 'unknown') { G.rel.hp = 160; G.rel.spdFlat = 100; G.draftLeft = G.draftMax = 1; }
   P.x = 0; P.y = 230; G.camX = 0; G.camY = 200;
   for (const w of G.weapons) w.lv = 3;
@@ -3002,7 +3006,7 @@ function updateHazards2(dt) {
       if (live && P.x * h.nx + P.y * h.ny > 0) hurtPlayer(h.dmg);
       if (h.t > h.warn + h.dur) h.dead = true;
     } else if (h.k === 'bloom') {
-      if (live && !h.lit) { h.lit = true; pulseScreen(1.6); shake(14); SFX.boom(true); for (let k = 0; k < 40; k++) { const a = rnd(TAU), r = rnd(0, ARENA_R); PT.push({ x: Math.cos(a) * r, y: Math.sin(a) * r, vx: rnd(-80, 80), vy: rnd(-160, -40), life: rnd(.6, 1.2), max: 1.2, s: rnd(4, 8), c: k % 3 ? COL.pink : COL.white, dead: false }); } }
+      if (live && !h.lit) { h.lit = true; if (h.gold) { G.flash = .8; G.novaFx = { x: G.eye ? G.eye.x : 0, y: -RH - 150, t0: performance.now(), rot: rnd(TAU) }; SFX.nova(); } pulseScreen(1.6); shake(14); SFX.boom(true); for (let k = 0; k < 40; k++) { const a = rnd(TAU), r = rnd(0, ARENA_R); PT.push({ x: Math.cos(a) * r, y: Math.sin(a) * r, vx: rnd(-80, 80), vy: rnd(-160, -40), life: rnd(.6, 1.2), max: 1.2, s: rnd(4, 8), c: k % 3 ? COL.pink : COL.white, dead: false }); } }
       if (live && h.t < h.warn + .3 && !h.safes.some(s => d2(P.x, P.y, s.x, s.y) < s.r * s.r)) hurtPlayer(h.dmg);
       if (h.t > h.warn + .5) h.dead = true;
     }
@@ -3423,7 +3427,7 @@ function unknownDown(e) {
 }
 
 /* ================= gear that only exists past the portals ================= */
-const RW = 620, RH = 215;
+let RW = 620; const RH = 215;
 function later2(t, fn) { G.later.push({ t, fn }); }
 
 Object.assign(WEAPONS, {
@@ -3577,7 +3581,14 @@ function drawBossGear() {
     if (w.id === 'scrib_sword') {
       const sw = w.swing, sq = sw ? (performance.now() - sw.t0) / sw.dur : 9, a = sq < 1 ? lerp(sw.a0, sw.a1, sq) : (w.lastA ?? (P.face > 0 ? -.6 : Math.PI + .6)), b0x = P.x + Math.cos(a) * 12, b0y = P.y + Math.sin(a) * 12, L = w.evo ? 62 : 48;
       const b1x = b0x + Math.cos(a) * L, b1y = b0y + Math.sin(a) * L;
-      if (w.evo) { glowLine(b0x, b0y, b1x, b1y, 22, COL.yellow, .55); glowLine(b0x, b0y, b1x, b1y, 10, COL.white, .8); ctx.strokeStyle = COL.white; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(b0x, b0y); ctx.lineTo(b1x, b1y); ctx.stroke(); }
+      if (w.evo) {
+        const t = now / 1000, ca = Math.cos(a), sa = Math.sin(a), Lb = L + 10, pl = .6 + Math.sin(t * 5) * .25;
+        glowLine(b0x, b0y, b0x + ca * Lb, b0y + sa * Lb, 26, GOLD, .22 * pl); wt();
+        glowLine(b0x + ca * Lb, b0y + sa * Lb, b0x + ca * (Lb + 34 + pl * 16), b0y + sa * (Lb + 34 + pl * 16), 4, COL.white, .55 * pl); wt();
+        holySword(b0x, b0y, a, Lb);
+        for (let k = 0; k < 3; k++) { const f = (t * 1.3 + k / 3) % 1, al = Math.sin(f * Math.PI); flare(b0x + ca * Lb * (.25 + f * .7) + -sa * (k - 1) * 5, b0y + sa * Lb * (.25 + f * .7) + ca * (k - 1) * 5, 3 + al * 3, al); }
+        if (Math.random() < .35) PT.push({ x: b0x + ca * Lb * rnd(.3, 1), y: b0y + sa * Lb * rnd(.3, 1), vx: rnd(-30, 30), vy: rnd(-90, -30), life: .5, max: .5, s: rnd(1.5, 3), c: Math.random() < .5 ? GOLD : COL.white, dead: false });
+      }
       else scribLine(b0x, b0y, b1x, b1y, 6, 4);
       wt();
     }
@@ -3588,13 +3599,8 @@ function drawBossGear() {
     for (const s of G.slashes) {
       const q = (now - s.t0) / 320, a0 = s.a - s.arc / 2, a1 = s.a - s.arc / 2 + s.arc * Math.min(1, q * 3), lw = s.R * .38 * (1 - q);
       if (s.h) {
-        const al = 1 - q;
-        ctx.globalAlpha = .85 * al; ctx.strokeStyle = COL.deep; ctx.lineWidth = lw * 1.25 + 5; ctx.beginPath(); ctx.arc(P.x + 3, P.y + 3, s.R * .78, a0, a1); ctx.stroke();
-        ctx.globalAlpha = al; ctx.strokeStyle = GOLD; ctx.lineWidth = lw * 1.25; ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .78, a0, a1); ctx.stroke();
-        ctx.strokeStyle = COL.pink; ctx.lineWidth = Math.max(2, lw * .22); ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .66, a0, a1); ctx.stroke();
-        ctx.strokeStyle = COL.white; ctx.lineWidth = Math.max(2, lw * .3); ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .86, a0, a1); ctx.stroke();
-        ctx.fillStyle = COL.white; for (let k = 0; k < 6; k++) { const aa = a0 + (a1 - a0) * Math.random(), rr = s.R * (.6 + Math.random() * .35); ctx.fillRect(P.x + Math.cos(aa) * rr - 2, P.y + Math.sin(aa) * rr - 2, 4, 4); }
-        ctx.globalAlpha = 1;
+        holySwingFx(P.x, P.y, s.R * .82, a0, a1, q, s.fin, s.t0 % 997);
+        wt();
       } else {
         for (let k = 0; k < 4; k++) {
           ctx.globalAlpha = (k === 3 ? .5 : .85) * (1 - q); ctx.strokeStyle = k === 3 ? COL.pink : COL.deep; ctx.lineWidth = lw * (k === 0 ? 1 : .4);
@@ -3612,12 +3618,14 @@ function drawBossGear() {
     if (p.kind === 'lance') { const ca = Math.cos(p.a), sa = Math.sin(p.a); strokeRiso(4, () => { ctx.beginPath(); ctx.moveTo(p.x - ca * 46, p.y - sa * 46); ctx.lineTo(p.x, p.y); }, COL.ink, COL.pink); ctx.fillStyle = COL.yellow; ctx.beginPath(); ctx.moveTo(p.x + ca * 12, p.y + sa * 12); ctx.lineTo(p.x - sa * 6, p.y + ca * 6); ctx.lineTo(p.x + sa * 6, p.y - ca * 6); ctx.fill(); }
     else if (p.kind === 'comet') { glowLine(p.x - p.vx * .08, p.y - p.vy * .08, p.x, p.y, 16, COL.pink, .5); ctx.fillStyle = COL.yellow; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, TAU); ctx.fill(); ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, TAU); ctx.fill(); }
     else if (p.kind === 'crescent') {
-      const cx = p.x - Math.cos(p.a) * 30, cy = p.y - Math.sin(p.a) * 30, al = Math.min(1, p.life * 2.5);
-      ctx.globalAlpha = al * .85; ctx.strokeStyle = COL.deep; ctx.lineWidth = 17; ctx.beginPath(); ctx.arc(cx + 3, cy + 3, 38, p.a - 1.1, p.a + 1.1); ctx.stroke();
-      ctx.globalAlpha = al; ctx.strokeStyle = GOLD; ctx.lineWidth = 13; ctx.beginPath(); ctx.arc(cx, cy, 38, p.a - 1.1, p.a + 1.1); ctx.stroke();
-      ctx.strokeStyle = COL.white; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(cx, cy, 41, p.a - .9, p.a + .9); ctx.stroke();
-      ctx.globalAlpha = al * .35; ctx.strokeStyle = GOLD; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(cx - p.vx * .04, cy - p.vy * .04, 36, p.a - 1, p.a + 1); ctx.stroke();
+      const al = Math.min(1, p.life * 2.5), ca = Math.cos(p.a), sa = Math.sin(p.a);
+      for (let k = 1; k <= 3; k++) { wt(); ctx.globalAlpha = al * (.5 - k * .12); ctx.strokeStyle = k % 2 ? COL.white : GOLD; ctx.lineWidth = 2; ctx.beginPath(); const off = (k - 2) * 14; ctx.moveTo(p.x - sa * off - ca * 10, p.y + ca * off - sa * 10); ctx.lineTo(p.x - sa * off - ca * (40 + k * 18), p.y + ca * off - sa * (40 + k * 18)); ctx.stroke(); }
       ctx.globalAlpha = 1;
+      glowLine(p.x - ca * 120, p.y - sa * 120, p.x, p.y, 14, GOLD, .3 * al); wt();
+      for (let k = 1; k <= 4; k++) { const bx = p.x - ca * k * 26, by = p.y - sa * k * 26; flare(bx, by, (5 - k) * 1.6 + Math.sin(p.t * 40 + k) * 1.2, al * (1 - k * .2)); }
+      holyStreak(p.x, p.y, p.a + Math.PI / 2, 104, 12, al);
+      holyStreak(p.x + ca * 4, p.y + sa * 4, p.a, 40, 6, al * .9);
+      starburst(p.x, p.y, 16 + Math.sin(p.t * 30) * 3, al, p.t * 3); wt();
     }
   }
   // sigils
@@ -3733,9 +3741,11 @@ function uFinal(e, dt) {
   e.x = lerp(e.x, P.x * .5, 1 - Math.exp(-dt * .8)); e.y = lerp(e.y, -RH - 470, 1 - Math.exp(-dt * 2));
   if (e.hp <= e.hpFloor + .5 && G.uPhaseT >= U_MIN[7]) { startFinisher(e); return Z0; }
   const lvl = G.uPhaseT > 160 ? 2 : G.uPhaseT > 80 ? 1 : 0;
-  if (lvl > (e.esc || 0)) { e.esc = lvl; banner(lvl === 1 ? '하늘이 무너진다' : '마지막 빛', lvl === 1 ? '더 많이, 더 빨리 떨어진다' : '버텨라. 거의 다 왔다', 'warn'); SFX.roar(); pulseScreen(1.6); shake(14); AU.uPhase = 7 + lvl; }
+  RW = lerp(RW, 620 - lvl * 95, 1 - Math.exp(-dt * .9));
+  if (lvl > (e.esc || 0)) { e.esc = lvl; banner(lvl === 1 ? '하늘이 무너진다' : '마지막 빛', lvl === 1 ? '벽이 좁혀 온다' : '버텨라. 거의 다 왔다', 'warn'); SFX.roar(); pulseScreen(1.6); shake(14); AU.uPhase = 7 + lvl; }
   if (e.busy <= 0 && e.cd <= 0) {
-    const k = pickAtk(e, { meteor: 3, slam: 3.8, sweep: 2, scrawl: 1.3, gaze: 2.4, grab: lvl >= 1 ? 2.2 : 1.2 });
+    const judging = HZ.some(h => h.gold && !h.dead);
+    const k = pickAtk(e, { meteor: 2.6, slam: 3.4, sweep: 1.8, scrawl: 1.1, gaze: 2.2, grab: lvl >= 1 ? 2 : 1, shards: 2.4, judgment: lvl >= 1 && !judging ? 1.7 : 0, clones: lvl >= 1 ? 1.4 : .6 });
     if (k === 'meteor') {
       for (let i = 0; i < 7 + lvl * 2; i++) {
         const near = i < 2, x = near ? clamp(P.x + rnd(-90, 90), -RW + 50, RW - 50) : clamp(P.x + rnd(-420, 420), -RW + 50, RW - 50), y = near ? clamp(P.y + rnd(-60, 60), -RH + 40, RH - 40) : rnd(-RH + 40, RH - 40);
@@ -3753,6 +3763,11 @@ function uFinal(e, dt) {
       HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 240, w: 50, gap: -clamp(P.x + rnd(-220, 220), -RW + 110, RW - 110), gw: 160, dmg: 24, warn: .8, t: 0, dead: false });
       if (lvl >= 1) later(e, 1.1, () => HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 260, w: 50, gap: -clamp(P.x + rnd(-200, 200), -RW + 110, RW - 110), gw: 150, dmg: 24, warn: .7, t: 0, dead: false }));
       SFX.wave(); e.busy = 2.2 + lvl * .6; e.cd = .5 - lvl * .12;
+    } else if (k === 'shards') { shardRain(e, 4 + lvl * 2); banner('하늘 조각', '베어서 눈으로 되돌려라', 'good'); e.busy = 1.8 + lvl * .7; e.cd = .5;
+    } else if (k === 'judgment') { judgment(e, lvl); e.busy = 3.4; e.cd = .5;
+    } else if (k === 'clones') {
+      for (let i = 0; i < 3 + lvl; i++) { const sd = i % 2 ? 1 : -1; spawnArenaAdd('scribbler', sd * (RW - 30), rnd(-RH + 40, RH - 40), 520); }
+      SFX.scratch(); e.busy = 1.2; e.cd = .5;
     } else if (k === 'gaze') {
       HZ.push({ k: 'ray', x: G.eye ? G.eye.x : P.x, y: -RH - 150, a: Math.PI / 2, va: 0, len: RH * 2 + 200, w: 54, warn: 1.1, dur: 2.4 + lvl * .4, dmg: 26, t: 0, dead: false, gaze: 1 });
       banner('응시', '눈을 피해 옆으로', 'warn'); e.busy = 3.6 + lvl * .4; e.cd = .4;
@@ -3860,17 +3875,18 @@ function swordSwing(w, S, a) {
     if (d - e.r > R) continue;
     if (!finisher && angDiff(Math.atan2(dy, dx), a) > arc / 2 + Math.asin(Math.min(1, e.r / d))) continue;
     hurtEnemy(e, dmg, dx / d * 320, dy / d * 320);
-    if (w.evo) { addGlint(e.x + rnd(-e.r, e.r) * .5, e.y + rnd(-e.r, e.r) * .5, finisher ? 1.6 : 1); for (let k = 0; k < 4; k++) PT.push({ x: e.x, y: e.y, vx: rnd(-160, 160), vy: rnd(-260, -60), life: .7, max: .7, s: rnd(2, 4), c: k % 2 ? GOLD : COL.white, dead: false }); }
+    if (w.evo) { addCut(e.x + rnd(-e.r, e.r) * .4, e.y + rnd(-e.r, e.r) * .4); if (finisher) addGlint(e.x, e.y, 1.4); for (let k = 0; k < 4; k++) PT.push({ x: e.x, y: e.y, vx: rnd(-160, 160), vy: rnd(-260, -60), life: .7, max: .7, s: rnd(2, 4), c: k % 2 ? GOLD : COL.white, dead: false }); }
   }
   if (S.wave) {
     const n = finisher ? 8 : 1;
     for (let i = 0; i < n; i++) { const aa = finisher ? a + i / n * TAU : a; PR.push({ kind: 'crescent', x: P.x + Math.cos(aa) * 40, y: P.y + Math.sin(aa) * 40, vx: Math.cos(aa) * 660, vy: Math.sin(aa) * 660, a: aa, r: finisher ? 30 : 38, dmg: S.dmg * (finisher ? .45 : .6), pierce: 99, life: finisher ? .7 : .95, hitset: new Set(), boom: 0, bdmg: 0, size: 1, t: 0, dead: false }); }
   }
   (G.slashes = G.slashes || []).push({ a, R, arc, t0: now, h: !!w.evo, side, fin: finisher });
+  if (w.evo) { swingSparks(a - arc / 2, a + arc / 2, R * .82, finisher ? 26 : 10); if (finisher) addRays(P.x, P.y, R, 16); }
   w.swing = { a0: finisher ? a : a - arc / 2 * side, a1: finisher ? a + TAU : a + arc / 2 * side, t0: now, dur: finisher ? 220 : 120 };
   w.lastA = a;
   if (finisher) {
-    if (w.evo) { ringFx(P.x, P.y, R * 1.15, GOLD, .35, 10); ringFx(P.x, P.y, R * .7, COL.white, .3, 5); G.flash = Math.max(G.flash, .18); pulseScreen(.6); }
+    if (w.evo) { ringFx(P.x, P.y, R * 1.15, GOLD, .35, 10); ringFx(P.x, P.y, R * .7, COL.white, .3, 5); ringFx(P.x, P.y, R * 1.6, GOLD, .5, 4); G.flash = Math.max(G.flash, .28); pulseScreen(.9); }
     else ringFx(P.x, P.y, R, COL.deep, .3, 8);
     shake(w.evo ? 7 : 5); SFX.boom(false);
   }
@@ -3925,18 +3941,17 @@ function drawHeaven() {
   if (w && w.swing) {
     const sw = w.swing, q = (now - sw.t0) / sw.dur;
     if (q < 1.6) {
-      const L = w.evo ? 74 : 54, steps = 14, upto = Math.min(1, q);
-      ctx.save();
-      for (let i = 0; i < steps; i++) {
-        const f0 = i / steps * upto, f1 = (i + 1) / steps * upto, aA = lerp(sw.a0, sw.a1, f0), aB = lerp(sw.a0, sw.a1, f1);
-        const fade = (1 - Math.max(0, q - 1) / .6) * (.25 + .75 * (i / steps));
-        ctx.globalAlpha = fade * (w.evo ? .8 : .5);
-        ctx.fillStyle = w.evo ? (i % 2 ? GOLD : '#FFE7A0') : COL.deep;
-        ctx.beginPath(); ctx.moveTo(P.x + Math.cos(aA) * 14, P.y + Math.sin(aA) * 14); ctx.lineTo(P.x + Math.cos(aA) * L, P.y + Math.sin(aA) * L); ctx.lineTo(P.x + Math.cos(aB) * L, P.y + Math.sin(aB) * L); ctx.lineTo(P.x + Math.cos(aB) * 14, P.y + Math.sin(aB) * 14); ctx.fill();
+      const L = w.evo ? 74 : 54, upto = Math.min(1, q), fade = 1 - Math.max(0, q - 1) / .6;
+      if (w.evo) { const lo = Math.min(sw.a0, lerp(sw.a0, sw.a1, upto)), hi = Math.max(sw.a0, lerp(sw.a0, sw.a1, upto)); wt(); ctx.save(); ctx.globalAlpha = fade * .8; ctx.strokeStyle = COL.white; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 14 * K; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(P.x, P.y, L, lo, hi); ctx.stroke(); ctx.restore(); }
+      else {
+        ctx.save(); ctx.globalAlpha = fade * .5; ctx.strokeStyle = COL.deep; ctx.lineWidth = 3; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.arc(P.x, P.y, L, Math.min(sw.a0, lerp(sw.a0, sw.a1, upto)), Math.max(sw.a0, lerp(sw.a0, sw.a1, upto))); ctx.stroke(); ctx.restore();
       }
-      ctx.restore();
+      wt();
     }
   }
+  drawCuts();
+  drawRays();
   // glints: four-point flares where the light struck
   if (G.glints && G.glints.length) {
     ctx.save(); ctx.lineJoin = 'round';
@@ -4009,7 +4024,8 @@ function drawEye(e) {
   const ix = cx + clamp((P.x - cx) * .12, -60, 60), iy = cy + clamp((P.y - cy) * .03, -10, 14);
   ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.arc(ix, iy, 44, 0, TAU); ctx.fill();
   ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(ix, iy, 12, 30, 0, 0, TAU); ctx.fill();
-  if (eye.glow > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = eye.glow; ctx.fillStyle = GOLD; ctx.beginPath(); ctx.arc(ix, iy, 50, 0, TAU); ctx.fill(); }
+  if (eye.glow > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = eye.glow; ctx.fillStyle = eye.judge > 0 ? '#FF3B5C' : GOLD; ctx.beginPath(); ctx.arc(ix, iy, 50, 0, TAU); ctx.fill(); }
+  if (eye.hurt > 0) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = Math.min(1, eye.hurt * 1.6); ctx.fillStyle = COL.white; ctx.fillRect(cx - wR, cy - hR, wR * 2, hR * 2); }
   ctx.restore();
   // scribbled lids
   wt(); ctx.lineCap = 'round';
@@ -4047,6 +4063,8 @@ function finalExtras(e, dt) {
   eye.open = lerp(eye.open, gz ? 1 : .32 + Math.sin(performance.now() / 900) * .05, 1 - Math.exp(-dt * 4));
   eye.glow = gz ? Math.min(1, gz.t / gz.warn) * .7 : Math.max(0, eye.glow - dt * 2);
   if (gz) eye.x = gz.x; else eye.x = lerp(eye.x, P.x * .7, 1 - Math.exp(-dt * 1.2));
+  if (eye.judge > 0) { eye.judge -= dt; eye.open = lerp(eye.open, 1, 1 - Math.exp(-dt * 6)); eye.glow = 1; }
+  if (eye.hurt > 0) eye.hurt -= dt;
   G.camZoom = lerp(G.camZoom || 1, .9, 1 - Math.exp(-dt * 1.5));
   e.said = e.said || {};
   const frac = e.hp / e.maxHp;
@@ -4072,6 +4090,229 @@ function drawHeavenOverlay() {
   const g = ctx.createRadialGradient(cv.width / 2, cv.height / 2, Math.min(cv.width, cv.height) * .35, cv.width / 2, cv.height / 2, Math.max(cv.width, cv.height) * .7);
   g.addColorStop(0, 'rgba(245,197,66,0)'); g.addColorStop(1, 'rgba(245,197,66,' + (.16 + Math.sin(performance.now() / 500) * .05).toFixed(3) + ')');
   ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height);
+}
+
+/* ================= the heavenly blade, drawn sharp; and the last stage's new tricks ================= */
+/* a crescent that tapers to two needle points */
+function bladeArc(cx, cy, r, a, span, thick, bulge = 1) {
+  const n = 22;
+  ctx.beginPath();
+  for (let i = 0; i <= n; i++) { const f = i / n, aa = a - span / 2 + span * f, w = Math.pow(Math.sin(f * Math.PI), 1.6) * thick; ctx[i ? 'lineTo' : 'moveTo'](cx + Math.cos(aa) * (r + w * .5 * bulge), cy + Math.sin(aa) * (r + w * .5 * bulge)); }
+  for (let i = n; i >= 0; i--) { const f = i / n, aa = a - span / 2 + span * f, w = Math.pow(Math.sin(f * Math.PI), 1.6) * thick; ctx.lineTo(cx + Math.cos(aa) * (r - w * .5), cy + Math.sin(aa) * (r - w * .5)); }
+  ctx.closePath();
+}
+function flare(x, y, s, al = 1) {
+  ctx.save(); ctx.globalAlpha = al; ctx.fillStyle = COL.white; ctx.shadowColor = '#FFE58A'; ctx.shadowBlur = 12 * K;
+  ctx.beginPath(); ctx.moveTo(x, y - s); ctx.lineTo(x + s * .12, y - s * .12); ctx.lineTo(x + s * 1.6, y); ctx.lineTo(x + s * .12, y + s * .12); ctx.lineTo(x, y + s); ctx.lineTo(x - s * .12, y + s * .12); ctx.lineTo(x - s * 1.6, y); ctx.lineTo(x - s * .12, y - s * .12); ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+/* one holy crescent: dark under-print for contrast, bloom, gold body, white core, hairline ink edge, flared tips */
+function holyCrescent(cx, cy, r, a, span, thick, al) {
+  wt();
+  ctx.globalAlpha = al * .32; ctx.fillStyle = COL.deep; bladeArc(cx + 2.5, cy + 3, r, a, span, thick * 1.35); ctx.fill();
+  ctx.save(); ctx.globalAlpha = al; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 26 * K;
+  ctx.fillStyle = '#FFF1C9'; bladeArc(cx, cy, r, a, span, thick); ctx.fill(); ctx.restore();
+  ctx.globalAlpha = al; ctx.fillStyle = COL.white; bladeArc(cx, cy, r + thick * .14, a + span * .02, span * .86, thick * .55); ctx.fill();
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 1.6; bladeArc(cx, cy, r, a, span, thick); ctx.stroke();
+  ctx.strokeStyle = COL.deep; ctx.lineWidth = .9; ctx.globalAlpha = al * .7; bladeArc(cx + .8, cy + .8, r, a, span, thick); ctx.stroke();
+  ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = al * .35; ctx.strokeStyle = GOLD; ctx.lineWidth = thick * .5; ctx.beginPath(); ctx.arc(cx, cy, r - thick * .9, a - span * .3, a + span * .3); ctx.stroke(); ctx.restore();
+  ctx.globalAlpha = 1;
+  for (const sd of [-1, 1]) { const ta = a + sd * span / 2; flare(cx + Math.cos(ta) * r, cy + Math.sin(ta) * r, 7 * al + 2, al); }
+}
+/* the sword in hand: a needle of light */
+function holySword(bx, by, a, L) {
+  const ca = Math.cos(a), sa = Math.sin(a), nx = -sa, ny = ca, tipx = bx + ca * L, tipy = by + sa * L, wB = 5.5;
+  wt();
+  ctx.save(); ctx.shadowColor = '#FFD95A'; ctx.shadowBlur = 18 * K;
+  ctx.fillStyle = GOLD; ctx.beginPath(); ctx.moveTo(bx + nx * wB, by + ny * wB); ctx.lineTo(tipx, tipy); ctx.lineTo(bx - nx * wB, by - ny * wB); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  ctx.fillStyle = COL.white; ctx.beginPath(); ctx.moveTo(bx + nx * wB * .45, by + ny * wB * .45); ctx.lineTo(tipx - ca * 4, tipy - sa * 4); ctx.lineTo(bx - nx * wB * .2, by - ny * wB * .2); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = COL.deep; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(bx + nx * wB, by + ny * wB); ctx.lineTo(tipx, tipy); ctx.lineTo(bx - nx * wB, by - ny * wB); ctx.stroke();
+  ctx.strokeStyle = COL.deep; ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(bx + nx * 11, by + ny * 11); ctx.lineTo(bx - nx * 11, by - ny * 11); ctx.stroke();
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 3.5; ctx.beginPath(); ctx.moveTo(bx + nx * 10, by + ny * 10); ctx.lineTo(bx - nx * 10, by - ny * 10); ctx.stroke();
+  ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.arc(bx, by, 2.6, 0, TAU); ctx.fill();
+  flare(tipx, tipy, 5 + Math.sin(performance.now() / 90) * 2, .95);
+}
+
+/* ---------- new tricks for the last stage ---------- */
+function shardRain(e, n) {
+  for (let i = 0; i < n; i++) later(e, i * .35, () => {
+    const x = clamp(P.x + rnd(-RW * .7, RW * .7), -RW + 40, RW - 40);
+    E.push({ type: 'skyshard', ai: 'shard', fixed: true, x, y: -RH - 40, vy: rnd(70, 95), r: 20, hp: 1e9, maxHp: 1e9, dmg: 0, xp: 0, kbRes: 1, kx: 0, ky: 0, t: 0, ph: rnd(TAU), flash: 0, hit: {}, face: 1, scl: 1, owner: e, dead: false });
+    SFX.thread();
+  });
+}
+function shardStruck(s) {
+  if (s.reflect) return;
+  s.reflect = true; s.vy = -760; s.vx = (G.eye ? G.eye.x - s.x : 0) * 1.4;
+  addGlint(s.x, s.y, 1.5); SFX.zap(); shake(3);
+}
+function updateShard(s, dt) {
+  s.t += dt;
+  if (s.reflect) {
+    s.x += s.vx * dt; s.y += s.vy * dt;
+    if (Math.random() < .8) PT.push({ x: s.x, y: s.y, vx: rnd(-30, 30), vy: rnd(20, 80), life: .35, max: .35, s: rnd(2, 4), c: Math.random() < .5 ? GOLD : COL.white, dead: false });
+    if (s.y < -RH - 140) {
+      s.dead = true;
+      const b = s.owner;
+      if (b && !b.dead) { let d = b.maxHp * .011; if (b.hp - d < b.hpFloor) d = Math.max(0, b.hp - b.hpFloor); b.hp -= d; G.dmgDealt += d; TX.push({ x: s.x, y: -RH - 170, vy: -40, life: 1, max: 1, v: Math.round(d), crit: true, dead: false }); }
+      ringFx(s.x, -RH - 150, 90, GOLD, .4, 8); burst(s.x, -RH - 150, 20, COL.white, 300); if (G.eye) G.eye.hurt = .5;
+      SFX.boom(true); shake(10); pulseScreen(1);
+    }
+    return;
+  }
+  s.y += s.vy * dt;
+  if (s.y > RH - 16) {
+    s.dead = true;
+    ringFx(s.x, s.y, 70, COL.ink, .3, 6); burst(s.x, s.y, 14, COL.white, 220); splat(s.x, s.y, 60, false);
+    if (STATE === 'play' && d2(P.x, P.y, s.x, s.y) < (70 + P.r * .5) ** 2) hurtPlayer(20);
+    if (gate('shd', 80)) SFX.boom(false);
+  }
+}
+function drawShard(s) {
+  const a = s.t * (s.reflect ? 14 : 1.2) + s.ph, r = s.r;
+  wt();
+  if (!s.reflect) { ctx.globalAlpha = .5; ctx.setLineDash([4, 6]); ctx.strokeStyle = COL.pink; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(s.x, s.y + r); ctx.lineTo(s.x, RH); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
+  ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(a);
+  ctx.shadowColor = s.reflect ? '#FFD95A' : 'rgba(255,255,255,.8)'; ctx.shadowBlur = (s.reflect ? 18 : 8) * K;
+  ctx.fillStyle = s.reflect ? GOLD : '#EEF3FF'; ctx.beginPath(); ctx.moveTo(0, -r * 1.3); ctx.lineTo(r * .7, r * .4); ctx.lineTo(-r * .2, r); ctx.lineTo(-r * .8, 0); ctx.closePath(); ctx.fill();
+  ctx.shadowBlur = 0; ctx.strokeStyle = COL.deep; ctx.lineWidth = 2; ctx.stroke();
+  ctx.strokeStyle = COL.white; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-r * .3, -r * .5); ctx.lineTo(r * .2, r * .3); ctx.stroke();
+  ctx.restore();
+  if (!s.reflect) { ctx.globalAlpha = .9; ctx.strokeStyle = GOLD; ctx.lineWidth = 2; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.arc(s.x, s.y, r + 9, s.t * 3, s.t * 3 + TAU); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
+}
+function judgment(e, lvl) {
+  const safes = [], n = lvl >= 2 ? 2 : 3;
+  for (let i = 0; i < n; i++) safes.push({ x: clamp(rnd(-RW + 90, RW - 90), -RW + 90, RW - 90), y: rnd(-RH + 70, RH - 70), r: 62 });
+  safes[0].x = clamp(P.x + rnd(-260, 260), -RW + 90, RW - 90);
+  HZ.push({ k: 'bloom', safes, warn: 2.6, t: 0, dmg: 42, dead: false, gold: 1 });
+  banner('심판', '금빛 성역 안으로', 'warn'); SFX.charge(2.4); SFX.whisper();
+  if (G.eye) G.eye.judge = 2.6;
+}
+function drawScribBall(e) {
+  wt(); ctx.lineCap = 'round';
+  const r = e.r * (1 + Math.sin(e.t * 8) * .08);
+  spr(SP.shadow, e.x, e.y + r * .8, r * 2.2, r * .7);
+  wt();
+  for (let k = 0; k < 9; k++) {
+    let a = rnd(TAU), x = e.x + Math.cos(a) * rnd(0, r * .5), y = e.y + Math.sin(a) * rnd(0, r * .5), h = rnd(TAU);
+    ctx.strokeStyle = k < 2 ? COL.pink : e.flash > 0 ? COL.white : COL.deep; ctx.lineWidth = rnd(2, 4);
+    ctx.beginPath(); ctx.moveTo(x, y);
+    for (let s = 0; s < 6; s++) { h += rnd(-1.4, 1.4); x += Math.cos(h) * r * .35; y += Math.sin(h) * r * .35; if (Math.hypot(x - e.x, y - e.y) > r) { x = lerp(x, e.x, .4); y = lerp(y, e.y, .4); } ctx.lineTo(x, y); }
+    ctx.stroke();
+  }
+}
+
+function holyStreak(x, y, ang, len, w, al) {
+  const ca = Math.cos(ang), sa = Math.sin(ang), nx = -sa, ny = ca, h = len / 2;
+  wt();
+  ctx.save(); ctx.globalAlpha = al; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 20 * K;
+  ctx.fillStyle = '#FFF4D2';
+  ctx.beginPath(); ctx.moveTo(x - ca * h, y - sa * h); ctx.lineTo(x + nx * w / 2, y + ny * w / 2); ctx.lineTo(x + ca * h, y + sa * h); ctx.lineTo(x - nx * w / 2, y - ny * w / 2); ctx.closePath(); ctx.fill();
+  ctx.restore();
+  ctx.globalAlpha = al; ctx.fillStyle = COL.white;
+  ctx.beginPath(); ctx.moveTo(x - ca * h * .9, y - sa * h * .9); ctx.lineTo(x + nx * w * .22, y + ny * w * .22); ctx.lineTo(x + ca * h * .9, y + sa * h * .9); ctx.lineTo(x - nx * w * .22, y - ny * w * .22); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha = 1;
+}
+function addCut(x, y) { (G.cuts = G.cuts || []).push({ x, y, a: rnd(TAU), t0: performance.now() }); if (G.cuts.length > 30) G.cuts.shift(); }
+function drawCuts() {
+  if (!G.cuts || !G.cuts.length) return;
+  const now = performance.now();
+  G.cuts = G.cuts.filter(c => now - c.t0 < 240);
+  for (const c of G.cuts) {
+    const q = (now - c.t0) / 240, len = 70 + q * 70, al = 1 - q;
+    holyStreak(c.x, c.y, c.a, len, 6 * (1 - q * .6), al);
+    holyStreak(c.x, c.y, c.a + 1.15, len * .75, 4.5 * (1 - q * .6), al * .85);
+    holyStreak(c.x, c.y, c.a - .9, len * .5, 3.5 * (1 - q * .6), al * .7);
+    starburst(c.x, c.y, 18 * (1 - q) + 6, al, c.a);
+  }
+}
+/* the swing itself: a hairline of light tracing the arc */
+function holySwingLine(cx, cy, R, a0, a1, q, fin) {
+  wt();
+  const al = 1 - q;
+  ctx.save(); ctx.lineCap = 'round'; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 22 * K;
+  ctx.globalAlpha = al; ctx.strokeStyle = COL.white; ctx.lineWidth = 3.2 * al + .8;
+  ctx.beginPath(); ctx.arc(cx, cy, R, a0, a1); ctx.stroke();
+  ctx.globalAlpha = al * .8; ctx.strokeStyle = GOLD; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.arc(cx, cy, R + 7, a0 + (a1 - a0) * .15, a1); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, R - 9, a0 + (a1 - a0) * .35, a1); ctx.stroke();
+  ctx.restore();
+  if (fin) for (let k = 0; k < 8; k++) { const a = a0 + k / 8 * TAU; holyStreak(cx + Math.cos(a) * R * .95, cy + Math.sin(a) * R * .95, a, 60 * al + 20, 5 * al + 1, al); }
+  else flare(cx + Math.cos(a1) * R, cy + Math.sin(a1) * R, 6 * al + 3, al);
+}
+
+/* ---------- the flashy layer: afterimage blades, ray bursts, starbursts ---------- */
+function hash1(n) { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); }
+/* a straight radial blade of light, from r0 out to a needle tip at r1 */
+function ghostBlade(cx, cy, a, r0, r1, w, al) {
+  const ca = Math.cos(a), sa = Math.sin(a), nx = -sa, ny = ca, rm = r0 + (r1 - r0) * .22;
+  const bx = cx + ca * r0, by = cy + sa * r0, mx = cx + ca * rm, my = cy + sa * rm, tx = cx + ca * r1, ty = cy + sa * r1;
+  ctx.globalAlpha = al * .35; ctx.fillStyle = COL.deep;
+  ctx.beginPath(); ctx.moveTo(bx + 2, by + 2.5); ctx.lineTo(mx + nx * w + 2, my + ny * w + 2.5); ctx.lineTo(tx + 2, ty + 2.5); ctx.lineTo(mx - nx * w + 2, my - ny * w + 2.5); ctx.closePath(); ctx.fill();
+  ctx.save(); ctx.globalAlpha = al; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 16 * K; ctx.fillStyle = GOLD;
+  ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(mx + nx * w, my + ny * w); ctx.lineTo(tx, ty); ctx.lineTo(mx - nx * w, my - ny * w); ctx.closePath(); ctx.fill(); ctx.restore();
+  ctx.globalAlpha = al; ctx.fillStyle = COL.white;
+  ctx.beginPath(); ctx.moveTo(bx + ca * 4, by + sa * 4); ctx.lineTo(mx + nx * w * .4, my + ny * w * .4); ctx.lineTo(tx - ca * 3, ty - sa * 3); ctx.lineTo(mx - nx * w * .15, my - ny * w * .15); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha = 1;
+}
+/* big eight-point star with long horizontal/vertical spikes */
+function starburst(x, y, s, al, rot = 0) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  for (const [k, len, w] of [[0, 1, .1], [1, .55, .08]]) {
+    ctx.rotate(k * Math.PI / 4);
+    ctx.globalAlpha = al; ctx.fillStyle = k ? COL.white : '#FFF4D2'; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 24 * K;
+    ctx.beginPath();
+    for (let i = 0; i < 4; i++) { const a = i * Math.PI / 2, b = a + Math.PI / 4; ctx.lineTo(Math.cos(a) * s * len, Math.sin(a) * s * len); ctx.lineTo(Math.cos(b) * s * w, Math.sin(b) * s * w); }
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+  ctx.save(); ctx.globalAlpha = al; ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(x, y, s * .12, 0, TAU); ctx.fill(); ctx.restore();
+}
+/* the swing itself: a fan of afterimage blades sweeping the arc, ray burst off the edge, hairline arcs, star at the tip */
+function holySwingFx(cx, cy, R, a0, a1, q, fin, seed) {
+  wt();
+  const al = 1 - q, span = a1 - a0, n = fin ? 18 : 8;
+  ctx.save(); ctx.lineCap = 'round';
+  ctx.globalAlpha = al * .22; ctx.strokeStyle = COL.deep; ctx.lineWidth = 16; ctx.beginPath(); ctx.arc(cx + 2, cy + 3, R * .95, a0, a1); ctx.stroke();
+  ctx.restore();
+  for (let i = 0; i < n; i++) {
+    const f = n === 1 ? 1 : i / (n - 1), ang = a0 + span * f, lead = fin ? 1 : .2 + .8 * f;
+    const len = R * (1.02 + (fin ? .12 * Math.sin(i * 1.7) : .14 * f));
+    ghostBlade(cx, cy, ang, R * .3, len, (fin ? 6 : 4 + 4 * f) * (1 - q * .4), al * lead * (fin ? .8 : .85));
+  }
+  ctx.save(); ctx.lineCap = 'round'; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 22 * K;
+  ctx.globalAlpha = al; ctx.strokeStyle = COL.white; ctx.lineWidth = 4 * al + 1; ctx.beginPath(); ctx.arc(cx, cy, R, a0, a1); ctx.stroke();
+  ctx.globalAlpha = al * .9; ctx.strokeStyle = GOLD; ctx.lineWidth = 1.6;
+  ctx.beginPath(); ctx.arc(cx, cy, R + 9, a0 + span * .1, a1); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, R * .62, a0 + span * .3, a1); ctx.stroke();
+  ctx.restore();
+  const rays = fin ? 14 : 6;
+  for (let k = 0; k < rays; k++) {
+    const f = hash1(seed + k), ang = a0 + span * (fin ? k / rays : .25 + .75 * f), r0 = R * (1.05 + hash1(seed + k + 9) * .1), L = (30 + hash1(seed + k + 3) * 50) * (fin ? 1.6 : 1) * (.4 + q);
+    holyStreak(cx + Math.cos(ang) * (r0 + L / 2), cy + Math.sin(ang) * (r0 + L / 2), ang, L, 3.2 * al + .6, al * .9);
+  }
+  if (!fin) starburst(cx + Math.cos(a1) * R, cy + Math.sin(a1) * R, 22 * al + 8, al, seed);
+  else starburst(cx, cy, 70 * al + 20, al, seed + q);
+  wt();
+}
+/* long rays thrown out by the spinning finisher */
+function addRays(x, y, R, n) { const t0 = performance.now(), off = rnd(TAU); for (let k = 0; k < n; k++) (G.hrays = G.hrays || []).push({ x, y, a: off + k / n * TAU + rnd(-.08, .08), R, L: R * rnd(1.6, 2.6), t0, w: rnd(5, 9) }); }
+function drawRays() {
+  if (!G.hrays || !G.hrays.length) return;
+  const now = performance.now();
+  G.hrays = G.hrays.filter(r => now - r.t0 < 380);
+  for (const r of G.hrays) {
+    const q = (now - r.t0) / 380, d = r.R * .6 + r.L * Math.min(1, q * 2.4) * .5, L = r.L * (1 - q * .5);
+    holyStreak(r.x + Math.cos(r.a) * (d + L / 2), r.y + Math.sin(r.a) * (d + L / 2), r.a, L, r.w * (1 - q), 1 - q);
+  }
+}
+/* sparks peeling off a swing */
+function swingSparks(a0, a1, R, n) {
+  for (let i = 0; i < n; i++) {
+    const ang = a0 + (a1 - a0) * Math.random(), r = R * rnd(.7, 1.05), sp = rnd(160, 420), tang = ang + (a1 > a0 ? 1 : -1) * Math.PI / 2;
+    PT.push({ x: P.x + Math.cos(ang) * r, y: P.y + Math.sin(ang) * r, vx: Math.cos(tang) * sp * .6 + Math.cos(ang) * sp, vy: Math.sin(tang) * sp * .6 + Math.sin(ang) * sp, life: rnd(.3, .6), max: .6, s: rnd(2, 4.5), c: i % 3 ? GOLD : COL.white, dead: false });
+  }
 }
 
 /* ================= canvas & camera ================= */
@@ -4263,6 +4504,8 @@ function drawEnemies() {
     if (e.dead) continue;
     if (e.type === 'unknown') { drawUnknown(e); continue; }
     if (e.type === 'limb') { drawLimb(e); continue; }
+    if (e.type === 'skyshard') { drawShard(e); continue; }
+    if (e.type === 'scribbler') { drawScribBall(e); continue; }
     const S = SPR[e.type];
     if (!S || !onScreen(e.x, e.y, S.size * e.scl)) continue;
     if (e.hidden) { const k = clamp(1 - (e.leap || 0) / 1.5, 0, 1); ctx.globalAlpha = .5 + k * .5; spr(SP.shadow, e.x, e.y + e.r * .3, e.r * (1.4 + k * 1.4), e.r * (.5 + k * .5)); ctx.globalAlpha = 1; continue; }
@@ -4978,13 +5221,13 @@ function drawDeepHazards() {
         else { const f = 1 - (h.t - h.warn) / .45; ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .7 * f; ctx.fillStyle = COL.yellow; ctx.fill(); ctx.restore(); ctx.globalAlpha = .6 * f; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, ARENA_R * (1 - f * .5), a, a + SECT); ctx.closePath(); ctx.fill(); }
       }
     } else if (h.k === 'bloom') {
-      ctx.beginPath(); ctx.arc(0, 0, ARENA_R, 0, TAU);
+      ctx.beginPath(); if (G.u && G.u.stage === 'final') ctx.rect(-RW, -RH, RW * 2, RH * 2); else ctx.arc(0, 0, ARENA_R, 0, TAU);
       for (const sf of h.safes) { ctx.moveTo(sf.x + sf.r, sf.y); ctx.arc(sf.x, sf.y, sf.r, 0, TAU, true); }
-      if (!live) { ctx.globalAlpha = .1 + p * .3 + Math.sin(now * 14) * .06; ctx.fillStyle = COL.pink; ctx.fill('evenodd'); }
-      else { const f = 1 - (h.t - h.warn) / .5; ctx.globalAlpha = .75 * f; ctx.fillStyle = COL.pink; ctx.fill('evenodd'); }
+      if (!live) { ctx.globalAlpha = .1 + p * .3 + Math.sin(now * 14) * .06; ctx.fillStyle = h.gold ? '#5a0f2a' : COL.pink; ctx.fill('evenodd'); }
+      else { const f = 1 - (h.t - h.warn) / .5; ctx.globalAlpha = .75 * f; ctx.fillStyle = h.gold ? '#FFF4D0' : COL.pink; ctx.fill('evenodd'); }
       for (const sf of h.safes) {
         ctx.globalAlpha = .35; ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(sf.x, sf.y, sf.r, 0, TAU); ctx.fill();
-        ctx.globalAlpha = .95; ctx.strokeStyle = COL.teal; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(sf.x, sf.y, sf.r, now * 2, now * 2 + TAU * .85); ctx.stroke();
+        ctx.globalAlpha = .95; ctx.strokeStyle = h.gold ? GOLD : COL.teal; ctx.lineWidth = h.gold ? 6 : 4; ctx.beginPath(); ctx.arc(sf.x, sf.y, sf.r, now * 2, now * 2 + TAU * .85); ctx.stroke();
         for (let k = 0; k < 6; k++) { const a = k / 6 * TAU + now; ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.ellipse(sf.x + Math.cos(a) * sf.r * .45, sf.y + Math.sin(a) * sf.r * .45, 7, 4, a, 0, TAU); ctx.fill(); }
       }
     } else if (h.k === 'line' && h.thorn && live) {

@@ -14,17 +14,18 @@ function swordSwing(w, S, a) {
     if (d - e.r > R) continue;
     if (!finisher && angDiff(Math.atan2(dy, dx), a) > arc / 2 + Math.asin(Math.min(1, e.r / d))) continue;
     hurtEnemy(e, dmg, dx / d * 320, dy / d * 320);
-    if (w.evo) { addGlint(e.x + rnd(-e.r, e.r) * .5, e.y + rnd(-e.r, e.r) * .5, finisher ? 1.6 : 1); for (let k = 0; k < 4; k++) PT.push({ x: e.x, y: e.y, vx: rnd(-160, 160), vy: rnd(-260, -60), life: .7, max: .7, s: rnd(2, 4), c: k % 2 ? GOLD : COL.white, dead: false }); }
+    if (w.evo) { addCut(e.x + rnd(-e.r, e.r) * .4, e.y + rnd(-e.r, e.r) * .4); if (finisher) addGlint(e.x, e.y, 1.4); for (let k = 0; k < 4; k++) PT.push({ x: e.x, y: e.y, vx: rnd(-160, 160), vy: rnd(-260, -60), life: .7, max: .7, s: rnd(2, 4), c: k % 2 ? GOLD : COL.white, dead: false }); }
   }
   if (S.wave) {
     const n = finisher ? 8 : 1;
     for (let i = 0; i < n; i++) { const aa = finisher ? a + i / n * TAU : a; PR.push({ kind: 'crescent', x: P.x + Math.cos(aa) * 40, y: P.y + Math.sin(aa) * 40, vx: Math.cos(aa) * 660, vy: Math.sin(aa) * 660, a: aa, r: finisher ? 30 : 38, dmg: S.dmg * (finisher ? .45 : .6), pierce: 99, life: finisher ? .7 : .95, hitset: new Set(), boom: 0, bdmg: 0, size: 1, t: 0, dead: false }); }
   }
   (G.slashes = G.slashes || []).push({ a, R, arc, t0: now, h: !!w.evo, side, fin: finisher });
+  if (w.evo) { swingSparks(a - arc / 2, a + arc / 2, R * .82, finisher ? 26 : 10); if (finisher) addRays(P.x, P.y, R, 16); }
   w.swing = { a0: finisher ? a : a - arc / 2 * side, a1: finisher ? a + TAU : a + arc / 2 * side, t0: now, dur: finisher ? 220 : 120 };
   w.lastA = a;
   if (finisher) {
-    if (w.evo) { ringFx(P.x, P.y, R * 1.15, GOLD, .35, 10); ringFx(P.x, P.y, R * .7, COL.white, .3, 5); G.flash = Math.max(G.flash, .18); pulseScreen(.6); }
+    if (w.evo) { ringFx(P.x, P.y, R * 1.15, GOLD, .35, 10); ringFx(P.x, P.y, R * .7, COL.white, .3, 5); ringFx(P.x, P.y, R * 1.6, GOLD, .5, 4); G.flash = Math.max(G.flash, .28); pulseScreen(.9); }
     else ringFx(P.x, P.y, R, COL.deep, .3, 8);
     shake(w.evo ? 7 : 5); SFX.boom(false);
   }
@@ -79,18 +80,17 @@ function drawHeaven() {
   if (w && w.swing) {
     const sw = w.swing, q = (now - sw.t0) / sw.dur;
     if (q < 1.6) {
-      const L = w.evo ? 74 : 54, steps = 14, upto = Math.min(1, q);
-      ctx.save();
-      for (let i = 0; i < steps; i++) {
-        const f0 = i / steps * upto, f1 = (i + 1) / steps * upto, aA = lerp(sw.a0, sw.a1, f0), aB = lerp(sw.a0, sw.a1, f1);
-        const fade = (1 - Math.max(0, q - 1) / .6) * (.25 + .75 * (i / steps));
-        ctx.globalAlpha = fade * (w.evo ? .8 : .5);
-        ctx.fillStyle = w.evo ? (i % 2 ? GOLD : '#FFE7A0') : COL.deep;
-        ctx.beginPath(); ctx.moveTo(P.x + Math.cos(aA) * 14, P.y + Math.sin(aA) * 14); ctx.lineTo(P.x + Math.cos(aA) * L, P.y + Math.sin(aA) * L); ctx.lineTo(P.x + Math.cos(aB) * L, P.y + Math.sin(aB) * L); ctx.lineTo(P.x + Math.cos(aB) * 14, P.y + Math.sin(aB) * 14); ctx.fill();
+      const L = w.evo ? 74 : 54, upto = Math.min(1, q), fade = 1 - Math.max(0, q - 1) / .6;
+      if (w.evo) { const lo = Math.min(sw.a0, lerp(sw.a0, sw.a1, upto)), hi = Math.max(sw.a0, lerp(sw.a0, sw.a1, upto)); wt(); ctx.save(); ctx.globalAlpha = fade * .8; ctx.strokeStyle = COL.white; ctx.shadowColor = '#FFC93A'; ctx.shadowBlur = 14 * K; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(P.x, P.y, L, lo, hi); ctx.stroke(); ctx.restore(); }
+      else {
+        ctx.save(); ctx.globalAlpha = fade * .5; ctx.strokeStyle = COL.deep; ctx.lineWidth = 3; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.arc(P.x, P.y, L, Math.min(sw.a0, lerp(sw.a0, sw.a1, upto)), Math.max(sw.a0, lerp(sw.a0, sw.a1, upto))); ctx.stroke(); ctx.restore();
       }
-      ctx.restore();
+      wt();
     }
   }
+  drawCuts();
+  drawRays();
   // glints: four-point flares where the light struck
   if (G.glints && G.glints.length) {
     ctx.save(); ctx.lineJoin = 'round';
@@ -163,7 +163,8 @@ function drawEye(e) {
   const ix = cx + clamp((P.x - cx) * .12, -60, 60), iy = cy + clamp((P.y - cy) * .03, -10, 14);
   ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.arc(ix, iy, 44, 0, TAU); ctx.fill();
   ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(ix, iy, 12, 30, 0, 0, TAU); ctx.fill();
-  if (eye.glow > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = eye.glow; ctx.fillStyle = GOLD; ctx.beginPath(); ctx.arc(ix, iy, 50, 0, TAU); ctx.fill(); }
+  if (eye.glow > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = eye.glow; ctx.fillStyle = eye.judge > 0 ? '#FF3B5C' : GOLD; ctx.beginPath(); ctx.arc(ix, iy, 50, 0, TAU); ctx.fill(); }
+  if (eye.hurt > 0) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = Math.min(1, eye.hurt * 1.6); ctx.fillStyle = COL.white; ctx.fillRect(cx - wR, cy - hR, wR * 2, hR * 2); }
   ctx.restore();
   // scribbled lids
   wt(); ctx.lineCap = 'round';
@@ -201,6 +202,8 @@ function finalExtras(e, dt) {
   eye.open = lerp(eye.open, gz ? 1 : .32 + Math.sin(performance.now() / 900) * .05, 1 - Math.exp(-dt * 4));
   eye.glow = gz ? Math.min(1, gz.t / gz.warn) * .7 : Math.max(0, eye.glow - dt * 2);
   if (gz) eye.x = gz.x; else eye.x = lerp(eye.x, P.x * .7, 1 - Math.exp(-dt * 1.2));
+  if (eye.judge > 0) { eye.judge -= dt; eye.open = lerp(eye.open, 1, 1 - Math.exp(-dt * 6)); eye.glow = 1; }
+  if (eye.hurt > 0) eye.hurt -= dt;
   G.camZoom = lerp(G.camZoom || 1, .9, 1 - Math.exp(-dt * 1.5));
   e.said = e.said || {};
   const frac = e.hp / e.maxHp;

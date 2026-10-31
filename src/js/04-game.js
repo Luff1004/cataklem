@@ -197,6 +197,7 @@ function fan(e, a, n, spread, spd, dmg) { for (let i = 0; i < n; i++) fireEB(e.x
 
 function hurtEnemy(e, dmg, kx = 0, ky = 0, quiet) {
   if (e.dead || e.inv > 0 || e.hidden || e.under) return 0;
+  if (e.ai === 'shard') { shardStruck(e); return 0; }
   const crit = Math.random() < P.crit;
   let d = dmg * P.might * (crit ? P.critMul : 1) * rnd(.92, 1.08);
   if (e.limbOf) {
@@ -252,6 +253,7 @@ function killEnemy(e) {
   burst(e.x, e.y, e.elite ? 16 : 6, COL.ink, e.elite ? 230 : 140);
   if (Math.random() < .45) burst(e.x, e.y, 2, COL.pink, 110);
   SFX.kill();
+  if (e.type === 'scribbler') { HZ.push({ k: 'pool', x: e.x, y: e.y, r: 60, warn: .4, dur: 4, dmg: 10, t: 0, dead: false, scrib: 1 }); burst(e.x, e.y, 14, COL.deep, 240); }
   if (e.type === 'splitter') for (let k = 0; k < 2; k++) { const m = spawnEnemy('mini', e.x + rnd(-8, 8), e.y + rnd(-8, 8)); m.kx = rnd(-140, 140); m.ky = rnd(-140, 140); }
   if (e.type === 'bomber') bomberBlast(e, true);
 }
@@ -599,6 +601,7 @@ function updateEnemies(dt) {
     const e = E[i]; if (e.dead) continue;
     e.t += dt; if (e.flash > 0) e.flash -= dt;
     if (e.ai === 'limb') { e.life -= dt; if (e.life <= 0) { e.dead = true; continue; } }
+    if (e.ai === 'shard') { updateShard(e, dt); continue; }
     const dx = P.x - e.x, dy = P.y - e.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
     let mvx = 0, mvy = 0;
     if (e.arena || e.ai === 'echo' || e.ai === 'sat') { const m = arenaAI(e, dt, ux, uy, dist); mvx = m[0]; mvy = m[1]; }

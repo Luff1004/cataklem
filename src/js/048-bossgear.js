@@ -1,5 +1,5 @@
 /* ================= gear that only exists past the portals ================= */
-const RW = 620, RH = 215;
+let RW = 620; const RH = 215;
 function later2(t, fn) { G.later.push({ t, fn }); }
 
 Object.assign(WEAPONS, {
@@ -153,7 +153,14 @@ function drawBossGear() {
     if (w.id === 'scrib_sword') {
       const sw = w.swing, sq = sw ? (performance.now() - sw.t0) / sw.dur : 9, a = sq < 1 ? lerp(sw.a0, sw.a1, sq) : (w.lastA ?? (P.face > 0 ? -.6 : Math.PI + .6)), b0x = P.x + Math.cos(a) * 12, b0y = P.y + Math.sin(a) * 12, L = w.evo ? 62 : 48;
       const b1x = b0x + Math.cos(a) * L, b1y = b0y + Math.sin(a) * L;
-      if (w.evo) { glowLine(b0x, b0y, b1x, b1y, 22, COL.yellow, .55); glowLine(b0x, b0y, b1x, b1y, 10, COL.white, .8); ctx.strokeStyle = COL.white; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(b0x, b0y); ctx.lineTo(b1x, b1y); ctx.stroke(); }
+      if (w.evo) {
+        const t = now / 1000, ca = Math.cos(a), sa = Math.sin(a), Lb = L + 10, pl = .6 + Math.sin(t * 5) * .25;
+        glowLine(b0x, b0y, b0x + ca * Lb, b0y + sa * Lb, 26, GOLD, .22 * pl); wt();
+        glowLine(b0x + ca * Lb, b0y + sa * Lb, b0x + ca * (Lb + 34 + pl * 16), b0y + sa * (Lb + 34 + pl * 16), 4, COL.white, .55 * pl); wt();
+        holySword(b0x, b0y, a, Lb);
+        for (let k = 0; k < 3; k++) { const f = (t * 1.3 + k / 3) % 1, al = Math.sin(f * Math.PI); flare(b0x + ca * Lb * (.25 + f * .7) + -sa * (k - 1) * 5, b0y + sa * Lb * (.25 + f * .7) + ca * (k - 1) * 5, 3 + al * 3, al); }
+        if (Math.random() < .35) PT.push({ x: b0x + ca * Lb * rnd(.3, 1), y: b0y + sa * Lb * rnd(.3, 1), vx: rnd(-30, 30), vy: rnd(-90, -30), life: .5, max: .5, s: rnd(1.5, 3), c: Math.random() < .5 ? GOLD : COL.white, dead: false });
+      }
       else scribLine(b0x, b0y, b1x, b1y, 6, 4);
       wt();
     }
@@ -164,13 +171,8 @@ function drawBossGear() {
     for (const s of G.slashes) {
       const q = (now - s.t0) / 320, a0 = s.a - s.arc / 2, a1 = s.a - s.arc / 2 + s.arc * Math.min(1, q * 3), lw = s.R * .38 * (1 - q);
       if (s.h) {
-        const al = 1 - q;
-        ctx.globalAlpha = .85 * al; ctx.strokeStyle = COL.deep; ctx.lineWidth = lw * 1.25 + 5; ctx.beginPath(); ctx.arc(P.x + 3, P.y + 3, s.R * .78, a0, a1); ctx.stroke();
-        ctx.globalAlpha = al; ctx.strokeStyle = GOLD; ctx.lineWidth = lw * 1.25; ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .78, a0, a1); ctx.stroke();
-        ctx.strokeStyle = COL.pink; ctx.lineWidth = Math.max(2, lw * .22); ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .66, a0, a1); ctx.stroke();
-        ctx.strokeStyle = COL.white; ctx.lineWidth = Math.max(2, lw * .3); ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .86, a0, a1); ctx.stroke();
-        ctx.fillStyle = COL.white; for (let k = 0; k < 6; k++) { const aa = a0 + (a1 - a0) * Math.random(), rr = s.R * (.6 + Math.random() * .35); ctx.fillRect(P.x + Math.cos(aa) * rr - 2, P.y + Math.sin(aa) * rr - 2, 4, 4); }
-        ctx.globalAlpha = 1;
+        holySwingFx(P.x, P.y, s.R * .82, a0, a1, q, s.fin, s.t0 % 997);
+        wt();
       } else {
         for (let k = 0; k < 4; k++) {
           ctx.globalAlpha = (k === 3 ? .5 : .85) * (1 - q); ctx.strokeStyle = k === 3 ? COL.pink : COL.deep; ctx.lineWidth = lw * (k === 0 ? 1 : .4);
@@ -188,12 +190,14 @@ function drawBossGear() {
     if (p.kind === 'lance') { const ca = Math.cos(p.a), sa = Math.sin(p.a); strokeRiso(4, () => { ctx.beginPath(); ctx.moveTo(p.x - ca * 46, p.y - sa * 46); ctx.lineTo(p.x, p.y); }, COL.ink, COL.pink); ctx.fillStyle = COL.yellow; ctx.beginPath(); ctx.moveTo(p.x + ca * 12, p.y + sa * 12); ctx.lineTo(p.x - sa * 6, p.y + ca * 6); ctx.lineTo(p.x + sa * 6, p.y - ca * 6); ctx.fill(); }
     else if (p.kind === 'comet') { glowLine(p.x - p.vx * .08, p.y - p.vy * .08, p.x, p.y, 16, COL.pink, .5); ctx.fillStyle = COL.yellow; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, TAU); ctx.fill(); ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, TAU); ctx.fill(); }
     else if (p.kind === 'crescent') {
-      const cx = p.x - Math.cos(p.a) * 30, cy = p.y - Math.sin(p.a) * 30, al = Math.min(1, p.life * 2.5);
-      ctx.globalAlpha = al * .85; ctx.strokeStyle = COL.deep; ctx.lineWidth = 17; ctx.beginPath(); ctx.arc(cx + 3, cy + 3, 38, p.a - 1.1, p.a + 1.1); ctx.stroke();
-      ctx.globalAlpha = al; ctx.strokeStyle = GOLD; ctx.lineWidth = 13; ctx.beginPath(); ctx.arc(cx, cy, 38, p.a - 1.1, p.a + 1.1); ctx.stroke();
-      ctx.strokeStyle = COL.white; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(cx, cy, 41, p.a - .9, p.a + .9); ctx.stroke();
-      ctx.globalAlpha = al * .35; ctx.strokeStyle = GOLD; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(cx - p.vx * .04, cy - p.vy * .04, 36, p.a - 1, p.a + 1); ctx.stroke();
+      const al = Math.min(1, p.life * 2.5), ca = Math.cos(p.a), sa = Math.sin(p.a);
+      for (let k = 1; k <= 3; k++) { wt(); ctx.globalAlpha = al * (.5 - k * .12); ctx.strokeStyle = k % 2 ? COL.white : GOLD; ctx.lineWidth = 2; ctx.beginPath(); const off = (k - 2) * 14; ctx.moveTo(p.x - sa * off - ca * 10, p.y + ca * off - sa * 10); ctx.lineTo(p.x - sa * off - ca * (40 + k * 18), p.y + ca * off - sa * (40 + k * 18)); ctx.stroke(); }
       ctx.globalAlpha = 1;
+      glowLine(p.x - ca * 120, p.y - sa * 120, p.x, p.y, 14, GOLD, .3 * al); wt();
+      for (let k = 1; k <= 4; k++) { const bx = p.x - ca * k * 26, by = p.y - sa * k * 26; flare(bx, by, (5 - k) * 1.6 + Math.sin(p.t * 40 + k) * 1.2, al * (1 - k * .2)); }
+      holyStreak(p.x, p.y, p.a + Math.PI / 2, 104, 12, al);
+      holyStreak(p.x + ca * 4, p.y + sa * 4, p.a, 40, 6, al * .9);
+      starburst(p.x, p.y, 16 + Math.sin(p.t * 30) * 3, al, p.t * 3); wt();
     }
   }
   // sigils
@@ -309,9 +313,11 @@ function uFinal(e, dt) {
   e.x = lerp(e.x, P.x * .5, 1 - Math.exp(-dt * .8)); e.y = lerp(e.y, -RH - 470, 1 - Math.exp(-dt * 2));
   if (e.hp <= e.hpFloor + .5 && G.uPhaseT >= U_MIN[7]) { startFinisher(e); return Z0; }
   const lvl = G.uPhaseT > 160 ? 2 : G.uPhaseT > 80 ? 1 : 0;
-  if (lvl > (e.esc || 0)) { e.esc = lvl; banner(lvl === 1 ? '하늘이 무너진다' : '마지막 빛', lvl === 1 ? '더 많이, 더 빨리 떨어진다' : '버텨라. 거의 다 왔다', 'warn'); SFX.roar(); pulseScreen(1.6); shake(14); AU.uPhase = 7 + lvl; }
+  RW = lerp(RW, 620 - lvl * 95, 1 - Math.exp(-dt * .9));
+  if (lvl > (e.esc || 0)) { e.esc = lvl; banner(lvl === 1 ? '하늘이 무너진다' : '마지막 빛', lvl === 1 ? '벽이 좁혀 온다' : '버텨라. 거의 다 왔다', 'warn'); SFX.roar(); pulseScreen(1.6); shake(14); AU.uPhase = 7 + lvl; }
   if (e.busy <= 0 && e.cd <= 0) {
-    const k = pickAtk(e, { meteor: 3, slam: 3.8, sweep: 2, scrawl: 1.3, gaze: 2.4, grab: lvl >= 1 ? 2.2 : 1.2 });
+    const judging = HZ.some(h => h.gold && !h.dead);
+    const k = pickAtk(e, { meteor: 2.6, slam: 3.4, sweep: 1.8, scrawl: 1.1, gaze: 2.2, grab: lvl >= 1 ? 2 : 1, shards: 2.4, judgment: lvl >= 1 && !judging ? 1.7 : 0, clones: lvl >= 1 ? 1.4 : .6 });
     if (k === 'meteor') {
       for (let i = 0; i < 7 + lvl * 2; i++) {
         const near = i < 2, x = near ? clamp(P.x + rnd(-90, 90), -RW + 50, RW - 50) : clamp(P.x + rnd(-420, 420), -RW + 50, RW - 50), y = near ? clamp(P.y + rnd(-60, 60), -RH + 40, RH - 40) : rnd(-RH + 40, RH - 40);
@@ -329,6 +335,11 @@ function uFinal(e, dt) {
       HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 240, w: 50, gap: -clamp(P.x + rnd(-220, 220), -RW + 110, RW - 110), gw: 160, dmg: 24, warn: .8, t: 0, dead: false });
       if (lvl >= 1) later(e, 1.1, () => HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 260, w: 50, gap: -clamp(P.x + rnd(-200, 200), -RW + 110, RW - 110), gw: 150, dmg: 24, warn: .7, t: 0, dead: false }));
       SFX.wave(); e.busy = 2.2 + lvl * .6; e.cd = .5 - lvl * .12;
+    } else if (k === 'shards') { shardRain(e, 4 + lvl * 2); banner('하늘 조각', '베어서 눈으로 되돌려라', 'good'); e.busy = 1.8 + lvl * .7; e.cd = .5;
+    } else if (k === 'judgment') { judgment(e, lvl); e.busy = 3.4; e.cd = .5;
+    } else if (k === 'clones') {
+      for (let i = 0; i < 3 + lvl; i++) { const sd = i % 2 ? 1 : -1; spawnArenaAdd('scribbler', sd * (RW - 30), rnd(-RH + 40, RH - 40), 520); }
+      SFX.scratch(); e.busy = 1.2; e.cd = .5;
     } else if (k === 'gaze') {
       HZ.push({ k: 'ray', x: G.eye ? G.eye.x : P.x, y: -RH - 150, a: Math.PI / 2, va: 0, len: RH * 2 + 200, w: 54, warn: 1.1, dur: 2.4 + lvl * .4, dmg: 26, t: 0, dead: false, gaze: 1 });
       banner('응시', '눈을 피해 옆으로', 'warn'); e.busy = 3.6 + lvl * .4; e.cd = .4;

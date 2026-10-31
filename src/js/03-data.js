@@ -321,6 +321,7 @@ const ENEMY = {
   brute: { r: 22, hp: 58, spd: 36, dmg: 14, xp: 6, ai: 'chase', kb: .75 },
   echo: { r: 20, hp: 700, spd: 0, dmg: 10, xp: 0, ai: 'echo', kb: 1 },
   sat: { r: 16, hp: 900, spd: 0, dmg: 12, xp: 0, ai: 'sat', kb: 1 },
+  scribbler: { r: 15, hp: 500, spd: 125, dmg: 14, xp: 0, ai: 'chase', kb: .2 },
   sprout: { r: 18, hp: 800, spd: 0, dmg: 10, xp: 0, ai: 'turret', kb: 1 },
 };
 const BOSS = {

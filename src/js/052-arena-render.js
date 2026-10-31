@@ -493,13 +493,13 @@ function drawDeepHazards() {
         else { const f = 1 - (h.t - h.warn) / .45; ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .7 * f; ctx.fillStyle = COL.yellow; ctx.fill(); ctx.restore(); ctx.globalAlpha = .6 * f; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, ARENA_R * (1 - f * .5), a, a + SECT); ctx.closePath(); ctx.fill(); }
       }
     } else if (h.k === 'bloom') {
-      ctx.beginPath(); ctx.arc(0, 0, ARENA_R, 0, TAU);
+      ctx.beginPath(); if (G.u && G.u.stage === 'final') ctx.rect(-RW, -RH, RW * 2, RH * 2); else ctx.arc(0, 0, ARENA_R, 0, TAU);
       for (const sf of h.safes) { ctx.moveTo(sf.x + sf.r, sf.y); ctx.arc(sf.x, sf.y, sf.r, 0, TAU, true); }
-      if (!live) { ctx.globalAlpha = .1 + p * .3 + Math.sin(now * 14) * .06; ctx.fillStyle = COL.pink; ctx.fill('evenodd'); }
-      else { const f = 1 - (h.t - h.warn) / .5; ctx.globalAlpha = .75 * f; ctx.fillStyle = COL.pink; ctx.fill('evenodd'); }
+      if (!live) { ctx.globalAlpha = .1 + p * .3 + Math.sin(now * 14) * .06; ctx.fillStyle = h.gold ? '#5a0f2a' : COL.pink; ctx.fill('evenodd'); }
+      else { const f = 1 - (h.t - h.warn) / .5; ctx.globalAlpha = .75 * f; ctx.fillStyle = h.gold ? '#FFF4D0' : COL.pink; ctx.fill('evenodd'); }
       for (const sf of h.safes) {
         ctx.globalAlpha = .35; ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(sf.x, sf.y, sf.r, 0, TAU); ctx.fill();
-        ctx.globalAlpha = .95; ctx.strokeStyle = COL.teal; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(sf.x, sf.y, sf.r, now * 2, now * 2 + TAU * .85); ctx.stroke();
+        ctx.globalAlpha = .95; ctx.strokeStyle = h.gold ? GOLD : COL.teal; ctx.lineWidth = h.gold ? 6 : 4; ctx.beginPath(); ctx.arc(sf.x, sf.y, sf.r, now * 2, now * 2 + TAU * .85); ctx.stroke();
         for (let k = 0; k < 6; k++) { const a = k / 6 * TAU + now; ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.ellipse(sf.x + Math.cos(a) * sf.r * .45, sf.y + Math.sin(a) * sf.r * .45, 7, 4, a, 0, TAU); ctx.fill(); }
       }
     } else if (h.k === 'line' && h.thorn && live) {

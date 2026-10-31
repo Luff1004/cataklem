@@ -49,7 +49,7 @@ function setupBossRun(id) {
   G.mode = 'boss'; G.gate = gate; G.rf = RIFT[1]; G.draftLeft = G.draftMax = id === 'unknown' ? 5 : 4; G.u = id === 'unknown' ? freshU() : null; G.sprint = 1; G.heartT = 20; G.rodT = 2.5; G.enraged = false;
   G.ultNeed = 150; G.rerolls = 2 + (SAVE.shop.reroll || 0);
   G.rel.hp = 60;
-  G.weapons = []; G.buildDirty = true;
+  G.weapons = []; G.buildDirty = true; RW = 620;
   if (id === 'unknown') { G.rel.hp = 160; G.rel.spdFlat = 100; G.draftLeft = G.draftMax = 1; }
   P.x = 0; P.y = 230; G.camX = 0; G.camY = 200;
   for (const w of G.weapons) w.lv = 3;
