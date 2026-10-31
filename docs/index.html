@@ -270,8 +270,11 @@ body.story .rotate{display:none!important}
 i.coin{display:inline-block;width:13px;height:13px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);vertical-align:-2px}
 .stbody{display:flex;flex-direction:column;gap:14px}
 .smb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-body.story #hud .xp,body.story #hud .hrow,body.story #hud .slots,body.story #hud .combo,body.story #hud .ult,body.story #hud .dashb,body.story #hud .hint{display:none!important}
-body.story #hud .bossbar{top:calc(var(--st) + 86px)}
+body.story #hud:not(.arena) .xp,body.story #hud:not(.arena) .hrow,body.story #hud:not(.arena) .slots,body.story #hud:not(.arena) .combo,body.story #hud:not(.arena) .ult,body.story #hud:not(.arena) .dashb,body.story #hud:not(.arena) .hint{display:none!important}
+body.story #hud:not(.arena) .bossbar{top:calc(var(--st) + 86px)}
+body.story #hud:not(.arena) .banner{left:50%;right:auto;top:calc(var(--st) + 104px);transform:translateX(-50%) skewY(-2deg);width:max-content;max-width:calc(100vw - 32px);font-size:19px;padding:7px 16px 8px;box-shadow:0 4px 0 var(--pink);border-radius:2px;animation-duration:2.2s}
+body.story #hud:not(.arena) .banner.warn,body.story #hud:not(.arena) .banner.good{box-shadow:0 4px 0 var(--ink)}
+body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
 #sHud{position:fixed;inset:0;z-index:11;pointer-events:none}
 .s-top{position:absolute;left:var(--sl);right:var(--sr);top:calc(var(--st) + 10px);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .s-hp{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;row-gap:4px;align-items:center;width:min(250px,56vw);background:rgba(228,229,223,.92);border:2.5px solid var(--ink);border-radius:3px;padding:6px 8px;box-shadow:3px 3px 0 var(--ink)}
@@ -306,7 +309,8 @@ body.story #hud .bossbar{top:calc(var(--st) + 86px)}
   .s-act{width:78px;height:78px}
   .s-obj{top:calc(var(--st) + 10px);left:50%;transform:translateX(-50%);max-width:40vw;text-align:center}
   .d-box{width:min(720px,80vw)}
-  body.story #hud .bossbar{top:calc(var(--st) + 50px)}
+  body.story #hud:not(.arena) .bossbar{top:calc(var(--st) + 50px)}
+  body.story #hud:not(.arena) .banner{top:calc(var(--st) + 58px)}
 }
 /* ---------- workshop tabs and portals ---------- */
 .tabs{position:relative;display:grid;grid-template-columns:1fr 1fr;border:2.5px solid var(--ink);border-radius:3px;overflow:hidden}
