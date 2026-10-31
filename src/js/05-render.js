@@ -85,6 +85,7 @@ function render(rdt) {
   drawProjectiles();
   drawIntroFx();
   drawBossGear();
+  drawBossGear2();
   if (G.mode === 'story') drawStoryOver();
   drawHeaven();
 

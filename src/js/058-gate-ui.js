@@ -21,7 +21,7 @@ function renderPortals() {
       '<div class="pimg"><i></i><img alt="" src="' + ICON['g_' + g.id] + '">' + (g.id === 'twins' ? '<img class="b2" alt="" src="' + ICON.g_twinsB + '">' : '') + '</div>' +
       '<div class="ptx"><span class="eyebrow">' + esc(g.ord) + (kills ? ' · 격파 ' + kills + '회' : '') + '</span><b>' + (open ? esc(g.name) : '???') + '</b>' +
       '<p>' + (open ? esc(g.sub) + '. ' + esc(g.line) : esc(josa(GATES[i - 1].name, '을', '를')) + ' 쓰러뜨리면 문의 위치가 보인다.') + '</p>' +
-      (open ? '<div class="prow">' + req + btn + '</div><span class="rew">' + (kills ? '다시 잡으면 파편 ' + Math.round(g.reward * .4) + ', ' + esc(CORE_NAME[g.id]) : '첫 격파: 파편 ' + g.reward + ', ' + esc(CORE_NAME[g.id]) + ', 직업 <b>' + esc(cls.name) + '</b>') + '</span>' : '') +
+      (open ? '<div class="prow">' + req + btn + '</div><span class="rew">' + (kills ? '다시 잡으면 파편 ' + Math.round(g.reward * .4) + ', ' + esc(CORE_NAME[g.id]) : '첫 격파: 파편 ' + g.reward + ', ' + esc(CORE_NAME[g.id]) + ', 직업 <b>' + esc(cls.name) + '</b>' + (gearFrom(g.id).length ? ', 장비 <b>' + esc(gearFrom(g.id).join(', ')) + '</b>' : '')) + '</span>' : '') +
       (LOCAL && open ? '<div class="acts"><span>막 골라 시작</span>' + Array.from({ length: g.id === 'unknown' ? 7 : 3 }, (_, k) => '<button data-act="' + (k + 1) + '">' + (k + 1) + '막</button>').join('') + '</div>' : '') +
       '<div class="forge"><i></i></div></div>';
     const cb = card.querySelector('[data-craft]');
@@ -132,6 +132,7 @@ function endBossRun(win) {
   const cls = CHARS[g.cls];
   let rew = '<div class="earn"><div><span class="eyebrow">받은 파편</span><small>' + (win ? (first ? '첫 격파 보상' : '다시 잡은 보상') : '남긴 상처만큼') + '</small></div><span class="v"><i class="shard"></i><b id="earnN">0</b></span></div>';
   if (win) rew += '<div class="loot2"><img alt="" src="' + ICON.core + '"><div><span class="eyebrow">제작 재료</span><b>' + esc(CORE_NAME[g.id]) + ' +1</b><p>' + (GATES[GATES.indexOf(g) + 1] ? '다음 포탈, ' + esc(GATES[GATES.indexOf(g) + 1].ord) + '을 만드는 데 쓴다.' : '모든 문을 닫았다. 모아 두면 언젠가 쓸 데가 생긴다.') + '</p></div></div>';
+  if (first && gearFrom(g.id).length) rew += '<div class="loot2"><img alt="" src="' + ICON[[...Object.keys(WEAPONS), ...Object.keys(PASSIVES)].find(k => (WEAPONS[k] || PASSIVES[k]).unlock === g.id)] + '"><div><span class="eyebrow">새 보스 장비</span><b>' + esc(gearFrom(g.id).join(', ')) + '</b><p>이제부터 문 안에서 고를 수 있다.</p></div></div>';
   if (first) rew += '<div class="loot2 cls"><img alt="" src="' + ICON['p_' + g.cls] + '"><div><span class="eyebrow">보스 한정 직업 합류</span><b>' + esc(cls.name) + '</b><p>' + esc(cls.desc) + ' ' + esc(cls.tag) + '.</p></div></div>';
   $('resBody').innerHTML =
     '<div><span class="eyebrow">' + esc(g.ord) + ' · ' + esc(g.name) + '</span>' +

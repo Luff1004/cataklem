@@ -203,7 +203,7 @@ function hurtEnemy(e, dmg, kx = 0, ky = 0, quiet) {
   if (e.dead || e.inv > 0 || e.hidden || e.under) return 0;
   if (e.ai === 'shard') { shardStruck(e); return 0; }
   const crit = Math.random() < P.crit;
-  let d = dmg * P.might * (crit ? P.critMul : 1) * rnd(.92, 1.08);
+  let d = dmg * P.might * (crit ? P.critMul : 1) * rnd(.92, 1.08) * gearDmg();
   if (e.limbOf) {
     const b = e.limbOf;
     d *= .31;
@@ -308,7 +308,7 @@ function meteorImpact(x, y, r, dmg, burn, big) {
 function hurtPlayer(d, force) {
   if ((!force && P.inv > 0) || STATE !== 'play' || G.god) return;
   d *= G.rf.dmg * P.armorMul * (1 + G.rel.taken) * (G.enraged ? 1.5 : 1);
-  P.hp -= d; P.inv = .6;
+  P.hp -= d; P.inv = .6; gearHurt();
   if (P.hp <= 0 && G.rel.undying) { G.rel.undying = 0; P.hp = 1; P.inv = 1.6; G.flash = .5; banner('불사', '한 번 버텼다', 'good'); SFX.heal(); return; } G.hurtFlash = .3; shake(6); SFX.hurt(); buzz(30);
   TX.push({ x: P.x, y: P.y - 20, vy: -40, life: .7, max: .7, v: '-' + Math.round(d), crit: false, me: true, dead: false });
   if (P.hp <= 0) playerDown();
@@ -479,9 +479,9 @@ function rollChoices() {
   const opts = [];
   const bossGear = G.mode === 'boss', wFull = G.weapons.length >= (bossGear ? 3 : 4), pFull = G.passives.length >= 4;
   for (const w of G.weapons) if (!w.evo && w.lv < WEAPONS[w.id].max) opts.push({ k: 'w', id: w.id, w: 1.3 });
-  if (!wFull) for (const id in WEAPONS) if (!G.weapons.some(w => w.id === id) && !!WEAPONS[id].boss === bossGear && !WEAPONS[id].special) opts.push({ k: 'w', id, w: 1, isNew: 1 });
+  if (!wFull) for (const id in WEAPONS) if (!G.weapons.some(w => w.id === id) && !!WEAPONS[id].boss === bossGear && !WEAPONS[id].special && gearOpen(id)) opts.push({ k: 'w', id, w: 1, isNew: 1 });
   for (const p of G.passives) if (p.lv < PASSIVES[p.id].max) opts.push({ k: 'p', id: p.id, w: 1 });
-  if (!pFull) for (const id in PASSIVES) if (!G.passives.some(p => p.id === id) && !!PASSIVES[id].boss === bossGear) {
+  if (!pFull) for (const id in PASSIVES) if (!G.passives.some(p => p.id === id) && !!PASSIVES[id].boss === bossGear && gearOpen(id)) {
     const evoBoost = (EVO_OF[id] || []).some(wid => G.weapons.some(w => w.id === wid && !w.evo)) ? 1.4 : .85;
     opts.push({ k: 'p', id, w: evoBoost, isNew: 1 });
   }
@@ -582,6 +582,7 @@ function step(dt) {
 }
 
 function updatePlayer(dt) {
+  if (G.afterT > 0) G.afterT -= dt;
   let mx = STATE === 'play' ? INPUT.mx : 0, my = STATE === 'play' ? INPUT.my : 0;
   const ml = Math.hypot(mx, my); if (ml > 1) { mx /= ml; my /= ml; }
   const f = 1 - Math.exp(-dt * 16);

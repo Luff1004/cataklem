@@ -712,6 +712,7 @@ function storyGateEnd(win) {
   wipe(() => {
     startStory(win ? { area: g.area, x: g.x, y: g.y } : S.cp);
     if (win) banner(GATES.find(x => x.id === g.id).name, first ? '문을 닫았다' : '다시 닫았다', 'good');
+    if (first && gearFrom(g.id).length) setTimeout(() => banner('새 보스 장비', gearFrom(g.id).join(', '), 'good'), 2600);
     else banner('쓰러졌다', '횃불에서 다시 일어났다', 'warn');
   });
 }

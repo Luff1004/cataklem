@@ -104,7 +104,7 @@ Object.assign(PASSIVES, {
 
 function bossDraftChoices() {
   if (G.gate.id === 'unknown') return [{ k: 'w', id: 'scrib_sword', isNew: 1 }];
-  if (!G.weapons.length) return shuffle(Object.keys(WEAPONS).filter(id => WEAPONS[id].boss && !WEAPONS[id].special)).slice(0, 3).map(id => ({ k: 'w', id, isNew: 1 }));
+  if (!G.weapons.length) return shuffle(Object.keys(WEAPONS).filter(id => WEAPONS[id].boss && !WEAPONS[id].special && gearOpen(id))).slice(0, 3).map(id => ({ k: 'w', id, isNew: 1 }));
   return rollChoices();
 }
 

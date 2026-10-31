@@ -336,4 +336,4 @@ function buildIcons() {
   ICON.chestBoss = SP.chestBoss.toDataURL();
   for (const id of ['lamp', 'warden', 'seer', 'star']) ICON['p_' + id] = SPR['p_' + id].img.toDataURL();
 }
-function buildArt() { buildCreatures(); buildPlayers(); buildProps(); buildTile(); buildVignette(); buildIcons(); buildGateBosses(); buildGateBosses2(); buildUnknownArt(); buildMorePlayers(); buildMorePlayers2(); buildMoreKit(); buildBossGearArt(); buildMapArt(); buildMapBossArt(); buildStoryArt(); }
+function buildArt() { buildCreatures(); buildPlayers(); buildProps(); buildTile(); buildVignette(); buildIcons(); buildGateBosses(); buildGateBosses2(); buildUnknownArt(); buildMorePlayers(); buildMorePlayers2(); buildMoreKit(); buildBossGearArt(); buildBossGear2Art(); buildMapArt(); buildMapBossArt(); buildStoryArt(); }
