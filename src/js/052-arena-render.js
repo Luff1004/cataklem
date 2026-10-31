@@ -167,9 +167,9 @@ function drawHazards() {
       ctx.globalAlpha = .8; ctx.fillStyle = COL.yellow;
       for (const s of [-1, 1]) { const a = g + s * half; ctx.beginPath(); ctx.arc(h.x + Math.cos(a) * h.r, h.y + Math.sin(a) * h.r, h.w * .35, 0, TAU); ctx.fill(); }
     } else if (h.k === 'band') {
-      const R = G.u && G.u.stage === 'final' ? RW + 20 : ARENA_R + 10, tx = -h.ny, ty = h.nx;
+      const R = G.u && G.u.stage === 'final' ? (Math.abs(h.ny) > .5 ? RW : RH) + 20 : ARENA_R + 10, tx = -h.ny, ty = h.nx;
       if (!live) {
-        const d0 = G.u && G.u.stage === 'final' ? -RH + 16 : -ARENA_R + 26;
+        const d0 = G.u && G.u.stage === 'final' ? -(Math.abs(h.nx) > .5 ? RW : RH) + 16 : -ARENA_R + 26;
         ctx.globalAlpha = .55 + Math.sin(now * 22) * .3; ctx.strokeStyle = COL.pink; ctx.lineWidth = 3; ctx.setLineDash([10, 8]);
         ctx.beginPath(); ctx.moveTo(h.nx * d0 + tx * -R, h.ny * d0 + ty * -R); ctx.lineTo(h.nx * d0 + tx * (h.gap - h.gw / 2), h.ny * d0 + ty * (h.gap - h.gw / 2));
         ctx.moveTo(h.nx * d0 + tx * (h.gap + h.gw / 2), h.ny * d0 + ty * (h.gap + h.gw / 2)); ctx.lineTo(h.nx * d0 + tx * R, h.ny * d0 + ty * R); ctx.stroke(); ctx.setLineDash([]);
@@ -193,7 +193,7 @@ function drawHazards() {
         ctx.globalAlpha = 1; strokeRiso(h.w, jit, h.k === 'tether' ? COL.pink : COL.yellow, COL.ink);
         ctx.strokeStyle = COL.white; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(h.x1, h.y1); ctx.lineTo(h.x2, h.y2); ctx.stroke();
       }
-    } else if (h.k === 'ray' && !h.tent) {
+    } else if (h.k === 'ray' && !h.tent && !h.gaze) {
       const x2 = h.x + Math.cos(h.a) * h.len, y2 = h.y + Math.sin(h.a) * h.len;
       if (!live) {
         ctx.globalAlpha = .35 + wp * .5; ctx.strokeStyle = COL.pink; ctx.lineWidth = 2 + wp * 3; ctx.setLineDash([10, 8]);
@@ -441,7 +441,7 @@ function drawHazardFx() {
         ctx.globalAlpha = fade; ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(px, py, 4, 0, TAU); ctx.fill();
         ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.arc(px + 1.5, py + 1, 2, 0, TAU); ctx.fill();
       }
-    } else if (h.k === 'ray' && live && !h.tent) {
+    } else if (h.k === 'ray' && live && !h.tent && !h.gaze) {
       const x2 = h.x + Math.cos(h.a) * h.len, y2 = h.y + Math.sin(h.a) * h.len;
       glowLine(h.x, h.y, x2, y2, h.w * 3.4, COL.yellow, .3);
       glowLine(h.x, h.y, x2, y2, h.w * 1.6, COL.pink, .25);
@@ -455,7 +455,7 @@ function drawHazardFx() {
         ctx.stroke();
       }
     } else if (h.k === 'band' && live) {
-      const R = G.u && G.u.stage === 'final' ? RW + 20 : ARENA_R + 10, tx = -h.ny, ty = h.nx, bx = h.nx * h.d, by = h.ny * h.d;
+      const R = G.u && G.u.stage === 'final' ? (Math.abs(h.ny) > .5 ? RW : RH) + 20 : ARENA_R + 10, tx = -h.ny, ty = h.nx, bx = h.nx * h.d, by = h.ny * h.d;
       const seg = (off, w, col, a) => {
         ctx.globalAlpha = a; ctx.strokeStyle = col; ctx.lineWidth = w; ctx.beginPath();
         const cx = bx + h.nx * off, cy = by + h.ny * off;

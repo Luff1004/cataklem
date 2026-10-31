@@ -31,6 +31,7 @@ function render(rdt) {
   setCam(G.camX + sx, G.camY + sy);
   drawBG();
   if (G.mode === 'boss') drawArenaFloor();
+  if (G.u && G.u.stage === 'final') drawFinalAmbience();
 
   // decals
   for (const d of DC) {
@@ -83,6 +84,7 @@ function render(rdt) {
   drawProjectiles();
   drawIntroFx();
   drawBossGear();
+  drawHeaven();
 
   // enemy bullets
   for (const b of EB) { if (!onScreen(b.x, b.y, 20)) continue; spr(b.big ? SP.ebig : SP.ebul, b.x, b.y, b.big ? 20 : 13, b.big ? 20 : 13); }
@@ -126,6 +128,8 @@ function render(rdt) {
   drawOverlay();
   drawNovaClock();
   drawUnknownOverlay();
+  drawHeavenOverlay();
+  drawLiveSub();
   drawSubs();
   drawPulse();
   drawJoy();
@@ -305,7 +309,7 @@ function drawTexts() {
     if (t.crit) { ctx.fillStyle = COL.ink; ctx.fillText(s, t.x + 1.4, t.y + 1.1); ctx.fillStyle = COL.pink; ctx.fillText(s, t.x, t.y); }
     else if (t.me) { ctx.fillStyle = COL.pink; ctx.fillText(s, t.x, t.y); }
     else if (t.healTxt) { ctx.fillStyle = COL.teal; ctx.fillText(s, t.x, t.y); }
-    else { ctx.fillStyle = COL.ink; ctx.fillText(s, t.x, t.y); }
+    else { ctx.fillStyle = P.heavenly && G.mode === 'boss' ? '#B98500' : COL.ink; ctx.fillText(s, t.x, t.y); }
   }
   ctx.globalAlpha = 1;
 }

@@ -328,6 +328,7 @@ function useUlt() {
   for (const b of EB) if (!b.dead) { b.dead = true; burst(b.x, b.y, 2, COL.pink, 60); }
   G.flash = .7; G.hitstop = .08; shake(14); SFX.ult(); buzz([30, 30, 90]);
   SAVE.ultSeen = 1;
+  if (P.heavenly && G.mode === 'boss') heavenlyUlt();
 }
 
 /* ================= pickups, fx ================= */

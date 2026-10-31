@@ -56,7 +56,7 @@ function setupBossRun(id) {
   recalc(); P.hp = P.maxHp;
 }
 function relicChoices() {
-  const pool = Object.keys(RELICS).filter(k => !G.relics.includes(k));
+  const pool = Object.keys(RELICS).filter(k => !G.relics.includes(k) && !(k === 'kindle' && G.gate && G.gate.id === 'unknown'));
   shuffle(pool);
   return pool.slice(0, 3).map(id => ({ k: 'relic', id }));
 }
@@ -120,7 +120,7 @@ function updateHazards(dt) {
       if (Math.abs(d - h.r) < h.w / 2 + pr) { const a = Math.atan2(P.y - h.y, P.x - h.x); if (!h.gaps.some(g => angDiff(a, g) < h.gw / 2)) hurtPlayer(h.dmg); }
     } else if (h.k === 'band') {
       if (!live) continue;
-      h.d += h.vd * dt * G.rel.bslow; if (h.d > ARENA_R + 60) h.dead = true;
+      h.d += h.vd * dt * G.rel.bslow; if (h.d > (G.u && G.u.stage === 'final' ? (Math.abs(h.nx) > .5 ? RW : RH) : ARENA_R) + 60) h.dead = true;
       if (Math.random() < .7) { const tk = rnd(-ARENA_R, ARENA_R); if (Math.abs(tk - h.gap) > h.gw / 2) PT.push({ x: h.nx * h.d - h.ny * tk, y: h.ny * h.d + h.nx * tk, vx: h.nx * rnd(80, 220) + rnd(-40, 40), vy: h.ny * rnd(80, 220) - rnd(40, 160), life: .6, max: .6, s: rnd(3, 6), c: Math.random() < .5 ? COL.white : COL.ink, dead: false }); }
       if (Math.abs(P.x * h.nx + P.y * h.ny - h.d) < 140) shake(3);
       const pn = P.x * h.nx + P.y * h.ny, pt = -P.x * h.ny + P.y * h.nx;

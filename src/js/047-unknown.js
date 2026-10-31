@@ -289,7 +289,7 @@ function endCut() {
   G.cutBlack = 0; G.camZoom = 1;
   const el = $('cutscene'); el.classList.add('out'); setTimeout(() => { if (STATE !== 'cut') el.hidden = true; }, 700);
   STATE = 'play';
-  AU.track = e.phase === 5 ? 'chase' : 'unknown'; AU.uPhase = e.phase;
+  AU.track = e.phase === 5 ? 'chase' : e.phase === 7 ? 'final' : 'unknown'; AU.uPhase = e.phase;
   $('bossName').textContent = 'UNKNOWN · ' + e.phase + '/7'; hudCache = {};
   if (e.phase === 5) { G.u.stage = 'flee'; banner('도망쳐', '무너진 벽 너머로 달려라', 'warn'); }
   if (e.phase === 3 || e.phase === 6 || e.phase === 7) { G.relicPend++; G.relicDelay = .8; }

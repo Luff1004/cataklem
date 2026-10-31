@@ -84,19 +84,9 @@ Object.assign(WEAPONS, {
     info: '넓게 휘두르는 근접 검. 한 번 벨 때마다 아프다.', ups: [''], evoInfo: '낙서가 풀리고 빛만 남았다.',
     stat(L, evo) { return evo ? { cd: .38, dmg: 175, r: 185, arc: 3, wave: true } : { cd: .5, dmg: 115, r: 145, arc: 2.5 }; },
     fire(w, S) {
-      const R = S.r * Math.sqrt(P.area), t = nearest(1, S.wave ? 900 : R + 120)[0];
+      const t = nearest(1, S.wave ? 900 : S.r * Math.sqrt(P.area) + 120)[0];
       if (!t) return false;
-      const a = Math.atan2(t.y - P.y, t.x - P.x);
-      for (const e of E) {
-        if (e.dead || e.hidden || e.under) continue;
-        const dx = e.x - P.x, dy = e.y - P.y, d = Math.hypot(dx, dy) || 1;
-        if (d - e.r > R) continue;
-        if (angDiff(Math.atan2(dy, dx), a) > S.arc / 2 + Math.asin(Math.min(1, e.r / d))) continue;
-        hurtEnemy(e, S.dmg, dx / d * 300, dy / d * 300);
-      }
-      if (S.wave) PR.push({ kind: 'crescent', x: P.x + Math.cos(a) * 40, y: P.y + Math.sin(a) * 40, vx: Math.cos(a) * 640, vy: Math.sin(a) * 640, a, r: 36, dmg: S.dmg * .6, pierce: 99, life: .95, hitset: new Set(), boom: 0, bdmg: 0, size: 1, t: 0, dead: false });
-      (G.slashes = G.slashes || []).push({ a, R, arc: S.arc, t0: performance.now(), h: !!w.evo });
-      w.lastA = a; SFX.slash(w.evo); shake(w.evo ? 3 : 2); return true;
+      swordSwing(w, S, Math.atan2(t.y - P.y, t.x - P.x)); return true;
     },
   },
 });
@@ -161,7 +151,7 @@ function drawBossGear() {
       ctx.strokeStyle = COL.yellow; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(sx, sy, 11, -1, .6); ctx.stroke();
     }
     if (w.id === 'scrib_sword') {
-      const a = w.lastA ?? (P.face > 0 ? -.6 : Math.PI + .6), b0x = P.x + Math.cos(a) * 12, b0y = P.y + Math.sin(a) * 12, L = w.evo ? 62 : 48;
+      const sw = w.swing, sq = sw ? (performance.now() - sw.t0) / sw.dur : 9, a = sq < 1 ? lerp(sw.a0, sw.a1, sq) : (w.lastA ?? (P.face > 0 ? -.6 : Math.PI + .6)), b0x = P.x + Math.cos(a) * 12, b0y = P.y + Math.sin(a) * 12, L = w.evo ? 62 : 48;
       const b1x = b0x + Math.cos(a) * L, b1y = b0y + Math.sin(a) * L;
       if (w.evo) { glowLine(b0x, b0y, b1x, b1y, 22, COL.yellow, .55); glowLine(b0x, b0y, b1x, b1y, 10, COL.white, .8); ctx.strokeStyle = COL.white; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(b0x, b0y); ctx.lineTo(b1x, b1y); ctx.stroke(); }
       else scribLine(b0x, b0y, b1x, b1y, 6, 4);
@@ -174,10 +164,13 @@ function drawBossGear() {
     for (const s of G.slashes) {
       const q = (now - s.t0) / 320, a0 = s.a - s.arc / 2, a1 = s.a - s.arc / 2 + s.arc * Math.min(1, q * 3), lw = s.R * .38 * (1 - q);
       if (s.h) {
-        ctx.save(); ctx.globalCompositeOperation = 'lighter';
-        ctx.globalAlpha = .7 * (1 - q); ctx.strokeStyle = COL.yellow; ctx.lineWidth = lw * 1.4; ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .78, a0, a1); ctx.stroke();
-        ctx.globalAlpha = .9 * (1 - q); ctx.strokeStyle = COL.white; ctx.lineWidth = lw * .35; ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .82, a0, a1); ctx.stroke();
-        ctx.restore();
+        const al = 1 - q;
+        ctx.globalAlpha = .85 * al; ctx.strokeStyle = COL.deep; ctx.lineWidth = lw * 1.25 + 5; ctx.beginPath(); ctx.arc(P.x + 3, P.y + 3, s.R * .78, a0, a1); ctx.stroke();
+        ctx.globalAlpha = al; ctx.strokeStyle = GOLD; ctx.lineWidth = lw * 1.25; ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .78, a0, a1); ctx.stroke();
+        ctx.strokeStyle = COL.pink; ctx.lineWidth = Math.max(2, lw * .22); ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .66, a0, a1); ctx.stroke();
+        ctx.strokeStyle = COL.white; ctx.lineWidth = Math.max(2, lw * .3); ctx.beginPath(); ctx.arc(P.x, P.y, s.R * .86, a0, a1); ctx.stroke();
+        ctx.fillStyle = COL.white; for (let k = 0; k < 6; k++) { const aa = a0 + (a1 - a0) * Math.random(), rr = s.R * (.6 + Math.random() * .35); ctx.fillRect(P.x + Math.cos(aa) * rr - 2, P.y + Math.sin(aa) * rr - 2, 4, 4); }
+        ctx.globalAlpha = 1;
       } else {
         for (let k = 0; k < 4; k++) {
           ctx.globalAlpha = (k === 3 ? .5 : .85) * (1 - q); ctx.strokeStyle = k === 3 ? COL.pink : COL.deep; ctx.lineWidth = lw * (k === 0 ? 1 : .4);
@@ -194,7 +187,14 @@ function drawBossGear() {
     if (p.dead || !onScreen(p.x, p.y, 60)) continue;
     if (p.kind === 'lance') { const ca = Math.cos(p.a), sa = Math.sin(p.a); strokeRiso(4, () => { ctx.beginPath(); ctx.moveTo(p.x - ca * 46, p.y - sa * 46); ctx.lineTo(p.x, p.y); }, COL.ink, COL.pink); ctx.fillStyle = COL.yellow; ctx.beginPath(); ctx.moveTo(p.x + ca * 12, p.y + sa * 12); ctx.lineTo(p.x - sa * 6, p.y + ca * 6); ctx.lineTo(p.x + sa * 6, p.y - ca * 6); ctx.fill(); }
     else if (p.kind === 'comet') { glowLine(p.x - p.vx * .08, p.y - p.vy * .08, p.x, p.y, 16, COL.pink, .5); ctx.fillStyle = COL.yellow; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, TAU); ctx.fill(); ctx.fillStyle = COL.white; ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, TAU); ctx.fill(); }
-    else if (p.kind === 'crescent') { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, p.life * 2); ctx.strokeStyle = COL.yellow; ctx.lineWidth = 12; ctx.beginPath(); ctx.arc(p.x - Math.cos(p.a) * 30, p.y - Math.sin(p.a) * 30, 38, p.a - 1.1, p.a + 1.1); ctx.stroke(); ctx.strokeStyle = COL.white; ctx.lineWidth = 4; ctx.stroke(); ctx.restore(); }
+    else if (p.kind === 'crescent') {
+      const cx = p.x - Math.cos(p.a) * 30, cy = p.y - Math.sin(p.a) * 30, al = Math.min(1, p.life * 2.5);
+      ctx.globalAlpha = al * .85; ctx.strokeStyle = COL.deep; ctx.lineWidth = 17; ctx.beginPath(); ctx.arc(cx + 3, cy + 3, 38, p.a - 1.1, p.a + 1.1); ctx.stroke();
+      ctx.globalAlpha = al; ctx.strokeStyle = GOLD; ctx.lineWidth = 13; ctx.beginPath(); ctx.arc(cx, cy, 38, p.a - 1.1, p.a + 1.1); ctx.stroke();
+      ctx.strokeStyle = COL.white; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(cx, cy, 41, p.a - .9, p.a + .9); ctx.stroke();
+      ctx.globalAlpha = al * .35; ctx.strokeStyle = GOLD; ctx.lineWidth = 8; ctx.beginPath(); ctx.arc(cx - p.vx * .04, cy - p.vy * .04, 36, p.a - 1, p.a + 1); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
   }
   // sigils
   for (const z of ZN) if (z.kind === 'sigil') {
@@ -304,13 +304,14 @@ function spawnLimb(e, x) {
   burst(x, y, 20, COL.deep, 300); splat(x, y, 110, false); shake(10); pulseScreen(.8); SFX.boom(true);
 }
 function uFinal(e, dt) {
+  finalExtras(e, dt);
   e.drawScale = lerp(e.drawScale || 1, 2.3, 1 - Math.exp(-dt * 2));
   e.x = lerp(e.x, P.x * .5, 1 - Math.exp(-dt * .8)); e.y = lerp(e.y, -RH - 470, 1 - Math.exp(-dt * 2));
   if (e.hp <= e.hpFloor + .5 && G.uPhaseT >= U_MIN[7]) { startFinisher(e); return Z0; }
   const lvl = G.uPhaseT > 160 ? 2 : G.uPhaseT > 80 ? 1 : 0;
   if (lvl > (e.esc || 0)) { e.esc = lvl; banner(lvl === 1 ? '하늘이 무너진다' : '마지막 빛', lvl === 1 ? '더 많이, 더 빨리 떨어진다' : '버텨라. 거의 다 왔다', 'warn'); SFX.roar(); pulseScreen(1.6); shake(14); AU.uPhase = 7 + lvl; }
   if (e.busy <= 0 && e.cd <= 0) {
-    const k = pickAtk(e, { meteor: 3, slam: 3.8, sweep: 2.2, scrawl: 1.4 });
+    const k = pickAtk(e, { meteor: 3, slam: 3.8, sweep: 2, scrawl: 1.3, gaze: 2.4, grab: lvl >= 1 ? 2.2 : 1.2 });
     if (k === 'meteor') {
       for (let i = 0; i < 7 + lvl * 2; i++) {
         const near = i < 2, x = near ? clamp(P.x + rnd(-90, 90), -RW + 50, RW - 50) : clamp(P.x + rnd(-420, 420), -RW + 50, RW - 50), y = near ? clamp(P.y + rnd(-60, 60), -RH + 40, RH - 40) : rnd(-RH + 40, RH - 40);
@@ -328,6 +329,13 @@ function uFinal(e, dt) {
       HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 240, w: 50, gap: -clamp(P.x + rnd(-220, 220), -RW + 110, RW - 110), gw: 160, dmg: 24, warn: .8, t: 0, dead: false });
       if (lvl >= 1) later(e, 1.1, () => HZ.push({ k: 'band', nx: 0, ny: 1, d: -RH - 30, vd: 260, w: 50, gap: -clamp(P.x + rnd(-200, 200), -RW + 110, RW - 110), gw: 150, dmg: 24, warn: .7, t: 0, dead: false }));
       SFX.wave(); e.busy = 2.2 + lvl * .6; e.cd = .5 - lvl * .12;
+    } else if (k === 'gaze') {
+      HZ.push({ k: 'ray', x: G.eye ? G.eye.x : P.x, y: -RH - 150, a: Math.PI / 2, va: 0, len: RH * 2 + 200, w: 54, warn: 1.1, dur: 2.4 + lvl * .4, dmg: 26, t: 0, dead: false, gaze: 1 });
+      banner('응시', '눈을 피해 옆으로', 'warn'); e.busy = 3.6 + lvl * .4; e.cd = .4;
+    } else if (k === 'grab') {
+      const sd = Math.random() < .5 ? 1 : -1, gy = clamp(P.y + rnd(-80, 80), -RH + 70, RH - 70);
+      HZ.push({ k: 'band', nx: sd, ny: 0, d: -RW - 30, vd: 300 + lvl * 30, w: 54, gap: sd === 1 ? gy : -gy, gw: 120, dmg: 24, warn: .8, t: 0, dead: false });
+      SFX.wave(); e.busy = 2.6; e.cd = .5;
     } else {
       for (let s = 0; s < 3; s++) { const sx = clamp(P.x + (s - 1) * 260, -RW, RW); for (let i = 0; i < 9; i++) later(e, i * .09, () => fireEB(sx, -RH - 30, Math.PI / 2 + rnd(-.25, .25), 170, 11, false, { wig: 2.2, life: 4 })); }
       SFX.scratch(); e.busy = 1.4; e.cd = .5;

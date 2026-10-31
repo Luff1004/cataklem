@@ -10,6 +10,7 @@ function updateHazards2(dt) {
   for (const h of HZ) {
     if (h.dead) continue;
     const live = h.t >= (h.warn || 0);
+    if (h.gaze) updateGaze(h, dt);
     if (h.swing) h.a = h.swing.base + Math.sin(h.t * h.swing.f) * h.swing.amp;
     if (h.k === 'sector') {
       if (live && !h.lit) { h.lit = true; pulseScreen(1.2); shake(12); SFX.boom(true); SFX.bellSmall(); for (const s of h.secs) { const a = -Math.PI / 2 + (s + .5) * SECT; for (let k = 0; k < 6; k++) burst(Math.cos(a) * (80 + k * 50), Math.sin(a) * (80 + k * 50), 3, COL.yellow, 160); } }

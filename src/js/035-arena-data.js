@@ -34,7 +34,7 @@ const RELICS = {
   echoes: { name: '메아리', icon: 'mirror', info: '모든 무기의 투사체 +1.', fn() { G.rel.amount += 1; } },
   slowtime: { name: '시간 균열', icon: 'glass', info: '적의 탄과 울림이 25% 느려진다.', fn() { G.rel.bslow *= .75; } },
   undying: { name: '불사', icon: 'clover', info: '한 번, 치명상을 체력 1로 버틴다.', fn() { G.rel.undying = 1; } },
-  kindle: { name: '진화의 불꽃', icon: 'meteor', info: '가장 높은 무기 하나를 조건 없이 진화시킨다.', fn() { const w = G.weapons.filter(x => !x.evo).sort((a, b) => b.lv - a.lv)[0]; if (w) { w.lv = WEAPONS[w.id].max; w.evo = true; G.evoN++; SAVE.stats.evos[w.id] = 1; } } },
+  kindle: { name: '진화의 불꽃', icon: 'meteor', info: '가장 높은 무기 하나가 곧바로 최대 단계가 된다.', fn() { const w = G.weapons.filter(x => !x.evo && !WEAPONS[x.id].special).sort((a, b) => b.lv - a.lv)[0]; if (w) { w.lv = WEAPONS[w.id].max; if (WEAPONS[w.id].evoWith) { w.evo = true; G.evoN++; SAVE.stats.evos[w.id] = 1; } } } },
   battery: { name: '축전', icon: 'pulse', info: '섬광이 두 배 빨리 찬다. 지금 가득 채운다.', fn() { G.rel.ult *= 2; G.ult = G.ultNeed; } },
 };
 const freshRel = () => ({ spdFlat: 0, hp: 0, might: 0, taken: 0, crit: 0, critMul: 0, leech: 0, spd: 0, amount: 0, bslow: 1, dashCd: 1, dashDist: 1, rod: 0, ward: 0, undying: 0, ult: 1 });

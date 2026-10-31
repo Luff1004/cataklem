@@ -162,7 +162,21 @@ function kick(t, d) {
   g.gain.setValueAtTime(.55, t); g.gain.exponentialRampToValueAtTime(.0001, t + .2);
   o.connect(g); g.connect(d); o.start(t); o.stop(t + .22);
 }
-function stepDur() { return AU.track === 'chase' ? 60 / 164 / 4 : AU.track === 'unknown' ? 60 / 84 / 4 : AU.track === 'credits' ? 60 / 76 / 4 : STEP; }
+function stepDur() { return AU.track === 'chase' ? 60 / 164 / 4 : AU.track === 'unknown' ? 60 / 84 / 4 : AU.track === 'credits' ? 60 / 76 / 4 : AU.track === 'final' ? 60 / 132 / 4 : STEP; }
+/* the last stage: a choir, a pounding ostinato, a heroic line once the sword is light */
+function playFinal(s, t) {
+  const bar = (s >> 4) & 3, st = s & 15, d = AU.mus, sd = stepDur(), lv = (AU.uPhase || 7) - 7;
+  const ch = [[57, 60, 64], [53, 57, 60], [55, 59, 62], [52, 56, 59]][bar];
+  if (st === 0) { ch.forEach(n => tone(mtof(n), sd * 16, { type: 'triangle', vol: .04, att: .5, at: t, dest: d, lp: 1800 })); ch.forEach(n => tone(mtof(n + 12), sd * 16, { type: 'sine', vol: .02, att: .8, at: t, dest: d })); }
+  if ([0, 2, 3, 6, 8, 10, 11, 14].includes(st)) tone(mtof(ch[0] - 24 + (st === 14 ? 7 : 0)), sd * 1.2, { type: 'sawtooth', vol: .05, lp: 620, at: t, dest: d });
+  if (st % 4 === 0 || (lv >= 1 && st === 14) || (lv >= 2 && st % 2 === 0 && bar === 3)) kick(t, d);
+  if (st === 4 || st === 12) noise(.2, { ft: 'bandpass', f: 1600, q: .7, vol: .15, at: t, dest: d });
+  noise(.02, { ft: 'highpass', f: 8000, vol: st % 2 ? .015 : .03, at: t, dest: d });
+  const mel = [[76, 0, 72, 74], [72, 0, 69, 72], [74, 0, 71, 74], [76, 0, 80, 83]][bar];
+  if (P.heavenly && st % 4 === 0 && mel[st >> 2]) tone(mtof(mel[st >> 2]), sd * 3.5, { type: 'square', vol: .03, lp: 2800, at: t, dest: d });
+  if (st === 0 && bar === 0) tone(1046, 1.6, { type: 'sine', vol: .035, at: t, dest: d });
+  if (lv >= 2 && st % 2 === 1) tone(mtof(ch[2] + 24), sd * .8, { type: 'square', vol: .015, lp: 3000, at: t, dest: d });
+}
 function playCredits(s, t) {
   const bar = (s >> 4) & 3, st = s & 15, d = AU.mus, sd = stepDur();
   const ch = [[60, 64, 67], [55, 59, 62], [57, 60, 64], [53, 57, 60]][bar];
@@ -206,6 +220,7 @@ function playStep(s, t) {
   if (AU.track === 'unknown') return playUnknown(s, t);
   if (AU.track === 'chase') return playChase(s, t);
   if (AU.track === 'credits') return playCredits(s, t);
+  if (AU.track === 'final') return playFinal(s, t);
   const bar = (s >> 4) & 3, st = s & 15, I = AU.intensity, d = AU.mus;
   const ch = PROG[bar];
   if (st === 0) ch.forEach(n => tone(mtof(n), STEP * 15, { type: 'triangle', vol: .024, att: .35, at: t, dest: d, lp: 1100 }));
