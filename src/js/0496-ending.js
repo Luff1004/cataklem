@@ -45,7 +45,7 @@ function updateFinisher(rdt) {
   if (e && !e.dead) {
     e.t += rdt; e.cd = 99; e.busy = 99;
     const k = 1 - Math.exp(-rdt * 1.6);
-    if (t < 14.6) { e.x = lerp(e.x, en.px0 + en.side * (t < 9.5 ? 560 : 620), k); e.y = lerp(e.y, en.py0 - 10, k); }
+    if (t < 14.6) { e.x = lerp(e.x, en.px0 + en.side * (t < 9.5 ? 900 : 960), k); e.y = lerp(e.y, en.py0 - 10, k); }
     const target = t < 9.5 ? 2 : t < 14.6 ? 2 + en.despair * .7 : lerp(2.7, .03, Math.pow(en.shrink, 1.6));
     e.drawScale = t < 14.6 ? lerp(e.drawScale || 1, target, k) : target;
   }
@@ -63,7 +63,7 @@ function updateFinisher(rdt) {
     // the struggle
     if (t > 2.4 && t < 9.5) {
       const push = (en.c - endClash(t - .1)) * 10;
-      fx = lerp(p.kx, (p.ox + p.ex) / 2, .3); fy = p.ky - 90; z = .62 - Math.abs(push) * .05;
+      fx = lerp(p.kx, (p.ox + p.ex) / 2, .3); fy = p.ky - 110; z = .47 - Math.abs(push) * .04;
       P.x = lerp(P.x, en.px0 - en.side * (.5 - en.c) * 70, 1 - Math.exp(-rdt * 8));
       G.shake = Math.max(G.shake, 7 + Math.abs(push) * 9);
       for (let k = 0; k < 7; k++) {
