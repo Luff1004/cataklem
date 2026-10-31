@@ -378,7 +378,10 @@ img{max-width:100%}
 #cutscene.fin .bar.b{height:calc(var(--sb) + 30vh)}
 #credits{position:fixed;inset:0;z-index:70;background:var(--paper);overflow:hidden;pointer-events:auto}
 #credits .roll{position:absolute;left:var(--sl);right:var(--sr);top:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:48px;padding-bottom:30vh}
-#credits.on .roll{animation:roll 44s linear forwards}
+#credits.on .roll{animation:roll 44s linear 2.4s forwards}
+#credits .cr-ink{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+#credits.on .cr-ink{animation:inkUp 6s cubic-bezier(.5,0,.8,.6) 1.6s forwards}
+@keyframes inkUp{to{transform:translateY(-62%);opacity:0}}
 @keyframes roll{to{transform:translateY(calc(-100% - 100vh))}}
 .cr-title{position:relative;isolation:isolate;font:400 clamp(60px,20vw,120px)/.84 var(--f-display)}
 .cr-title .pk{position:absolute;inset:0;transform:translate(.045em,.032em);color:var(--pink)}

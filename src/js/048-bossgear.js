@@ -210,13 +210,7 @@ function drawBossGear() {
   }
   if (G.heavenRays > 0) drawSunRays(P.x, P.y - 10, G.heavenRays, 40);
   wt();
-  // the finishing blade
-  const c = G.cut;
-  if (c && c.kind === 'finish' && G.boss) {
-    const e = G.boss, a = Math.atan2(e.y - P.y, e.x - P.x), full = Math.hypot(e.x - P.x, e.y - P.y) + 200;
-    if (G.finBlade > 0 && !G.finStrike) { const L = full * G.finBlade, x2 = P.x + Math.cos(a) * L, y2 = P.y + Math.sin(a) * L; glowLine(P.x, P.y, x2, y2, 60, COL.yellow, .5); glowLine(P.x, P.y, x2, y2, 24, COL.white, .9); }
-    if (G.finStrike) { const q = (now - G.finStrike) / 1600; if (q < 1) { const x2 = P.x + Math.cos(a) * full, y2 = P.y + Math.sin(a) * full; glowLine(P.x, P.y, x2, y2, 260 * (1 - q * .7), COL.yellow, .6 * (1 - q)); glowLine(P.x, P.y, x2, y2, 90 * (1 - q * .5), COL.white, .9 * (1 - q)); } }
-  }
+  drawEndWorld();
 }
 function drawLimb(e) {
   const fade = Math.max(0, Math.min(1, e.life / .4, (e.maxLife - e.life) / .12)), top = -RH - 330, now = performance.now() / 1000;
@@ -262,6 +256,7 @@ function drawSubs() {
     }
   }
   if (G && G.cutWhite > 0) { ctx.globalAlpha = G.cutWhite; ctx.fillStyle = COL.paper; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
+  drawEndPaper();
 }
 
 /* ---------- act seven: the sword and the last arena ---------- */
@@ -355,56 +350,12 @@ function uFinal(e, dt) {
   return Z0;
 }
 
-/* ---------- the finishing blow ---------- */
-function startFinisher(e) {
-  STATE = 'cut'; G.cut = { t: 0, kind: 'finish', dur: 13.5, subs: [[1.6, 3, '...WAIT.'], [3.05, 3.9, 'NO.']] };
-  for (const b of EB) b.dead = true;
-  for (const h of HZ) h.dead = true;
-  for (const t of TG) t.dead = true;
-  for (const o of E) if (o.type === 'limb') o.dead = true;
-  INPUT.joy = null; updMove();
-  G.finBlade = 0; G.finStrike = 0;
-  const c = $('cutscene'); c.hidden = false; c.className = ''; void c.offsetWidth; c.className = 'on';
-  $('cutEye').textContent = '필살'; $('cutLine').textContent = '';
-  AU.track = 'silent'; G.flash = .5; pulseScreen(2); SFX.charge(1.5); buzz([40, 30, 80]);
-}
-function updateFinisher(rdt) {
-  const c = G.cut, e = G.boss;
-  c.t += rdt; const t = c.t, prevT = t - rdt, hit = tm => prevT < tm && t >= tm;
-  if (e && !e.dead) { e.t += rdt; uTick(e, rdt); }
-  let fx = P.x, fy = P.y, z = 1.3;
-  if (t < 1.2) for (let k = 0; k < 5; k++) { const a = rnd(TAU), r = rnd(120, 260); PT.push({ x: P.x + Math.cos(a) * r, y: P.y + Math.sin(a) * r, vx: -Math.cos(a) * r * 1.8, vy: -Math.sin(a) * r * 1.8, life: .5, max: .5, s: rnd(2, 5), c: k % 2 ? COL.yellow : COL.white, dead: false }); }
-  G.finBlade = t < 1.2 ? 0 : clamp((t - 1.2) / 1, 0, 1);
-  if (hit(1.2)) { SFX.heaven(); shake(10); pulseScreen(1); }
-  if (e && t > 2.1 && t < 6.6) { const q = ease(clamp((t - 2.1) / 1.1, 0, 1)); fy = lerp(P.y, e.y, q); fx = lerp(P.x, e.x, q); z = lerp(1.3, .55, q); }
-  if (hit(3.95) && e) {
-    $('cutLine').textContent = '카타클렘'; $('cutscene').classList.add('fin');
-    G.novaFx = { x: e.x, y: e.y, t0: performance.now(), rot: rnd(TAU) };
-    G.finStrike = performance.now();
-    G.unravel = { t0: performance.now(), x: e.x, y: e.y };
-    SFX.nova(); SFX.boom(true); SFX.roar(); G.flash = 1; shake(44); pulseScreen(3); buzz([120, 60, 300]);
-  }
-  if (e) for (const tm of [4.4, 4.8, 5.2, 5.6, 6.1]) if (hit(tm)) { ringFx(e.x + rnd(-120, 120), e.y + rnd(-80, 80), rnd(160, 320), Math.random() < .5 ? COL.yellow : COL.pink, .6, 12); burst(e.x, e.y, 40, Math.random() < .5 ? COL.deep : COL.yellow, 600); SFX.boom(tm > 6); shake(18); }
-  if (hit(6.4) && e) { e.dead = true; e.hp = 0; $('bossBar').hidden = true; }
-  if (e && t > 6.6) { const q = ease(clamp((t - 6.6) / 1.4, 0, 1)); fx = lerp(e.x, P.x, q); fy = lerp(e.y, P.y, q); z = lerp(.55, 1, q); G.u.voidFade = q; }
-  if (hit(7.2)) { $('cutscene').classList.remove('fin'); $('cutEye').textContent = 'UNKNOWN · 지워짐'; $('cutLine').textContent = ''; }
-  if (hit(8.2)) { SFX.bell(); $('cutLine').textContent = '하늘이 조용해졌다.'; }
-  if (t > 10.5) G.cutWhite = clamp((t - 10.5) / 2.5, 0, 1);
-  G.camX = lerp(G.camX, fx, 1 - Math.exp(-rdt * 3)); G.camY = lerp(G.camY, fy, 1 - Math.exp(-rdt * 3));
-  G.camZoom = lerp(G.camZoom || 1, z, 1 - Math.exp(-rdt * 2.5));
-  updateFx(rdt); updateRings(rdt); sweep(PT); sweep(RG);
-  if (G.flash > 0) G.flash -= rdt * .8;
-  G.shake *= Math.exp(-rdt * 3);
-  if (t > c.dur) startCredits();
-}
-
 /* ---------- credits ---------- */
 function creditsHTML() {
   const bosses = [...Object.values(BOSS).map(b => b.name), ...GATES.map(g => g.name)];
   const chars = Object.values(CHARS).map(c => c.name);
   const sec = (eye, body) => '<div class="cr-sec"><span class="eyebrow">' + esc(eye) + '</span>' + body + '</div>';
-  return '<div class="cr-title"><span class="pk" aria-hidden="true">CATA<br>KLEM</span><span class="ik">CATA<br>KLEM</span></div>' +
-    '<p class="cr-line">하늘은 다시 맑아지지 않았다.<br>그래도 밤은 끝났다.</p>' +
+  return '<p class="cr-line">하늘은 다시 맑아지지 않았다.<br>그래도 밤은 끝났다.</p>' +
     sec('기획', '<b>Luff1004</b>') +
     sec('만든 것', '<b>Claude</b>') +
     sec('잉크', '<p>남색, 분홍, 노랑, 그리고 종이 한 장</p>') +
@@ -416,10 +367,13 @@ function creditsHTML() {
     '<p class="cr-line">끝까지 꺼지지 않아서 고맙다.</p>';
 }
 function startCredits() {
-  STATE = 'credits'; G.cutWhite = 0; G.boss = null;
+  let shot = null; try { shot = cv.toDataURL('image/jpeg', .9); } catch (err) {}
+  STATE = 'credits'; G.cutWhite = 0; G.cutBlack = 0; G.boss = null; G.end = null;
   const cs = $('cutscene'); cs.hidden = true; cs.className = '';
   $('hud').hidden = true;
   const roll = $('creditRoll'); roll.innerHTML = creditsHTML();
+  const old = $('credits').querySelector('.cr-ink'); if (old) old.remove();
+  if (shot) { const im = document.createElement('img'); im.className = 'cr-ink'; im.alt = ''; im.src = shot; $('credits').prepend(im); }
   const cr = $('credits'); cr.hidden = false; cr.className = ''; void cr.offsetWidth; cr.className = 'on';
   AU.track = 'credits'; G.creditT0 = performance.now();
   roll.addEventListener('animationend', finishCredits, { once: true });

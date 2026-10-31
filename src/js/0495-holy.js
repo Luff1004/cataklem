@@ -164,6 +164,7 @@ function ghostBlade(cx, cy, a, r0, r1, w, al) {
 }
 /* big eight-point star with long horizontal/vertical spikes */
 function starburst(x, y, s, al, rot = 0) {
+  if (!(s > .5) || !(al > 0)) return;
   ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
   for (const [k, len, w] of [[0, 1, .1], [1, .55, .08]]) {
     ctx.rotate(k * Math.PI / 4);
