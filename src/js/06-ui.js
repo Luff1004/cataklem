@@ -78,7 +78,7 @@ function renderPrep() {
       '<div class="tx"><b>' + esc(m.name) + '</b><span class="sb">' + esc(m.sub) + '</span>' +
       (lk ? '<p>' + esc(MAPS[i - 1].name) + '에서 밤을 넘기면 열린다.</p>' :
         '<div class="mobs">' + mobs.map(k => '<img alt="" src="' + mobIcon(k) + '">').join('') + '</div>' +
-        (SAVE.rift === i ? '<p>' + esc(m.desc) + '</p>' : '') +
+        (SAVE.rift === i ? '<p>' + esc(m.desc) + (m.boss ? ' 끝에는 <b>' + esc(BOSS[m.boss.cata].name) + '</b>' + esc(josa(BOSS[m.boss.cata].name, '이', '가').slice(-1)) + ' 기다린다.' : ' 끝에는 <b>카타클렘</b>이 기다린다.') + '</p>' : '') +
         (i > 1 ? '<span class="mul">체력 ×' + r.hp + ' · 피해 ×' + r.dmg + ' · 파편 ×' + r.shard + '</span>' : '<span class="mul">8분을 버티면 끝이 온다</span>')) + '</div>';
     b.setAttribute('aria-label', m.name + (lk ? ' 잠김' : ''));
     b.addEventListener('click', () => { if (lk) { SFX.deny(); return; } SAVE.rift = i; persist(); SFX.tap(); renderPrep(); });

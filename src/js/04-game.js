@@ -151,19 +151,21 @@ function spawnElite() {
   if (G.eliteN === 1) banner('강한 놈', '쓰러뜨리면 상자를 떨군다', 'good');
 }
 function bossWarn(id) {
+  id = mapBoss(id);
   if (G.boss) return false;
   G.warned[id] = G.time;
   banner(BOSS[id].name, '경보 · ' + BOSS[id].sub, 'warn');
   SFX.warn(); buzz([40, 80, 40]);
 }
 function spawnBoss(id) {
+  id = mapBoss(id);
   if (G.boss || G.warned[id] === undefined || G.time - G.warned[id] < 2.8) return false;
   const b = BOSS[id], [x, y] = edgePoint(40);
   const hp = b.hp * G.rf.hp;
   const e = {
     type: id, bk: id, boss: true, x, y, r: b.r, scl: 1, hp, maxHp: hp, spd: b.spd, dmg: b.dmg, xp: 0, ai: 'boss', kbRes: .96,
     kx: 0, ky: 0, t: 0, ph: 0, flash: 0, elite: false, hit: {}, cd: 2.5, cd2: 5, cd3: 5, cd4: 8, face: 1, side: 1, st: '', stT: 0,
-    ang: 0, dash: id === 'cata' ? 600 : 680, combo: 0, dead: false,
+    ang: 0, dash: (b.arch || id) === 'cata' ? 600 : 680, combo: 0, dead: false,
   };
   E.push(e); G.boss = e;
   $('bossName').textContent = b.name; $('bossBar').hidden = false;
@@ -374,16 +376,19 @@ function startAim(e) {
   TG.push({ x: e.x, y: e.y, a, len: e.dash * .5 + 30, t: 0, dur: .72, kind: 'eline', w: e.r * 1.5, dead: false });
 }
 function bossAI(e, dt, ux, uy, dist) {
-  const B = e.bk;
+  const BD = BOSS[e.bk], B = BD.arch || e.bk;
   e.cd -= dt; e.cd2 -= dt;
+  const hk = bossHook(e, dt, ux, uy, dist); if (hk) return hk;
   if (e.st === 'aim') { e.stT -= dt; if (e.stT <= 0) { e.st = 'dash'; e.stT = .5; SFX.swish(); buzz(15); } return Z0; }
   if (e.st === 'dash') {
     e.stT -= dt;
+    if (BD.trail && Math.random() < dt * 16) fireEB(e.x, e.y, rnd(TAU), 14, 9, false, { life: 2.6 });
     if (Math.random() < .7) PT.push({ x: e.x + rnd(-e.r, e.r) * .6, y: e.y + rnd(-e.r, e.r) * .6, vx: 0, vy: 0, life: .4, max: .4, s: rnd(4, 8), c: COL.ink, dead: false });
     if (e.stT <= 0) { e.st = 'rec'; e.stT = .5; if (B === 'rake') fan(e, Math.atan2(P.y - e.y, P.x - e.x), 7, 1.1, 165, 10); }
     return [e.dx * e.dash, e.dy * e.dash];
   }
   if (e.st === 'rec') { e.stT -= dt; if (e.stT <= 0) { if (e.combo > 0) { e.combo--; startAim(e); } else e.st = ''; } return Z0; }
+  if (BD.sig && STATE === 'play') { e.sigCd = (e.sigCd === undefined ? BD.sigCd * .5 : e.sigCd) - dt; if (e.sigCd <= 0) { e.sigCd = BD.sigCd * (e.hp < e.maxHp * .5 ? .75 : 1); SIG[BD.sig](e); const hk2 = bossHook(e, 0, ux, uy, dist); if (hk2) return hk2; } }
 
   if (B === 'colossus') {
     if (e.slam > 0) {
@@ -437,16 +442,17 @@ function bossAI(e, dt, ux, uy, dist) {
   }
   return Z0;
 }
+const B0 = e => BOSS[e.bk].arch || e.bk;
 function bossDown(e) {
   G.boss = null; G.bosses++;
   $('bossBar').hidden = true;
   shake(18); G.hitstop = .2; G.slowT = .9; G.flash = .7; SFX.boom(true); buzz([50, 40, 160]);
   for (let i = 0; i < 6; i++) G.later.push({ t: i * .13, fn: () => { ringFx(e.x + rnd(-40, 40), e.y + rnd(-40, 40), rnd(70, 130), i % 2 ? COL.pink : COL.ink, .4, 7); burst(e.x, e.y, 18, i % 2 ? COL.pink : COL.deep, 300); splat(e.x + rnd(-50, 50), e.y + rnd(-50, 50), 120, i % 2 === 1); SFX.boom(i === 5); } });
   for (const b of EB) b.dead = true;
-  if (e.bk === 'cata') {
+  if (B0(e) === 'cata') {
     STATE = 'winning'; G.winT = 3.2;
     for (const o of E) if (!o.dead) { o.dead = true; burst(o.x, o.y, 4, COL.ink, 150); splat(o.x, o.y, o.r * 2.4, false); }
-    banner('밤을 넘겼다', '카타클렘 쓰러짐', 'good');
+    banner('밤을 넘겼다', BOSS[e.bk].name + ' 쓰러짐', 'good');
     setTimeout(() => SFX.win(), 700);
     return;
   }
