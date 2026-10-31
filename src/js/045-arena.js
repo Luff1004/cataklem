@@ -46,7 +46,7 @@ function setupBossRun(id) {
   const gate = GATES.find(g => g.id === id);
   newRun();
   E.length = 0;
-  G.mode = 'boss'; G.gate = gate; G.rf = RIFT[1]; G.draftLeft = G.draftMax = id === 'unknown' ? 5 : 4; G.u = id === 'unknown' ? freshU() : null; G.sprint = 1; G.heartT = 20; G.rodT = 2.5; G.enraged = false;
+  G.mode = 'boss'; G.tile = null; G.gate = gate; G.rf = RIFT[1]; G.draftLeft = G.draftMax = id === 'unknown' ? 5 : 4; G.u = id === 'unknown' ? freshU() : null; G.sprint = 1; G.heartT = 20; G.rodT = 2.5; G.enraged = false;
   G.ultNeed = 150; G.rerolls = 2 + (SAVE.shop.reroll || 0);
   G.rel.hp = 60;
   G.weapons = []; G.buildDirty = true; RW = 620;

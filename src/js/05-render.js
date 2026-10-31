@@ -22,7 +22,7 @@ function spr(img, x, y, w, h, rot = 0, sx = 1, sy = 1) {
 function drawBG() {
   wt();
   const T = 512, x0 = Math.floor((CX - VHW) / T) * T, y0 = Math.floor((CY - VHH) / T) * T;
-  for (let x = x0; x < CX + VHW; x += T) for (let y = y0; y < CY + VHH; y += T) ctx.drawImage(TILE, x, y, T + .6, T + .6);
+  for (let x = x0; x < CX + VHW; x += T) for (let y = y0; y < CY + VHH; y += T) ctx.drawImage((G && G.tile) || TILE, x, y, T + .6, T + .6);
 }
 
 /* ================= world render ================= */
@@ -200,10 +200,12 @@ function drawEnemies() {
     if (e.elite) { ctx.globalAlpha = .65 + Math.sin(e.t * 6) * .2; spr(SP.aura, e.x, e.y, e.r * 3.4, e.r * 3.4, e.t); ctx.globalAlpha = 1; }
     let bsx = 1, bsy = 1, rot = 0;
     const b = Math.sin(e.t * (e.boss ? 3 : 7) + e.ph);
-    if (e.type === 'moth') { bsx = .7 + Math.abs(Math.sin(e.t * 16 + e.ph)) * .38; bsy = 1; }
+    if (ENEMY[e.type] && ENEMY[e.type].flap) { bsx = .7 + Math.abs(Math.sin(e.t * 16 + e.ph)) * .38; bsy = 1; }
     else { bsx = 1 + b * .06; bsy = 1 - b * .06; }
-    if (e.ai === 'bomb' && e.fuse > 0) { const s = 1 + (.5 - e.fuse) * .7; bsx *= s; bsy *= s; }
+    if (e.fuse > 0) { const s = 1 + (.5 - e.fuse) * .7; bsx *= s; bsy *= s; }
     if (e.boss && e.st === 'dash') rot = Math.sin(e.t * 30) * .08;
+    if (e.chg > 0) { rot = Math.sin(e.t * 50) * .12; bsx *= 1.08; bsy *= .92; }
+    if (e.dashT > 0 && !e.boss) rot = (e.face > 0 ? 1 : -1) * .25;
     if (e.boss && e.slam > 0) { const s = 1 + (1 - e.slam) * .12; bsx *= s; bsy *= 1 / s; }
     if (e.ring > 0) { bsx *= 1 + e.ring * .5; bsy *= 1 - e.ring * .35; }
     if (e.nova > 0) { const s = 1 + (4.6 - e.nova) * .05 + Math.sin(e.t * 40) * .02; bsx *= s; bsy *= s; }

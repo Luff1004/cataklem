@@ -20,7 +20,7 @@ function newRun() {
     char: SAVE.char, rift: SAVE.rift, rf: RIFT[SAVE.rift] || RIFT[1], uid: 1,
     hurtFlash: 0, flash: 0, gemChain: 0, gemChainT: 0, later: [], shardsFound: 0,
     dieT: 0, winT: 0, moved: false, wantChest: [], ultTold: false, buildDirty: true, eliteN: 0, chests: 0, ults: 0, evoN: 0,
-    mode: 'normal', rel: freshRel(), relics: [], relicPend: 0, relicDelay: 0, dark: 0, darkT: 0, fightT: 0, dmgDealt: 0, choice: 'level',
+    mode: 'normal', tile: mapTile((MAPS[SAVE.rift] || MAPS[1]).id), rel: freshRel(), relics: [], relicPend: 0, relicDelay: 0, dark: 0, darkT: 0, fightT: 0, dmgDealt: 0, choice: 'level',
   };
   for (const k in P) delete P[k];
   Object.assign(P, { x: 0, y: 0, r: 11, vx: 0, vy: 0, face: 1, inv: 0, t: 0, hp: 0, maxHp: 0, dashT: 0, dashCd: 0, dashX: 0, dashY: 0 });
@@ -120,6 +120,7 @@ function edgePoint(margin = 60) {
   return [P.x + x + P.vx * .35, P.y + y + P.vy * .35];
 }
 function spawnEnemy(type, x, y, elite = false) {
+  if (G.mode === 'normal') { const sw = curMap().sub2[type]; if (sw) type = sw; }
   const d = ENEMY[type];
   const m = G.time / 60, hpm = (1 + m * .28 + m * m * .05) * G.rf.hp * (elite ? 8 : 1);
   const scl = elite ? 1.5 : 1;
@@ -128,7 +129,7 @@ function spawnEnemy(type, x, y, elite = false) {
     spd: d.spd * (1 + G.time / RUN_END * .16) * (elite ? .85 : 1) * rnd(.9, 1.1),
     dmg: d.dmg * (elite ? 1.5 : 1), xp: d.xp, ai: d.ai, kbRes: elite ? .7 : (d.kb || 0),
     kx: 0, ky: 0, t: rnd(10), ph: rnd(TAU), flash: 0, elite, hit: {}, cd: rnd(1.2, 2.6), face: 1,
-    side: Math.random() < .5 ? -1 : 1, fuse: 0, dead: false, boss: false,
+    side: Math.random() < .5 ? -1 : 1, fuse: 0, dead: false, boss: false, blastR: d.blastR,
   };
   E.push(e); return e;
 }
@@ -254,16 +255,18 @@ function killEnemy(e) {
   if (Math.random() < .45) burst(e.x, e.y, 2, COL.pink, 110);
   SFX.kill();
   if (e.type === 'scribbler') { HZ.push({ k: 'pool', x: e.x, y: e.y, r: 60, warn: .4, dur: 4, dmg: 10, t: 0, dead: false, scrib: 1 }); burst(e.x, e.y, 14, COL.deep, 240); }
-  if (e.type === 'splitter') for (let k = 0; k < 2; k++) { const m = spawnEnemy('mini', e.x + rnd(-8, 8), e.y + rnd(-8, 8)); m.kx = rnd(-140, 140); m.ky = rnd(-140, 140); }
-  if (e.type === 'bomber') bomberBlast(e, true);
+  const ED = ENEMY[e.type] || {};
+  if (ED.split) for (let k = 0; k < 2; k++) { const m = spawnEnemy(ED.split, e.x + rnd(-8, 8), e.y + rnd(-8, 8)); m.kx = rnd(-140, 140); m.ky = rnd(-140, 140); }
+  if (ED.blast) bomberBlast(e, true);
 }
 function bomberBlast(e, byPlayer) {
   if (!byPlayer) { e.dead = true; splat(e.x, e.y, 50, true); }
-  ringFx(e.x, e.y, 62, COL.pink, .3, 5);
+  const BR = e.blastR || 62;
+  ringFx(e.x, e.y, BR, COL.pink, .3, 5);
   burst(e.x, e.y, 12, COL.pink, 220); burst(e.x, e.y, 6, COL.yellow, 160);
   SFX.boom(false); shake(byPlayer ? 2 : 5);
-  if (!byPlayer && d2(P.x, P.y, e.x, e.y) < (62 + P.r) ** 2) hurtPlayer(16);
-  aoe(e.x, e.y, 62, 32, 160, true);
+  if (!byPlayer && d2(P.x, P.y, e.x, e.y) < (BR + P.r) ** 2) hurtPlayer(16);
+  aoe(e.x, e.y, BR, 32, 160, true);
 }
 function strike(t, dmg, chain) {
   const sx = t.x + rnd(-40, 40), sy = t.y - H / ZOOM * .7;
@@ -614,6 +617,7 @@ function updateEnemies(dt) {
       e.cd -= dt;
       if (e.cd <= 0 && dist < 430 && STATE === 'play') { e.cd = rnd(2.4, 3.1); fireEB(e.x, e.y, Math.atan2(dy, dx), 128, 9, false); SFX.spit(); e.flash = .07; }
     }
+    else if (MAP_AI[e.ai]) { const m = MAP_AI[e.ai](e, dt, ux, uy, dist); if (!m) continue; mvx = m[0]; mvy = m[1]; }
     else if (e.ai === 'bomb') {
       if (e.fuse > 0) { e.fuse -= dt; if (e.fuse <= 0) { bomberBlast(e, false); continue; } }
       else { mvx = ux * e.spd; mvy = uy * e.spd; if (dist < e.r + P.r + 22 && STATE === 'play') e.fuse = .5; }

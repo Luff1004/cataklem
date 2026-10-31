@@ -108,6 +108,20 @@ img{max-width:100%}
 .rift button.lk{border-style:dashed;opacity:.35}
 .riftdesc{margin-top:10px;font-size:13px;line-height:1.5}
 .riftdesc b{font-family:var(--f-mono)}
+.maps{display:flex;flex-direction:column;gap:10px}
+.map{display:grid;grid-template-columns:86px 1fr;gap:12px;align-items:center;text-align:left;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;padding:8px;color:var(--ink);font:inherit;width:100%}
+.map .th{position:relative;width:86px;height:86px;border:2px solid var(--ink);background-size:cover;background-position:center;border-radius:2px}
+.map .th span{position:absolute;left:5px;top:3px;font:400 26px/1 var(--f-display);color:var(--ink);text-shadow:2px 2px 0 var(--paper)}
+.map .tx{min-width:0}
+.map .tx b{display:block;font:400 21px/1.1 var(--f-display)}
+.map .sb{display:block;margin-top:2px;font:700 12px/1.3 var(--f-body);opacity:.7}
+.map .mobs{display:flex;gap:1px;margin-top:6px}
+.map .mobs img{width:30px;height:30px}
+.map p{margin:6px 0 0;font-size:12.5px;line-height:1.45}
+.map .mul{display:block;margin-top:5px;font:700 11px/1.2 var(--f-mono);color:var(--pink)}
+.map.on{background:#fff;box-shadow:4px 4px 0 var(--pink)}
+.map.lk{border-style:dashed;opacity:.5}
+.map.lk .th{filter:grayscale(1)}
 
 .shop{display:flex;flex-direction:column}
 .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-bottom:2px dotted var(--ink-30)}
@@ -456,7 +470,7 @@ img{max-width:100%}
   <div class="shead"><button class="back" data-back aria-label="뒤로"></button><h2>출발 준비</h2><span class="right"><i class="shard"></i><b class="num" id="pShards">0</b></span></div>
   <div class="scroll">
     <div><div class="label"><span class="eyebrow">누구로 나갈까</span><span>파편으로 새 불씨를 깨운다</span></div><div class="chars" id="chars"></div></div>
-    <div><div class="label"><span class="eyebrow">균열 단계</span><span>밤을 넘기면 다음 단계가 열린다</span></div><div class="rift" id="rift"></div><div class="riftdesc" id="riftDesc"></div></div>
+    <div><div class="label"><span class="eyebrow">어디로 나갈까</span><span>밤을 넘기면 다음 땅이 열린다</span></div><div class="maps" id="maps"></div></div>
   </div>
   <button class="btn" id="btnGo">출발<span class="sub" id="goSub"></span></button>
 </section>

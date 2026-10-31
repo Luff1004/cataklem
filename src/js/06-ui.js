@@ -36,7 +36,7 @@ function openTitle() {
   $('hud').hidden = true;
   show('scrTitle');
   $('tShards').textContent = fmtNum(SAVE.shards);
-  $('playSub').textContent = CHARS[SAVE.char].name + ' · 균열 ' + SAVE.rift;
+  $('playSub').textContent = CHARS[SAVE.char].name + ' · ' + MAPS[SAVE.rift].name;
   const ql = questsLeft(); $('qBadge').hidden = !ql; $('qBadge').textContent = ql;
   $('pBadge').hidden = !anyPortal();
   $('btnAgain').textContent = '한 번 더';
@@ -69,19 +69,22 @@ function renderPrep() {
     });
     host.appendChild(b);
   }
-  const rh = $('rift'); rh.innerHTML = '';
-  for (let i = 1; i <= 5; i++) {
-    const b = document.createElement('button');
-    const lk = i > SAVE.maxRift;
-    b.className = (SAVE.rift === i ? 'on' : '') + (lk ? ' lk' : '');
-    b.textContent = i; b.setAttribute('aria-label', '균열 ' + i + (lk ? ' 잠김' : ''));
+  const mh = $('maps'); mh.innerHTML = '';
+  for (let i = 1; i < MAPS.length; i++) {
+    const m = MAPS[i], lk = i > SAVE.maxRift && !LOCAL, r = RIFT[i], b = document.createElement('button');
+    b.className = 'map' + (SAVE.rift === i ? ' on' : '') + (lk ? ' lk' : '');
+    const mobs = ['blob', 'moth', 'spitter', 'splitter', 'bomber', 'brute'].map(k => m.sub2[k] || k);
+    b.innerHTML = '<div class="th" style="background-image:url(' + mapThumb(i) + ')"><span>' + i + '</span></div>' +
+      '<div class="tx"><b>' + esc(m.name) + '</b><span class="sb">' + esc(m.sub) + '</span>' +
+      (lk ? '<p>' + esc(MAPS[i - 1].name) + '에서 밤을 넘기면 열린다.</p>' :
+        '<div class="mobs">' + mobs.map(k => '<img alt="" src="' + mobIcon(k) + '">').join('') + '</div>' +
+        (SAVE.rift === i ? '<p>' + esc(m.desc) + '</p>' : '') +
+        (i > 1 ? '<span class="mul">체력 ×' + r.hp + ' · 피해 ×' + r.dmg + ' · 파편 ×' + r.shard + '</span>' : '<span class="mul">8분을 버티면 끝이 온다</span>')) + '</div>';
+    b.setAttribute('aria-label', m.name + (lk ? ' 잠김' : ''));
     b.addEventListener('click', () => { if (lk) { SFX.deny(); return; } SAVE.rift = i; persist(); SFX.tap(); renderPrep(); });
-    rh.appendChild(b);
+    mh.appendChild(b);
   }
-  const r = RIFT[SAVE.rift];
-  $('riftDesc').innerHTML = SAVE.rift === 1 ? '처음 나가는 밤. 적이 아직 덜 사납다. 8분을 버티면 끝이 온다.' :
-    '적 체력 <b>×' + r.hp + '</b>, 적 피해 <b>×' + r.dmg + '</b>, 수 <b>×' + r.spawn + '</b>. 대신 파편을 <b>×' + r.shard + '</b> 받는다.';
-  $('goSub').textContent = CHARS[SAVE.char].name + ' · 균열 ' + SAVE.rift;
+  $('goSub').textContent = CHARS[SAVE.char].name + ' · ' + MAPS[SAVE.rift].name;
 }
 
 /* ---------- shop ---------- */
@@ -144,7 +147,7 @@ function startRun() {
   renderSlots();
   INPUT.joy = null; updMove();
   try { if (navigator.wakeLock && !WL) navigator.wakeLock.request('screen').then(l => { WL = l; l.addEventListener('release', () => { WL = null; }); }).catch(() => {}); } catch (e) {}
-  banner('첫째 밤', CHARS[G.char].name + ' · 균열 ' + G.rift);
+  banner(MAPS[G.rift].name, '첫째 밤 · ' + MAPS[G.rift].sub);
 }
 function pauseGame() {
   if (STATE !== 'play') return;
@@ -303,14 +306,14 @@ function endRun(win) {
   const best = k => nb[k] ? '<span class="stamp-new">신기록</span>' : '';
   const nextChar = Object.keys(CHARS).find(id => !SAVE.chars[id]);
   $('resBody').innerHTML =
-    '<div><span class="eyebrow">' + (win ? '균열 ' + G.rift + ' 돌파' : fmtTime(G.time) + '에서 멈춤') + '</span>' +
+    '<div><span class="eyebrow">' + (win ? MAPS[G.rift].name + ' 돌파' : fmtTime(G.time) + '에서 멈춤') + '</span>' +
     '<h2 class="big"><span class="pk" aria-hidden="true">' + title + '</span><span class="ik">' + title + '</span></h2></div>' +
     '<p class="lead">' + lead + '</p>' +
-    '<div class="earn"><div><span class="eyebrow">받은 파편</span><small>처치, 시간, 거물' + (G.rf.shard > 1 ? ', 균열 ×' + G.rf.shard : '') + '</small></div><span class="v"><i class="shard"></i><b id="earnN">0</b></span></div>' +
+    '<div class="earn"><div><span class="eyebrow">받은 파편</span><small>처치, 시간, 거물' + (G.rf.shard > 1 ? ', 지역 ×' + G.rf.shard : '') + '</small></div><span class="v"><i class="shard"></i><b id="earnN">0</b></span></div>' +
     '<div class="tiles">' + tile(fmtTime(G.time), '버틴 시간') + tile(fmtNum(G.kills), '처치') + tile('LV ' + G.level, '레벨') + tile(G.bosses + ' / 4', '쓰러뜨린 거물') + '</div>' +
     '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:-6px">' + (nb.time ? '<span class="stamp-new">최장 생존</span>' : '') + (nb.kills ? '<span class="stamp-new">최다 처치</span>' : '') + (nb.level ? '<span class="stamp-new">최고 레벨</span>' : '') + '</div>' +
     (qGot.length ? '<div class="qdone">' + qGot.map(q => '<div>의뢰 완료 · ' + esc(QUESTS[q.id].txt(q.goal)) + '<span>+' + q.reward + '</span></div>').join('') + '</div>' : '') +
-    (unlocked ? '<div class="unlock">균열 ' + unlocked + ' 단계가 열렸다. 더 사나운 밤, 더 많은 파편.</div>' : '') +
+    (unlocked ? '<div class="unlock">' + esc(josa(MAPS[unlocked].name, '이', '가')) + ' 열렸다. 더 사나운 밤, 더 많은 파편.</div>' : '') +
     '<div><div class="label"><span class="eyebrow">이번 밤의 장비</span></div><div class="build">' + buildHTML() + '</div></div>' +
     '<p class="note">가진 파편 ' + fmtNum(SAVE.shards) + (nextChar ? ' · 다음 불씨 ' + CHARS[nextChar].name + '까지 ' + Math.max(0, CHARS[nextChar].cost - SAVE.shards) : '') + '</p>';
   void best;
