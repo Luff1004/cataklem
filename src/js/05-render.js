@@ -82,6 +82,7 @@ function render(rdt) {
   drawWard();
   drawProjectiles();
   drawIntroFx();
+  drawBossGear();
 
   // enemy bullets
   for (const b of EB) { if (!onScreen(b.x, b.y, 20)) continue; spr(b.big ? SP.ebig : SP.ebul, b.x, b.y, b.big ? 20 : 13, b.big ? 20 : 13); }
@@ -125,6 +126,7 @@ function render(rdt) {
   drawOverlay();
   drawNovaClock();
   drawUnknownOverlay();
+  drawSubs();
   drawPulse();
   drawJoy();
 }
@@ -180,6 +182,7 @@ function drawEnemies() {
   for (const e of E) {
     if (e.dead) continue;
     if (e.type === 'unknown') { drawUnknown(e); continue; }
+    if (e.type === 'limb') { drawLimb(e); continue; }
     const S = SPR[e.type];
     if (!S || !onScreen(e.x, e.y, S.size * e.scl)) continue;
     if (e.hidden) { const k = clamp(1 - (e.leap || 0) / 1.5, 0, 1); ctx.globalAlpha = .5 + k * .5; spr(SP.shadow, e.x, e.y + e.r * .3, e.r * (1.4 + k * 1.4), e.r * (.5 + k * .5)); ctx.globalAlpha = 1; continue; }
@@ -279,7 +282,7 @@ function drawProjectiles() {
       ctx.beginPath(); ctx.moveTo(p.x - p.vx * .035, p.y - p.vy * .035); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.globalAlpha = 1;
       if (p.kind === 'sun') spr(SP.sun, p.x, p.y, 24, 24, p.t * 7);
       else spr(SP.ember, p.x, p.y, 13, 13);
-    } else {
+    } else if (p.kind === 'boomer' || p.kind === 'gale') {
       const sz = 26 * p.size;
       spr(p.kind === 'gale' ? SP.gale : SP.boomer, p.x, p.y, sz, sz, p.spin);
     }

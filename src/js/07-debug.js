@@ -40,7 +40,7 @@ if (/debug/.test(location.search)) {
     },
     boss(id, smartDodge = true) {
       setupBossRun(id);
-      for (let i = 0; i < 4; i++) { const c = rollChoices(); const o = c.find(x => x.k === 'w' && !x.isNew) || c[0]; applyChoice(o); applyChoice(o); }
+      for (let i = 0; i < G.draftMax; i++) { const c = bossDraftChoices(); const o = c.find(x => x.k === 'w' && !x.isNew) || c[0]; applyChoice(o); applyChoice(o); }
       spawnArenaBoss(); for (const e of E) e.introScale = 1; STATE = 'play'; G.choice = 'level';
       $('hud').hidden = false; $('hud').classList.add('arena'); $('bossBar').hidden = false; hideAll();
     },
@@ -50,6 +50,7 @@ if (/debug/.test(location.search)) {
     get U() { return G.u; }, get INPUT() { return INPUT; }, get OB() { return OB; },
     tick(dt) { setCam(G.camX, G.camY); step(dt); if (STATE === 'cut') updateCut(dt); },
     walk(x, y) { return walkable(x, y); },
+    finish() { const e = G.boss; e.hp = 1; G.uPhaseT = 999; },
     run() { document.getElementById('btnPlay').click(); document.getElementById('btnGo').click(); },
     bench() { const t = performance.now(); for (let i = 0; i < 20; i++) render(0); const r = (performance.now() - t) / 20; const t2 = performance.now(); for (let i = 0; i < 20; i++) step(1 / 60); return { render: r.toFixed(2), step: ((performance.now() - t2) / 20).toFixed(2) }; },
   };

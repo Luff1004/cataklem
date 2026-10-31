@@ -49,6 +49,8 @@ function setupBossRun(id) {
   G.mode = 'boss'; G.gate = gate; G.rf = RIFT[1]; G.draftLeft = G.draftMax = id === 'unknown' ? 5 : 4; G.u = id === 'unknown' ? freshU() : null; G.sprint = 1; G.heartT = 20; G.rodT = 2.5; G.enraged = false;
   G.ultNeed = 150; G.rerolls = 2 + (SAVE.shop.reroll || 0);
   G.rel.hp = 60;
+  G.weapons = []; G.buildDirty = true;
+  if (id === 'unknown') { G.rel.hp = 160; G.rel.spdFlat = 100; G.draftLeft = G.draftMax = 1; }
   P.x = 0; P.y = 230; G.camX = 0; G.camY = 200;
   for (const w of G.weapons) w.lv = 3;
   recalc(); P.hp = P.maxHp;
@@ -84,7 +86,7 @@ function tryDash() {
   if (STATE !== 'play' || G.mode !== 'boss' || P.dashCd > 0) return;
   let dx = INPUT.mx, dy = INPUT.my, l = Math.hypot(dx, dy);
   if (l < .2) { dx = P.face; dy = 0; l = 1; }
-  P.dashX = dx / l; P.dashY = dy / l; P.dashT = .17 * G.rel.dashDist; P.dashCd = 1.5 * G.rel.dashCd; P.inv = Math.max(P.inv, .32);
+  P.dashX = dx / l; P.dashY = dy / l; P.dashT = .17 * G.rel.dashDist; P.dashCd = 1.5 * G.rel.dashCd * (P.dashMul || 1); P.inv = Math.max(P.inv, .32 + (P.dashInv || 0));
   SFX.dash(); buzz(10);
 }
 const phaseOf = e => (e.share || e).phase;

@@ -136,6 +136,8 @@ const SFX = {
   nova() { noise(2.6, { ft: 'highpass', f: 600, f2: 7000, vol: .38 }); noise(2.2, { f: 1200, f2: 60, vol: .45 }); tone(55, 2.4, { type: 'sine', f2: 28, vol: .45 }); tone(2200, 1.8, { type: 'sine', f2: 300, vol: .07 }); },
   scratch() { noise(rnd(.08, .2), { ft: 'bandpass', f: rnd(1500, 4000), q: rnd(4, 10), vol: .06 }); },
   whisper() { noise(1.6, { ft: 'bandpass', f: 900, f2: 2400, q: 9, vol: .07 }); noise(1.2, { ft: 'bandpass', f: 1400, f2: 700, q: 11, vol: .05, delay: .3 }); },
+  slash(h) { if (!gate('slash', 60)) return; noise(.16, { ft: 'bandpass', f: h ? 3000 : 1400, f2: h ? 6000 : 500, q: 1.2, vol: h ? .1 : .12 }); tone(h ? 880 : 220, .12, { type: h ? 'sine' : 'sawtooth', f2: h ? 1760 : 90, vol: .05, lp: 2400 }); },
+  heaven() { [0, 4, 7, 12, 16, 19].forEach((s, i) => tone(semi(262, s), 2.6, { type: i % 2 ? 'sine' : 'triangle', vol: .07, att: .4, delay: i * .05 })); noise(2, { ft: 'highpass', f: 6000, vol: .04 }); },
   portal() { tone(220, 1.2, { type: 'sine', f2: 1760, vol: .1, att: .2 }); tone(330, 1.2, { type: 'triangle', f2: 990, vol: .05, att: .3 }); noise(1.2, { ft: 'bandpass', f: 500, f2: 5000, q: 2, vol: .08 }); },
 };
 
@@ -160,7 +162,15 @@ function kick(t, d) {
   g.gain.setValueAtTime(.55, t); g.gain.exponentialRampToValueAtTime(.0001, t + .2);
   o.connect(g); g.connect(d); o.start(t); o.stop(t + .22);
 }
-function stepDur() { return AU.track === 'chase' ? 60 / 164 / 4 : AU.track === 'unknown' ? 60 / 84 / 4 : STEP; }
+function stepDur() { return AU.track === 'chase' ? 60 / 164 / 4 : AU.track === 'unknown' ? 60 / 84 / 4 : AU.track === 'credits' ? 60 / 76 / 4 : STEP; }
+function playCredits(s, t) {
+  const bar = (s >> 4) & 3, st = s & 15, d = AU.mus, sd = stepDur();
+  const ch = [[60, 64, 67], [55, 59, 62], [57, 60, 64], [53, 57, 60]][bar];
+  if (st === 0) ch.forEach(n => tone(mtof(n), sd * 16, { type: 'triangle', vol: .035, att: .6, at: t, dest: d, lp: 1600 }));
+  if (st === 0 || st === 8) tone(mtof(ch[0] - 24), sd * 8, { type: 'sine', vol: .12, at: t, dest: d });
+  if (st % 2 === 0) { const pat = [0, 1, 2, 1, 2, 0, 1, 2]; tone(mtof(ch[pat[st >> 1]] + 12), sd * 3, { type: 'sine', vol: .045, at: t, dest: d }); }
+  if (st === 6 && bar % 2 === 0) tone(mtof(ch[2] + 24), sd * 8, { type: 'sine', vol: .03, att: .02, at: t, dest: d });
+}
 /* UNKNOWN: a tritone drone, a limping 7-against-16 pulse, scraping metal; layers pile up with each act */
 function playUnknown(s, t) {
   const bar = (s >> 4) & 3, st = s & 15, ph = AU.uPhase || 1, d = AU.mus, sd = stepDur();
@@ -195,6 +205,7 @@ function playStep(s, t) {
   if (!SAVE.music || AU.track === 'silent') return;
   if (AU.track === 'unknown') return playUnknown(s, t);
   if (AU.track === 'chase') return playChase(s, t);
+  if (AU.track === 'credits') return playCredits(s, t);
   const bar = (s >> 4) & 3, st = s & 15, I = AU.intensity, d = AU.mus;
   const ch = PROG[bar];
   if (st === 0) ch.forEach(n => tone(mtof(n), STEP * 15, { type: 'triangle', vol: .024, att: .35, at: t, dest: d, lp: 1100 }));

@@ -113,6 +113,7 @@ function openRec() {
   let codex = '';
   for (const id in WEAPONS) {
     const w = WEAPONS[id], got = !!s.evos[id];
+    if (w.boss) continue;
     codex += '<div class="cdx' + (got ? '' : ' unk') + '"><img alt="" src="' + ICON[id + '_evo'] + '"><b>' + (got ? esc(w.evoName) : '???') + '</b><span>' +
       esc(w.name) + ' LV5 + ' + esc(PASSIVES[w.evoWith].name) + '</span></div>';
   }
@@ -201,7 +202,8 @@ function renderCards() {
       if (!w) badge = '<span class="badge">새 무기</span>';
       for (let k = 0; k < D.max; k++) pips += '<i class="' + (k < nl - 1 ? 'on' : k === nl - 1 ? 'nx' : '') + '"></i>';
       const has = G.passives.some(p => p.id === D.evoWith);
-      if (nl === D.max) hint = has ? '<span class="chint ok">진화 준비 완료 · 상자를 열면 ' + esc(D.evoName) + '</span>' : '<span class="chint">진화하려면 ' + esc(PASSIVES[D.evoWith].name) + ' 필요</span>';
+      if (!D.evoWith) hint = '';
+      else if (nl === D.max) hint = has ? '<span class="chint ok">진화 준비 완료 · 상자를 열면 ' + esc(D.evoName) + '</span>' : '<span class="chint">진화하려면 ' + esc(PASSIVES[D.evoWith].name) + ' 필요</span>';
       else hint = '<span class="chint">짝: ' + esc(PASSIVES[D.evoWith].name) + (has ? ' (있음)' : '') + '</span>';
     } else if (o.k === 'p') {
       const D = PASSIVES[o.id], p = G.passives.find(x => x.id === o.id), nl = p ? Math.min(D.max, p.lv + stp) : Math.min(D.max, stp);
@@ -332,7 +334,7 @@ function updateHUD() {
     const b = $('btnUlt'); b.style.setProperty('--p', up); b.classList.toggle('ready', up >= 100); hudCache.ult = up;
     if (up >= 100 && !G.ultTold && !SAVE.ultSeen) { G.ultTold = true; banner('섬광이 찼다', '오른쪽 아래 원을 눌러라', 'good'); }
   }
-  if (G.mode === 'boss') { const cd = P.dashCd > 0 ? Math.round((1 - P.dashCd / (1.5 * G.rel.dashCd)) * 100) : 100; if (hudCache.dash !== cd) { const b = $('btnDash'); b.style.setProperty('--p', cd); b.classList.toggle('ready', cd >= 100); hudCache.dash = cd; } }
+  if (G.mode === 'boss') { const cd = P.dashCd > 0 ? Math.round((1 - P.dashCd / (1.5 * G.rel.dashCd * (P.dashMul || 1))) * 100) : 100; if (hudCache.dash !== cd) { const b = $('btnDash'); b.style.setProperty('--p', cd); b.classList.toggle('ready', cd >= 100); hudCache.dash = cd; } }
   if (G.boss) { const r = Math.max(0, (G.boss.share || G.boss).hp / G.boss.maxHp); if (Math.abs((hudCache.boss ?? -1) - r) > .002) { $('bossFill').style.width = (r * 100).toFixed(1) + '%'; hudCache.boss = r; } }
   const comboOn = G.combo >= 10;
   if (hudCache.combo !== G.combo) { $('comboN').textContent = G.combo; $('combo').classList.toggle('on', comboOn); hudCache.combo = G.combo; }

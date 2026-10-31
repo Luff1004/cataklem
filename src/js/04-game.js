@@ -42,7 +42,7 @@ function recalc() {
   let crit = .05 + (s.crit || 0) * .04;
   let xp = 1 + (s.xp || 0) * .05;
   let regen = (s.regen || 0) * .1 + (m.regen || 0);
-  let amount = (m.amount || 0), luck4 = 0, dur = 1, armor = 1;
+  let amount = (m.amount || 0), luck4 = 0, dur = 1, armor = 1, leechP = 0, dashMul = 1, dashInv = 0;
   crit += m.crit || 0;
   const RL = G.rel || freshRel();
   maxHp += RL.hp; might += RL.might; crit += RL.crit; spd += RL.spd; amount += RL.amount;
@@ -58,9 +58,17 @@ function recalc() {
     else if (p.id === 'clover') { crit += .05 * L; xp += .08 * L; luck4 += .08 * L; }
     else if (p.id === 'scale') armor *= Math.pow(.93, L);
     else if (p.id === 'spring') dur += .12 * L;
+    else if (p.id === 'ironheart') maxHp += 30 * L;
+    else if (p.id === 'will') might += .12 * L;
+    else if (p.id === 'windstep') { spd += .1 * L; dashMul *= Math.pow(.92, L); }
+    else if (p.id === 'reflex') dashInv += .07 * L;
+    else if (p.id === 'bloodmark') leechP += .004 * L;
+    else if (p.id === 'focuseye') crit += .07 * L;
+    else if (p.id === 'gearwork') cd *= Math.pow(.92, L);
+    else if (p.id === 'crest') armor *= Math.pow(.92, L);
   }
   if (P.maxHp && maxHp > P.maxHp) P.hp += maxHp - P.maxHp;
-  Object.assign(P, { maxHp, might, area, cdMul: cd, speed: 150 * spd, pickup: 72 * pickup, crit, xpMul: xp, regen, amount, luck4, ultMul: (1 + (s.ult || 0) * .15) * RL.ult, dur, armorMul: armor, critMul: RL.critMul || 2, leech: RL.leech });
+  Object.assign(P, { maxHp, might, area, cdMul: cd, speed: 150 * spd + (RL.spdFlat || 0), pickup: 72 * pickup, crit, xpMul: xp, regen, amount, luck4, ultMul: (1 + (s.ult || 0) * .15) * RL.ult, dur, armorMul: armor, critMul: RL.critMul || 2, leech: RL.leech + leechP, dashMul, dashInv });
   P.hp = Math.min(P.hp, P.maxHp);
 }
 
@@ -191,6 +199,16 @@ function hurtEnemy(e, dmg, kx = 0, ky = 0, quiet) {
   if (e.dead || e.inv > 0 || e.hidden || e.under) return 0;
   const crit = Math.random() < P.crit;
   let d = dmg * P.might * (crit ? P.critMul : 1) * rnd(.92, 1.08);
+  if (e.limbOf) {
+    const b = e.limbOf;
+    if (b.hp - d < b.hpFloor) d = Math.max(0, b.hp - b.hpFloor);
+    b.hp -= d; G.dmgDealt += d; e.flash = .09;
+    G.ult = Math.min(G.ultNeed, G.ult + d / b.maxHp * G.ultNeed * 7 * P.ultMul);
+    if (P.leech && STATE === 'play') P.hp = Math.min(P.maxHp, P.hp + d * P.leech);
+    if (!quiet && d >= 1) TX.push({ x: e.x + rnd(-16, 16), y: e.y - 34, vy: -50, life: crit ? .8 : .6, max: crit ? .8 : .6, v: Math.round(d), crit, dead: false });
+    if (!quiet) SFX.hit();
+    return d;
+  }
   if (e.hpFloor !== undefined && e.hp - d < e.hpFloor) { d = Math.max(0, e.hp - e.hpFloor); e.shieldT = .25; }
   if (e.share) { e.share.hp -= d; e.hp = e.share.hp; e.other.hp = e.share.hp; e.other.flash = .06; } else e.hp -= d;
   e.flash = .09;
@@ -443,11 +461,11 @@ function gainXp(v) {
 }
 function rollChoices() {
   const opts = [];
-  const wFull = G.weapons.length >= 4, pFull = G.passives.length >= 4;
+  const bossGear = G.mode === 'boss', wFull = G.weapons.length >= (bossGear ? 3 : 4), pFull = G.passives.length >= 4;
   for (const w of G.weapons) if (!w.evo && w.lv < WEAPONS[w.id].max) opts.push({ k: 'w', id: w.id, w: 1.3 });
-  if (!wFull) for (const id in WEAPONS) if (!G.weapons.some(w => w.id === id)) opts.push({ k: 'w', id, w: 1, isNew: 1 });
+  if (!wFull) for (const id in WEAPONS) if (!G.weapons.some(w => w.id === id) && !!WEAPONS[id].boss === bossGear && !WEAPONS[id].special) opts.push({ k: 'w', id, w: 1, isNew: 1 });
   for (const p of G.passives) if (p.lv < PASSIVES[p.id].max) opts.push({ k: 'p', id: p.id, w: 1 });
-  if (!pFull) for (const id in PASSIVES) if (!G.passives.some(p => p.id === id)) {
+  if (!pFull) for (const id in PASSIVES) if (!G.passives.some(p => p.id === id) && !!PASSIVES[id].boss === bossGear) {
     const evoBoost = (EVO_OF[id] || []).some(wid => G.weapons.some(w => w.id === wid && !w.evo)) ? 1.4 : .85;
     opts.push({ k: 'p', id, w: evoBoost, isNew: 1 });
   }
@@ -518,6 +536,7 @@ function step(dt) {
     if (t.t >= t.dur) { t.dead = true; if (t.cb) t.cb(); }
   }
   for (const z of ZN) {
+    if (z.follow && !z.follow.dead) { z.x = z.follow.x; z.y = z.follow.y; }
     z.t += dt; z.tick -= dt;
     if (z.tick <= 0) { z.tick = .3; aoe(z.x, z.y, z.r, z.dps * .3, 0, true); if (z.slow) gq(z.x, z.y, z.r + 30, e => { if (d2(e.x, e.y, z.x, z.y) < (z.r + e.r) ** 2) e.slowT = .45; }); }
     if (z.t >= z.dur) z.dead = true;
@@ -536,6 +555,7 @@ function step(dt) {
   const k = 1 - Math.exp(-dt * 8);
   let tx = P.x + P.vx * .1, ty = P.y + P.vy * .1;
   if (G.u && G.u.stage === 'chase') { ty = P.y + 30; tx = P.x * .4; }
+  else if (G.u && G.u.stage === 'final') { tx = clamp(P.x, -RW + VHW * .8, RW - VHW * .8); ty = P.y * .3; }
   else if (G.mode === 'boss' && G.boss && !G.boss.dead && STATE !== 'intro' && !(G.u && G.u.stage === 'maze')) { tx = lerp(tx, G.boss.x, .22); ty = lerp(ty, G.boss.y, .22); }
   G.camX = lerp(G.camX, tx, k); G.camY = lerp(G.camY, ty, k);
   for (const g of GH) { g.life -= dt; if (g.life <= 0) g.dead = true; }
@@ -576,6 +596,7 @@ function updateEnemies(dt) {
   for (let i = 0; i < E.length; i++) {
     const e = E[i]; if (e.dead) continue;
     e.t += dt; if (e.flash > 0) e.flash -= dt;
+    if (e.ai === 'limb') { e.life -= dt; if (e.life <= 0) { e.dead = true; continue; } }
     const dx = P.x - e.x, dy = P.y - e.y, dist = Math.hypot(dx, dy) || 1, ux = dx / dist, uy = dy / dist;
     let mvx = 0, mvy = 0;
     if (e.arena || e.ai === 'echo' || e.ai === 'sat') { const m = arenaAI(e, dt, ux, uy, dist); mvx = m[0]; mvy = m[1]; }
@@ -598,7 +619,7 @@ function updateEnemies(dt) {
     if (Math.abs(mvx) + Math.abs(mvy) > 4) e.mvA = Math.atan2(mvy, mvx);
     if (G.mode === 'boss' && !e.under && !e.hidden && !(G.u && G.u.stage !== 'arena')) { const dl = Math.hypot(e.x, e.y), lim = (G.u ? G.u.circleR : ARENA_R) - e.r * .6; if (dl > lim) { e.x *= lim / dl; e.y *= lim / dl; } }
     if (Math.abs(mvx) > 2) e.face = mvx > 0 ? 1 : -1;
-    if (!e.boss) {
+    if (!e.boss && !e.fixed) {
       const a = grid.get(gk(Math.floor(e.x / GS), Math.floor(e.y / GS)));
       if (a) {
         let c = 0;
@@ -633,7 +654,7 @@ function updateProj(dt) {
       continue;
     }
     if (p.kind === 'mine') { updateMine(p, dt); continue; }
-    if (p.kind === 'fly') {
+    if (p.kind === 'fly' || p.kind === 'comet') {
       if (!p.tgt || p.tgt.dead || p.tgt.hidden || p.tgt.under || (p.t % .4) < dt) {
         let best = null, bd = 1e12;
         for (const e of E) { if (e.dead || e.hidden || e.under || p.hitset.has(e)) continue; const d = d2(e.x, e.y, p.x, p.y); if (d < bd) { bd = d; best = e; } }

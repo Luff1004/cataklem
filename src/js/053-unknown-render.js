@@ -37,7 +37,7 @@ function drawTentacle(pts, w) {
   ctx.globalAlpha = 1;
 }
 function drawUnknown(e) {
-  const sc = e.introScale === undefined ? 1 : e.introScale;
+  const sc = (e.introScale === undefined ? 1 : e.introScale) * (e.drawScale || 1);
   if (sc <= .01) return;
   wt();
   const R = e.r * sc * (1 + Math.sin(e.t * 3.1) * .05);
@@ -118,8 +118,9 @@ function drawVoid() {
   x.fillStyle = '#000'; x.strokeStyle = '#000'; x.lineCap = 'round';
   if (u.circle) { x.beginPath(); x.arc(0, 0, u.circleR, 0, TAU); x.fill(); }
   if (u.corr) x.fillRect(-CW / 2, 0, CW, ARENA_R + CL + 40);
+  if (u.rect) x.fillRect(-RW, -RH, RW * 2, RH * 2);
   for (const s of u.segs) { const w = segW(s); if (w < 2) continue; x.lineWidth = w; x.beginPath(); x.moveTo(s.x1, s.y1); x.lineTo(s.x2, s.y2); x.stroke(); }
-  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(DK2, 0, 0);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1 - (u.voidFade || 0); ctx.drawImage(DK2, 0, 0); ctx.globalAlpha = 1;
   // the dark is not still: it is more scribble
   wt();
   ctx.lineCap = 'round';
@@ -131,6 +132,12 @@ function drawVoid() {
     ctx.beginPath(); ctx.moveTo(px, py);
     for (let s = 0; s < 6; s++) { h += rnd(-1.4, 1.4); px += Math.cos(h) * 16; py += Math.sin(h) * 16; ctx.lineTo(px, py); }
     ctx.stroke();
+  }
+  if (u.rect) {
+    wt(); const gl = P.heavenly ? .6 : .2;
+    glowLine(-RW, -RH, RW, -RH, 16, COL.yellow, gl); glowLine(-RW, RH, RW, RH, 16, COL.yellow, gl);
+    ctx.strokeStyle = COL.pink; ctx.lineWidth = 7; ctx.strokeRect(-RW + 2, -RH + 2, RW * 2, RH * 2);
+    ctx.strokeStyle = COL.deep; ctx.lineWidth = 5; ctx.strokeRect(-RW, -RH, RW * 2, RH * 2);
   }
   // corridor walls
   if (u.corr) {

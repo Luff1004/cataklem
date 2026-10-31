@@ -8,6 +8,7 @@ function freshU() { return { stage: 'arena', circle: true, circleR: ARENA_R, cor
 function walkable(x, y) {
   const u = G.u; if (!u) return true;
   if (u.circle && x * x + y * y < u.circleR * u.circleR) return true;
+  if (u.rect && Math.abs(x) < RW && Math.abs(y) < RH) return true;
   if (u.corr && Math.abs(x) < CW / 2 && y > 0 && y < ARENA_R + CL + 40) return true;
   for (const s of u.segs) if (segDist(x, y, s.x1, s.y1, s.x2, s.y2) < segW(s) / 2) return true;
   return false;
@@ -19,6 +20,7 @@ function nearestWalk(x, y, r) {
   const u = G.u; let bx = x, by = y, bd = Infinity;
   const take = (px, py) => { const d = (px - x) ** 2 + (py - y) ** 2; if (d < bd) { bd = d; bx = px; by = py; } };
   if (u.circle) { const dl = Math.hypot(x, y) || 1, lim = u.circleR - r; if (dl > lim) take(x / dl * lim, y / dl * lim); else take(x, y); }
+  if (u.rect) take(clamp(x, -RW + r, RW - r), clamp(y, -RH + r, RH - r));
   if (u.corr) take(clamp(x, -CW / 2 + r, CW / 2 - r), clamp(y, (u.circle ? 0 : ARENA_R - 40) + r, ARENA_R + CL + 40 - r));
   for (const sg of u.segs) {
     const w = segW(sg) / 2 - r; if (w <= 3) continue;
@@ -90,6 +92,7 @@ BRAIN.unknown = function (e, dt, ux, uy, dist) {
   uTick(e, dt);
   G.uPhaseT = (G.uPhaseT || 0) + dt;
   if (e.tents.length < Math.min(14, e.phase * 2)) uGrowTents(e, e.phase * 2);
+  if (u.stage === 'final') return uFinal(e, dt);
   if (u.stage !== 'arena') return uChase(e, dt, ux, uy, dist);
   if (e.phase < 7 && e.phase !== 5 && e.hp <= e.maxHp * U_FLOORS[e.phase] + 1 && G.uPhaseT >= U_MIN[e.phase]) { startUCut(e.phase + 1); return Z0; }
   if (e.phase === 7) { u.circleR = Math.max(ARENA_R * .6, u.circleR - dt * 1.2); e.hpFloor = G.uPhaseT < U_MIN[7] ? 1 : 0; }
@@ -220,7 +223,7 @@ function startMaze(e) {
 /* ---------- act changes ---------- */
 function startUCut(next) {
   const e = G.boss;
-  STATE = 'cut'; G.cut = { t: 0, next, dur: next === 5 ? 7 : next === 6 ? 4.8 : 4 };
+  STATE = 'cut'; G.cut = { t: 0, next, dur: next === 7 ? 15.5 : next === 5 ? 7 : next === 6 ? 4.8 : 4 };
   for (const b of EB) b.dead = true;
   for (const h of HZ) h.dead = true;
   for (const t of TG) t.dead = true;
@@ -229,10 +232,12 @@ function startUCut(next) {
   G.hitstop = .25; G.flash = .7; shake(22); pulseScreen(2); SFX.roar(); buzz([60, 40, 160]);
   const c = $('cutscene'); c.hidden = false; c.className = ''; void c.offsetWidth; c.className = 'on';
   $('cutEye').textContent = next + '막 / 7';
-  $('cutLine').textContent = U_LINES[next];
+  $('cutLine').textContent = next === 7 ? '' : U_LINES[next];
   AU.track = 'silent';
 }
 function updateCut(rdt) {
+  if (G.cut.kind === 'finish') return updateFinisher(rdt);
+  if (G.cut.next === 7) return updateAct7(rdt);
   const c = G.cut, e = G.boss, u = G.u;
   c.t += rdt; const t = c.t;
   const prevT = t - rdt, hit = tm => prevT < tm && t >= tm;
@@ -279,6 +284,8 @@ function endCut() {
   const c = G.cut, e = G.boss;
   e.phase = c.next; e.inv = 0; e.cd = 1.4; G.uPhaseT = 0;
   e.hpFloor = e.maxHp * U_FLOORS[e.phase];
+  if (e.phase === 7) { e.hpFloor = 1; e.inv = 1e9; }
+  P.hp = P.maxHp; heal(0);
   G.cutBlack = 0; G.camZoom = 1;
   const el = $('cutscene'); el.classList.add('out'); setTimeout(() => { if (STATE !== 'cut') el.hidden = true; }, 700);
   STATE = 'play';

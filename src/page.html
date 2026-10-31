@@ -374,6 +374,21 @@ img{max-width:100%}
 #cutscene.out .cutin{opacity:0;transition-delay:0s}
 .cutin .eyebrow{color:var(--pink);letter-spacing:.35em}
 #cutLine{margin:10px 0 0;font:400 clamp(24px,7.4vw,38px)/1.2 var(--f-display);color:var(--paper);animation:jitter .2s steps(2) infinite;text-wrap:balance}
+#cutscene.fin #cutLine{font-size:clamp(54px,18vw,104px);color:var(--yellow);text-shadow:4px 3px 0 var(--pink);animation:stampIn .7s cubic-bezier(.2,.9,.3,1.3),sunGlow 1.4s ease-in-out .7s infinite}
+#cutscene.fin .bar.b{height:calc(var(--sb) + 30vh)}
+#credits{position:fixed;inset:0;z-index:70;background:var(--paper);overflow:hidden;pointer-events:auto}
+#credits .roll{position:absolute;left:var(--sl);right:var(--sr);top:100%;text-align:center;display:flex;flex-direction:column;align-items:center;gap:48px;padding-bottom:30vh}
+#credits.on .roll{animation:roll 44s linear forwards}
+@keyframes roll{to{transform:translateY(calc(-100% - 100vh))}}
+.cr-title{position:relative;isolation:isolate;font:400 clamp(60px,20vw,120px)/.84 var(--f-display)}
+.cr-title .pk{position:absolute;inset:0;transform:translate(.045em,.032em);color:var(--pink)}
+.cr-title .ik{position:relative;color:var(--ink);mix-blend-mode:multiply}
+.cr-sec .eyebrow{display:block;color:var(--pink);margin-bottom:12px}
+.cr-sec b{font:400 30px/1.2 var(--f-display)}
+.cr-sec p{margin:5px 0;font:800 17px/1.5 var(--f-body);max-width:22em}
+.cr-line{margin:0;font:700 16px/1.8 var(--f-body);max-width:22em}
+.cr-end{font:400 clamp(70px,24vw,130px)/1 var(--f-display);color:var(--ink);text-shadow:5px 4px 0 var(--pink)}
+#credits .skip{position:absolute;right:var(--sr);bottom:calc(var(--sb) + 14px);opacity:.5;font:800 11px/1 var(--f-body)}
 @keyframes sunGlow{50%{text-shadow:0 0 18px rgba(255,210,63,.9),0 0 40px rgba(255,79,158,.6)}}
 @keyframes stampIn{0%{transform:scale(1.6) rotate(-4deg);opacity:0}60%{transform:scale(.96) rotate(1deg);opacity:1}100%{transform:none}}
 #wipe{position:fixed;inset:0;z-index:40;background:var(--ink-deep);clip-path:circle(0% at 50% 55%);pointer-events:auto}
@@ -487,6 +502,7 @@ img{max-width:100%}
 
 <div id="bossIntro" hidden><div class="bar t"></div><div class="bar b"><div class="bcard"><span class="eyebrow" id="biEye"></span><h2 class="bname" id="biName"></h2><p id="biLine"></p></div><span class="skip">눌러서 넘기기</span></div></div>
 <div id="wipe" hidden></div>
+<div id="credits" hidden><div class="roll" id="creditRoll"></div><span class="skip">눌러서 넘기기</span></div>
 <div id="cutscene" hidden><div class="bar t"></div><div class="bar b"><div class="cutin"><span class="eyebrow" id="cutEye"></span><p id="cutLine"></p></div></div></div>
 
 <div class="rotate">세로로 들고 하는 게임이다.<br>폰을 세워 주세요.</div>

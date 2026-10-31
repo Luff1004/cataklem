@@ -67,8 +67,9 @@ function openDraft() {
   show('scrLevel');
   $('lvEye').textContent = G.gate.ord + ' · 준비 ' + (G.draftMax - G.draftLeft + 1) + ' / ' + G.draftMax;
   $('lvTitle').textContent = '무장을 고른다';
-  CHOICES = rollChoices(); renderCards();
-  $('lvNote').textContent = '고른 것은 두 단계씩 오른다. ' + G.gate.tip;
+  CHOICES = bossDraftChoices(); renderCards();
+  $('lvNote').textContent = G.gate.id === 'unknown' ? '이 문 앞에서는 이것 하나뿐이다. 속도와 체력 +100, 막이 끝날 때마다 다시 일어선다.' : (G.weapons.length ? '고른 것은 두 단계씩 오른다. ' : '먼저 무기를 하나 고른다. ') + G.gate.tip;
+  if (G.gate.id === 'unknown') $('btnReroll').disabled = true;
 }
 function openRelic() {
   STATE = 'level'; G.choice = 'relic'; INPUT.joy = null; updMove();

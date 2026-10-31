@@ -37,4 +37,4 @@ const RELICS = {
   kindle: { name: '진화의 불꽃', icon: 'meteor', info: '가장 높은 무기 하나를 조건 없이 진화시킨다.', fn() { const w = G.weapons.filter(x => !x.evo).sort((a, b) => b.lv - a.lv)[0]; if (w) { w.lv = WEAPONS[w.id].max; w.evo = true; G.evoN++; SAVE.stats.evos[w.id] = 1; } } },
   battery: { name: '축전', icon: 'pulse', info: '섬광이 두 배 빨리 찬다. 지금 가득 채운다.', fn() { G.rel.ult *= 2; G.ult = G.ultNeed; } },
 };
-const freshRel = () => ({ hp: 0, might: 0, taken: 0, crit: 0, critMul: 0, leech: 0, spd: 0, amount: 0, bslow: 1, dashCd: 1, dashDist: 1, rod: 0, ward: 0, undying: 0, ult: 1 });
+const freshRel = () => ({ spdFlat: 0, hp: 0, might: 0, taken: 0, crit: 0, critMul: 0, leech: 0, spd: 0, amount: 0, bslow: 1, dashCd: 1, dashDist: 1, rod: 0, ward: 0, undying: 0, ult: 1 });
