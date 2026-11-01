@@ -60,57 +60,107 @@ const SHOP_SAY = {
   baren: '필요한 거 있으면 골라. 물약은 늘 있어.', pio: '길이 달라도 장사는 같지. 천천히 봐.', sai: '물 빼고는 다 있어.',
   smith: '칼 내려놔. 어디까지 갈아 줄까.', class: '사람은 옷을 바꾸면 걸음도 바뀌어. 골라 봐.',
 };
+/* the room behind the merchant: printed once per size, then only the light and dust move */
+let SHOP_BG = null;
+function shopRoom(w, h, dpr, reg) {
+  const c = document.createElement('canvas'); c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+  const x = c.getContext('2d'); x.scale(dpr, dpr);
+  const R = mulberry(31 + reg * 7);
+  const tint = ['#5A4250', '#5A4250', '#3F5452', '#6A5040', '#4A5662', '#3A3A52'][reg];
+  // back wall: tall wooden boards
+  const g0 = x.createLinearGradient(0, 0, 0, h); g0.addColorStop(0, '#2A1E26'); g0.addColorStop(1, tint); x.fillStyle = g0; x.fillRect(0, 0, w, h);
+  const bw = Math.max(34, w / 22);
+  for (let bx = 0; bx < w; bx += bw) {
+    const l = .85 + R() * .3;
+    x.fillStyle = 'rgba(120,88,96,' + (.18 * l).toFixed(3) + ')'; x.fillRect(bx, 0, bw - 2, h);
+    x.fillStyle = 'rgba(0,0,0,.28)'; x.fillRect(bx + bw - 2, 0, 2, h);
+    x.strokeStyle = 'rgba(0,0,0,.12)'; x.lineWidth = 1;
+    for (let k = 0; k < 4; k++) { const yy = R() * h; x.beginPath(); x.moveTo(bx + 4, yy); x.quadraticCurveTo(bx + bw / 2, yy + 8, bx + bw - 6, yy + 2); x.stroke(); }
+  }
+  // a big cabinet with drawers, top left, like the back of a shop
+  const cw = w * .5, ch = h * .3;
+  x.fillStyle = '#3A2A30'; x.fillRect(w * .02, h * .02, cw, ch);
+  for (let i = 0; i < 2; i++) {
+    const dx = w * .04 + i * cw * .48, dy = h * .05, dw = cw * .44, dh = ch * .78;
+    const gd = x.createLinearGradient(0, dy, 0, dy + dh); gd.addColorStop(0, '#5C4650'); gd.addColorStop(1, '#3E2E36');
+    x.fillStyle = gd; x.fillRect(dx, dy, dw, dh);
+    x.strokeStyle = 'rgba(255,230,200,.12)'; x.lineWidth = 2; x.strokeRect(dx + 6, dy + 6, dw - 12, dh - 12);
+    x.fillStyle = 'rgba(0,0,0,.35)'; x.fillRect(dx + dw * .2, dy + dh * .3, dw * .6, 6); x.fillRect(dx + dw * .2, dy + dh * .62, dw * .6, 6);
+    x.fillStyle = '#1E1620'; x.beginPath(); x.arc(dx + dw * .7, dy + dh * .16, 9, 0, TAU); x.fill();
+  }
+  // shelves along the wall with jars, bottles, sacks, books
+  const shelves = [h * .45, h * .66];
+  for (const sy of shelves) {
+    x.fillStyle = 'rgba(0,0,0,.35)'; x.fillRect(0, sy + 10, w, 12);
+    const gs = x.createLinearGradient(0, sy, 0, sy + 12); gs.addColorStop(0, '#8C6440'); gs.addColorStop(1, '#4E3424'); x.fillStyle = gs; x.fillRect(0, sy, w, 12);
+    x.fillStyle = 'rgba(255,220,160,.25)'; x.fillRect(0, sy, w, 2);
+    let px = 8;
+    while (px < w) {
+      const k = R(), ww = 16 + R() * 26, hh = 20 + R() * 40;
+      const col = ['#B85C7A', '#3E8E8A', '#D9A84E', '#6F8FB8', '#8A6A4A', '#7A5A8E'][Math.floor(R() * 6)];
+      if (k < .35) { // jar with a lid and a label
+        const gj = x.createLinearGradient(px, 0, px + ww, 0); gj.addColorStop(0, col); gj.addColorStop(.35, '#FFFFFF44'); gj.addColorStop(.36, col); gj.addColorStop(1, '#00000055');
+        x.fillStyle = col; x.beginPath(); x.roundRect(px, sy - hh, ww, hh, 6); x.fill(); x.fillStyle = gj; x.fill();
+        x.fillStyle = '#C9B48A'; x.fillRect(px + 3, sy - hh * .6, ww - 6, hh * .22);
+        x.fillStyle = '#4E3424'; x.fillRect(px - 1, sy - hh - 5, ww + 2, 6);
+      } else if (k < .6) { // bottle
+        x.fillStyle = col; x.beginPath(); x.moveTo(px + ww * .35, sy - hh); x.lineTo(px + ww * .65, sy - hh); x.lineTo(px + ww * .65, sy - hh * .7); x.quadraticCurveTo(px + ww, sy - hh * .6, px + ww, sy - hh * .35); x.lineTo(px + ww, sy); x.lineTo(px, sy); x.lineTo(px, sy - hh * .35); x.quadraticCurveTo(px, sy - hh * .6, px + ww * .35, sy - hh * .7); x.closePath(); x.fill();
+        x.fillStyle = 'rgba(255,255,255,.35)'; x.fillRect(px + ww * .18, sy - hh * .45, 3, hh * .35);
+        x.fillStyle = '#8A6A4A'; x.fillRect(px + ww * .36, sy - hh - 5, ww * .28, 6);
+      } else if (k < .8) { // books
+        let bx2 = px; for (let j = 0; j < 3 + Math.floor(R() * 3); j++) { const bw2 = 6 + R() * 5, bh = hh * (.7 + R() * .3); x.fillStyle = ['#7A3A4A', '#3A5A6A', '#6A5A3A', '#4A3A6A'][j % 4]; x.fillRect(bx2, sy - bh, bw2, bh); x.fillStyle = 'rgba(255,220,160,.35)'; x.fillRect(bx2, sy - bh * .8, bw2, 2); bx2 += bw2 + 1; } px = bx2 - ww;
+      } else { // a sack
+        x.fillStyle = '#A88A62'; x.beginPath(); x.moveTo(px, sy); x.quadraticCurveTo(px - 4, sy - hh * .6, px + ww * .3, sy - hh * .75); x.lineTo(px + ww * .7, sy - hh * .75); x.quadraticCurveTo(px + ww + 4, sy - hh * .6, px + ww, sy); x.closePath(); x.fill();
+        x.fillStyle = 'rgba(0,0,0,.2)'; x.fillRect(px + ww * .25, sy - hh * .7, ww * .5, 4);
+      }
+      px += ww + 6 + R() * 10;
+    }
+  }
+  // soft focus: the room sits behind the merchant
+  const c2 = document.createElement('canvas'); c2.width = c.width; c2.height = c.height;
+  const y2 = c2.getContext('2d'); y2.filter = 'blur(' + (2.2 * dpr).toFixed(1) + 'px)'; y2.drawImage(c, 0, 0); y2.filter = 'none';
+  y2.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // floor
+  const gf = y2.createLinearGradient(0, h * .82, 0, h); gf.addColorStop(0, '#2A1E22'); gf.addColorStop(1, '#140E12'); y2.fillStyle = gf; y2.fillRect(0, h * .82, w, h * .18);
+  // the warm lamp and the shadowy edges
+  const gl = y2.createRadialGradient(w * .28, h * .25, 10, w * .28, h * .3, Math.max(w, h) * .7);
+  gl.addColorStop(0, 'rgba(255,196,120,.32)'); gl.addColorStop(.5, 'rgba(255,170,100,.08)'); gl.addColorStop(1, 'rgba(0,0,0,0)'); y2.fillStyle = gl; y2.fillRect(0, 0, w, h);
+  const gv = y2.createRadialGradient(w * .4, h * .5, Math.min(w, h) * .3, w * .4, h * .5, Math.max(w, h) * .8);
+  gv.addColorStop(0, 'rgba(0,0,0,0)'); gv.addColorStop(1, 'rgba(10,6,10,.7)'); y2.fillStyle = gv; y2.fillRect(0, 0, w, h);
+  return c2;
+}
 function shopScene(t) {
   const cv2 = $('shopCv'); if (!cv2) return;
   const r = cv2.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
-  if (cv2.width !== Math.round(r.width * dpr) || cv2.height !== Math.round(r.height * dpr)) { cv2.width = Math.round(r.width * dpr); cv2.height = Math.round(r.height * dpr); }
-  const x = cv2.getContext('2d'), w = r.width, h = r.height, reg = WD ? WD.reg : 1, R = mulberry(7 + reg);
+  if (cv2.width !== Math.round(r.width * dpr) || cv2.height !== Math.round(r.height * dpr)) { cv2.width = Math.round(r.width * dpr); cv2.height = Math.round(r.height * dpr); SHOP_BG = null; }
+  const x = cv2.getContext('2d'), w = r.width, h = r.height, reg = WD ? WD.reg : 1;
+  if (!SHOP_BG || SHOP_BG.reg !== reg) { SHOP_BG = shopRoom(w, h, dpr, reg); SHOP_BG.reg = reg; }
+  x.setTransform(1, 0, 0, 1, 0, 0); x.drawImage(SHOP_BG, 0, 0);
   x.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const wall = ['#E6D5BA', '#E6D5BA', '#CFE0D6', '#F0E5C8', '#DCE7EC', '#E6DEEA'][reg];
-  x.fillStyle = wall; x.fillRect(0, 0, w, h);
-  // planks
-  x.strokeStyle = 'rgba(37,53,111,.18)'; x.lineWidth = 1.5;
-  for (let y = 0; y < h; y += 26) { x.beginPath(); x.moveTo(0, y); x.lineTo(w, y); x.stroke(); }
-  // lamp glow
-  const lg = x.createRadialGradient(w * .5, h * .18, 10, w * .5, h * .18, h * .9);
-  lg.addColorStop(0, 'rgba(255,210,63,.35)'); lg.addColorStop(1, 'rgba(255,210,63,0)'); x.fillStyle = lg; x.fillRect(0, 0, w, h);
-  // shelves with jars and boxes
-  for (const sy of [h * .2, h * .42]) {
-    x.fillStyle = '#9C6E43'; x.fillRect(w * .04, sy, w * .92, 8); x.fillStyle = COL.ink; x.fillRect(w * .04, sy + 8, w * .92, 3);
-    let px = w * .06;
-    while (px < w * .94) {
-      const kind = R(), ww = 14 + R() * 22, hh = 18 + R() * 26;
-      if (Math.abs(px + ww / 2 - w / 2) < w * .17 && sy > h * .3) { px += ww + 6; continue; }
-      const col = [COL.pink, COL.teal, COL.yellow, '#7CC6D8', '#B9894F'][Math.floor(R() * 5)];
-      x.fillStyle = col; x.strokeStyle = COL.ink; x.lineWidth = 2;
-      if (kind < .5) { x.beginPath(); x.roundRect(px, sy - hh, ww, hh, 5); x.fill(); x.stroke(); x.fillStyle = '#E8E9E3'; x.fillRect(px + ww * .3, sy - hh - 6, ww * .4, 6); x.strokeRect(px + ww * .3, sy - hh - 6, ww * .4, 6); }
-      else { x.fillRect(px, sy - hh * .7, ww, hh * .7); x.strokeRect(px, sy - hh * .7, ww, hh * .7); x.beginPath(); x.moveTo(px, sy - hh * .35); x.lineTo(px + ww, sy - hh * .35); x.stroke(); }
-      px += ww + 6;
-    }
-  }
-  // the merchant
+  // where the merchant stands: left of the wares, or above them on a tall screen
+  const side = $('shopSide').getBoundingClientRect(), portrait = side.left < w * .2;
+  const areaW = portrait ? w : side.left + 40, areaH = portrait ? side.top + 30 : h;
+  const mx = portrait ? w * .24 : areaW * .4, sz = portrait ? Math.min(areaH * .78, w * .5) : Math.min(h * .74, areaW * .72);
+  const footY = portrait ? areaH * .96 : h * .9;
+  // light behind the merchant
+  const gl = x.createRadialGradient(mx, footY - sz * .55, 10, mx, footY - sz * .55, sz * .7);
+  gl.addColorStop(0, 'rgba(255,220,160,.28)'); gl.addColorStop(1, 'rgba(255,220,160,0)'); x.fillStyle = gl; x.fillRect(0, 0, w, h);
   if (NPCS[SHOP_NPC] && !SPR['npcbig_' + SHOP_NPC]) regNpc(SHOP_NPC, 'npcbig_' + SHOP_NPC, 7);
   const S = SPR['npcbig_' + SHOP_NPC] || SPR['p_lamp'];
   if (S) {
-    const side = $('shopSide'), open = !$('scrSShop').querySelector('.shop2').classList.contains('closed'), sw2 = open && side ? side.getBoundingClientRect().width : 0, mx = (w - sw2) / 2;
-    const sz = Math.min(h * .82, (w - sw2) * .95), bob = Math.sin(t / 600) * 3, breath = 1 + Math.sin(t / 900) * .015;
-    x.save(); x.translate(mx, h * .76 + bob); x.scale(1, breath);
-    x.fillStyle = 'rgba(20,27,64,.25)'; x.beginPath(); x.ellipse(0, 0, sz * .32, sz * .07, 0, 0, TAU); x.fill();
-    x.drawImage(S.img, -sz / 2, -sz * .92, sz, sz);
+    const bob = Math.sin(t / 700) * sz * .008, breath = 1 + Math.sin(t / 900) * .012;
+    x.save(); x.translate(mx, footY + bob); x.scale(1, breath);
+    x.shadowColor = 'rgba(255,214,150,.55)'; x.shadowBlur = 24;
+    x.drawImage(S.img, -sz / 2, -sz, sz, sz);
     x.restore();
   }
-  // counter
-  const cy = h * .74;
-  x.fillStyle = COL.pink; x.fillRect(4, cy + 4, w, h - cy);
-  x.fillStyle = '#B9894F'; x.fillRect(0, cy, w, h - cy);
-  x.fillStyle = '#D9A86A'; x.fillRect(0, cy, w, 14);
-  x.strokeStyle = COL.ink; x.lineWidth = 3; x.strokeRect(-2, cy, w + 4, h - cy + 2); x.beginPath(); x.moveTo(0, cy + 14); x.lineTo(w, cy + 14); x.stroke();
-  x.lineWidth = 1.5; for (let i = 1; i < 6; i++) { x.beginPath(); x.moveTo(i * w / 6, cy + 14); x.lineTo(i * w / 6, h); x.stroke(); }
-  // things on the counter
-  const items = shopItems(SHOP_KIND).slice(0, 4);
-  items.forEach((it, i) => { const img = shopRowIcon(it); if (img) x.drawImage(img, w * (.12 + i * .2), cy - 30, 44, 44); });
-  // grain
-  x.fillStyle = 'rgba(37,53,111,.05)'; for (let i = 0; i < 160; i++) x.fillRect(R() * w, R() * h, 1.5, 1.5);
+  // dust drifting through the light
+  for (let i = 0; i < 40; i++) {
+    const p = (t / 9000 + i * .137) % 1, px = (i * 97.3 % 1 * w + Math.sin(t / 2000 + i) * 20 + w) % w, py = h * (1 - p);
+    x.globalAlpha = Math.sin(p * Math.PI) * .5; x.fillStyle = '#FFE6B0';
+    x.beginPath(); x.arc(px, py, .8 + (i % 3) * .6, 0, TAU); x.fill();
+  }
+  x.globalAlpha = 1;
 }
 const SROW_IMG = {};
 function shopRowIcon(it) {
@@ -223,8 +273,8 @@ function drawPcPrompt() {
   if (!IS_PC || STATE !== 'play' || !WD || G.trans) return;
   const a = nearAct(); if (!a || a.x === undefined) return;
   const lab = L(ACT_LABEL[a.k] || '');
-  wt(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-  const tw = ctx.measureText(lab).width, bw = 22 + 8 + tw + 10, bx = a.x - bw / 2, by = a.y - 62 + Math.sin(performance.now() / 260) * 2;
+  wu(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  const tw = ctx.measureText(lab).width, bw = 22 + 8 + tw + 10, bx = a.x - bw / 2, by = a.y * TY - 62 + Math.sin(performance.now() / 260) * 2;
   ctx.fillStyle = COL.ink; ctx.fillRect(bx + 2, by + 2, bw, 24);
   ctx.fillStyle = COL.paper; ctx.fillRect(bx, by, bw, 24); ctx.strokeStyle = COL.ink; ctx.lineWidth = 2; ctx.strokeRect(bx, by, bw, 24);
   ctx.fillStyle = COL.yellow; ctx.fillRect(bx + 4, by + 3, 18, 18); ctx.strokeRect(bx + 4, by + 3, 18, 18);
@@ -232,8 +282,4 @@ function drawPcPrompt() {
   ctx.textAlign = 'left'; ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.fillText(lab, bx + 30, by + 12.5);
 }
 
-$('shopSide').addEventListener('click', e => {
-  const r = $('shopSide').getBoundingClientRect();
-  if (e.clientX < r.left + 4) { $('scrSShop').querySelector('.shop2').classList.toggle('closed'); SFX.tap(); }
-});
-$('shopSide').setAttribute('data-tab', L('상점'));
+

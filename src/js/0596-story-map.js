@@ -64,22 +64,22 @@ function openStoryMap() {
   show('scrSMap'); MAP_SEL = WD.id; renderStoryMap(true);
 }
 function renderStoryMap(center) {
-  const S = SAVE.story, L = mapLayout(), goal = goalArea(), here = WD.id;
+  const S = SAVE.story, ML = mapLayout(), goal = goalArea(), here = WD.id;
   const vis = id => S.seen[id] || id === goal;
-  const fog = id => !vis(id) && L.edges.some(e => (e.a === id && S.seen[e.b]) || (e.b === id && S.seen[e.a]));
-  let svg = '<svg width="' + L.w + '" height="' + L.h + '">';
-  for (const e of L.edges) {
-    const a = L.pos[e.a], b = L.pos[e.b]; if (!a || !b) continue;
+  const fog = id => !vis(id) && ML.edges.some(e => (e.a === id && S.seen[e.b]) || (e.b === id && S.seen[e.a]));
+  let svg = '<svg width="' + ML.w + '" height="' + ML.h + '">';
+  for (const e of ML.edges) {
+    const a = ML.pos[e.a], b = ML.pos[e.b]; if (!a || !b) continue;
     const va = vis(e.a) || fog(e.a), vb = vis(e.b) || fog(e.b);
     if (!(va && vb) || (!S.seen[e.a] && !S.seen[e.b])) continue;
     svg += '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke="#25356F" stroke-width="' + (e.door ? 2 : 3.5) + '"' + (e.door ? ' stroke-dasharray="5 5"' : '') + ' opacity="' + (S.seen[e.a] && S.seen[e.b] ? .85 : .3) + '"/>';
   }
   svg += '</svg>';
   let nodes = '';
-  for (const id in L.pos) {
+  for (const id in ML.pos) {
     const v = vis(id), fg = fog(id);
     if (!v && !fg) continue;
-    const [x, y] = L.pos[id], A = AREAS[id];
+    const [x, y] = ML.pos[id], A = AREAS[id];
     if (!v) { nodes += '<button class="mn fog" style="left:' + x + 'px;top:' + y + 'px" data-a="' + id + '">?</button>'; continue; }
     const I = areaInfo(id), mk = [];
     if (I.lit) mk.push('<i class="b-t" title="횃불"></i>');
@@ -89,11 +89,11 @@ function renderStoryMap(center) {
     nodes += '<button class="mn r' + A.reg + (id === here ? ' here' : '') + (id === goal ? ' goal' : '') + (id === MAP_SEL ? ' sel' : '') + (S.seen[id] ? '' : ' unseen') + '" style="left:' + x + 'px;top:' + y + 'px" data-a="' + id + '">' + esc(A.name) + (mk.length ? '<span class="mk">' + mk.join('') + '</span>' : '') + '</button>';
   }
   const inner = $('mapIn');
-  inner.style.width = L.w + 'px'; inner.style.height = L.h + 'px';
+  inner.style.width = ML.w + 'px'; inner.style.height = ML.h + 'px';
   inner.innerHTML = svg + nodes;
   inner.querySelectorAll('.mn').forEach(b => b.addEventListener('click', () => { SFX.tap(); MAP_SEL = b.dataset.a; renderStoryMap(false); }));
   renderMapInfo();
-  if (center) { const wrap = $('mapWrap'), p = L.pos[here]; requestAnimationFrame(() => { wrap.scrollLeft = p[0] - wrap.clientWidth / 2; wrap.scrollTop = p[1] - wrap.clientHeight / 2; }); }
+  if (center) { const wrap = $('mapWrap'), p = ML.pos[here]; requestAnimationFrame(() => { wrap.scrollLeft = p[0] - wrap.clientWidth / 2; wrap.scrollTop = p[1] - wrap.clientHeight / 2; }); }
   $('mapSeen').textContent = Object.keys(S.seen).length + ' / ' + Object.keys(AREAS).length;
 }
 function renderMapInfo() {

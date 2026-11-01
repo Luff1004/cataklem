@@ -600,35 +600,55 @@ function shopItems(kind) {
 let SHOP_KIND = null;
 function openStoryShop(kind) {
   SHOP_KIND = kind; STATE = 'smenu'; INPUT.joy = null; updMove();
-  SHOP_NPC = LAST_NPC || 'pio';
+  SHOP_NPC = LAST_NPC || 'pio'; SHOP_PICK = 0; SHOP_BG = null;
   show('scrSShop'); renderStoryShop();
   $('shopSay').textContent = L(SHOP_SAY[kind] || SHOP_SAY.pio);
   if (!SHOP_RAF) SHOP_RAF = requestAnimationFrame(shopLoop);
 }
+let SHOP_PICK = 0;
+function shopTitle() {
+  const nm = NPCS[SHOP_NPC] ? NPCS[SHOP_NPC].name : '';
+  return SHOP_KIND === 'smith' ? L('대장간') : SHOP_KIND === 'class' ? L('직업 상점') : (LANG === 'ko' ? nm + '네 가게' : L('가게') + ' · ' + nm);
+}
+function buyShopItem(it) {
+  const S = SAVE.story;
+  if (S.coin < it.price) { SFX.deny(); return; }
+  S.coin -= it.price; SFX.chest(); buzz(20);
+  if (it.k === 'plus') { S.plus[it.id] = (S.plus[it.id] || 0) + 1; SFX.clank(); }
+  else if (it.k === 'charm') { S.charms++; applyStats(); }
+  else if (it.k === 'sword') { S.swords.push(it.id); S.sword = it.id; applyStats(); }
+  else if (it.k === 'class') { S.classes = S.classes || []; S.classes.push(it.id); S.cls = it.id; applyStats(); banner(it.name, L('직업을 바꿨다. 가방에서 다시 고를 수 있다'), 'good'); }
+  else S.items[it.k] = (S.items[it.k] || 0) + 1;
+  $('shopSay').textContent = L(pick(['고마워. 잘 써.', '좋은 걸 골랐네.', '또 와.']));
+  persist(); renderStoryShop();
+}
 function renderStoryShop() {
   const S = SAVE.story;
-  $('ssTitle').textContent = SHOP_KIND === 'smith' ? '대장간' : SHOP_KIND === 'class' ? '직업' : '가게';
+  $('ssTitle').textContent = shopTitle();
+  $('shopName').textContent = NPCS[SHOP_NPC] ? NPCS[SHOP_NPC].name : '';
+  $('ssCat').textContent = SHOP_KIND === 'smith' ? L('칼 갈기') : SHOP_KIND === 'class' ? L('직업') : L('물건');
   $('ssCoin').textContent = fmtNum(S.coin);
   const host = $('ssList'); host.innerHTML = '';
   const items = shopItems(SHOP_KIND);
-  if (!items.length) host.innerHTML = '<p class="note">지금은 할 수 있는 게 없다.</p>';
-  for (const it of items) {
-    const row = document.createElement('div'); row.className = 'row si';
-    const have = it.k === 'potion' || it.k === 'bigpotion' ? ' · 가진 것 ' + (S.items[it.k] || 0) : '';
-    const ico = it.k === 'sword' || it.k === 'plus' ? storyIcon(it.k, it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
-    row.innerHTML = '<img alt="" src="' + ico + '"><div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + '</button>';
-    row.querySelector('button').addEventListener('click', () => {
-      if (S.coin < it.price) { SFX.deny(); return; }
-      S.coin -= it.price; SFX.chest(); buzz(20);
-      if (it.k === 'plus') { S.plus[it.id] = (S.plus[it.id] || 0) + 1; SFX.clank(); }
-      else if (it.k === 'charm') { S.charms++; applyStats(); }
-      else if (it.k === 'sword') { S.swords.push(it.id); S.sword = it.id; applyStats(); }
-      else if (it.k === 'class') { S.classes = S.classes || []; S.classes.push(it.id); S.cls = it.id; applyStats(); banner(it.name, L('직업을 바꿨다. 가방에서 다시 고를 수 있다'), 'good'); }
-      else S.items[it.k] = (S.items[it.k] || 0) + 1;
-      persist(); renderStoryShop();
-    });
-    host.appendChild(row);
-  }
+  const icon = it => it.k === 'sword' || it.k === 'plus' ? storyIcon(it.k, it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
+  $('ssEmb').innerHTML = '<img alt="" src="' + (SHOP_KIND === 'smith' ? storyIcon('sword', S.sword || SWORD_ORDER[0]) : SHOP_KIND === 'class' ? storyIcon('class', 'guard') : storyIcon('potion')) + '">';
+  if (SHOP_PICK >= items.length) SHOP_PICK = Math.max(0, items.length - 1);
+  if (!items.length) host.innerHTML = '<p class="sh-empty">' + L('지금은 할 수 있는 게 없다.') + '</p>';
+  const cols = innerWidth < innerHeight ? 3 : 4;
+  let shelf = null;
+  items.forEach((it, i) => {
+    if (i % cols === 0) { shelf = document.createElement('div'); shelf.className = 'sh-shelf'; host.appendChild(shelf); }
+    const b = document.createElement('button');
+    b.className = 'sh-card' + (i === SHOP_PICK ? ' on' : '') + (S.coin < it.price ? ' poor' : '');
+    b.innerHTML = '<span class="sh-pic"><img alt="" src="' + icon(it) + '"></span><span class="sh-price"><i class="coin"></i>' + fmtNum(it.price) + '</span>';
+    b.addEventListener('click', () => { if (SHOP_PICK === i) { buyShopItem(it); return; } SHOP_PICK = i; SFX.tap(); renderStoryShop(); });
+    shelf.appendChild(b);
+  });
+  const info = $('ssInfo'), it = items[SHOP_PICK];
+  if (!it) { info.innerHTML = '<p class="hint">' + L('또 와.') + '</p>'; return; }
+  const have = it.k === 'potion' || it.k === 'bigpotion' ? ' · ' + L('가진 것') + ' ' + (S.items[it.k] || 0) : '';
+  info.innerHTML = '<div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + ' ' + L('산다') + '</button>';
+  info.querySelector('button').addEventListener('click', () => buyShopItem(it));
 }
 function closeStoryScreen() { hideAll(); STATE = 'play'; storyHUD(true); }
 

@@ -29,22 +29,7 @@ function regNpc(id, key, mult) {
       if (L.beard) { x.fillStyle = COL.white; x.globalAlpha = .85; x.beginPath(); x.moveTo(c - 5 * s, cy - 5 * s); x.quadraticCurveTo(c, cy + 4 * s, c + 5 * s, cy - 5 * s); x.fill(); x.globalAlpha = 1; }
       if (L.item === 'torch') { x.fillStyle = COL.yellow; flamePath(x, c + 12 * s, cy - 11 * s, 3.4 * s); x.fill(); }
       if (L.item === 'crayon') { x.fillStyle = COL.yellow; x.save(); x.translate(c + 12 * s, cy + 2 * s); x.rotate(-.6); x.fillRect(-2 * s, -9 * s, 4 * s, 3 * s); x.restore(); }
-      // shade on the far side of the cloak, a collar, a belt, buttons, hands and boots
-      x.save(); x.globalCompositeOperation = 'source-atop';
-      x.fillStyle = 'rgba(20,27,64,.28)'; x.beginPath(); x.moveTo(c + 2 * s, cy - 4 * s); x.lineTo(c + 12 * s, cy + 16 * s); x.lineTo(c + 2 * s, cy + 16 * s); x.closePath(); x.fill();
-      x.fillStyle = 'rgba(255,255,255,.22)'; x.beginPath(); x.moveTo(c - 6 * s, cy - 3 * s); x.lineTo(c - 9 * s, cy + 14 * s); x.lineTo(c - 6.5 * s, cy + 14 * s); x.lineTo(c - 4 * s, cy - 3 * s); x.fill();
-      x.restore();
-      x.fillStyle = COL.paper; x.globalAlpha = .9; x.beginPath(); x.moveTo(c - 5 * s, cy - 4 * s); x.lineTo(c, cy + 1 * s); x.lineTo(c + 5 * s, cy - 4 * s); x.lineTo(c + 3 * s, cy - 4.5 * s); x.lineTo(c, cy - 1.5 * s); x.lineTo(c - 3 * s, cy - 4.5 * s); x.fill();
-      x.globalAlpha = 1; x.fillStyle = COL.deep; x.fillRect(c - 9.5 * s, cy + 6 * s, 19 * s, 2.4 * s);
-      x.fillStyle = COL.yellow; x.fillRect(c - 1.6 * s, cy + 5.6 * s, 3.2 * s, 3.2 * s);
-      x.fillStyle = COL.white; x.globalAlpha = .7; for (const by of [1.5, 10.5]) { x.beginPath(); x.arc(c, cy + by * s, .9 * s, 0, TAU); x.fill(); }
-      x.globalAlpha = 1; x.fillStyle = '#F2D6B8'; x.strokeStyle = COL.deep; x.lineWidth = .9 * s;
-      for (const hx of [-10.5, 10.5]) { x.beginPath(); x.arc(c + hx * s, cy + 8.5 * s, 2 * s, 0, TAU); x.fill(); x.stroke(); }
-      x.fillStyle = COL.deep; x.beginPath(); x.ellipse(c - 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.ellipse(c + 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.fill();
-      x.fillStyle = '#F2D6B8'; x.globalAlpha = .9; x.beginPath(); x.ellipse(c, cy - 7.5 * s, 4.6 * s, 3.4 * s, 0, 0, TAU); x.fill(); x.globalAlpha = 1;
-      eyes(x, [[c - 2.6 * s, cy - 8.4 * s], [c + 2.6 * s, cy - 8.4 * s]], 1.5 * s, .85 * s, .2);
-      x.fillStyle = 'rgba(255,79,158,.45)'; x.beginPath(); x.arc(c - 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.arc(c + 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.fill();
-      x.strokeStyle = COL.deep; x.lineWidth = .7 * s; x.beginPath(); x.arc(c, cy - 6.4 * s, 1.2 * s, .3, Math.PI - .3); x.stroke();
+      x.fillStyle = COL.white; x.globalAlpha = .35; x.fillRect(c - 1 * s, cy, 2 * s, 13 * s); x.globalAlpha = 1;
     }, { plates: [{ col: L.c, dx: 1.6, dy: 1.2 }, { col: COL.ink, dx: 0, dy: 0 }] });
   }
 }
@@ -80,6 +65,7 @@ function areaLayer() {
   // solid things, back to front
   for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
     const ch = WD.grid[ty][tx], X = tx * TL, Y = ty * TL, cx = X + TL / 2, cy = Y + TL / 2;
+    if (TALL_CH.has(ch)) { if (ch !== '#' && ch !== 'h') { x.fillStyle = 'rgba(20,27,64,.2)'; x.beginPath(); x.ellipse(cx + 3, cy + 12, 20, 9, 0, 0, TAU); x.fill(); } continue; }
     if (ch === '#') {
       x.fillStyle = A; x.fillRect(X + 3, Y + 3, TL, TL);
       x.fillStyle = WD.reg === 5 ? '#F4F1EA' : WD.reg === 4 ? '#CFE3EA' : '#9EA4B4'; x.fillRect(X, Y, TL, TL);
@@ -140,6 +126,7 @@ function drawStoryWorld() {
   ctx.fillRect(-pad, -pad, mw + pad * 2, pad); ctx.fillRect(-pad, mh, mw + pad * 2, pad); ctx.fillRect(-pad, 0, pad, mh); ctx.fillRect(mw, 0, pad, mh);
   ctx.drawImage(areaLayer(), 0, 0, mw, mh);
   const now = performance.now() / 1000;
+  drawWaterFx(now);
   // exits: chevrons, and the name of where they go
   for (const side of ['W', 'E', 'N', 'S']) {
     const ex = exitInfo(side); if (!ex) continue;
@@ -162,11 +149,11 @@ function drawStoryWorld() {
       label(tx2, ty2, (open ? '' : '× ') + nm, open ? COL.ink : COL.pink);
     }
   }
-  for (const e of WD.ents) { if (!entOn(e)) continue; drawEnt(e, now); }
+  drawTallAndEnts(now);
   if (WD.boss) { wt(); ctx.globalAlpha = .25 + Math.sin(now * 2) * .08; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(WD.boss.x, WD.boss.y + 10, 70, 24, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
 }
 function label(x, y, text, col = COL.ink) {
-  wt(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  wu(); y *= TY; ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   const w = ctx.measureText(text).width + 12;
   ctx.fillStyle = COL.paper; ctx.globalAlpha = .9; ctx.fillRect(x - w / 2, y - 9, w, 18); ctx.globalAlpha = 1;
   ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.strokeRect(x - w / 2, y - 9, w, 18);
@@ -305,6 +292,7 @@ function flamePathC(x, y, s) { ctx.beginPath(); ctx.moveTo(x, y - s * 1.4); ctx.
 /* ---------- drawn with the actors: the sword in hand, waves, coins ---------- */
 function drawStoryOver() {
   if (!WD) return;
+  drawTallFront();
   const S = SAVE.story, now = performance.now();
   wt();
   for (const s of G.spk) {
@@ -342,7 +330,7 @@ function drawStoryTop() {
   if (!WD) return;
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    const sx = (P.x * K + OX), sy = (P.y * K + OY), r0 = 120 * K, r1 = 360 * K;
+    const sx = (P.x * K + OX), sy = (P.y * K * TY + OY), r0 = 120 * K, r1 = 360 * K;
     const g = ctx.createRadialGradient(sx, sy, r0, sx, sy, r1);
     g.addColorStop(0, 'rgba(8,10,28,0)'); g.addColorStop(1, 'rgba(8,10,28,.86)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height);

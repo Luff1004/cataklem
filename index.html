@@ -301,22 +301,47 @@ html[lang=en] .btn,html[lang=en] .shead h2{letter-spacing:-.01em}
 .s-inv i{display:block;width:20px;height:16px;border:2.5px solid var(--ink);border-radius:3px 3px 5px 5px;position:relative;margin-top:4px}
 .s-inv i::before{content:"";position:absolute;left:4px;right:4px;top:-8px;height:6px;border:2.5px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0}
 body.pc #sHud .s-dash,body.pc #sHud .s-act,body.pc #hud .dashb{display:none!important}
+#scrSShop{background:#1E1620}
+.shop3{position:absolute;inset:0;overflow:hidden;color:#F4EAD8}
+.shop3 canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.shop3 .back{position:absolute;left:var(--sl);top:calc(var(--st) + 12px);z-index:3}
+.sh-say{position:absolute;left:calc(var(--sl) + 10px);bottom:calc(var(--sb) + 16px);width:min(40%,460px);z-index:2;background:linear-gradient(#F6EDDC,#E9DBC0);color:#3B2A2A;border-radius:18px 18px 18px 4px;padding:26px 20px 16px;box-shadow:0 0 0 2px #C9A46A,0 0 0 5px rgba(246,237,220,.35),0 10px 30px rgba(0,0,0,.45);font:700 15px/1.5 var(--f-body)}
+.sh-say p{margin:0}
+.sh-name{position:absolute;left:14px;top:-15px;background:linear-gradient(90deg,#B98552,#D9A86A);color:#FFF6E6;font:400 16px/1 var(--f-display);padding:7px 26px 7px 16px;border-radius:14px 4px 14px 4px;box-shadow:0 0 0 2px #F6EDDC;clip-path:polygon(0 0,100% 0,calc(100% - 10px) 50%,100% 100%,0 100%)}
+.sh-name::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:#FFF6E6;margin-right:8px;vertical-align:2px}
+.sh-side{position:absolute;top:0;right:0;bottom:0;width:min(56%,640px);z-index:2;display:flex;flex-direction:column;gap:12px;padding:calc(var(--st) + 14px) calc(var(--sr) + 14px) calc(var(--sb) + 14px) 40px;background:linear-gradient(90deg,rgba(30,22,32,0),rgba(30,22,32,.72) 18%,rgba(30,22,32,.86))}
+.sh-coin{align-self:flex-end;display:flex;align-items:center;gap:8px;font:700 18px/1 var(--f-mono);color:#FFF6E6;padding:0 4px 8px 20px;border-bottom:1.5px solid rgba(232,200,119,.55)}
+.sh-coin .coin{width:18px;height:18px}
+.sh-title{position:relative;display:flex;align-items:center;margin-left:34px;height:58px;padding:0 26px 0 64px;border:2px solid #E8C877;border-radius:4px;background:linear-gradient(90deg,rgba(232,200,119,.16),rgba(232,200,119,.04));box-shadow:inset 0 0 0 4px rgba(30,22,32,.6),inset 0 0 0 5px rgba(232,200,119,.45)}
+.sh-title::after{content:'';position:absolute;right:-7px;top:50%;width:12px;height:12px;background:#E8C877;transform:translateY(-50%) rotate(45deg)}
+.sh-title h2{margin:0;font:400 24px/1 var(--f-display);color:#FFF1D0;letter-spacing:.02em;text-shadow:0 2px 0 rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sh-emb{position:absolute;left:-36px;top:50%;width:84px;height:84px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle at 40% 35%,#FFF1C2,#E8C877 45%,#A97C32);box-shadow:0 0 0 3px #1E1620,0 0 0 5px #E8C877,0 6px 18px rgba(0,0,0,.5);display:grid;place-items:center}
+.sh-emb img{width:58px;height:58px;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+.sh-cat{align-self:flex-start;font:400 17px/1 var(--f-display);color:#FFF6E6;padding:8px 40px 8px 18px;background:linear-gradient(90deg,#B98552,rgba(185,133,82,0));border-radius:14px 0 0 14px}
+.sh-grid{flex:1;min-height:0;overflow-y:auto;padding:4px 6px 10px;scrollbar-width:thin}
+.sh-shelf{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:0 10px 40px;margin-bottom:16px}
+.sh-shelf::after{content:'';position:absolute;left:0;right:0;bottom:22px;height:14px;background:linear-gradient(#8C6440,#5E4029);border-radius:2px;box-shadow:0 6px 10px rgba(0,0,0,.45),inset 0 2px 0 rgba(255,220,160,.35);transform:perspective(300px) rotateX(28deg);z-index:0}
+.sh-card{position:relative;z-index:1;border:0;padding:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0;color:inherit;font:inherit}
+.sh-pic{width:100%;aspect-ratio:1;display:grid;place-items:center;background:radial-gradient(circle at 50% 40%,#E9F6F2,#B9DAD3);border-radius:3px;box-shadow:0 0 0 2px rgba(255,255,255,.55),0 8px 14px rgba(0,0,0,.4);transition:transform .15s,box-shadow .15s}
+.sh-pic img{width:72%;height:72%;object-fit:contain;filter:drop-shadow(0 3px 0 rgba(20,27,64,.25))}
+.sh-card:hover .sh-pic{transform:translateY(-3px)}
+.sh-card.on .sh-pic{box-shadow:0 0 0 3px #FFE08A,0 0 18px rgba(255,224,138,.65),0 8px 14px rgba(0,0,0,.4);transform:translateY(-3px)}
+.sh-card.poor .sh-pic{filter:saturate(.4) brightness(.8)}
+.sh-price{position:absolute;bottom:-34px;display:flex;align-items:center;gap:5px;font:700 14px/1 var(--f-mono);color:#FFF6E6;padding:5px 12px;background:rgba(40,28,34,.85);border:1.5px solid rgba(232,200,119,.6);border-radius:12px;white-space:nowrap}
+.sh-price .coin{width:13px;height:13px}
+.sh-card.poor .sh-price{color:#FF8FB8}
+.sh-info{min-height:76px;display:flex;align-items:center;gap:14px;padding:12px 6px 0;border-top:1.5px solid rgba(232,200,119,.35)}
+.sh-info div{flex:1;min-width:0}
+.sh-info b{display:block;font:400 18px/1.1 var(--f-display);color:#FFF1D0;margin-bottom:4px}
+.sh-info p{margin:0;font:600 13px/1.45 var(--f-body);color:#E6D8C2}
+.sh-info .hint{font:italic 600 15px/1.4 var(--f-body);color:#F4EAD8;text-align:center;width:100%}
+.sh-info .buy{background:linear-gradient(#F2D58A,#D9A84E);color:#2A1C1C;box-shadow:0 0 0 2px #FFF1D0,0 4px 10px rgba(0,0,0,.4);border-radius:20px;padding:11px 18px;font:800 15px/1 var(--f-body)}
+.sh-info .buy[disabled]{opacity:.45}
+.sh-empty{color:#E6D8C2;font:600 14px/1.5 var(--f-body);padding:20px}
+@media (orientation:portrait){.sh-side{top:42%;width:100%;padding:16px calc(var(--sr) + 10px) calc(var(--sb) + 12px) calc(var(--sl) + 10px);background:linear-gradient(rgba(30,22,32,0),rgba(30,22,32,.88) 12%,rgba(30,22,32,.94))}.sh-say{bottom:auto;top:calc(var(--st) + 64px);width:auto;right:calc(var(--sr) + 10px);left:46%;font-size:13px;padding:22px 14px 12px}.sh-shelf{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.sh-title{height:48px}.sh-title h2{font-size:19px}.sh-emb{width:64px;height:64px;left:-28px}.sh-emb img{width:44px;height:44px}.sh-coin{position:absolute;top:-34px;right:calc(var(--sr) + 10px)}}
 .row.si,.row.inv{grid-template-columns:48px minmax(0,1fr) auto}
 .row.si img,.row.inv img{width:48px;height:48px}
 #scrSShop{padding:0;background:var(--paper)}
-.shop2{position:absolute;inset:0}
-.shop-view{position:absolute;inset:0;overflow:hidden}
-#shopCv{position:absolute;inset:0;width:100%;height:100%;display:block}
-.shop-view .back{position:absolute;left:var(--sl);top:calc(var(--st) + 12px);z-index:2}
-.shop-say{position:absolute;left:calc(var(--sl) + 58px);top:calc(var(--st) + 12px);max-width:min(30%,320px);background:var(--paper);border:2.5px solid var(--ink);border-radius:3px;padding:8px 12px;font:800 13px/1.45 var(--f-body);color:var(--ink);box-shadow:3px 3px 0 var(--pink);text-align:center}
-.shop-side{position:absolute;top:0;right:0;bottom:0;width:min(62%,460px);display:flex;flex-direction:column;gap:8px;padding:calc(var(--st) + 14px) var(--sr) calc(var(--sb) + 12px) 14px;background:rgba(228,229,223,.94);border-left:3px solid var(--ink);box-shadow:-6px 0 0 rgba(20,27,64,.12);transition:transform .25s}
-.shop-side::before{content:attr(data-tab);position:absolute;left:-38px;top:calc(var(--st) + 70px);width:35px;padding:14px 0;writing-mode:vertical-rl;text-align:center;background:var(--ink);color:var(--paper);font:400 15px/1 var(--f-display);border-radius:3px 0 0 3px;letter-spacing:.1em}
-.shop2.closed .shop-side{transform:translateX(calc(100% - 4px))}
-.shop-head{display:flex;align-items:center;justify-content:space-between}
-.shop-head h2{margin:0;font:400 26px/1 var(--f-display);color:var(--ink)}
-.shop-head .right{font:700 15px/1 var(--f-mono);display:flex;gap:6px;align-items:center}
-.shop-side .scroll{flex:1;min-height:0;margin:0;padding:0 2px}
-@media (orientation:landscape){.shop-side{width:min(44%,480px)}.shop-say{max-width:min(36%,360px)}}
 .d-ch{flex-wrap:wrap}
 .smb .smq{grid-column:1/3}
 .smb #smSettings{grid-column:1/3}
@@ -615,11 +640,16 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
   <button class="btn" id="btnStoryGo">이어 하기<span class="sub" id="stSub"></span></button>
 </section>
 <section class="screen" id="scrSShop" hidden>
-  <div class="shop2">
-    <div class="shop-view"><canvas id="shopCv"></canvas><div class="shop-say" id="shopSay"></div><button class="back" id="ssBack" aria-label="닫기"></button></div>
-    <div class="shop-side" id="shopSide" data-tab="상점">
-      <div class="shop-head"><h2 id="ssTitle">가게</h2><span class="right"><i class="coin"></i><b class="num" id="ssCoin">0</b></span></div>
-      <div class="scroll"><div class="shop" id="ssList"></div></div>
+  <div class="shop3">
+    <canvas id="shopCv"></canvas>
+    <button class="back" id="ssBack" aria-label="닫기"></button>
+    <div class="sh-say"><span class="sh-name" id="shopName"></span><p id="shopSay"></p></div>
+    <div class="sh-side" id="shopSide">
+      <div class="sh-coin"><i class="coin"></i><b id="ssCoin">0</b></div>
+      <div class="sh-title"><span class="sh-emb" id="ssEmb"></span><h2 id="ssTitle">가게</h2></div>
+      <div class="sh-cat" id="ssCat"></div>
+      <div class="sh-grid" id="ssList"></div>
+      <div class="sh-info" id="ssInfo"></div>
     </div>
   </div>
 </section>
@@ -1762,8 +1792,6 @@ I18N([["선택","SELECTED","選択中","已选"],
 ["최대 체력 +15. 계속 쌓인다","Max HP +15. Stacks without limit","最大体力 +15。いくらでも重なる","最大生命 +15，可无限叠加"],
 ["대장간","Smithy","鍛冶場","铁匠铺"],
 ["가게","Shop","店","商店"],
-["<p class=\"note\">지금은 할 수 있는 게 없다.</p>","<p class=\"note\">Nothing to do here right now.</p>","<p class=\"note\">今はできることがない。</p>","<p class=\"note\">现在没什么可做的。</p>"],
-[" · 가진 것 "," · Owned "," · 所持 "," · 持有"],
 ["레벨","Level","レベル","等级"],
 ["체력","HP","体力","生命"],
 ["동전","Coins","コイン","铜币"],
@@ -6907,7 +6935,7 @@ function drawEndWorld() {
 const cv = $('c');
 const ctx = cv.getContext('2d', { alpha: false });
 let W = 390, H = 844, DPR = 1, ZOOM = 1, QUALITY = 1;
-let K = 1, OX = 0, OY = 0, CX = 0, CY = 0, VHW = 200, VHH = 400;
+let TY = 1, K = 1, OX = 0, OY = 0, CX = 0, CY = 0, VHW = 200, VHH = 400;
 function resize() {
   W = Math.max(1, innerWidth); H = Math.max(1, innerHeight);
   DPR = Math.min(2, window.devicePixelRatio || 1) * QUALITY;
@@ -6915,12 +6943,12 @@ function resize() {
   ZOOM = clamp(Math.sqrt(W * H / 364000), .82, 1.6);
   ctx.imageSmoothingEnabled = true;
 }
-function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K; VHW = W / 2 / z; VHH = H / 2 / z; }
+function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); TY = G && G.mode === 'story' ? .8 : 1; CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K * TY; VHW = W / 2 / z; VHH = H / 2 / z / TY; }
 function onScreen(x, y, m = 0) { return Math.abs(x - CX) < VHW + m && Math.abs(y - CY) < VHH + m; }
-function wt() { ctx.setTransform(K, 0, 0, K, OX, OY); }
+function wt() { ctx.setTransform(K, 0, 0, K * TY, OX, OY); }
 function spr(img, x, y, w, h, rot = 0, sx = 1, sy = 1) {
-  if (rot) { const c = Math.cos(rot) * K, s = Math.sin(rot) * K; ctx.setTransform(c * sx, s * sx, -s * sy, c * sy, x * K + OX, y * K + OY); }
-  else ctx.setTransform(K * sx, 0, 0, K * sy, x * K + OX, y * K + OY);
+  if (rot) { const c = Math.cos(rot) * K, s = Math.sin(rot) * K; ctx.setTransform(c * sx, s * sx, -s * sy, c * sy, x * K + OX, y * K * TY + OY); }
+  else ctx.setTransform(K * sx, 0, 0, K * sy, x * K + OX, y * K * TY + OY);
   ctx.drawImage(img, -w / 2, -h / 2, w, h);
 }
 
@@ -7080,7 +7108,7 @@ function drawTeles() {
       ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
     } else if (t.kind === 'eline') {
       const c = Math.cos(t.a), s = Math.sin(t.a);
-      ctx.setTransform(c * K, s * K, -s * K, c * K, t.x * K + OX, t.y * K + OY);
+      ctx.setTransform(c * K, s * K * TY, -s * K, c * K * TY, t.x * K + OX, t.y * K * TY + OY);
       ctx.globalAlpha = .12; ctx.fillStyle = COL.ink; ctx.fillRect(0, -t.w / 2, t.len, t.w);
       ctx.globalAlpha = .22; ctx.fillRect(0, -t.w / 2, t.len * p, t.w);
       ctx.globalAlpha = .9; ctx.strokeStyle = COL.pink; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.strokeRect(0, -t.w / 2, t.len, t.w); ctx.setLineDash([]);
@@ -7214,7 +7242,7 @@ function drawTexts() {
     const a = Math.min(1, t.life / t.max * 2.2), pop = 1 + Math.max(0, (t.life / t.max - .75)) * 2.4;
     const size = (t.crit ? 17 : t.me || t.healTxt ? 14 : 11.5) * pop;
     const f = '700 ' + size.toFixed(1) + 'px "IBM Plex Mono", ui-monospace, monospace';
-    wt();
+    ctx.setTransform(K, 0, 0, K, OX, OY + (TY - 1) * t.y * K);
     if (f !== lastFont) { ctx.font = f; lastFont = f; }
     ctx.globalAlpha = a;
     const s = String(t.v);
@@ -9798,35 +9826,55 @@ function shopItems(kind) {
 let SHOP_KIND = null;
 function openStoryShop(kind) {
   SHOP_KIND = kind; STATE = 'smenu'; INPUT.joy = null; updMove();
-  SHOP_NPC = LAST_NPC || 'pio';
+  SHOP_NPC = LAST_NPC || 'pio'; SHOP_PICK = 0; SHOP_BG = null;
   show('scrSShop'); renderStoryShop();
   $('shopSay').textContent = L(SHOP_SAY[kind] || SHOP_SAY.pio);
   if (!SHOP_RAF) SHOP_RAF = requestAnimationFrame(shopLoop);
 }
+let SHOP_PICK = 0;
+function shopTitle() {
+  const nm = NPCS[SHOP_NPC] ? NPCS[SHOP_NPC].name : '';
+  return SHOP_KIND === 'smith' ? L('대장간') : SHOP_KIND === 'class' ? L('직업 상점') : (LANG === 'ko' ? nm + L('네 가게') : L('가게') + ' · ' + nm);
+}
+function buyShopItem(it) {
+  const S = SAVE.story;
+  if (S.coin < it.price) { SFX.deny(); return; }
+  S.coin -= it.price; SFX.chest(); buzz(20);
+  if (it.k === 'plus') { S.plus[it.id] = (S.plus[it.id] || 0) + 1; SFX.clank(); }
+  else if (it.k === 'charm') { S.charms++; applyStats(); }
+  else if (it.k === 'sword') { S.swords.push(it.id); S.sword = it.id; applyStats(); }
+  else if (it.k === 'class') { S.classes = S.classes || []; S.classes.push(it.id); S.cls = it.id; applyStats(); banner(it.name, L('직업을 바꿨다. 가방에서 다시 고를 수 있다'), 'good'); }
+  else S.items[it.k] = (S.items[it.k] || 0) + 1;
+  $('shopSay').textContent = L(pick([L('고마워. 잘 써.'), L('좋은 걸 골랐네.'), L('또 와.')]));
+  persist(); renderStoryShop();
+}
 function renderStoryShop() {
   const S = SAVE.story;
-  $('ssTitle').textContent = SHOP_KIND === 'smith' ? L('대장간') : SHOP_KIND === 'class' ? L('직업') : L('가게');
+  $('ssTitle').textContent = shopTitle();
+  $('shopName').textContent = NPCS[SHOP_NPC] ? NPCS[SHOP_NPC].name : '';
+  $('ssCat').textContent = SHOP_KIND === 'smith' ? L('칼 갈기') : SHOP_KIND === 'class' ? L('직업') : L('물건');
   $('ssCoin').textContent = fmtNum(S.coin);
   const host = $('ssList'); host.innerHTML = '';
   const items = shopItems(SHOP_KIND);
-  if (!items.length) host.innerHTML = L('<p class="note">지금은 할 수 있는 게 없다.</p>');
-  for (const it of items) {
-    const row = document.createElement('div'); row.className = 'row si';
-    const have = it.k === 'potion' || it.k === 'bigpotion' ? L(' · 가진 것 ') + (S.items[it.k] || 0) : '';
-    const ico = it.k === 'sword' || it.k === 'plus' ? storyIcon(it.k, it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
-    row.innerHTML = '<img alt="" src="' + ico + '"><div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + '</button>';
-    row.querySelector('button').addEventListener('click', () => {
-      if (S.coin < it.price) { SFX.deny(); return; }
-      S.coin -= it.price; SFX.chest(); buzz(20);
-      if (it.k === 'plus') { S.plus[it.id] = (S.plus[it.id] || 0) + 1; SFX.clank(); }
-      else if (it.k === 'charm') { S.charms++; applyStats(); }
-      else if (it.k === 'sword') { S.swords.push(it.id); S.sword = it.id; applyStats(); }
-      else if (it.k === 'class') { S.classes = S.classes || []; S.classes.push(it.id); S.cls = it.id; applyStats(); banner(it.name, L('직업을 바꿨다. 가방에서 다시 고를 수 있다'), 'good'); }
-      else S.items[it.k] = (S.items[it.k] || 0) + 1;
-      persist(); renderStoryShop();
-    });
-    host.appendChild(row);
-  }
+  const icon = it => it.k === 'sword' || it.k === 'plus' ? storyIcon(it.k, it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
+  $('ssEmb').innerHTML = '<img alt="" src="' + (SHOP_KIND === 'smith' ? storyIcon('sword', S.sword || SWORD_ORDER[0]) : SHOP_KIND === 'class' ? storyIcon('class', 'guard') : storyIcon('potion')) + '">';
+  if (SHOP_PICK >= items.length) SHOP_PICK = Math.max(0, items.length - 1);
+  if (!items.length) host.innerHTML = '<p class="sh-empty">' + L('지금은 할 수 있는 게 없다.') + '</p>';
+  const cols = innerWidth < innerHeight ? 3 : 4;
+  let shelf = null;
+  items.forEach((it, i) => {
+    if (i % cols === 0) { shelf = document.createElement('div'); shelf.className = 'sh-shelf'; host.appendChild(shelf); }
+    const b = document.createElement('button');
+    b.className = 'sh-card' + (i === SHOP_PICK ? ' on' : '') + (S.coin < it.price ? ' poor' : '');
+    b.innerHTML = '<span class="sh-pic"><img alt="" src="' + icon(it) + '"></span><span class="sh-price"><i class="coin"></i>' + fmtNum(it.price) + '</span>';
+    b.addEventListener('click', () => { if (SHOP_PICK === i) { buyShopItem(it); return; } SHOP_PICK = i; SFX.tap(); renderStoryShop(); });
+    shelf.appendChild(b);
+  });
+  const info = $('ssInfo'), it = items[SHOP_PICK];
+  if (!it) { info.innerHTML = '<p class="hint">' + L('또 와.') + '</p>'; return; }
+  const have = it.k === 'potion' || it.k === 'bigpotion' ? ' · ' + L('가진 것') + ' ' + (S.items[it.k] || 0) : '';
+  info.innerHTML = '<div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + ' ' + L('산다') + '</button>';
+  info.querySelector('button').addEventListener('click', () => buyShopItem(it));
 }
 function closeStoryScreen() { hideAll(); STATE = 'play'; storyHUD(true); }
 
@@ -9965,22 +10013,7 @@ function regNpc(id, key, mult) {
       if (L.beard) { x.fillStyle = COL.white; x.globalAlpha = .85; x.beginPath(); x.moveTo(c - 5 * s, cy - 5 * s); x.quadraticCurveTo(c, cy + 4 * s, c + 5 * s, cy - 5 * s); x.fill(); x.globalAlpha = 1; }
       if (L.item === 'torch') { x.fillStyle = COL.yellow; flamePath(x, c + 12 * s, cy - 11 * s, 3.4 * s); x.fill(); }
       if (L.item === 'crayon') { x.fillStyle = COL.yellow; x.save(); x.translate(c + 12 * s, cy + 2 * s); x.rotate(-.6); x.fillRect(-2 * s, -9 * s, 4 * s, 3 * s); x.restore(); }
-      // shade on the far side of the cloak, a collar, a belt, buttons, hands and boots
-      x.save(); x.globalCompositeOperation = 'source-atop';
-      x.fillStyle = 'rgba(20,27,64,.28)'; x.beginPath(); x.moveTo(c + 2 * s, cy - 4 * s); x.lineTo(c + 12 * s, cy + 16 * s); x.lineTo(c + 2 * s, cy + 16 * s); x.closePath(); x.fill();
-      x.fillStyle = 'rgba(255,255,255,.22)'; x.beginPath(); x.moveTo(c - 6 * s, cy - 3 * s); x.lineTo(c - 9 * s, cy + 14 * s); x.lineTo(c - 6.5 * s, cy + 14 * s); x.lineTo(c - 4 * s, cy - 3 * s); x.fill();
-      x.restore();
-      x.fillStyle = COL.paper; x.globalAlpha = .9; x.beginPath(); x.moveTo(c - 5 * s, cy - 4 * s); x.lineTo(c, cy + 1 * s); x.lineTo(c + 5 * s, cy - 4 * s); x.lineTo(c + 3 * s, cy - 4.5 * s); x.lineTo(c, cy - 1.5 * s); x.lineTo(c - 3 * s, cy - 4.5 * s); x.fill();
-      x.globalAlpha = 1; x.fillStyle = COL.deep; x.fillRect(c - 9.5 * s, cy + 6 * s, 19 * s, 2.4 * s);
-      x.fillStyle = COL.yellow; x.fillRect(c - 1.6 * s, cy + 5.6 * s, 3.2 * s, 3.2 * s);
-      x.fillStyle = COL.white; x.globalAlpha = .7; for (const by of [1.5, 10.5]) { x.beginPath(); x.arc(c, cy + by * s, .9 * s, 0, TAU); x.fill(); }
-      x.globalAlpha = 1; x.fillStyle = '#F2D6B8'; x.strokeStyle = COL.deep; x.lineWidth = .9 * s;
-      for (const hx of [-10.5, 10.5]) { x.beginPath(); x.arc(c + hx * s, cy + 8.5 * s, 2 * s, 0, TAU); x.fill(); x.stroke(); }
-      x.fillStyle = COL.deep; x.beginPath(); x.ellipse(c - 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.ellipse(c + 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.fill();
-      x.fillStyle = '#F2D6B8'; x.globalAlpha = .9; x.beginPath(); x.ellipse(c, cy - 7.5 * s, 4.6 * s, 3.4 * s, 0, 0, TAU); x.fill(); x.globalAlpha = 1;
-      eyes(x, [[c - 2.6 * s, cy - 8.4 * s], [c + 2.6 * s, cy - 8.4 * s]], 1.5 * s, .85 * s, .2);
-      x.fillStyle = 'rgba(255,79,158,.45)'; x.beginPath(); x.arc(c - 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.arc(c + 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.fill();
-      x.strokeStyle = COL.deep; x.lineWidth = .7 * s; x.beginPath(); x.arc(c, cy - 6.4 * s, 1.2 * s, .3, Math.PI - .3); x.stroke();
+      x.fillStyle = COL.white; x.globalAlpha = .35; x.fillRect(c - 1 * s, cy, 2 * s, 13 * s); x.globalAlpha = 1;
     }, { plates: [{ col: L.c, dx: 1.6, dy: 1.2 }, { col: COL.ink, dx: 0, dy: 0 }] });
   }
 }
@@ -10016,6 +10049,7 @@ function areaLayer() {
   // solid things, back to front
   for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
     const ch = WD.grid[ty][tx], X = tx * TL, Y = ty * TL, cx = X + TL / 2, cy = Y + TL / 2;
+    if (TALL_CH.has(ch)) { if (ch !== '#' && ch !== 'h') { x.fillStyle = 'rgba(20,27,64,.2)'; x.beginPath(); x.ellipse(cx + 3, cy + 12, 20, 9, 0, 0, TAU); x.fill(); } continue; }
     if (ch === '#') {
       x.fillStyle = A; x.fillRect(X + 3, Y + 3, TL, TL);
       x.fillStyle = WD.reg === 5 ? '#F4F1EA' : WD.reg === 4 ? '#CFE3EA' : '#9EA4B4'; x.fillRect(X, Y, TL, TL);
@@ -10076,6 +10110,7 @@ function drawStoryWorld() {
   ctx.fillRect(-pad, -pad, mw + pad * 2, pad); ctx.fillRect(-pad, mh, mw + pad * 2, pad); ctx.fillRect(-pad, 0, pad, mh); ctx.fillRect(mw, 0, pad, mh);
   ctx.drawImage(areaLayer(), 0, 0, mw, mh);
   const now = performance.now() / 1000;
+  drawWaterFx(now);
   // exits: chevrons, and the name of where they go
   for (const side of ['W', 'E', 'N', 'S']) {
     const ex = exitInfo(side); if (!ex) continue;
@@ -10098,11 +10133,11 @@ function drawStoryWorld() {
       label(tx2, ty2, (open ? '' : '× ') + nm, open ? COL.ink : COL.pink);
     }
   }
-  for (const e of WD.ents) { if (!entOn(e)) continue; drawEnt(e, now); }
+  drawTallAndEnts(now);
   if (WD.boss) { wt(); ctx.globalAlpha = .25 + Math.sin(now * 2) * .08; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(WD.boss.x, WD.boss.y + 10, 70, 24, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
 }
 function label(x, y, text, col = COL.ink) {
-  wt(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  wu(); y *= TY; ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   const w = ctx.measureText(text).width + 12;
   ctx.fillStyle = COL.paper; ctx.globalAlpha = .9; ctx.fillRect(x - w / 2, y - 9, w, 18); ctx.globalAlpha = 1;
   ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.strokeRect(x - w / 2, y - 9, w, 18);
@@ -10241,6 +10276,7 @@ function flamePathC(x, y, s) { ctx.beginPath(); ctx.moveTo(x, y - s * 1.4); ctx.
 /* ---------- drawn with the actors: the sword in hand, waves, coins ---------- */
 function drawStoryOver() {
   if (!WD) return;
+  drawTallFront();
   const S = SAVE.story, now = performance.now();
   wt();
   for (const s of G.spk) {
@@ -10278,7 +10314,7 @@ function drawStoryTop() {
   if (!WD) return;
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    const sx = (P.x * K + OX), sy = (P.y * K + OY), r0 = 120 * K, r1 = 360 * K;
+    const sx = (P.x * K + OX), sy = (P.y * K * TY + OY), r0 = 120 * K, r1 = 360 * K;
     const g = ctx.createRadialGradient(sx, sy, r0, sx, sy, r1);
     g.addColorStop(0, 'rgba(8,10,28,0)'); g.addColorStop(1, 'rgba(8,10,28,.86)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height);
@@ -10293,6 +10329,275 @@ function storyCam(dt) {
   tx = mw > VHW * 2 ? clamp(tx, VHW, mw - VHW) : mw / 2;
   ty = mh > VHH * 2 ? clamp(ty, VHH, mh - VHH) : mh / 2;
   G.camX = lerp(G.camX, tx, k); G.camY = lerp(G.camY, ty, k);
+}
+
+/* ================= story: a tilted camera and tall things =================
+   The floor is squashed by TY so the camera looks down at an angle. Walls, trees,
+   houses and rocks stand up out of it and are drawn row by row with the people,
+   so you can walk behind a tree and come out the other side. */
+const TALL_CH = new Set(['#', 't', 'h', 'o', 'c', 'b', 'f']);
+const WALL_H = 30;
+const REG_LOOK = {
+  1: { top: '#B7C59A', front: '#7E8C6A', line: '#4F5C45', leaf: ['#3F6B4A', '#5E8F5A', '#8CBB72'], trunk: '#6B4A33', rock: '#9AA0AE', roof: ['#C25A5A', '#9C4040'], wall: '#E6D7B8' },
+  2: { top: '#6F9C93', front: '#3F6560', line: '#24403E', leaf: ['#1F3F45', '#2E5E60', '#4F8A7E'], trunk: '#3E2F2A', rock: '#7D8E92', roof: ['#5A6FA8', '#3F4F80'], wall: '#D6D2C2' },
+  3: { top: '#E9D9AE', front: '#C4A775', line: '#8A6E45', leaf: ['#4E8A5E', '#6FAE6A', '#A9D47E'], trunk: '#8A6440', rock: '#E2D2A8', roof: ['#D08A4A', '#A8662E'], wall: '#F2E6C8' },
+  4: { top: '#DDEBF0', front: '#9EB8C4', line: '#5D7884', leaf: ['#2E5A5E', '#3F7C78', '#E9F4F6'], trunk: '#5A4636', rock: '#B9C8D0', roof: ['#3F7C9C', '#2C5A74'], wall: '#E8EEF0' },
+  5: { top: '#F4F1EA', front: '#C9C4B8', line: '#25356F', leaf: ['#141B40', '#25356F', '#F4F1EA'], trunk: '#141B40', rock: '#E6E1D6', roof: ['#141B40', '#25356F'], wall: '#F4F1EA' }
+};
+function wu() { ctx.setTransform(K, 0, 0, K, OX, OY); }
+
+/* ---------- sprites, printed once ---------- */
+const TALL_SPR = {};
+function tallCanvas(w, h, res, fn) {
+  const c = document.createElement('canvas'); c.width = Math.ceil(w * res); c.height = Math.ceil(h * res);
+  const x = c.getContext('2d'); x.scale(res, res); fn(x); c.lw = w; c.lh = h; return c;
+}
+function treeSpr(reg, v) {
+  const key = 'tree' + reg + '_' + v; if (TALL_SPR[key]) return TALL_SPR[key];
+  const L = REG_LOOK[reg], R = mulberry(reg * 31 + v * 7 + 3), [ink] = [REG_INK[reg][1]];
+  const c = tallCanvas(84, 118, 2, x => {
+    const cx = 42, base = 112;
+    x.lineJoin = 'round';
+    if (reg === 3) {
+      // a palm
+      x.strokeStyle = L.trunk; x.lineWidth = 7; x.lineCap = 'round';
+      x.beginPath(); x.moveTo(cx, base - 4); x.quadraticCurveTo(cx + 10, base - 40, cx + 4, base - 72); x.stroke();
+      x.strokeStyle = 'rgba(0,0,0,.2)'; x.lineWidth = 2; for (let k = 0; k < 6; k++) { const yy = base - 10 - k * 10; x.beginPath(); x.moveTo(cx - 3 + k, yy); x.lineTo(cx + 5 + k, yy - 2); x.stroke(); }
+      for (let k = 0; k < 7; k++) {
+        const a = -Math.PI / 2 + (k - 3) * .52, len = 30 + R() * 8;
+        x.fillStyle = k % 2 ? L.leaf[1] : L.leaf[0];
+        x.beginPath(); x.moveTo(cx + 4, base - 72);
+        x.quadraticCurveTo(cx + 4 + Math.cos(a - .3) * len * .7, base - 72 + Math.sin(a - .3) * len * .7 - 8, cx + 4 + Math.cos(a) * len, base - 72 + Math.sin(a) * len + 10);
+        x.quadraticCurveTo(cx + 4 + Math.cos(a + .3) * len * .6, base - 72 + Math.sin(a + .3) * len * .6, cx + 4, base - 72); x.fill();
+        x.strokeStyle = ink; x.lineWidth = 1.2; x.stroke();
+      }
+      x.fillStyle = L.trunk; x.beginPath(); x.arc(cx + 4, base - 72, 4, 0, TAU); x.fill();
+      return;
+    }
+    if (reg === 4) {
+      // a pine with snow
+      x.fillStyle = L.trunk; x.fillRect(cx - 4, base - 20, 8, 20);
+      for (let k = 0; k < 4; k++) {
+        const w = 34 - k * 7, y0 = base - 18 - k * 22;
+        x.fillStyle = L.leaf[k % 2]; x.beginPath(); x.moveTo(cx - w, y0); x.lineTo(cx, y0 - 34); x.lineTo(cx + w, y0); x.closePath(); x.fill();
+        x.strokeStyle = ink; x.lineWidth = 1.5; x.stroke();
+        x.fillStyle = L.leaf[2]; x.beginPath(); x.moveTo(cx - w * .55, y0 - 15); x.lineTo(cx, y0 - 34); x.lineTo(cx + w * .4, y0 - 18); x.quadraticCurveTo(cx, y0 - 20, cx - w * .55, y0 - 15); x.fill();
+      }
+      return;
+    }
+    // a round tree: trunk, three shades of leaves, a rim of ink
+    x.fillStyle = L.trunk; x.beginPath(); x.moveTo(cx - 5, base); x.lineTo(cx - 3, base - 40); x.lineTo(cx + 3, base - 40); x.lineTo(cx + 6, base); x.closePath(); x.fill();
+    x.strokeStyle = ink; x.lineWidth = 1.5; x.stroke();
+    x.strokeStyle = L.trunk; x.lineWidth = 3; x.beginPath(); x.moveTo(cx, base - 34); x.lineTo(cx - 10, base - 48); x.moveTo(cx + 1, base - 38); x.lineTo(cx + 9, base - 52); x.stroke();
+    const blobs = [];
+    for (let k = 0; k < 9; k++) { const a = k / 9 * TAU + R() * .4, d = 12 + R() * 8; blobs.push([cx + Math.cos(a) * d * 1.15, base - 66 + Math.sin(a) * d * .85, 13 + R() * 6]); }
+    blobs.push([cx, base - 68, 18]);
+    x.fillStyle = ink; for (const [bx, by, r] of blobs) { x.beginPath(); x.arc(bx, by, r + 2, 0, TAU); x.fill(); }
+    x.fillStyle = L.leaf[0]; for (const [bx, by, r] of blobs) { x.beginPath(); x.arc(bx, by, r, 0, TAU); x.fill(); }
+    x.fillStyle = L.leaf[1]; for (const [bx, by, r] of blobs) { x.beginPath(); x.arc(bx - r * .22, by - r * .25, r * .78, 0, TAU); x.fill(); }
+    x.fillStyle = L.leaf[2]; for (const [bx, by, r] of blobs) if (by < base - 64) { x.beginPath(); x.arc(bx - r * .4, by - r * .45, r * .42, 0, TAU); x.fill(); }
+    if (reg === 5) { x.strokeStyle = COL.pink; x.lineWidth = 1.2; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(cx + (R() - .5) * 30, base - 66 + (R() - .5) * 26, 4 + R() * 5, 0, TAU * .7); x.stroke(); } }
+    if (reg === 1 && v % 2 === 0) { x.fillStyle = COL.pink; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(cx + (R() - .5) * 40, base - 64 + (R() - .5) * 28, 2.2, 0, TAU); x.fill(); } }
+  });
+  return (TALL_SPR[key] = c);
+}
+function rockSpr(reg, v) {
+  const key = 'rock' + reg + '_' + v; if (TALL_SPR[key]) return TALL_SPR[key];
+  const L = REG_LOOK[reg], R = mulberry(reg * 17 + v * 5), ink = REG_INK[reg][1];
+  return (TALL_SPR[key] = tallCanvas(56, 54, 2, x => {
+    const cx = 28, base = 48, pts = [];
+    for (let k = 0; k < 9; k++) { const a = Math.PI + k / 8 * Math.PI, r = 18 + R() * 6; pts.push([cx + Math.cos(a) * r, base - 8 + Math.sin(a) * r * 1.3]); }
+    x.beginPath(); x.moveTo(cx - 22, base); pts.forEach(p => x.lineTo(p[0], p[1])); x.lineTo(cx + 22, base); x.closePath();
+    x.fillStyle = L.rock; x.fill(); x.strokeStyle = ink; x.lineWidth = 2; x.stroke();
+    x.save(); x.clip();
+    x.fillStyle = 'rgba(20,27,64,.25)'; x.fillRect(cx + 2, 0, 40, 60);
+    x.fillStyle = 'rgba(255,255,255,.35)'; x.beginPath(); x.ellipse(cx - 8, base - 26, 8, 5, -.4, 0, TAU); x.fill();
+    x.restore();
+    x.strokeStyle = ink; x.lineWidth = 1.2; x.beginPath(); x.moveTo(cx - 4, base - 30); x.lineTo(cx + 2, base - 18); x.lineTo(cx - 2, base - 8); x.stroke();
+  }));
+}
+function cactusSpr(v) {
+  const key = 'cac' + v; if (TALL_SPR[key]) return TALL_SPR[key];
+  return (TALL_SPR[key] = tallCanvas(50, 70, 2, x => {
+    const cx = 25, base = 66;
+    x.fillStyle = '#4E8A5E'; x.strokeStyle = COL.ink; x.lineWidth = 2;
+    x.beginPath(); x.roundRect(cx - 7, base - 54, 14, 54, 7); x.fill(); x.stroke();
+    x.beginPath(); x.roundRect(cx - 19, base - 40, 9, 20, 4.5); x.roundRect(cx - 14, base - 26, 8, 6, 3); x.fill(); x.stroke();
+    x.beginPath(); x.roundRect(cx + 10, base - 46, 9, 22, 4.5); x.fill(); x.stroke();
+    x.strokeStyle = 'rgba(255,255,255,.45)'; x.lineWidth = 1.5; x.beginPath(); x.moveTo(cx - 3, base - 48); x.lineTo(cx - 3, base - 6); x.stroke();
+    if (v % 2) { x.fillStyle = COL.pink; x.beginPath(); x.arc(cx, base - 55, 3.5, 0, TAU); x.fill(); }
+  }));
+}
+function houseSpr(reg, w, d) {
+  const key = 'house' + reg + '_' + w + 'x' + d; if (TALL_SPR[key]) return TALL_SPR[key];
+  const L = REG_LOOK[reg], ink = REG_INK[reg][1], HH = 50, fw = w * TL, fd = d * TL * TY;
+  const sw = fw + 16, sh = fd + HH + 34;
+  return (TALL_SPR[key] = tallCanvas(sw, sh, 2, x => {
+    const X = 8, base = sh - 2, wallTop = base - HH;
+    x.lineJoin = 'round';
+    // shadow at the foot
+    x.fillStyle = 'rgba(20,27,64,.22)'; x.fillRect(X + 4, base - 3, fw, 5);
+    // front wall
+    x.fillStyle = L.wall; x.fillRect(X, wallTop, fw, HH);
+    x.strokeStyle = 'rgba(20,27,64,.12)'; x.lineWidth = 1;
+    for (let yy = wallTop + 9; yy < base; yy += 9) { x.beginPath(); x.moveTo(X, yy); x.lineTo(X + fw, yy); x.stroke(); }
+    x.fillStyle = 'rgba(20,27,64,.18)'; x.fillRect(X, wallTop, fw, 6);
+    // door and windows
+    const dx = X + fw / 2 - 10;
+    x.fillStyle = '#6B4A33'; x.beginPath(); x.roundRect(dx, base - 32, 20, 32, [9, 9, 0, 0]); x.fill(); x.strokeStyle = ink; x.lineWidth = 2; x.stroke();
+    x.fillStyle = COL.yellow; x.beginPath(); x.arc(dx + 15, base - 15, 1.8, 0, TAU); x.fill();
+    x.fillStyle = 'rgba(20,27,64,.25)'; x.fillRect(dx - 4, base - 2, 28, 2);
+    for (let k = 0; k < Math.max(1, w - 2); k++) for (const side of [-1, 1]) {
+      const wx = X + fw / 2 + side * (24 + k * 34) - 8; if (wx < X + 4 || wx + 16 > X + fw - 4) continue;
+      x.fillStyle = '#FFE08A'; x.fillRect(wx, wallTop + 14, 16, 14);
+      x.fillStyle = 'rgba(255,255,255,.6)'; x.fillRect(wx + 2, wallTop + 16, 5, 4);
+      x.strokeStyle = ink; x.lineWidth = 2; x.strokeRect(wx, wallTop + 14, 16, 14);
+      x.lineWidth = 1.2; x.beginPath(); x.moveTo(wx + 8, wallTop + 14); x.lineTo(wx + 8, wallTop + 28); x.moveTo(wx, wallTop + 21); x.lineTo(wx + 16, wallTop + 21); x.stroke();
+      x.fillStyle = '#6B4A33'; x.fillRect(wx - 2, wallTop + 29, 20, 3);
+    }
+    x.strokeStyle = ink; x.lineWidth = 2.2; x.strokeRect(X, wallTop, fw, HH);
+    // roof: seen from above at an angle, ridge across the middle
+    const rt = wallTop - fd + 2, ov = 7, ridge = rt + fd * .42;
+    x.fillStyle = L.roof[1]; x.beginPath(); x.moveTo(X - ov, wallTop + 4); x.lineTo(X + fw + ov, wallTop + 4); x.lineTo(X + fw + ov - 4, ridge); x.lineTo(X - ov + 4, ridge); x.closePath(); x.fill();
+    x.fillStyle = L.roof[0]; x.beginPath(); x.moveTo(X - ov + 4, ridge); x.lineTo(X + fw + ov - 4, ridge); x.lineTo(X + fw + ov - 8, rt); x.lineTo(X - ov + 8, rt); x.closePath(); x.fill();
+    x.strokeStyle = 'rgba(20,27,64,.25)'; x.lineWidth = 1.2;
+    for (let yy = ridge + 7; yy < wallTop + 2; yy += 7) { x.beginPath(); x.moveTo(X - ov + 2, yy); x.lineTo(X + fw + ov - 2, yy); x.stroke(); }
+    for (let yy = rt + 6; yy < ridge - 1; yy += 6) { x.beginPath(); x.moveTo(X - ov + 7, yy); x.lineTo(X + fw + ov - 7, yy); x.stroke(); }
+    x.strokeStyle = 'rgba(255,255,255,.35)'; x.lineWidth = 2; x.beginPath(); x.moveTo(X - ov + 6, ridge - 2); x.lineTo(X + fw + ov - 6, ridge - 2); x.stroke();
+    x.strokeStyle = ink; x.lineWidth = 2.2;
+    x.beginPath(); x.moveTo(X - ov, wallTop + 4); x.lineTo(X + fw + ov, wallTop + 4); x.lineTo(X + fw + ov - 8, rt); x.lineTo(X - ov + 8, rt); x.closePath(); x.stroke();
+    x.beginPath(); x.moveTo(X - ov + 4, ridge); x.lineTo(X + fw + ov - 4, ridge); x.stroke();
+    // chimney
+    const chx = X + fw * .72;
+    x.fillStyle = '#9C8C7A'; x.fillRect(chx, rt - 14, 12, 22); x.strokeRect(chx, rt - 14, 12, 22);
+    x.fillStyle = ink; x.fillRect(chx - 2, rt - 17, 16, 4);
+  }));
+}
+
+/* ---------- the list of tall things in an area ---------- */
+function buildTall() {
+  if (WD.tall) return WD.tall;
+  const rows = Array.from({ length: WD.h }, () => []), R = mulberry((WD.A.seed || 7) * 3 + 1), reg = WD.reg;
+  const at = (tx, ty) => tx < 0 || ty < 0 || tx >= WD.w || ty >= WD.h ? '' : WD.grid[ty][tx];
+  const seen = new Set();
+  const put = (ty, o) => rows[ty].push(o);
+  for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
+    const ch = WD.grid[ty][tx], X = tx * TL, cx = X + TL / 2;
+    if (!TALL_CH.has(ch)) continue;
+    if (ch === '#') put(ty, { k: 'wall', tx, ty, by: (ty + 1) * TL, sx: X, sy: ty * TL * TY - WALL_H, w: TL, h: TL * TY + WALL_H, n: R() });
+    else if (ch === 't') { const img = treeSpr(reg, Math.floor(R() * 4)), s = .9 + R() * .25, ox = (R() - .5) * 10; put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx + ox - img.lw * s / 2, sy: (ty + .82) * TL * TY - img.lh * s + 6, w: img.lw * s, h: img.lh * s }); }
+    else if (ch === 'o') { const img = rockSpr(reg, Math.floor(R() * 3)); put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .9) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
+    else if (ch === 'c') { const img = cactusSpr(Math.floor(R() * 2)); put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .85) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
+    else if (ch === 'b' || ch === 'f') put(ty, { k: ch === 'b' ? 'crate' : 'fence', tx, ty, by: (ty + 1) * TL, sx: X, sy: ty * TL * TY - 26, w: TL, h: TL * TY + 26 });
+    else if (ch === 'h' && !seen.has(tx + ',' + ty)) {
+      // one house per block of 'h'
+      let w = 0; while (at(tx + w, ty) === 'h' && !seen.has((tx + w) + ',' + ty)) w++;
+      let d = 0; while (d < 12 && [...Array(w).keys()].every(i => at(tx + i, ty + d) === 'h')) d++;
+      for (let j = 0; j < d; j++) for (let i = 0; i < w; i++) seen.add((tx + i) + ',' + (ty + j));
+      const img = houseSpr(reg, w, d), by = (ty + d) * TL;
+      put(ty + d - 1, { k: 'img', img, by, sx: X - 8, sy: by * TY - img.lh + 2, w: img.lw, h: img.lh });
+    }
+  }
+  return (WD.tall = rows);
+}
+function drawTallOne(o) {
+  if (o.k === 'img') { ctx.drawImage(o.img, o.sx, o.sy, o.w, o.h); return; }
+  const L = REG_LOOK[WD.reg], ink = REG_INK[WD.reg][1], X = o.sx, top = o.sy, depth = TL * TY, b = top + o.h;
+  const at = (tx, ty) => tx < 0 || ty < 0 || tx >= WD.w || ty >= WD.h ? '#' : WD.grid[ty][tx];
+  if (o.k === 'wall') {
+    const below = at(o.tx, o.ty + 1) === '#', above = at(o.tx, o.ty - 1) === '#', lt = at(o.tx - 1, o.ty) === '#', rt = at(o.tx + 1, o.ty) === '#';
+    ctx.fillStyle = L.top; ctx.fillRect(X - .3, top - .3, TL + .6, depth + .6);
+    if (WD.reg <= 2) { ctx.fillStyle = 'rgba(20,27,64,.12)'; ctx.fillRect(X + 6 + o.n * 20, top + 8, 10, 4); ctx.fillRect(X + 26 - o.n * 14, top + 22, 8, 3); }
+    else if (WD.reg === 5) { ctx.strokeStyle = 'rgba(37,53,111,.25)'; ctx.lineWidth = 1; for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.moveTo(X + 6, top + 8 + k * 9); ctx.lineTo(X + 16 + o.n * 22, top + 8 + k * 9); ctx.stroke(); } }
+    if (!below) {
+      ctx.fillStyle = L.front; ctx.fillRect(X - .3, b - WALL_H, TL + .6, WALL_H);
+      ctx.strokeStyle = 'rgba(20,27,64,.22)'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(X, b - WALL_H / 2); ctx.lineTo(X + TL, b - WALL_H / 2);
+      const off = (o.tx % 2) * 16; for (let k = 0; k < 3; k++) { const vx = X + 8 + off + k * 24; if (vx < X + TL) { ctx.moveTo(vx, b - WALL_H); ctx.lineTo(vx, b - WALL_H / 2); } const vx2 = X + 20 - off / 2 + k * 24; if (vx2 < X + TL) { ctx.moveTo(vx2, b - WALL_H / 2); ctx.lineTo(vx2, b); } }
+      ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(X, b - WALL_H, TL, 2);
+      ctx.fillStyle = ink; ctx.fillRect(X - .3, b - 2, TL + .6, 2);
+    }
+    ctx.fillStyle = ink;
+    if (!above) ctx.fillRect(X - .3, top, TL + .6, 2);
+    if (!lt) ctx.fillRect(X, top, 2, o.h - (below ? 0 : 0));
+    if (!rt) ctx.fillRect(X + TL - 2, top, 2, o.h);
+    return;
+  }
+  if (o.k === 'crate') {
+    const y0 = b - depth * .75 - 22;
+    ctx.fillStyle = '#D4A86A'; ctx.fillRect(X + 5, y0, TL - 10, depth * .7);
+    ctx.fillStyle = '#B9894F'; ctx.fillRect(X + 5, y0 + depth * .7, TL - 10, 22);
+    ctx.strokeStyle = ink; ctx.lineWidth = 2; ctx.strokeRect(X + 5, y0, TL - 10, depth * .7 + 22);
+    ctx.beginPath(); ctx.moveTo(X + 5, y0 + depth * .7); ctx.lineTo(X + TL - 5, y0 + depth * .7); ctx.moveTo(X + 5, y0 + depth * .7); ctx.lineTo(X + TL - 5, y0 + depth * .7 + 22); ctx.stroke();
+    return;
+  }
+  if (o.k === 'fence') {
+    const yb = b - depth * .45, lt = at(o.tx - 1, o.ty) === 'f', rt = at(o.tx + 1, o.ty) === 'f';
+    ctx.fillStyle = '#9C7A55'; ctx.strokeStyle = ink; ctx.lineWidth = 1.6;
+    ctx.fillRect(lt ? X : X + 6, yb - 18, (rt ? TL : TL - 6) - (lt ? 0 : 6), 4); ctx.fillRect(lt ? X : X + 6, yb - 9, (rt ? TL : TL - 6) - (lt ? 0 : 6), 4);
+    for (const px of [X + 6, X + TL - 10]) { ctx.fillStyle = '#B48E62'; ctx.fillRect(px, yb - 24, 6, 24); ctx.strokeRect(px, yb - 24, 6, 24); }
+  }
+}
+
+/* ---------- per frame ---------- */
+function drawTallAndEnts(now) {
+  const rows = buildTall();
+  const r0 = Math.max(0, Math.floor((CY - VHH) / TL) - 1), r1 = Math.min(WD.h - 1, Math.ceil((CY + VHH) / TL) + 4);
+  const byRow = new Map();
+  for (const e of WD.ents) { if (!entOn(e)) continue; const r = clamp(Math.floor(e.y / TL), 0, WD.h - 1); if (!byRow.has(r)) byRow.set(r, []); byRow.get(r).push(e); }
+  for (const [r, list] of byRow) if (r < r0 || r > r1) for (const e of list) drawEnt(e, now);
+  for (let r = r0; r <= r1; r++) {
+    wu();
+    for (const o of rows[r]) if (o.sx + o.w > CX - VHW - 20 && o.sx < CX + VHW + 20) drawTallOne(o);
+    const list = byRow.get(r); if (list) for (const e of list.sort((a, b) => a.y - b.y)) drawEnt(e, now);
+  }
+}
+// after the people are drawn: anything standing in front of them goes back on top.
+// In front of you it turns see-through, so you never lose yourself behind a house.
+function drawTallFront() {
+  if (!WD || !WD.tall) return;
+  const rows = WD.tall;
+  const cover = (x0, x1, y0, y1, wy, alpha) => {
+    const ra = clamp(Math.floor(wy / TL), 0, WD.h - 1), rb = Math.min(WD.h - 1, ra + 6);
+    for (let r = ra; r <= rb; r++) for (const o of rows[r]) {
+      if (o.by <= wy + 2 || o.sx > x1 || o.sx + o.w < x0 || o.sy > y1 || o.sy + o.h < y0) continue;
+      ctx.globalAlpha = alpha; drawTallOne(o);
+    }
+  };
+  wu();
+  for (const e of E) { if (e.dead || !onScreen(e.x, e.y, 60)) continue; const r = e.r || 12; cover(e.x - r, e.x + r, e.y * TY - r * 2, e.y * TY + r * .4, e.y, 1); }
+  cover(P.x - 16, P.x + 16, P.y * TY - 40, P.y * TY + 12, P.y, .42);
+  ctx.globalAlpha = 1;
+}
+// water that moves, with foam where it meets the shore
+function drawWaterFx(now) {
+  const r0 = Math.max(0, Math.floor((CY - VHH) / TL)), r1 = Math.min(WD.h - 1, Math.ceil((CY + VHH) / TL));
+  const c0 = Math.max(0, Math.floor((CX - VHW) / TL)), c1 = Math.min(WD.w - 1, Math.ceil((CX + VHW) / TL));
+  const at = (tx, ty) => tx < 0 || ty < 0 || tx >= WD.w || ty >= WD.h ? '~' : WD.grid[ty][tx];
+  wt(); ctx.lineCap = 'round';
+  for (let ty = r0; ty <= r1; ty++) for (let tx = c0; tx <= c1; tx++) {
+    if (WD.grid[ty][tx] !== '~') continue;
+    const X = tx * TL, Y = ty * TL, ph = (tx * 1.7 + ty * 2.3);
+    ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1.6;
+    for (let k = 0; k < 2; k++) {
+      const s = (now * .35 + ph * .13 + k * .5) % 1, yy = Y + 10 + k * 20 + Math.sin(now * 1.3 + ph + k) * 3, xx = X + s * TL;
+      ctx.globalAlpha = Math.sin(s * Math.PI) * .7;
+      ctx.beginPath(); ctx.moveTo(xx - 8, yy); ctx.quadraticCurveTo(xx, yy - 3, xx + 8, yy); ctx.stroke();
+    }
+    const tw = (Math.sin(now * 3 + ph * 2.1) + 1) / 2;
+    if (tw > .92) { ctx.globalAlpha = (tw - .92) * 10; ctx.fillStyle = COL.white; ctx.fillRect(X + 12 + (ph * 7 % 24), Y + 14 + (ph * 5 % 20), 3, 3); }
+    // foam along each shore
+    ctx.strokeStyle = COL.white; ctx.lineWidth = 3; ctx.setLineDash([7, 5]); ctx.lineDashOffset = -now * 12;
+    ctx.globalAlpha = .55 + Math.sin(now * 2 + ph) * .2;
+    ctx.beginPath();
+    if (at(tx, ty - 1) !== '~') { ctx.moveTo(X, Y + 9); ctx.lineTo(X + TL, Y + 9); }
+    if (at(tx, ty + 1) !== '~') { ctx.moveTo(X, Y + TL - 4); ctx.lineTo(X + TL, Y + TL - 4); }
+    if (at(tx - 1, ty) !== '~') { ctx.moveTo(X + 4, Y); ctx.lineTo(X + 4, Y + TL); }
+    if (at(tx + 1, ty) !== '~') { ctx.moveTo(X + TL - 4, Y); ctx.lineTo(X + TL - 4, Y + TL); }
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.globalAlpha = 1;
 }
 
 /* ================= story mode: the map ================= */
@@ -10361,22 +10666,22 @@ function openStoryMap() {
   show('scrSMap'); MAP_SEL = WD.id; renderStoryMap(true);
 }
 function renderStoryMap(center) {
-  const S = SAVE.story, L = mapLayout(), goal = goalArea(), here = WD.id;
+  const S = SAVE.story, ML = mapLayout(), goal = goalArea(), here = WD.id;
   const vis = id => S.seen[id] || id === goal;
-  const fog = id => !vis(id) && L.edges.some(e => (e.a === id && S.seen[e.b]) || (e.b === id && S.seen[e.a]));
-  let svg = '<svg width="' + L.w + '" height="' + L.h + '">';
-  for (const e of L.edges) {
-    const a = L.pos[e.a], b = L.pos[e.b]; if (!a || !b) continue;
+  const fog = id => !vis(id) && ML.edges.some(e => (e.a === id && S.seen[e.b]) || (e.b === id && S.seen[e.a]));
+  let svg = '<svg width="' + ML.w + '" height="' + ML.h + '">';
+  for (const e of ML.edges) {
+    const a = ML.pos[e.a], b = ML.pos[e.b]; if (!a || !b) continue;
     const va = vis(e.a) || fog(e.a), vb = vis(e.b) || fog(e.b);
     if (!(va && vb) || (!S.seen[e.a] && !S.seen[e.b])) continue;
     svg += '<line x1="' + a[0] + '" y1="' + a[1] + '" x2="' + b[0] + '" y2="' + b[1] + '" stroke="#25356F" stroke-width="' + (e.door ? 2 : 3.5) + '"' + (e.door ? ' stroke-dasharray="5 5"' : '') + ' opacity="' + (S.seen[e.a] && S.seen[e.b] ? .85 : .3) + '"/>';
   }
   svg += '</svg>';
   let nodes = '';
-  for (const id in L.pos) {
+  for (const id in ML.pos) {
     const v = vis(id), fg = fog(id);
     if (!v && !fg) continue;
-    const [x, y] = L.pos[id], A = AREAS[id];
+    const [x, y] = ML.pos[id], A = AREAS[id];
     if (!v) { nodes += '<button class="mn fog" style="left:' + x + 'px;top:' + y + 'px" data-a="' + id + '">?</button>'; continue; }
     const I = areaInfo(id), mk = [];
     if (I.lit) mk.push(L('<i class="b-t" title="횃불"></i>'));
@@ -10386,11 +10691,11 @@ function renderStoryMap(center) {
     nodes += '<button class="mn r' + A.reg + (id === here ? ' here' : '') + (id === goal ? ' goal' : '') + (id === MAP_SEL ? ' sel' : '') + (S.seen[id] ? '' : ' unseen') + '" style="left:' + x + 'px;top:' + y + 'px" data-a="' + id + '">' + esc(A.name) + (mk.length ? '<span class="mk">' + mk.join('') + '</span>' : '') + '</button>';
   }
   const inner = $('mapIn');
-  inner.style.width = L.w + 'px'; inner.style.height = L.h + 'px';
+  inner.style.width = ML.w + 'px'; inner.style.height = ML.h + 'px';
   inner.innerHTML = svg + nodes;
   inner.querySelectorAll('.mn').forEach(b => b.addEventListener('click', () => { SFX.tap(); MAP_SEL = b.dataset.a; renderStoryMap(false); }));
   renderMapInfo();
-  if (center) { const wrap = $('mapWrap'), p = L.pos[here]; requestAnimationFrame(() => { wrap.scrollLeft = p[0] - wrap.clientWidth / 2; wrap.scrollTop = p[1] - wrap.clientHeight / 2; }); }
+  if (center) { const wrap = $('mapWrap'), p = ML.pos[here]; requestAnimationFrame(() => { wrap.scrollLeft = p[0] - wrap.clientWidth / 2; wrap.scrollTop = p[1] - wrap.clientHeight / 2; }); }
   $('mapSeen').textContent = Object.keys(S.seen).length + ' / ' + Object.keys(AREAS).length;
 }
 function renderMapInfo() {
@@ -10655,57 +10960,107 @@ const SHOP_SAY = {
   baren: L('필요한 거 있으면 골라. 물약은 늘 있어.'), pio: L('길이 달라도 장사는 같지. 천천히 봐.'), sai: L('물 빼고는 다 있어.'),
   smith: L('칼 내려놔. 어디까지 갈아 줄까.'), class: L('사람은 옷을 바꾸면 걸음도 바뀌어. 골라 봐.'),
 };
+/* the room behind the merchant: printed once per size, then only the light and dust move */
+let SHOP_BG = null;
+function shopRoom(w, h, dpr, reg) {
+  const c = document.createElement('canvas'); c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+  const x = c.getContext('2d'); x.scale(dpr, dpr);
+  const R = mulberry(31 + reg * 7);
+  const tint = ['#5A4250', '#5A4250', '#3F5452', '#6A5040', '#4A5662', '#3A3A52'][reg];
+  // back wall: tall wooden boards
+  const g0 = x.createLinearGradient(0, 0, 0, h); g0.addColorStop(0, '#2A1E26'); g0.addColorStop(1, tint); x.fillStyle = g0; x.fillRect(0, 0, w, h);
+  const bw = Math.max(34, w / 22);
+  for (let bx = 0; bx < w; bx += bw) {
+    const l = .85 + R() * .3;
+    x.fillStyle = 'rgba(120,88,96,' + (.18 * l).toFixed(3) + ')'; x.fillRect(bx, 0, bw - 2, h);
+    x.fillStyle = 'rgba(0,0,0,.28)'; x.fillRect(bx + bw - 2, 0, 2, h);
+    x.strokeStyle = 'rgba(0,0,0,.12)'; x.lineWidth = 1;
+    for (let k = 0; k < 4; k++) { const yy = R() * h; x.beginPath(); x.moveTo(bx + 4, yy); x.quadraticCurveTo(bx + bw / 2, yy + 8, bx + bw - 6, yy + 2); x.stroke(); }
+  }
+  // a big cabinet with drawers, top left, like the back of a shop
+  const cw = w * .5, ch = h * .3;
+  x.fillStyle = '#3A2A30'; x.fillRect(w * .02, h * .02, cw, ch);
+  for (let i = 0; i < 2; i++) {
+    const dx = w * .04 + i * cw * .48, dy = h * .05, dw = cw * .44, dh = ch * .78;
+    const gd = x.createLinearGradient(0, dy, 0, dy + dh); gd.addColorStop(0, '#5C4650'); gd.addColorStop(1, '#3E2E36');
+    x.fillStyle = gd; x.fillRect(dx, dy, dw, dh);
+    x.strokeStyle = 'rgba(255,230,200,.12)'; x.lineWidth = 2; x.strokeRect(dx + 6, dy + 6, dw - 12, dh - 12);
+    x.fillStyle = 'rgba(0,0,0,.35)'; x.fillRect(dx + dw * .2, dy + dh * .3, dw * .6, 6); x.fillRect(dx + dw * .2, dy + dh * .62, dw * .6, 6);
+    x.fillStyle = '#1E1620'; x.beginPath(); x.arc(dx + dw * .7, dy + dh * .16, 9, 0, TAU); x.fill();
+  }
+  // shelves along the wall with jars, bottles, sacks, books
+  const shelves = [h * .45, h * .66];
+  for (const sy of shelves) {
+    x.fillStyle = 'rgba(0,0,0,.35)'; x.fillRect(0, sy + 10, w, 12);
+    const gs = x.createLinearGradient(0, sy, 0, sy + 12); gs.addColorStop(0, '#8C6440'); gs.addColorStop(1, '#4E3424'); x.fillStyle = gs; x.fillRect(0, sy, w, 12);
+    x.fillStyle = 'rgba(255,220,160,.25)'; x.fillRect(0, sy, w, 2);
+    let px = 8;
+    while (px < w) {
+      const k = R(), ww = 16 + R() * 26, hh = 20 + R() * 40;
+      const col = ['#B85C7A', '#3E8E8A', '#D9A84E', '#6F8FB8', '#8A6A4A', '#7A5A8E'][Math.floor(R() * 6)];
+      if (k < .35) { // jar with a lid and a label
+        const gj = x.createLinearGradient(px, 0, px + ww, 0); gj.addColorStop(0, col); gj.addColorStop(.35, '#FFFFFF44'); gj.addColorStop(.36, col); gj.addColorStop(1, '#00000055');
+        x.fillStyle = col; x.beginPath(); x.roundRect(px, sy - hh, ww, hh, 6); x.fill(); x.fillStyle = gj; x.fill();
+        x.fillStyle = '#C9B48A'; x.fillRect(px + 3, sy - hh * .6, ww - 6, hh * .22);
+        x.fillStyle = '#4E3424'; x.fillRect(px - 1, sy - hh - 5, ww + 2, 6);
+      } else if (k < .6) { // bottle
+        x.fillStyle = col; x.beginPath(); x.moveTo(px + ww * .35, sy - hh); x.lineTo(px + ww * .65, sy - hh); x.lineTo(px + ww * .65, sy - hh * .7); x.quadraticCurveTo(px + ww, sy - hh * .6, px + ww, sy - hh * .35); x.lineTo(px + ww, sy); x.lineTo(px, sy); x.lineTo(px, sy - hh * .35); x.quadraticCurveTo(px, sy - hh * .6, px + ww * .35, sy - hh * .7); x.closePath(); x.fill();
+        x.fillStyle = 'rgba(255,255,255,.35)'; x.fillRect(px + ww * .18, sy - hh * .45, 3, hh * .35);
+        x.fillStyle = '#8A6A4A'; x.fillRect(px + ww * .36, sy - hh - 5, ww * .28, 6);
+      } else if (k < .8) { // books
+        let bx2 = px; for (let j = 0; j < 3 + Math.floor(R() * 3); j++) { const bw2 = 6 + R() * 5, bh = hh * (.7 + R() * .3); x.fillStyle = ['#7A3A4A', '#3A5A6A', '#6A5A3A', '#4A3A6A'][j % 4]; x.fillRect(bx2, sy - bh, bw2, bh); x.fillStyle = 'rgba(255,220,160,.35)'; x.fillRect(bx2, sy - bh * .8, bw2, 2); bx2 += bw2 + 1; } px = bx2 - ww;
+      } else { // a sack
+        x.fillStyle = '#A88A62'; x.beginPath(); x.moveTo(px, sy); x.quadraticCurveTo(px - 4, sy - hh * .6, px + ww * .3, sy - hh * .75); x.lineTo(px + ww * .7, sy - hh * .75); x.quadraticCurveTo(px + ww + 4, sy - hh * .6, px + ww, sy); x.closePath(); x.fill();
+        x.fillStyle = 'rgba(0,0,0,.2)'; x.fillRect(px + ww * .25, sy - hh * .7, ww * .5, 4);
+      }
+      px += ww + 6 + R() * 10;
+    }
+  }
+  // soft focus: the room sits behind the merchant
+  const c2 = document.createElement('canvas'); c2.width = c.width; c2.height = c.height;
+  const y2 = c2.getContext('2d'); y2.filter = 'blur(' + (2.2 * dpr).toFixed(1) + 'px)'; y2.drawImage(c, 0, 0); y2.filter = 'none';
+  y2.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // floor
+  const gf = y2.createLinearGradient(0, h * .82, 0, h); gf.addColorStop(0, '#2A1E22'); gf.addColorStop(1, '#140E12'); y2.fillStyle = gf; y2.fillRect(0, h * .82, w, h * .18);
+  // the warm lamp and the shadowy edges
+  const gl = y2.createRadialGradient(w * .28, h * .25, 10, w * .28, h * .3, Math.max(w, h) * .7);
+  gl.addColorStop(0, 'rgba(255,196,120,.32)'); gl.addColorStop(.5, 'rgba(255,170,100,.08)'); gl.addColorStop(1, 'rgba(0,0,0,0)'); y2.fillStyle = gl; y2.fillRect(0, 0, w, h);
+  const gv = y2.createRadialGradient(w * .4, h * .5, Math.min(w, h) * .3, w * .4, h * .5, Math.max(w, h) * .8);
+  gv.addColorStop(0, 'rgba(0,0,0,0)'); gv.addColorStop(1, 'rgba(10,6,10,.7)'); y2.fillStyle = gv; y2.fillRect(0, 0, w, h);
+  return c2;
+}
 function shopScene(t) {
   const cv2 = $('shopCv'); if (!cv2) return;
   const r = cv2.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
-  if (cv2.width !== Math.round(r.width * dpr) || cv2.height !== Math.round(r.height * dpr)) { cv2.width = Math.round(r.width * dpr); cv2.height = Math.round(r.height * dpr); }
-  const x = cv2.getContext('2d'), w = r.width, h = r.height, reg = WD ? WD.reg : 1, R = mulberry(7 + reg);
+  if (cv2.width !== Math.round(r.width * dpr) || cv2.height !== Math.round(r.height * dpr)) { cv2.width = Math.round(r.width * dpr); cv2.height = Math.round(r.height * dpr); SHOP_BG = null; }
+  const x = cv2.getContext('2d'), w = r.width, h = r.height, reg = WD ? WD.reg : 1;
+  if (!SHOP_BG || SHOP_BG.reg !== reg) { SHOP_BG = shopRoom(w, h, dpr, reg); SHOP_BG.reg = reg; }
+  x.setTransform(1, 0, 0, 1, 0, 0); x.drawImage(SHOP_BG, 0, 0);
   x.setTransform(dpr, 0, 0, dpr, 0, 0);
-  const wall = ['#E6D5BA', '#E6D5BA', '#CFE0D6', '#F0E5C8', '#DCE7EC', '#E6DEEA'][reg];
-  x.fillStyle = wall; x.fillRect(0, 0, w, h);
-  // planks
-  x.strokeStyle = 'rgba(37,53,111,.18)'; x.lineWidth = 1.5;
-  for (let y = 0; y < h; y += 26) { x.beginPath(); x.moveTo(0, y); x.lineTo(w, y); x.stroke(); }
-  // lamp glow
-  const lg = x.createRadialGradient(w * .5, h * .18, 10, w * .5, h * .18, h * .9);
-  lg.addColorStop(0, 'rgba(255,210,63,.35)'); lg.addColorStop(1, 'rgba(255,210,63,0)'); x.fillStyle = lg; x.fillRect(0, 0, w, h);
-  // shelves with jars and boxes
-  for (const sy of [h * .2, h * .42]) {
-    x.fillStyle = '#9C6E43'; x.fillRect(w * .04, sy, w * .92, 8); x.fillStyle = COL.ink; x.fillRect(w * .04, sy + 8, w * .92, 3);
-    let px = w * .06;
-    while (px < w * .94) {
-      const kind = R(), ww = 14 + R() * 22, hh = 18 + R() * 26;
-      if (Math.abs(px + ww / 2 - w / 2) < w * .17 && sy > h * .3) { px += ww + 6; continue; }
-      const col = [COL.pink, COL.teal, COL.yellow, '#7CC6D8', '#B9894F'][Math.floor(R() * 5)];
-      x.fillStyle = col; x.strokeStyle = COL.ink; x.lineWidth = 2;
-      if (kind < .5) { x.beginPath(); x.roundRect(px, sy - hh, ww, hh, 5); x.fill(); x.stroke(); x.fillStyle = '#E8E9E3'; x.fillRect(px + ww * .3, sy - hh - 6, ww * .4, 6); x.strokeRect(px + ww * .3, sy - hh - 6, ww * .4, 6); }
-      else { x.fillRect(px, sy - hh * .7, ww, hh * .7); x.strokeRect(px, sy - hh * .7, ww, hh * .7); x.beginPath(); x.moveTo(px, sy - hh * .35); x.lineTo(px + ww, sy - hh * .35); x.stroke(); }
-      px += ww + 6;
-    }
-  }
-  // the merchant
+  // where the merchant stands: left of the wares, or above them on a tall screen
+  const side = $('shopSide').getBoundingClientRect(), portrait = side.left < w * .2;
+  const areaW = portrait ? w : side.left + 40, areaH = portrait ? side.top + 30 : h;
+  const mx = portrait ? w * .24 : areaW * .4, sz = portrait ? Math.min(areaH * .78, w * .5) : Math.min(h * .74, areaW * .72);
+  const footY = portrait ? areaH * .96 : h * .9;
+  // light behind the merchant
+  const gl = x.createRadialGradient(mx, footY - sz * .55, 10, mx, footY - sz * .55, sz * .7);
+  gl.addColorStop(0, 'rgba(255,220,160,.28)'); gl.addColorStop(1, 'rgba(255,220,160,0)'); x.fillStyle = gl; x.fillRect(0, 0, w, h);
   if (NPCS[SHOP_NPC] && !SPR['npcbig_' + SHOP_NPC]) regNpc(SHOP_NPC, 'npcbig_' + SHOP_NPC, 7);
   const S = SPR['npcbig_' + SHOP_NPC] || SPR['p_lamp'];
   if (S) {
-    const side = $('shopSide'), open = !$('scrSShop').querySelector('.shop2').classList.contains('closed'), sw2 = open && side ? side.getBoundingClientRect().width : 0, mx = (w - sw2) / 2;
-    const sz = Math.min(h * .82, (w - sw2) * .95), bob = Math.sin(t / 600) * 3, breath = 1 + Math.sin(t / 900) * .015;
-    x.save(); x.translate(mx, h * .76 + bob); x.scale(1, breath);
-    x.fillStyle = 'rgba(20,27,64,.25)'; x.beginPath(); x.ellipse(0, 0, sz * .32, sz * .07, 0, 0, TAU); x.fill();
-    x.drawImage(S.img, -sz / 2, -sz * .92, sz, sz);
+    const bob = Math.sin(t / 700) * sz * .008, breath = 1 + Math.sin(t / 900) * .012;
+    x.save(); x.translate(mx, footY + bob); x.scale(1, breath);
+    x.shadowColor = 'rgba(255,214,150,.55)'; x.shadowBlur = 24;
+    x.drawImage(S.img, -sz / 2, -sz, sz, sz);
     x.restore();
   }
-  // counter
-  const cy = h * .74;
-  x.fillStyle = COL.pink; x.fillRect(4, cy + 4, w, h - cy);
-  x.fillStyle = '#B9894F'; x.fillRect(0, cy, w, h - cy);
-  x.fillStyle = '#D9A86A'; x.fillRect(0, cy, w, 14);
-  x.strokeStyle = COL.ink; x.lineWidth = 3; x.strokeRect(-2, cy, w + 4, h - cy + 2); x.beginPath(); x.moveTo(0, cy + 14); x.lineTo(w, cy + 14); x.stroke();
-  x.lineWidth = 1.5; for (let i = 1; i < 6; i++) { x.beginPath(); x.moveTo(i * w / 6, cy + 14); x.lineTo(i * w / 6, h); x.stroke(); }
-  // things on the counter
-  const items = shopItems(SHOP_KIND).slice(0, 4);
-  items.forEach((it, i) => { const img = shopRowIcon(it); if (img) x.drawImage(img, w * (.12 + i * .2), cy - 30, 44, 44); });
-  // grain
-  x.fillStyle = 'rgba(37,53,111,.05)'; for (let i = 0; i < 160; i++) x.fillRect(R() * w, R() * h, 1.5, 1.5);
+  // dust drifting through the light
+  for (let i = 0; i < 40; i++) {
+    const p = (t / 9000 + i * .137) % 1, px = (i * 97.3 % 1 * w + Math.sin(t / 2000 + i) * 20 + w) % w, py = h * (1 - p);
+    x.globalAlpha = Math.sin(p * Math.PI) * .5; x.fillStyle = '#FFE6B0';
+    x.beginPath(); x.arc(px, py, .8 + (i % 3) * .6, 0, TAU); x.fill();
+  }
+  x.globalAlpha = 1;
 }
 const SROW_IMG = {};
 function shopRowIcon(it) {
@@ -10818,8 +11173,8 @@ function drawPcPrompt() {
   if (!IS_PC || STATE !== 'play' || !WD || G.trans) return;
   const a = nearAct(); if (!a || a.x === undefined) return;
   const lab = L(ACT_LABEL[a.k] || '');
-  wt(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-  const tw = ctx.measureText(lab).width, bw = 22 + 8 + tw + 10, bx = a.x - bw / 2, by = a.y - 62 + Math.sin(performance.now() / 260) * 2;
+  wu(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  const tw = ctx.measureText(lab).width, bw = 22 + 8 + tw + 10, bx = a.x - bw / 2, by = a.y * TY - 62 + Math.sin(performance.now() / 260) * 2;
   ctx.fillStyle = COL.ink; ctx.fillRect(bx + 2, by + 2, bw, 24);
   ctx.fillStyle = COL.paper; ctx.fillRect(bx, by, bw, 24); ctx.strokeStyle = COL.ink; ctx.lineWidth = 2; ctx.strokeRect(bx, by, bw, 24);
   ctx.fillStyle = COL.yellow; ctx.fillRect(bx + 4, by + 3, 18, 18); ctx.strokeRect(bx + 4, by + 3, 18, 18);
@@ -10827,11 +11182,7 @@ function drawPcPrompt() {
   ctx.textAlign = 'left'; ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.fillText(lab, bx + 30, by + 12.5);
 }
 
-$('shopSide').addEventListener('click', e => {
-  const r = $('shopSide').getBoundingClientRect();
-  if (e.clientX < r.left + 4) { $('scrSShop').querySelector('.shop2').classList.toggle('closed'); SFX.tap(); }
-});
-$('shopSide').setAttribute('data-tab', L('상점'));
+
 
 /* ================= story terrain: winding roads that narrow and widen, clearings, lakes, blocked shortcuts ================= */
 function vnoise(x, y, s, seed) {

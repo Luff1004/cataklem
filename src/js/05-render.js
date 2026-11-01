@@ -2,7 +2,7 @@
 const cv = $('c');
 const ctx = cv.getContext('2d', { alpha: false });
 let W = 390, H = 844, DPR = 1, ZOOM = 1, QUALITY = 1;
-let K = 1, OX = 0, OY = 0, CX = 0, CY = 0, VHW = 200, VHH = 400;
+let TY = 1, K = 1, OX = 0, OY = 0, CX = 0, CY = 0, VHW = 200, VHH = 400;
 function resize() {
   W = Math.max(1, innerWidth); H = Math.max(1, innerHeight);
   DPR = Math.min(2, window.devicePixelRatio || 1) * QUALITY;
@@ -10,12 +10,12 @@ function resize() {
   ZOOM = clamp(Math.sqrt(W * H / 364000), .82, 1.6);
   ctx.imageSmoothingEnabled = true;
 }
-function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K; VHW = W / 2 / z; VHH = H / 2 / z; }
+function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); TY = G && G.mode === 'story' ? .8 : 1; CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K * TY; VHW = W / 2 / z; VHH = H / 2 / z / TY; }
 function onScreen(x, y, m = 0) { return Math.abs(x - CX) < VHW + m && Math.abs(y - CY) < VHH + m; }
-function wt() { ctx.setTransform(K, 0, 0, K, OX, OY); }
+function wt() { ctx.setTransform(K, 0, 0, K * TY, OX, OY); }
 function spr(img, x, y, w, h, rot = 0, sx = 1, sy = 1) {
-  if (rot) { const c = Math.cos(rot) * K, s = Math.sin(rot) * K; ctx.setTransform(c * sx, s * sx, -s * sy, c * sy, x * K + OX, y * K + OY); }
-  else ctx.setTransform(K * sx, 0, 0, K * sy, x * K + OX, y * K + OY);
+  if (rot) { const c = Math.cos(rot) * K, s = Math.sin(rot) * K; ctx.setTransform(c * sx, s * sx, -s * sy, c * sy, x * K + OX, y * K * TY + OY); }
+  else ctx.setTransform(K * sx, 0, 0, K * sy, x * K + OX, y * K * TY + OY);
   ctx.drawImage(img, -w / 2, -h / 2, w, h);
 }
 
@@ -175,7 +175,7 @@ function drawTeles() {
       ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
     } else if (t.kind === 'eline') {
       const c = Math.cos(t.a), s = Math.sin(t.a);
-      ctx.setTransform(c * K, s * K, -s * K, c * K, t.x * K + OX, t.y * K + OY);
+      ctx.setTransform(c * K, s * K * TY, -s * K, c * K * TY, t.x * K + OX, t.y * K * TY + OY);
       ctx.globalAlpha = .12; ctx.fillStyle = COL.ink; ctx.fillRect(0, -t.w / 2, t.len, t.w);
       ctx.globalAlpha = .22; ctx.fillRect(0, -t.w / 2, t.len * p, t.w);
       ctx.globalAlpha = .9; ctx.strokeStyle = COL.pink; ctx.lineWidth = 2; ctx.setLineDash([8, 6]); ctx.strokeRect(0, -t.w / 2, t.len, t.w); ctx.setLineDash([]);
@@ -309,7 +309,7 @@ function drawTexts() {
     const a = Math.min(1, t.life / t.max * 2.2), pop = 1 + Math.max(0, (t.life / t.max - .75)) * 2.4;
     const size = (t.crit ? 17 : t.me || t.healTxt ? 14 : 11.5) * pop;
     const f = '700 ' + size.toFixed(1) + 'px "IBM Plex Mono", ui-monospace, monospace';
-    wt();
+    ctx.setTransform(K, 0, 0, K, OX, OY + (TY - 1) * t.y * K);
     if (f !== lastFont) { ctx.font = f; lastFont = f; }
     ctx.globalAlpha = a;
     const s = String(t.v);
