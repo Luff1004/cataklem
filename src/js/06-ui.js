@@ -472,6 +472,7 @@ function frame(now) {
   padPoll(rdt);
   if (STATE === 'intro') { updateIntro(rdt); render(rdt); return; }
   if (STATE === 'cut') { updateCut(rdt); render(rdt); updateHUD(); return; }
+  if (STATE === 'scut') { storyCutTick(rdt); render(rdt); return; }
   if (STATE === 'play' || STATE === 'dying' || STATE === 'winning') {
     if (G.hitstop > 0) G.hitstop -= rdt;
     else {

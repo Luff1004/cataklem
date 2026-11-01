@@ -162,6 +162,7 @@ function drawStoryWorld() {
   ctx.drawImage(areaLayer(), 0, 0, mw, mh);
   const now = performance.now() / 1000;
   drawWaterFx(now);
+  drawArenaFx(now);
   // exits: chevrons, and the name of where they go
   for (const side of ['W', 'E', 'N', 'S']) {
     const ex = exitInfo(side); if (!ex) continue;
@@ -185,6 +186,7 @@ function drawStoryWorld() {
     }
   }
   drawTallAndEnts(now);
+  drawArenaFxUp();
   if (WD.boss) { wt(); ctx.globalAlpha = .25 + Math.sin(now * 2) * .08; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(WD.boss.x, WD.boss.y + 10, 70, 24, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
 }
 function label(x, y, text, col = COL.ink) {
@@ -363,6 +365,7 @@ function drawStoryOver() {
 function drawStoryTop() {
   drawPcPrompt();
   if (!WD) return;
+  drawArenaFxTop(performance.now() / 1000);
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     const sx = (P.x * K + OX), sy = (P.y * K * TY + OY), r0 = 120 * K, r1 = 360 * K;
@@ -372,6 +375,7 @@ function drawStoryTop() {
   }
   const tr = G.trans, fa = tr ? (tr.t < .22 ? tr.t / .22 : 1) : (G.fade || 0);
   if (fa > 0) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = Math.min(1, fa); ctx.fillStyle = '#0B0E22'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.globalAlpha = 1; }
+  drawCutOverlay();
 }
 function storyCam(dt) {
   const k = 1 - Math.exp(-dt * 8), mw = WD.w * TL, mh = WD.h * TL;

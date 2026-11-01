@@ -225,14 +225,14 @@ function storySpawnMob(type, x, y, elite) {
   e.idle = true; e.hx = x; e.hy = y; e.story = 1; e.wa = rnd(TAU); e.wt = rnd(1, 3);
   return e;
 }
-function storySpawnBoss(be) {
+function storySpawnBoss(be, quiet) {
   const id = be.o.id, b = BOSS[id], hp = be.o.hp;
   const e = { type: id, bk: id, boss: true, x: be.x, y: be.y, r: b.r, scl: 1, hp, maxHp: hp, spd: b.spd, dmg: b.dmg, xp: 0, ai: 'boss', kbRes: .96,
     kx: 0, ky: 0, t: 0, ph: 0, flash: 0, elite: false, hit: {}, cd: 2.5, cd2: 5, cd3: 5, cd4: 8, face: 1, side: 1, st: '', stT: 0, ang: 0,
     dash: (b.arch || id) === 'cata' ? 600 : 680, combo: 0, dead: false, story: 1, introScale: 0 };
   E.push(e); G.boss = e; WD.bossE = be; WD.boss = null; WD.bossLock = true; refreshBlk();
   $('bossName').textContent = b.name; $('bossBar').hidden = false;
-  banner(b.name, b.sub, 'warn'); SFX.warn(); SFX.roar(); shake(12); buzz([40, 80, 40]);
+  if (!quiet) { banner(b.name, b.sub, 'warn'); SFX.warn(); SFX.roar(); shake(12); buzz([40, 80, 40]); }
   AU.intensity = 3;
 }
 function storyBossDown(e) {
@@ -243,6 +243,7 @@ function storyBossDown(e) {
   for (const b2 of EB) b2.dead = true;
   for (const o of E) if (!o.dead && o !== e) { o.dead = true; burst(o.x, o.y, 6, COL.ink, 150); }
   WD.bossLock = false; refreshBlk();
+  if (WD.afx) WD.afx.out = performance.now();
   setf('beat_' + e.bk);
   for (let i = 0; i < 14; i++) G.spk.push({ k: 'coin', x: e.x, y: e.y, v: Math.ceil(R.coin * 8), vx: rnd(-260, 260), vy: rnd(-260, 260), t: 0 });
   gainStoryXp(60 * WD.reg * WD.reg + 40);
@@ -301,7 +302,7 @@ function storyTick(dt) {
   }
   G.spk = G.spk.filter(s => !s.dead);
   // boss waiting for us
-  if (WD.boss && Math.hypot(P.x - WD.boss.x, P.y - WD.boss.y) < TL * 6.5) storySpawnBoss(WD.boss);
+  if (WD.boss && Math.hypot(P.x - WD.boss.x, P.y - WD.boss.y) < TL * 6.5) storyBossIntro(WD.boss);
   if (G.boss && G.boss.introScale !== undefined && G.boss.introScale < 1) G.boss.introScale = Math.min(1, G.boss.introScale + dt * 1.6);
   // the room lets us go once it is empty
   if (WD.locked && !E.some(e => !e.dead && e.story)) { WD.locked = false; SAVE.story.solved[WD.id + ':lock'] = 1; refreshBlk(); banner('조용해졌다', '길이 열렸다', 'good'); SFX.portal(); persist(); }
