@@ -306,7 +306,7 @@ function drawNovaClock() {
   ctx.globalAlpha = (1 - b.nova / 4.6) * .35; ctx.fillStyle = COL.pink; ctx.fillRect(0, 0, W, H);
   ctx.globalAlpha = 1; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   const sz = 96 + (1 - f) * 40;
-  ctx.font = '400 ' + sz.toFixed(0) + 'px "Gasoek One", "Arial Black", sans-serif';
+  ctx.font = '400 ' + sz.toFixed(0) + 'px "Gasoek One", "Dela Gothic One", "ZCOOL QingKe HuangYou", "Arial Black", sans-serif';
   ctx.fillStyle = COL.ink; ctx.fillText(String(n), W / 2 + 5, H * .64 + 4);
   ctx.fillStyle = COL.yellow; ctx.fillText(String(n), W / 2, H * .64);
 }

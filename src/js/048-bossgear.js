@@ -226,7 +226,7 @@ function drawLimb(e) {
   ctx.globalAlpha = 1;
 }
 function drawScribText(text, y, size, color = COL.paper) {
-  ctx.font = '400 ' + size.toFixed(0) + 'px "Gasoek One", "Arial Black", sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  ctx.font = '400 ' + size.toFixed(0) + 'px "Gasoek One", "Dela Gothic One", "ZCOOL QingKe HuangYou", "Arial Black", sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
   const full = ctx.measureText(text).width; let x = W / 2 - full / 2;
   for (const ch of text) {
     const w = ctx.measureText(ch).width, jx = rnd(-2.2, 2.2), jy = rnd(-2.2, 2.2);

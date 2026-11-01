@@ -42,7 +42,7 @@ INTRO.unknown = {
     ctx.globalAlpha = 1;
     if (IFX.letters > 0 && t < 9.1) {
       const word = 'UNKNOWN'.slice(0, IFX.letters), sz = Math.min(W * .17, 76);
-      ctx.font = '400 ' + sz.toFixed(0) + 'px "Gasoek One", "Arial Black", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.font = '400 ' + sz.toFixed(0) + 'px "Gasoek One", "Dela Gothic One", "ZCOOL QingKe HuangYou", "Arial Black", sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
       const full = ctx.measureText('UNKNOWN').width; let x = W / 2 - full / 2;
       const y = H * .3, fade = t > 8.6 ? 1 - (t - 8.6) / .5 : 1;
       ctx.globalAlpha = Math.max(0, fade);

@@ -149,7 +149,7 @@ function drawStoryWorld() {
   if (WD.boss) { wt(); ctx.globalAlpha = .25 + Math.sin(now * 2) * .08; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(WD.boss.x, WD.boss.y + 10, 70, 24, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
 }
 function label(x, y, text, col = COL.ink) {
-  wt(); ctx.font = '800 12px "Gothic A1", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  wt(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
   const w = ctx.measureText(text).width + 12;
   ctx.fillStyle = COL.paper; ctx.globalAlpha = .9; ctx.fillRect(x - w / 2, y - 9, w, 18); ctx.globalAlpha = 1;
   ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.strokeRect(x - w / 2, y - 9, w, 18);

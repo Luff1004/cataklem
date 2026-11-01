@@ -3,7 +3,7 @@
 <meta name="theme-color" content="#E4E5DF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Gothic+A1:wght@500;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gasoek+One&family=Gothic+A1:wght@500;700;800&family=IBM+Plex+Mono:wght@500;700&family=Dela+Gothic+One&family=Noto+Sans+JP:wght@500;700;800&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@500;700;900&display=swap">
 <style>
 /* Layout: full-bleed printed-paper world on one canvas; HUD hugs the safe edges; menus are print-shop sheets that rise into the thumb zone */
 :root{
@@ -69,10 +69,14 @@ img{max-width:100%}
 .qdone{display:flex;flex-direction:column;gap:8px}
 .qdone div{display:flex;justify-content:space-between;gap:10px;border:2.5px dashed var(--pink);padding:10px 12px;font-weight:800;font-size:14px;border-radius:3px}
 .qdone span{font-family:var(--f-mono);white-space:nowrap}
-.menu .meta{display:flex;justify-content:space-between;align-items:center;font:700 13px/1 var(--f-mono);padding:4px 2px 0}
+.menu .meta{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font:700 13px/1 var(--f-mono);padding:4px 2px 0}
 .toggle{border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:2px;font:800 12px/1 var(--f-body);letter-spacing:.02em;padding:8px 10px}
 .toggle[aria-pressed="false"]{opacity:.5;text-decoration:line-through}
-.toggles{display:flex;gap:8px}
+.toggles{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.menu{min-width:0}.menu .btn{min-width:0}
+.btn .sub{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.menu .three .btn{font-size:clamp(14px,4.6vw,20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html[lang=en] .menu .btn,html[lang=en] .menu .three .btn{font-size:clamp(14px,4.4vw,20px)}
 
 /* ---------- sheets ---------- */
 .sheet{background:var(--paper);gap:14px}
@@ -269,6 +273,13 @@ body.story .rotate{display:none!important}
 i.coin{display:inline-block;width:13px;height:13px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);vertical-align:-2px}
 .stbody{display:flex;flex-direction:column;gap:14px}
 .setlist{display:flex;flex-direction:column;gap:14px}
+.stamp,.stamp .pl,.cr-title{font-family:"Gasoek One","Arial Black",sans-serif!important}
+.langs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.langs button{border:2.5px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:3px;padding:10px 4px;font:800 14px/1 var(--f-body);box-shadow:2px 2px 0 var(--ink)}
+.langs button.on{background:var(--ink);color:var(--paper);box-shadow:2px 2px 0 var(--pink)}
+html[lang=ja]{--f-display:"Dela Gothic One","Gasoek One","Arial Black",sans-serif;--f-body:"Noto Sans JP","Gothic A1",system-ui,sans-serif}
+html[lang=zh-Hans]{--f-display:"ZCOOL QingKe HuangYou","Gasoek One","Arial Black",sans-serif;--f-body:"Noto Sans SC","Gothic A1",system-ui,sans-serif}
+html[lang=en] .btn,html[lang=en] .shead h2{letter-spacing:-.01em}
 .setrow{display:grid;grid-template-columns:96px 1fr 48px;gap:12px;align-items:center;font:800 15px/1 var(--f-body);color:var(--ink)}
 .setrow b{font:700 13px/1 var(--f-mono);text-align:right}
 .setrow input{width:100%;accent-color:var(--pink);height:28px}
@@ -552,6 +563,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
     <div class="meta">
       <span><i class="shard"></i> <b class="num" id="tShards">0</b> <button class="toggle chip" id="btnPortalChip">포탈</button></span>
       <span class="toggles">
+        <button class="toggle" id="btnLang"></button>
         <button class="toggle" id="btnSettings">설정</button>
         <button class="toggle" id="tgSound" aria-pressed="true">효과음</button>
         <button class="toggle" id="tgMusic" aria-pressed="true">음악</button>
@@ -564,6 +576,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
 <section class="screen sheet" id="scrSettings" hidden>
   <div class="shead"><button class="back" id="setBack" aria-label="닫기"></button><h2>설정</h2><span class="right"></span></div>
   <div class="scroll"><div class="setlist">
+    <div class="langs" id="setLang"></div>
     <label class="setrow"><span>효과음</span><input type="range" id="setSfx" min="0" max="100" step="5"><b id="setSfxV"></b></label>
     <label class="setrow"><span>음악</span><input type="range" id="setMus" min="0" max="100" step="5"><b id="setMusV"></b></label>
     <label class="setrow"><span>화면 흔들림</span><input type="range" id="setShake" min="0" max="100" step="5"><b id="setShakeV"></b></label>

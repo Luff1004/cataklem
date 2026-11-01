@@ -8,7 +8,16 @@ function openSettings() {
 }
 function closeSettings() { if (SET_PREV) show(SET_PREV); else hideAll(); SET_PREV = null; }
 const pct = (k, d = 1) => Math.round((SAVE[k] ?? d) * 100);
+function renderLangs() {
+  const host = $('setLang'); host.innerHTML = '';
+  for (const k in LANGS) {
+    const b = document.createElement('button'); b.textContent = LANGS[k]; b.className = k === LANG ? 'on' : '';
+    b.addEventListener('click', () => { if (k === LANG) return; SAVE.lang = k; persist(); location.reload(); });
+    host.appendChild(b);
+  }
+}
 function renderSettings() {
+  renderLangs();
   for (const [id, k] of [['setSfx', 'sfxVol'], ['setMus', 'musVol'], ['setShake', 'shakeAmt']]) { $(id).value = pct(k); $(id + 'V').textContent = pct(k) + '%'; }
   $('setHaptic').textContent = '진동: ' + (SAVE.haptic ? '켜짐' : '꺼짐');
   $('setFull').textContent = document.fullscreenElement ? '창 모드로' : '전체 화면';
@@ -28,7 +37,8 @@ for (const [id, k] of [['setSfx', 'sfxVol'], ['setMus', 'musVol'], ['setShake', 
 $('setHaptic').addEventListener('click', () => { SAVE.haptic = SAVE.haptic ? 0 : 1; persist(); syncToggles(); renderSettings(); if (SAVE.haptic) buzz(25); SFX.tap(); });
 $('setFull').addEventListener('click', () => { SFX.tap(); toggleFull(); });
 $('setBack').addEventListener('click', () => { SFX.tap(); closeSettings(); });
-for (const id of ['btnSettings', 'pzSettings', 'smSettings']) { const b = $(id); if (b) b.addEventListener('click', () => { audioInit(); SFX.tap(); openSettings(); }); }
+$('btnLang').textContent = LANGS[LANG];
+for (const id of ['btnSettings', 'btnLang', 'pzSettings', 'smSettings']) { const b = $(id); if (b) b.addEventListener('click', () => { audioInit(); SFX.tap(); openSettings(); }); }
 addEventListener('keydown', e => { if (e.key === 'F11') { e.preventDefault(); toggleFull(); } });
 
 /* ---------- gamepad ---------- */

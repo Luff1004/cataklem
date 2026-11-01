@@ -165,7 +165,7 @@ function titleCanvas() {
   for (const [cv2, col] of [[ink, COL.ink], [pk, COL.pink]]) {
     cv2.width = w * DPR; cv2.height = h * DPR;
     const c2 = cv2.getContext('2d'); c2.scale(DPR, DPR);
-    c2.font = '400 ' + fs.toFixed(0) + 'px "Gasoek One", "Arial Black", sans-serif'; c2.textAlign = 'center'; c2.textBaseline = 'middle'; c2.fillStyle = col;
+    c2.font = '400 ' + fs.toFixed(0) + 'px "Gasoek One", "Dela Gothic One", "ZCOOL QingKe HuangYou", "Arial Black", sans-serif'; c2.textAlign = 'center'; c2.textBaseline = 'middle'; c2.fillStyle = col;
     c2.fillText('CATA', w / 2, h * .27); c2.fillText('KLEM', w / 2, h * .73);
   }
   TITLE_CV = { ink, pk, w, h, key };
@@ -243,7 +243,7 @@ function paintSheet(pp, pt) {
       }
     }
     if (bt > 3.3) {
-      g.globalAlpha = clamp((bt - 3.3) / .8, 0, 1) * .75; g.fillStyle = COL.ink; g.font = '800 12px "Gothic A1", system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.globalAlpha = clamp((bt - 3.3) / .8, 0, 1) * .75; g.fillStyle = COL.ink; g.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
       g.fillText('낙서는 종이 위로 돌아갔다', 0, T.h / 2 + 34);
     }
   }

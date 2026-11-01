@@ -102,7 +102,7 @@ function renderPrep() {
       '<div class="tx"><b>' + esc(m.name) + '</b><span class="sb">' + esc(m.sub) + '</span>' +
       (lk ? '<p>' + esc(MAPS[i - 1].name) + '에서 밤을 넘기면 열린다.</p>' :
         '<div class="mobs">' + mobs.map(k => '<img alt="" src="' + mobIcon(k) + '">').join('') + '</div>' +
-        (SAVE.rift === i ? '<p>' + esc(m.desc) + (m.boss ? ' 끝에는 <b>' + esc(BOSS[m.boss.cata].name) + '</b>' + esc(josa(BOSS[m.boss.cata].name, '이', '가').slice(-1)) + ' 기다린다.' : ' 끝에는 <b>카타클렘</b>이 기다린다.') + '</p>' : '') +
+        (SAVE.rift === i ? '<p>' + esc(m.desc) + (m.boss ? ' 끝에는 <b>' + esc(BOSS[m.boss.cata].name) + '</b>' + (LANG === 'ko' ? esc(josa(BOSS[m.boss.cata].name, '이', '가').slice(-1)) : '') + ' 기다린다.' : ' 끝에는 <b>카타클렘</b>이 기다린다.') + '</p>' : '') +
         (i > 1 ? '<span class="mul">체력 ×' + r.hp + ' · 피해 ×' + r.dmg + ' · 파편 ×' + r.shard + '</span>' : '<span class="mul">8분을 버티면 끝이 온다</span>')) + '</div>';
     b.setAttribute('aria-label', m.name + (lk ? ' 잠김' : ''));
     b.addEventListener('click', () => { if (lk) { SFX.deny(); return; } SAVE.rift = i; persist(); SFX.tap(); renderPrep(); });
@@ -405,7 +405,7 @@ document.addEventListener('gesturestart', e => e.preventDefault());
 addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   INPUT.keys[k] = true; updMove();
-  if (k === ' ' && STATE === 'play' && G.mode !== 'story') { useUlt(); e.preventDefault(); }
+  if ((k === ' ' || k === 'f') && STATE === 'play' && G.mode !== 'story') { useUlt(); e.preventDefault(); }
   if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); if (k === 'm' && STATE === 'play') openStoryMap(); }
   if (k === 'shift' || k === 'k') tryDash();
   if (k === 'escape') { if (STATE === 'play') pauseGame(); else if (STATE === 'pause') resumeGame(); else if (STATE === 'smenu') closeStoryScreen(); }

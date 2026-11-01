@@ -2,6 +2,7 @@
 # Builds artifact.html (fragment for publishing), index.html (standalone page) and dev.html (with ?debug test hooks).
 set -e
 cd "$(dirname "$0")"
+python tools/tr_build.py | head -5
 HEAD='<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"></head><body>'
 pack() {
   cat src/page.html
@@ -9,7 +10,7 @@ pack() {
   echo "(()=>{'use strict';"
   for f in src/js/*.js; do
     if [ "$1" = "nodebug" ] && [[ "$f" == *debug* ]]; then continue; fi
-    cat "$f"; echo
+    case "$(basename "$f")" in 000*) cat "$f" ;; *) python tools/i18n_wrap.py "$f" ;; esac; echo
   done
   echo '})();'
   echo '</script>'

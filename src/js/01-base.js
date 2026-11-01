@@ -12,7 +12,7 @@ function wpick(o) { let s = 0; for (const k in o) s += o[k]; let r = Math.random
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; const t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 const fmtTime = s => { s = Math.max(0, Math.floor(s)); return String((s / 60) | 0).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
 const fmtNum = n => Math.floor(n).toLocaleString('ko-KR');
-function josa(w, a, b) { const c = w.charCodeAt(w.length - 1); const has = c >= 0xAC00 && c <= 0xD7A3 ? (c - 0xAC00) % 28 !== 0 : /[nmlr]$/i.test(w); return w + (has ? a : b); }
+function josa(w, a, b) { if (LANG !== 'ko') return w; const c = w.charCodeAt(w.length - 1); const has = c >= 0xAC00 && c <= 0xD7A3 ? (c - 0xAC00) % 28 !== 0 : /[nmlr]$/i.test(w); return w + (has ? a : b); }
 function sweep(a) { let j = 0; for (let i = 0; i < a.length; i++) { const o = a[i]; if (!o.dead) a[j++] = o; } a.length = j; }
 
 /* ================= save ================= */

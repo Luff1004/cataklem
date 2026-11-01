@@ -1,0 +1,1274 @@
+선택	SELECTED	選択中	已选
+불씨	Ember	火種	火种
+태양 파편	Sun Shard	太陽の欠片	太阳碎片
+가장 가까운 적에게 불씨를 쏜다.	Fires embers at the nearest foe.	一番近い敵に火種を撃つ。	向最近的敌人射出火种。
+불씨 +1	Embers +1	火種 +1	火种 +1
+피해 +50%	Damage +50%	ダメージ +50%	伤害 +50%
+불씨 +1, 관통 +1	Embers +1, Pierce +1	火種 +1、貫通 +1	火种 +1，穿透 +1
+재사용 -20%, 피해 +40%	Cooldown -20%, Damage +40%	再使用 -20%、ダメージ +40%	冷却 -20%，伤害 +40%
+맞으면 터지는 불씨를 쉬지 않고 퍼붓는다.	An endless rain of embers that burst on impact.	当たると弾ける火種を絶え間なく浴びせる。	不停倾泻命中即爆的火种。
+궤도칼	Orbit Blade	周回刃	环绕刃
+성환	Star Ring	星環	星环
+몸 주위를 도는 칼날.	Blades that circle your body.	体の周りを回る刃。	绕身旋转的刀刃。
+칼날 +1	Blades +1	刃 +1	刀刃 +1
+피해 +50%, 반경 증가	Damage +50%, wider orbit	ダメージ +50%、半径拡大	伤害 +50%，半径增大
+회전 +30%, 피해 증가	Spin +30%, more damage	回転 +30%、ダメージ上昇	转速 +30%，伤害提高
+두 겹의 고리가 서로 반대로 돈다.	Two rings turning against each other.	二重の輪が逆向きに回る。	两重光环反向旋转。
+낙뢰	Thunderbolt	落雷	落雷
+뇌우	Storm	雷雨	雷雨
+화면 안의 적에게 번개가 떨어져 옆으로 튄다.	Lightning strikes a foe on screen and leaps to the next.	画面内の敵に雷が落ち、隣へ跳ねる。	闪电劈向屏幕内的敌人并跳向旁边。
+낙뢰 +1	Bolts +1	落雷 +1	落雷 +1
+연쇄 +1	Chain +1	連鎖 +1	连锁 +1
+낙뢰 +1, 재사용 -15%	Bolts +1, Cooldown -15%	落雷 +1、再使用 -15%	落雷 +1，冷却 -15%
+하늘이 쉬지 않고 운다.	The sky never stops crying.	空が泣きやまない。	天空哭个不停。
+파문	Ripple	波紋	波纹
+고동	Heartbeat	鼓動	心跳
+주변의 적을 밀쳐내는 충격파. 탄도 지운다.	A shockwave that shoves foes away. Wipes bullets too.	周りの敵を押しのける衝撃波。弾も消す。	推开周围敌人的冲击波，也能清除弹幕。
+반경 +25%	Radius +25%	半径 +25%	半径 +25%
+재사용 -0.5초	Cooldown -0.5s	再使用 -0.5秒	冷却 -0.5秒
+피해 증가, 두 번 퍼진다	More damage, spreads twice	ダメージ上昇、二度広がる	伤害提高，扩散两次
+맞은 적의 수만큼 체력을 되찾는다.	Heals for every foe it hits.	当てた敵の数だけ体力が戻る。	命中多少敌人就恢复多少生命。
+회귀검	Boomerang Blade	回帰剣	回旋剑
+칼바람	Blade Gale	刃嵐	刃风
+던지면 다시 손으로 돌아오는 칼. 몇 번이고 벤다.	A blade that returns to your hand. It cuts again and again.	投げると手に戻る剣。何度でも斬る。	掷出后会回到手中的剑，一次次斩击。
+칼 +1	Blades +1	剣 +1	剑 +1
+사거리, 크기 증가	More range and size	射程とサイズ上昇	射程与尺寸提高
+칼들이 소용돌이치며 사방을 벤다.	Blades whirl and cut in every direction.	剣が渦を巻いて四方を斬る。	群剑回旋，斩向四面八方。
+유성	Meteor	流星	流星
+카타클렘	Cataklem	カタクレム	卡塔克莱姆
+하늘에서 돌을 떨어뜨린다. 느리지만 아프다.	Drops stones from the sky. Slow, but it hurts.	空から石を落とす。遅いが痛い。	从天上砸下石头。慢，但很疼。
+유성 +1	Meteors +1	流星 +1	流星 +1
+유성 +1, 범위 +25%	Meteors +1, Area +25%	流星 +1、範囲 +25%	流星 +1，范围 +25%
+재사용 -25%	Cooldown -25%	再使用 -25%	冷却 -25%
+이 세계를 무너뜨린 그 비. 이제는 네 편이다.	The rain that broke this world. Now it is on your side.	この世界を壊したあの雨。今はお前の味方だ。	摧毁这个世界的那场雨，如今站在你这边。
+바늘비	Needle Rain	針の雨	针雨
+천침	Heaven's Needles	天針	天针
+가는 쪽으로 바늘을 부채꼴로 뿌린다. 꿰뚫는다.	Fans needles out where you walk. They pierce.	進む方へ針を扇状にまく。貫通する。	朝前进方向扇形撒出针，可穿透。
+바늘 +1	Needles +1	針 +1	针 +1
+바늘 +1, 관통 +1	Needles +1, Pierce +1	針 +1、貫通 +1	针 +1，穿透 +1
+바늘이 원을 그리며 사방으로 쏟아진다.	Needles pour out in a full circle.	針が円を描いて四方へ降り注ぐ。	针绕圈向四面八方倾泻。
+잿불	Cinder	残り火	余烬
+용암길	Lava Trail	溶岩の道	熔岩之路
+지나간 자리에 불붙은 잉크를 흘린다.	Leaves burning ink where you pass.	通った跡に燃えるインクを残す。	在走过的地方留下燃烧的墨。
+불길이 넓어진다	Wider flames	炎が広がる	火势变宽
+더 오래 탄다	Burns longer	長く燃える	燃烧更久
+피해 +40%, 더 자주 흘린다	Damage +40%, drips more often	ダメージ +40%、より頻繁に	伤害 +40%，更频繁
+발자국마다 용암이 끓고, 밟은 적은 느려진다.	Lava boils in every footstep, and slows whatever steps in it.	足跡ごとに溶岩が煮え、踏んだ敵は遅くなる。	每个脚印都翻滚着熔岩，踩到的敌人会减速。
+광선	Beam	光線	光线
+일식광	Eclipse Ray	日食光	日食光
+몸에서 뻗은 빛줄기가 빙글빙글 돈다.	Beams reach out from you and spin.	体から伸びる光がぐるぐる回る。	从身体伸出的光束不停旋转。
+광선 +1	Beams +1	光線 +1	光线 +1
+피해 +50%, 길어진다	Damage +50%, longer	ダメージ +50%、長くなる	伤害 +50%，更长
+회전 +40%, 굵어진다	Spin +40%, thicker	回転 +40%、太くなる	转速 +40%，更粗
+네 갈래의 빛이 화면을 쓸어 버린다.	Four beams sweep the whole screen.	四本の光が画面を薙ぎ払う。	四道光扫过整个屏幕。
+덫	Snare	罠	陷阱
+지뢰밭	Minefield	地雷原	雷区
+발밑에 덫을 깐다. 적이 밟으면 터진다.	Lays snares at your feet. They burst when stepped on.	足元に罠を仕掛ける。踏めば弾ける。	在脚下布置陷阱，敌人踩到就会爆炸。
+덫 +1	Snares +1	罠 +1	陷阱 +1
+폭발 범위 +30%	Blast radius +30%	爆発範囲 +30%	爆炸范围 +30%
+재사용 -30%	Cooldown -30%	再使用 -30%	冷却 -30%
+한 번에 세 개씩 깔고, 하나가 터지면 옆 덫도 같이 터진다.	Lays three at once, and one blast sets off the rest.	一度に三つ仕掛け、一つが弾けると隣も弾ける。	一次布三个，一个爆炸会引爆旁边的。
+반딧불	Firefly	蛍	萤火
+별무리	Starswarm	星の群れ	星群
+알아서 적을 찾아가는 작은 불빛.	Small lights that hunt foes on their own.	勝手に敵を探しに行く小さな光。	会自己寻找敌人的小光点。
+반딧불 +1	Fireflies +1	蛍 +1	萤火 +1
+반딧불 +2	Fireflies +2	蛍 +2	萤火 +2
+관통 +2, 빨라진다	Pierce +2, faster	貫通 +2、速くなる	穿透 +2，更快
+불빛 떼가 끊이지 않고 몰려간다.	A swarm of lights that never ends.	光の群れが途切れず押し寄せる。	光群源源不断地涌去。
+검은 구멍	Black Hole	ブラックホール	黑洞
+사건의 지평선	Event Horizon	事象の地平線	事件视界
+적 무리 한가운데 소용돌이를 연다. 빨아들이고 갈아 버린다.	Opens a vortex in the middle of a crowd. Pulls them in and grinds them up.	敵の群れの真ん中に渦を開く。吸い込んで砕く。	在敌群中央打开漩涡，吸入并碾碎。
+범위 +25%	Area +25%	範囲 +25%	范围 +25%
+더 오래 버틴다	Lasts longer	長く持つ	持续更久
+구멍 +1	Holes +1	穴 +1	黑洞 +1
+거대한 구멍이 모든 걸 삼키고, 닫힐 때 터진다.	A huge hole swallows everything and bursts when it closes.	巨大な穴がすべてを呑み、閉じるときに弾ける。	巨大的洞吞噬一切，闭合时爆裂。
+숫돌	Whetstone	砥石	磨刀石
+모든 피해 +10%	All damage +10%	全ダメージ +10%	全部伤害 +10%
+렌즈	Lens	レンズ	透镜
+공격 범위 +10%	Attack area +10%	攻撃範囲 +10%	攻击范围 +10%
+모래시계	Hourglass	砂時計	沙漏
+재사용 시간 -7%	Cooldown -7%	再使用時間 -7%	冷却时间 -7%
+심장	Heart	心臓	心脏
+최대 체력 +20, 초당 회복 +0.2	Max HP +20, Regen +0.2/s	最大体力 +20、毎秒回復 +0.2	最大生命 +20，每秒恢复 +0.2
+날개	Wings	翼	羽翼
+이동 속도 +8%	Move speed +8%	移動速度 +8%	移动速度 +8%
+거울	Mirror	鏡	镜子
+모든 무기의 투사체 +1	+1 projectile for every weapon	全武器の投射物 +1	所有武器投射物 +1
+자석	Magnet	磁石	磁铁
+획득 범위 +30%	Pickup range +30%	取得範囲 +30%	拾取范围 +30%
+네잎	Clover	四つ葉	四叶草
+치명타 +5%, 경험치 +8%	Crit +5%, XP +8%	会心 +5%、経験値 +8%	暴击 +5%，经验 +8%
+비늘	Scales	鱗	鳞片
+받는 피해 -7%	Damage taken -7%	被ダメージ -7%	所受伤害 -7%
+태엽	Clockspring	ぜんまい	发条
+지속 시간, 투사체 속도 +12%	Duration and projectile speed +12%	持続時間、弾速 +12%	持续时间、弹速 +12%
+등불	Lantern	灯火	灯火
+꺼지지 않는 작은 불. 무난하고 믿을 만하다.	A small flame that won't go out. Steady and reliable.	消えない小さな火。手堅く頼れる。	不会熄灭的小火。稳当可靠。
+기본	Basic	基本	基础
+파수꾼	Warden	見張り	守望者
+칼날을 두르고 버틴다. 단단하지만 느리다.	Holds the line in a ring of blades. Tough but slow.	刃をまとって耐える。硬いが遅い。	以刀刃护身死守。结实但缓慢。
+체력 +40, 속도 -10%	HP +40, Speed -10%	体力 +40、速度 -10%	生命 +40，速度 -10%
+점쟁이	Seer	占い師	占卜师
+번개가 어디 떨어질지 안다. 몸은 약하다.	Knows where the lightning will fall. Frail body.	雷がどこに落ちるか知っている。体は弱い。	知道闪电会落在哪里。身体虚弱。
+재사용 -12%, 체력 -25	Cooldown -12%, HP -25	再使用 -12%、体力 -25	冷却 -12%，生命 -25
+별지기	Stargazer	星守	观星者
+떨어지는 별의 길을 읽는다.	Reads the paths of falling stars.	落ちる星の道を読む。	能读出坠星的轨迹。
+범위 +15%, 피해 +10%	Area +15%, Damage +10%	範囲 +15%、ダメージ +10%	范围 +15%，伤害 +10%
+사냥꾼	Hunter	狩人	猎人
+바람 부는 쪽으로 바늘을 날린다.	Sends needles where the wind blows.	風の吹く方へ針を飛ばす。	顺着风向放出飞针。
+치명타 +10%	Crit +10%	会心 +10%	暴击 +10%
+방화범	Arsonist	放火魔	纵火者
+걸어온 길이 전부 불탄다.	Every road behind them burns.	歩いてきた道がすべて燃える。	走过的路全都燃烧起来。
+이동 속도 +10%	Move speed +10%	移動速度 +10%	移动速度 +10%
+등대지기	Lighthouse Keeper	灯台守	灯塔守
+꺼진 등대에서 마지막 빛을 들고 나왔다.	Walked out of a dead lighthouse carrying its last light.	消えた灯台から最後の光を持ち出した。	从熄灭的灯塔里带出了最后的光。
+범위 +20%	Area +20%	範囲 +20%	范围 +20%
+공병	Sapper	工兵	工兵
+도망치면서 이긴다.	Wins by running away.	逃げながら勝つ。	边逃边赢。
+체력 +30, 재사용 -8%	HP +30, Cooldown -8%	体力 +30、再使用 -8%	生命 +30，冷却 -8%
+반딧불이	Firefly Keeper	蛍使い	萤火虫
+혼자가 아니다. 혼자였던 적이 없다.	Never alone. Never was.	一人じゃない。一人だったこともない。	从不孤单，也从未孤单过。
+투사체 +1	Projectiles +1	投射物 +1	投射物 +1
+심연	Abyss	深淵	深渊
+밤보다 어두운 불. 삼킨 만큼 강해진다.	A flame darker than night. Grows with what it swallows.	夜より暗い火。呑んだぶんだけ強くなる。	比夜更暗的火。吞下多少就变强多少。
+피해 +20%, 체력 -20	Damage +20%, HP -20	ダメージ +20%、体力 -20	伤害 +20%，生命 -20
+종치기	Bellringer	鐘撞き	敲钟人
+종이 울릴 때마다 땅이 대답한다.	Every time the bell rings, the ground answers.	鐘が鳴るたび、大地が応える。	每当钟声响起，大地便会回应。
+파문과 낙뢰, 범위 +25%	Ripple and Thunderbolt, Area +25%	波紋と落雷、範囲 +25%	波纹与落雷，范围 +25%
+직조공	Weaver	織り手	织工
+실과 빛을 같이 짠다.	Weaves thread and light together.	糸と光を一緒に織る。	把丝线与光织在一起。
+바늘비와 광선, 투사체 +1	Needle Rain and Beam, Projectiles +1	針の雨と光線、投射物 +1	针雨与光线，投射物 +1
+쌍둥이	Twins	双子	双子
+둘이 하나처럼 움직인다.	Two who move as one.	二人で一つのように動く。	两人如一人般行动。
+회귀검과 궤도칼, 속도 +10%	Boomerang Blade and Orbit Blade, Speed +10%	回帰剣と周回刃、速度 +10%	回旋剑与环绕刃，速度 +10%
+물결	Tide	潮	潮水
+밀려왔다 밀려간다. 그 사이에 다 낫는다.	It rushes in, it pulls away. Everything heals in between.	寄せては返す。その間にすべて癒える。	涌来又退去，其间一切痊愈。
+검은 구멍과 파문, 초당 회복 +1.5	Black Hole and Ripple, Regen +1.5/s	ブラックホールと波紋、毎秒回復 +1.5	黑洞与波纹，每秒恢复 +1.5
+시계공	Clockmaker	時計職人	钟表匠
+1초가 남들보다 길다.	Their second lasts longer than yours.	その一秒は人より長い。	他的一秒比别人长。
+낙뢰와 바늘비, 재사용 -20%	Thunderbolt and Needle Rain, Cooldown -20%	落雷と針の雨、再使用 -20%	落雷与针雨，冷却 -20%
+정원사	Gardener	庭師	园丁
+불탄 자리에 다시 심는다.	Plants again where things burned.	焼けた跡にまた植える。	在烧焦之处重新播种。
+잿불과 검은 구멍, 체력 +60	Cinder and Black Hole, HP +60	残り火とブラックホール、体力 +60	余烬与黑洞，生命 +60
+하늘지기	Skybearer	空守	擎天者
+떨어진 하늘을 등에 지고 걷는다.	Walks with the fallen sky on their back.	落ちた空を背負って歩く。	背着坠落的天空行走。
+유성과 불씨, 피해 +40%, 투사체 +1	Meteor and Ember, Damage +40%, Projectiles +1	流星と火種、ダメージ +40%、投射物 +1	流星与火种，伤害 +40%，投射物 +1
+이름 없는 불씨	The Nameless Ember	名もなき火種	无名火种
+그것을 지운 자. 이제 이름이 없다.	The one who erased it. Now without a name.	それを消した者。今は名前がない。	抹去了它的人，如今没有名字。
+검은 구멍과 바늘비, 피해 +50%	Black Hole and Needle Rain, Damage +50%	ブラックホールと針の雨、ダメージ +50%	黑洞与针雨，伤害 +50%
+일식	Eclipse	日食	日食
+해를 삼킨 불씨.	The ember that swallowed the sun.	太陽を呑んだ火種。	吞下太阳的火种。
+유성과 광선, 피해 +30%	Meteor and Beam, Damage +30%	流星と光線、ダメージ +30%	流星与光线，伤害 +30%
+두꺼운 심지	Thick Wick	太い芯	粗灯芯
+최대 체력 +10	Max HP +10	最大体力 +10	最大生命 +10
+벼린 날	Honed Edge	研いだ刃	磨利的刃
+모든 피해 +5%	All damage +5%	全ダメージ +5%	全部伤害 +5%
+가벼운 발	Light Feet	軽い足	轻快脚步
+이동 속도 +4%	Move speed +4%	移動速度 +4%	移动速度 +4%
+끌림	Pull	引き寄せ	吸引
+획득 범위 +15%	Pickup range +15%	取得範囲 +15%	拾取范围 +15%
+배움	Learning	学び	学习
+경험치 +5%	XP +5%	経験値 +5%	经验 +5%
+숨 고르기	Catch Breath	息を整える	调息
+초당 체력 회복 +0.1	HP regen +0.1/s	毎秒体力回復 +0.1	每秒生命恢复 +0.1
+날카로운 눈	Sharp Eye	鋭い目	锐眼
+치명타 확률 +4%	Crit chance +4%	会心率 +4%	暴击率 +4%
+다시 뽑기	Reroll	引き直し	重抽
+판마다 다시 뽑기 +1회	+1 reroll per run	一回につき引き直し +1	每局重抽 +1
+섬광 충전	Flash Charge	閃光チャージ	闪光充能
+섬광이 15% 빨리 찬다	Flash charges 15% faster	閃光が15%早く溜まる	闪光充能加快 15%
+두 번째 불씨	Second Ember	二つ目の火種	第二火种
+한 판에 한 번, 쓰러져도 다시 일어난다	Once per run, get back up after falling	一回に一度、倒れても立ち上がる	每局一次，倒下也能重新站起
+울보 거인	Weeping Giant	泣き虫の巨人	哭泣巨人
+두 번째 달이 떨어진 자리에서	Where the second moon fell	二つ目の月が落ちた場所で	第二个月亮坠落之处
+갈퀴새	Rake Bird	熊手鳥	耙爪鸟
+부러진 송전탑에 둥지를 튼	Nesting on a broken power tower	折れた送電塔に巣くう	筑巢于断裂的输电塔
+눈알 군주	Eye Sovereign	目玉の君主	眼球君主
+아무것도 깜빡이지 않는다	Nothing blinks	何も瞬かない	什么都不眨眼
+하늘을 무너뜨린 것	The thing that brought down the sky	空を崩したもの	击垮天空之物
+포위	Surrounded	包囲	包围
+사방에서 조여 온다	Closing in from all sides	四方から迫ってくる	从四面八方逼近
+아까보다 많다	More than before	さっきより多い	比刚才更多
+전부 몰려온다	Everything rushes in	全部押し寄せる	全都涌来了
+마지막 고비	The last stretch	最後の山場	最后的难关
+종지기	Bell Keeper	鐘守	守钟者
+첫째 문	The First Gate	第一の門	第一道门
+아무도 오지 않는 예배당의	Of a chapel no one visits	誰も来ない礼拝堂の	无人造访的礼拜堂里
+종이 한 번 울릴 때마다 누군가 사라졌다.	Every time the bell rang, someone vanished.	鐘が一度鳴るたび、誰かが消えた。	钟每响一次，就有人消失。
+종이 금 간다	The bell cracks	鐘にひびが入る	钟裂开了
+공명	Resonance	共鳴	共鸣
+울림에는 틈이 있다. 틈으로 빠져나가거나, 굴러서 넘어라.	Every ring has a gap. Slip through it, or roll over it.	響きには隙間がある。隙間を抜けるか、転がって越えろ。	钟声有空隙。从空隙钻过去，或翻滚越过。
+실잣는 여왕	Spinning Queen	糸紡ぎの女王	纺线女王
+둘째 문	The Second Gate	第二の門	第二道门
+하늘의 찢어진 곳을 꿰매는	Who stitches the torn places of the sky	空の裂け目を縫う	缝补天空裂口的
+실이 팽팽해지면, 그건 경고가 아니다.	When the thread pulls tight, that is not a warning.	糸が張ったら、それは警告ではない。	丝线绷紧时，那不是警告。
+실이 붉어진다	The thread turns red	糸が赤く染まる	丝线变红
+베틀이 돈다	The loom turns	機織りが回る	织机转动
+점선으로 그어진 실은 곧 불붙는다. 거미줄은 발을 묶는다.	Dotted threads catch fire soon. Webs bind your feet.	点線の糸はすぐに燃える。蜘蛛の巣は足を縛る。	虚线的丝很快会着火，蛛网会缠住脚。
+거울 쌍둥이	Mirror Twins	鏡の双子	镜之双子
+셋째 문	The Third Gate	第三の門	第三道门
+서로를 비추며 태어난	Born reflecting each other	互いを映して生まれた	映照彼此而生的
+둘 사이에 서지 마라.	Don't stand between them.	二人の間に立つな。	别站在它们之间。
+거울이 흔들린다	The mirror shakes	鏡が揺れる	镜子在晃动
+끊어지지 않는 끈	The unbroken cord	切れない紐	斩不断的绳
+둘을 잇는 빛줄기에 닿으면 아프다. 탄은 벽에 한 번 튄다.	The beam between them burns. Bullets bounce off the wall once.	二人をつなぐ光に触れると痛い。弾は壁で一度跳ねる。	碰到连接它们的光会受伤。子弹会在墙上反弹一次。
+잉크 해일	Ink Tide	インクの津波	墨之海啸
+넷째 문	The Fourth Gate	第四の門	第四道门
+바다였던 것의 마지막 숨	The last breath of what was once a sea	海だったものの最後の息	曾是大海之物的最后一口气
+바닥이 검게 차오른다.	The floor fills with black.	床が黒く満ちていく。	地面被黑色漫上。
+물이 불어난다	The water rises	水かさが増す	水位上涨
+만조	High tide	満潮	满潮
+물결이 물러날 때 그 틈으로 지나가라. 검은 웅덩이는 피하라.	Pass through when the wave pulls back. Avoid the black pools.	波が引くとき、その隙を抜けろ。黒い水たまりは避けろ。	趁浪退下时从空隙穿过，避开黑色水洼。
+떨어진 태양	The Fallen Sun	落ちた太陽	坠落的太阳
+다섯째 문	The Fifth Gate	第五の門	第五道门
+모든 것의 시작이자 끝	The beginning and end of all things	すべての始まりにして終わり	万物的开始与终结
+처음 떨어진 것. 하늘이 무너진 이유.	The first to fall. The reason the sky broke.	最初に落ちたもの。空が崩れた理由。	最先坠落之物，天空崩塌的原因。
+초신성	Supernova	超新星	超新星
+어둠 속에서는 빛 가까이에 붙어라. 초신성이 오면 기둥 뒤에 숨어라.	In the dark, stay close to the light. When the supernova comes, hide behind a pillar.	闇の中では光のそばにいろ。超新星が来たら柱の陰に隠れろ。	黑暗中要贴近光。超新星来临时躲到柱子后面。
+시계 재판관	Clock Judge	時計の裁判官	时钟审判官
+여섯째 문	The Sixth Gate	第六の門	第六道门
+멈춘 시간의 끝에서 심판하는	Who judges at the end of stopped time	止まった時の果てで裁く	在静止时间尽头审判的
+정각이 되면, 판결은 이미 끝나 있다.	When the hour strikes, the verdict is already in.	正刻になれば、判決はもう下っている。	整点一到，判决早已落定。
+시계가 빨라진다	The clock speeds up	時計が速くなる	时钟加速
+시간 정지	Time Stop	時間停止	时间停止
+두 바늘을 피해 돌아라. 정각에는 표시된 조각에서 벗어나라. 퍼진 탄은 되돌아온다.	Circle away from both hands. On the hour, leave the marked slice. Spread shots come back.	二本の針を避けて回れ。正刻には印のついた区画から出ろ。散った弾は戻ってくる。	绕开两根指针。整点时离开标记的区块。散开的子弹会折返。
+뿌리 왕	Root King	根の王	根之王
+일곱째 문	The Seventh Gate	第七の門	第七道门
+무너진 하늘 아래 처음 자란	The first to grow beneath the broken sky	崩れた空の下で最初に育った	在崩塌天空下最先生长的
+땅 밑에서 이미 너를 감고 있었다.	It was already wrapped around you underground.	地の下でもうお前に絡みついていた。	它早已在地下缠住了你。
+꽃이 핀다	The flowers bloom	花が咲く	花开了
+숲이 깨어난다	The forest wakes	森が目覚める	森林苏醒
+땅이 갈라지는 줄을 옆으로 피하라. 개화가 오면 하얀 꽃자리 안에 서라.	Step sideways off the cracking lines. When it blooms, stand inside a white flower bed.	地割れの線は横へ避けろ。開花が来たら白い花の輪の中に立て。	从地裂的线上横向避开。开花时站进白色花圈里。
+무너진 하늘	The Broken Sky	崩れた空	崩塌的天空
+여덟째 문	The Eighth Gate	第八の門	第八道门
+모든 밤의 처음이자 마지막	The first and last of every night	すべての夜の最初にして最後	一切夜晚的最初与最后
+하늘은 떨어진 게 아니었다. 내려온 것이다.	The sky did not fall. It came down.	空は落ちたのではない。降りてきたのだ。	天空不是坠落的，是降临的。
+별이 진다	The stars set	星が沈む	星辰陨落
+마지막 빛	The Last Light	最後の光	最后之光
+끌려가지 말고 버텨라. 앞선 거물들의 기술이 섞여 나온다. 마지막엔 기둥 뒤에 숨어라.	Don't get pulled in. Hold on. The moves of every boss before return together. At the end, hide behind a pillar.	引きずられずに耐えろ。これまでの大物の技が混ざって来る。最後は柱の陰に隠れろ。	别被拖走，撑住。之前所有首领的招式会混在一起出现。最后躲到柱子后面。
+이름 없는 문	The Nameless Gate	名もなき門	无名之门
+이름 없는 것	The Nameless Thing	名もなきもの	无名之物
+그것을 부르는 이름은 없다.	There is no name to call it by.	それを呼ぶ名前はない。	没有名字能称呼它。
+일곱 막, 여덟 분. 다섯째 막에서 벽이 무너지면 뒤돌아보지 말고 달려라. 통로 밖의 어둠은 너를 갉아먹는다.	Seven acts, eight minutes. When the wall falls in act five, run and don't look back. The dark outside the path eats you.	七幕、八分。第五幕で壁が崩れたら振り返らずに走れ。通路の外の闇はお前を蝕む。	七幕，八分钟。第五幕墙壁崩塌时，别回头，跑。通道外的黑暗会啃噬你。
+금 간 종추	Cracked Clapper	ひびの入った鐘の舌	开裂的钟锤
+여왕의 실타래	The Queen's Spool	女王の糸玉	女王的线团
+깨진 거울	Broken Mirror	割れた鏡	破碎的镜子
+검은 진주	Black Pearl	黒真珠	黑珍珠
+태양의 심장	Heart of the Sun	太陽の心臓	太阳之心
+멈춘 태엽	Stopped Spring	止まったぜんまい	停摆的发条
+첫 씨앗	The First Seed	最初の種	第一颗种子
+하늘 조각	Sky Fragment	空の欠片	天空碎片
+지워진 이름	The Erased Name	消された名前	被抹去的名字
+질긴 심지	Stubborn Wick	しぶとい芯	顽强灯芯
+최대 체력 +40. 체력을 전부 되찾는다.	Max HP +40. Fully restores HP.	最大体力 +40。体力を全回復する。	最大生命 +40，生命全部恢复。
+과열	Overheat	過熱	过热
+주는 피해 +35%. 받는 피해 +15%.	Damage dealt +35%. Damage taken +15%.	与ダメージ +35%。被ダメージ +15%。	造成伤害 +35%，受到伤害 +15%。
+잔상	Afterimage	残像	残影
+구르기 재사용 -40%. 더 멀리 미끄러진다.	Roll cooldown -40%. Slides farther.	回避の再使用 -40%。より遠くへ滑る。	翻滚冷却 -40%，滑得更远。
+피뢰침	Lightning Rod	避雷針	避雷针
+2.5초마다 거물에게 번개가 꽂힌다.	Lightning strikes the boss every 2.5 seconds.	2.5秒ごとに大物へ雷が落ちる。	每 2.5 秒有闪电劈向首领。
+수호 구슬	Guardian Orbs	守りの珠	守护珠
+탄을 막아 주는 구슬 두 개가 곁을 돈다.	Two orbs circle you and block bullets.	弾を防ぐ珠が二つ周りを回る。	两颗能挡子弹的珠子绕身旋转。
+집중	Focus	集中	专注
+치명타 +15%. 치명타 피해 ×2.6.	Crit +15%. Crit damage ×2.6.	会心 +15%。会心ダメージ ×2.6。	暴击 +15%，暴击伤害 ×2.6。
+흡혈 잉크	Leeching Ink	吸血インク	吸血墨
+거물에게 준 피해의 1.5%만큼 체력을 되찾는다.	Heals 1.5% of the damage dealt to the boss.	大物に与えたダメージの1.5%分、体力が戻る。	恢复对首领造成伤害的 1.5% 生命。
+가속	Haste	加速	加速
+이동 속도 +20%.	Move speed +20%.	移動速度 +20%。	移动速度 +20%。
+메아리	Echo	こだま	回声
+모든 무기의 투사체 +1.	+1 projectile for every weapon.	全武器の投射物 +1。	所有武器投射物 +1。
+시간 균열	Time Rift	時間の裂け目	时间裂隙
+적의 탄과 울림이 25% 느려진다.	Enemy bullets and shockwaves slow by 25%.	敵の弾と衝撃が25%遅くなる。	敌人的子弹与冲击波减慢 25%。
+불사	Undying	不死	不死
+한 번, 치명상을 체력 1로 버틴다.	Once, survive a killing blow with 1 HP.	一度だけ、致命傷を体力1で耐える。	一次，以 1 点生命扛住致命伤。
+진화의 불꽃	Flame of Evolution	進化の炎	进化之火
+가장 높은 무기 하나가 곧바로 최대 단계가 된다.	Your highest weapon jumps straight to max level.	一番高い武器ひとつがすぐ最大段階になる。	等级最高的一件武器立刻升到满级。
+축전	Capacitor	蓄電	蓄电
+섬광이 두 배 빨리 찬다. 지금 가득 채운다.	Flash charges twice as fast. Fills it now.	閃光が二倍速く溜まる。今すぐ満タンにする。	闪光充能速度翻倍，并立即充满。
+무너진 마을	Ruined Town	崩れた町	崩塌的村镇
+두 번째 달이 떨어진 자리	Where the second moon fell	二つ目の月が落ちた場所	第二个月亮坠落之处
+처음 나가는 밤. 적이 아직 덜 사납다.	Your first night out. The enemies are still tame.	初めて出る夜。敵はまだおとなしい。	第一次出门的夜晚。敌人还不算凶。
+나방 떼	Moth Swarm	蛾の群れ	蛾群
+무리가 지나간다	A swarm passes through	群れが通り過ぎる	蛾群掠过
+불붙은 것들	Burning Things	火のついたもの	着火的东西
+가까이 오면 터진다	They burst when close	近づくと弾ける	靠近就会爆炸
+무거운 발소리	Heavy Footsteps	重い足音	沉重的脚步声
+뿔 달린 것들이 둘러싼다	The horned ones surround you	角のあるものが取り囲む	长角的东西围了上来
+갈라지는 것들	The splitting ones	割れるもの	会分裂的东西
+잠긴 숲	Sunken Forest	沈んだ森	沉没之森
+물에 잠긴 채 자라는 나무들	Trees that grow underwater	水に沈んだまま育つ木々	在水下生长的树
+가시덤불이 세 갈래로 쏘고, 뿔 사슴은 숨을 고른 뒤 들이받는다.	Thornbushes fire in three directions, and horned stags catch their breath before charging.	茨の茂みは三方向に撃ち、角鹿は息を整えてから突進する。	荆棘丛朝三个方向射击，角鹿喘口气后便冲撞过来。
+도깨비불	Wisps	鬼火	鬼火
+숲이 깜빡인다	The forest flickers	森がまたたく	森林在闪烁
+부푼 버섯	Swollen Mushrooms	膨れたキノコ	鼓胀的蘑菇
+건드리면 터진다	They burst when touched	触れると弾ける	一碰就炸
+뿔 사슴	Horned Stags	角鹿	角鹿
+숨을 고르고 달려든다	They catch their breath and charge	息を整えて突っ込んでくる	喘口气就冲过来
+쪼개지는 그루터기	The splitting stumps	割れる切り株	会裂开的树桩
+소금 사막	Salt Desert	塩の砂漠	盐之沙漠
+바다가 마르고 남은 흰 땅	The white land left when the sea dried	海が干上がって残った白い大地	大海干涸后留下的白色土地
+땅 밑을 기는 것이 발밑에서 터지고, 전갈은 무거운 침을 던진다.	Things crawling underground burst at your feet, and scorpions throw heavy stingers.	地中を這うものが足元で弾け、サソリは重い毒針を投げる。	地下爬行的东西会在脚下爆开，蝎子会投掷沉重的毒刺。
+날벌레 떼	Gnat Swarm	羽虫の群れ	飞虫群
+모래바람처럼 몰려온다	They come like a sandstorm	砂嵐のように押し寄せる	如沙暴般涌来
+땅 밑의 것	The Thing Below	地の下のもの	地下之物
+발밑이 꿈틀거린다	The ground squirms at your feet	足元がうごめく	脚下在蠕动
+숫양 떼	Ram Herd	雄羊の群れ	公羊群
+물러서지 않고 들이받는다	They never back down	退かずに突っ込んでくる	毫不退让地撞来
+딱정벌레가 갈라진다	The beetles split	甲虫が割れる	甲虫裂开了
+얼어붙은 항구	Frozen Harbor	凍った港	冰封港口
+배가 얼음에 박힌 채 멈춘 곳	Where the ships stopped, stuck in ice	船が氷に刺さったまま止まった場所	船只嵌在冰里停住的地方
+갈매기가 빙빙 돌다 내리꽂고, 잠수부는 사방으로 얼음을 뿌린다.	Gulls circle and dive, and divers scatter ice everywhere.	カモメは旋回して急降下し、潜水夫は四方に氷をまく。	海鸥盘旋后俯冲，潜水员向四面撒冰。
+갈매기 떼	Gull Flock	カモメの群れ	海鸥群
+빙빙 돌다 내리꽂는다	They circle, then dive	ぐるぐる回って急降下する	盘旋后俯冲
+떠내려온 기뢰	Drifting Mines	流れ着いた機雷	漂来的水雷
+가까이 가지 마라	Don't get close	近づくな	别靠近
+바다코끼리	Walruses	セイウチ	海象
+얼음 위를 미끄러져 온다	They slide across the ice	氷の上を滑ってくる	在冰面上滑过来
+부서지는 유빙	The breaking ice floes	砕ける流氷	碎裂的浮冰
+하늘 틈	The Sky Tear	空の裂け目	天之裂隙
+종이가 찢어진 하늘 바로 아래	Right under the torn paper sky	紙の破れた空のすぐ下	就在纸张撕裂的天空正下方
+얼룩이 눈앞에 나타나 터지고, 글자는 쉬지 않고 탄을 돌린다.	Blots appear before your eyes and burst, and glyphs spin bullets without rest.	染みが目の前に現れて弾け、文字は休まず弾を回す。	墨渍出现在眼前爆开，文字不停地旋转弹幕。
+종잇조각	Paper Scraps	紙切れ	纸片
+바람에 실려 베어 온다	They ride the wind and cut	風に乗って斬りかかる	乘风割来
+번지는 얼룩	Spreading Blots	にじむ染み	晕开的墨渍
+눈앞에 나타나 터진다	They appear before you and burst	目の前に現れて弾ける	出现在眼前就爆炸
+지우개	Erasers	消しゴム	橡皮擦
+지나간 자리가 지워진다	Wherever they pass is erased	通った跡が消える	经过之处被抹去
+잉크가 흘러넘친다	The ink overflows	インクがあふれる	墨水溢出来了
+모래 구멍	Sinkhole	砂の穴	沙坑
+빨려 들어간다. 바깥으로 달려라	You're being pulled in. Run outward	吸い込まれる。外へ走れ	正被吸进去，往外跑
+지우는 손	The Erasing Hand	消す手	抹除之手
+빈 줄로 피해라	Dodge through the empty row	空いた列へ逃げろ	从空出的那一行躲开
+늙은 참나무	Old Oak	老いた樫	老橡树
+뿌리가 땅 밑으로 먼저 온다	The roots arrive first, underground	根が先に地の下から来る	树根先从地下袭来
+밤부엉이	Night Owl	夜のフクロウ	夜枭
+날개를 접을 때 깃털이 쏟아진다	Feathers pour down when it folds its wings	翼をたたむと羽根が降り注ぐ	收拢翅膀时羽毛倾泻而下
+시체꽃	Corpse Flower	死体花	尸花
+포자가 떨어진 자리를 피해라	Avoid where the spores land	胞子が落ちた場所を避けろ	避开孢子落下的地方
+숲의 심장	Heart of the Forest	森の心臓	森林之心
+잠긴 숲 전체가 한 번에 뛴다	The whole sunken forest beats at once	沈んだ森全体が一度に脈打つ	整座沉没之森一同跳动
+소금 거인	Salt Giant	塩の巨人	盐巨人
+발을 구르면 결정이 솟는다	Crystals rise when it stamps	足を踏み鳴らすと結晶が突き出る	一跺脚就有结晶冒出
+뼈독수리	Bone Vulture	骨ハゲワシ	骨秃鹫
+먹다 남은 뼈를 던진다	Throws bones it didn't finish	食べ残しの骨を投げる	投掷吃剩的骨头
+신기루	Mirage	蜃気楼	海市蜃楼
+보이는 곳에 없다	It's not where you see it	見える場所にはいない	不在你看到的地方
+모래 왕	Sand King	砂の王	沙之王
+사막 한가운데가 입이다	The middle of the desert is a mouth	砂漠の真ん中が口だ	沙漠的正中央就是一张嘴
+떠도는 빙산	Drifting Iceberg	漂う氷山	漂流冰山
+부서진 조각이 천천히 밀려온다	Broken shards drift in slowly	砕けた欠片がゆっくり押し寄せる	碎块缓缓漂来
+범고래	Orca	シャチ	虎鲸
+얼음 밑으로 사라졌다 솟는다	It vanishes under the ice and bursts up	氷の下に消えては飛び出す	消失在冰下又猛然冒出
+불빛이 한 바퀴 돈다	The light sweeps around	灯りがぐるりと回る	灯光转了一圈
+얼음 바다뱀	Ice Sea Serpent	氷の海蛇	冰海蛇
+항구를 통째로 감고 있던 것	The thing that was coiled around the whole harbor	港をまるごと巻いていたもの	曾把整座港口缠住的东西
+찢긴 페이지	Torn Page	破れたページ	撕裂的书页
+찢긴 자리가 칼날이다	The torn edge is a blade	破れた所が刃だ	撕裂处便是刀刃
+깃펜	Quill	羽ペン	羽毛笔
+지나간 자리에 잉크가 남는다	It leaves ink where it passes	通った跡にインクが残る	经过之处会留下墨迹
+도장	Stamp	ハンコ	印章
+세 번 찍는다. 세 번 다 피해라	It stamps three times. Dodge all three	三回押す。三回とも避けろ	它会盖三次，三次都要躲开
+이 밤을 그린 손	The hand that drew this night	この夜を描いた手	描绘了这个夜晚的手
+강한 놈	A Tough One	手強いやつ	强敌
+쓰러뜨리면 상자를 떨군다	Drops a chest when defeated	倒すと宝箱を落とす	击倒后会掉落宝箱
+경보 · 	Alert · 	警報 · 	警报 ·
+한 번 버텼다	Held on once	一度耐えた	撑住了一次
+다시 일어났다	Back on your feet	また立ち上がった	重新站了起来
+파편 +5	Shards +5	欠片 +5	碎片 +5
+밤을 넘겼다	The night is over	夜を越えた	熬过了黑夜
+ 쓰러짐	 falls	 撃破	 倒下
+쓰러짐 · 상자를 열어라	Down · Open the chest	撃破 · 宝箱を開けろ	倒下 · 打开宝箱
+격노	Enraged	激怒	狂怒
+거물이 더는 봐주지 않는다	The boss stops holding back	大物はもう手加減しない	首领不再手下留情
+2막	Act 2	第2幕	第2幕
+3막	Act 3	第3幕	第3幕
+베틀	Loom	機織り	织机
+빛줄기 사이를 돌아라	Circle between the beams	光の筋の間を回れ	在光束之间绕行
+기둥 뒤에 숨어라	Hide behind a pillar	柱の陰に隠れろ	躲到柱子后面
+숨었다	Hidden	隠れた	躲好了
+격파	Defeated	撃破	击破
+정지	Stop	停止	停止
+탄이 멈췄다. 곧 다시 움직인다	The bullets froze. They'll move again soon	弾が止まった。すぐにまた動き出す	子弹停住了，马上又会动起来
+개화	Bloom	開花	开花
+하얀 꽃자리 안으로	Into the white flower bed	白い花の輪の中へ	进到白色花圈里
+하늘이 너를 부른다	The sky is calling you	空がお前を呼んでいる	天空在呼唤你
+그것은 이름이 없다.	It has no name.	それには名前がない。	它没有名字。
+보면 볼수록 늘어난다.	The more you look, the more there is.	見れば見るほど増えていく。	越看越多。
+벽 너머에도 있었다.	It was beyond the wall too.	壁の向こうにもいた。	墙的另一边也有。
+도망쳐.	Run.	逃げろ。	快逃。
+길은 그것이 만든다. 그리고 지운다.	It makes the path. Then it erases it.	道はそれが作る。そして消す。	路是它造的，然后它会抹掉。
+끝까지 지워지지 않는다.	It never fully erases.	最後まで消えはしない。	它到最后也抹不干净。
+지움	Erase	消去	抹除
+반쪽이 사라진다	Half the world disappears	半分が消える	一半消失了
+달려	Run	走れ	跑
+뒤돌아보지 마라	Don't look back	振り返るな	别回头
+길을 따라	Follow the path	道に沿って	沿着路走
+그것이 길을 파고, 지운다. 어둠은 밟지 마라	It digs the path and erases it. Don't step in the dark	それが道を掘り、消す。闇は踏むな	它挖出道路又抹去，别踩进黑暗
+막 / 7	 / 7	幕 / 7	幕 / 7
+도망쳐	Run	逃げろ	快逃
+무너진 벽 너머로 달려라	Run past the broken wall	崩れた壁の向こうへ走れ	冲过倒塌的墙
+지워졌다	Erased	消された	被抹去了
+파쇄 망치	Shattering Hammer	粉砕のハンマー	粉碎之锤
+주위를 통째로 내리찍는다. 느리지만 무겁다.	Smashes everything around you. Slow but heavy.	周りをまとめて叩き潰す。遅いが重い。	把周围一并砸碎。慢，但沉重。
+피해 +30%	Damage +30%	ダメージ +30%	伤害 +30%
+재사용 -20%	Cooldown -20%	再使用 -20%	冷却 -20%
+피해 +40%, 땅이 갈라진다	Damage +40%, the ground cracks	ダメージ +40%、地面が割れる	伤害 +40%，地面开裂
+사슬 낫	Chain Scythe	鎖鎌	锁镰
+사슬 끝의 큰 낫이 넓게 돈다.	A great scythe on a chain sweeps wide.	鎖の先の大鎌が広く回る。	锁链末端的大镰刀大范围旋转。
+피해 +40%	Damage +40%	ダメージ +40%	伤害 +40%
+반경 +20%	Radius +20%	半径 +20%	半径 +20%
+낫 +1	Scythes +1	鎌 +1	镰刀 +1
+회전 +40%	Spin +40%	回転 +40%	转速 +40%
+관통 창	Piercing Lance	貫通槍	贯穿之枪
+일직선으로 꿰뚫는 창을 던진다.	Throws a lance that pierces in a straight line.	一直線に貫く槍を投げる。	投出直线贯穿的长枪。
+창 +1	Lances +1	槍 +1	长枪 +1
+심판 문양	Judgment Sigil	審判の紋章	审判纹章
+적의 발밑에 문양을 새겨 거듭 터뜨린다.	Carves a sigil under foes that bursts again and again.	敵の足元に紋章を刻み、何度も弾けさせる。	在敌人脚下刻下纹章，反复引爆。
+더 오래 남는다	Lasts longer	長く残る	持续更久
+문양 +1	Sigils +1	紋章 +1	纹章 +1
+범위 +30%	Area +30%	範囲 +30%	范围 +30%
+거울 방패	Mirror Shield	鏡の盾	镜之盾
+곁을 도는 방패. 닿는 적을 치고, 막은 탄은 그대로 되돌려 친다.	A shield that circles you. Hits foes it touches and sends blocked bullets right back.	周りを回る盾。触れた敵を打ち、防いだ弾をそのまま返す。	绕身旋转的盾。撞击碰到的敌人，并把挡下的子弹原样打回。
+되치는 피해 +50%	Reflect damage +50%	反撃ダメージ +50%	反击伤害 +50%
+방패 +1	Shields +1	盾 +1	盾 +1
+회전 +30%	Spin +30%	回転 +30%	转速 +30%
+혜성 활	Comet Bow	彗星の弓	彗星弓
+스스로 쫓아가 터지는 혜성을 쏜다.	Shoots comets that chase and burst on their own.	自ら追いかけて弾ける彗星を放つ。	射出会自动追踪并爆炸的彗星。
+혜성 +1	Comets +1	彗星 +1	彗星 +1
+뒤틀린 낙서의 검	Twisted Scribble Sword	歪んだ落書きの剣	扭曲涂鸦之剑
+천상의 검	Heavenly Sword	天上の剣	天上之剑
+넓게 휘두르는 근접 검. 한 번 벨 때마다 아프다.	A wide-swinging melee sword. Every cut hurts.	広く振るう近接剣。一太刀ごとに痛い。	大范围挥砍的近战剑，每一斩都很疼。
+낙서가 풀리고 빛만 남았다.	The scribbles came undone, and only light remained.	落書きがほどけ、光だけが残った。	涂鸦散开，只剩下光。
+강철 심장	Iron Heart	鋼の心臓	钢铁之心
+최대 체력 +30	Max HP +30	最大体力 +30	最大生命 +30
+날 선 의지	Keen Will	研がれた意志	锋利意志
+모든 피해 +12%	All damage +12%	全ダメージ +12%	全部伤害 +12%
+바람걸음	Windstep	風歩き	风行
+이동 속도 +10%, 구르기 재사용 -8%	Move speed +10%, Roll cooldown -8%	移動速度 +10%、回避の再使用 -8%	移动速度 +10%，翻滚冷却 -8%
+반사 신경	Reflexes	反射神経	反射神经
+구르기 무적 시간 +0.07초	Roll invincibility +0.07s	回避の無敵時間 +0.07秒	翻滚无敌时间 +0.07秒
+흡혈 문양	Leech Sigil	吸血の紋	吸血纹
+준 피해의 0.4%만큼 체력 회복	Heal 0.4% of damage dealt	与ダメージの0.4%分、体力回復	恢复造成伤害的 0.4% 生命
+집중의 눈	Eye of Focus	集中の目	专注之眼
+치명타 +7%	Crit +7%	会心 +7%	暴击 +7%
+가속 장치	Accelerator	加速装置	加速装置
+재사용 시간 -8%	Cooldown -8%	再使用時間 -8%	冷却时间 -8%
+수호 문장	Guardian Crest	守護の紋章	守护纹章
+받는 피해 -8%	Damage taken -8%	被ダメージ -8%	所受伤害 -8%
+낙서가 풀리고, 빛만 남았다.	The scribbles came undone, and only light remained.	落書きがほどけ、光だけが残った。	涂鸦散开，只剩下光。
+7막 / 7 · 마지막	Act 7 / 7 · Final	第7幕 / 7 · 最後	第7幕 / 7 · 最终
+하늘 끝까지 베어라.	Cut all the way to the edge of the sky.	空の果てまで斬れ。	斩到天空的尽头。
+하늘이 무너진다	The sky is falling	空が崩れる	天空在崩塌
+벽이 좁혀 온다	The walls close in	壁が迫ってくる	墙壁在逼近
+버텨라. 거의 다 왔다	Hold on. Almost there	耐えろ。もう少しだ	撑住，就快到了
+베어서 눈으로 되돌려라	Cut them and send them back to the eye	斬って目へ打ち返せ	斩开它们，打回那只眼
+응시	Gaze	凝視	凝视
+눈을 피해 옆으로	Step aside from the eye	目を避けて横へ	避开那只眼，往旁边走
+<p class="cr-line">하늘은 다시 맑아지지 않았다.<br>그래도 밤은 끝났다.</p>	<p class="cr-line">The sky never cleared again.<br>But the night ended.</p>	<p class="cr-line">空は二度と晴れなかった。<br>それでも夜は終わった。</p>	<p class="cr-line">天空再也没有放晴。<br>但黑夜结束了。</p>
+기획	Design	企画	策划
+만든 것	Made by	作った者	制作
+잉크	Ink	インク	墨
+<p>남색, 분홍, 노랑, 그리고 종이 한 장</p>	<p>Navy, pink, yellow, and one sheet of paper</p>	<p>藍、桃、黄、そして紙一枚</p>	<p>藏青、粉、黄，还有一张纸</p>
+소리	Sound	音	声音
+<p>종, 사이렌, 낙서 긁는 소리</p>	<p>Bells, sirens, the scratch of a scribble</p>	<p>鐘、サイレン、落書きを引っかく音</p>	<p>钟声、警笛、涂鸦的刮擦声</p>
+쓰러뜨린 것들	The ones that fell	倒したものたち	被击倒的它们
+함께 버틴 불씨들	The embers that held on with you	共に耐えた火種たち	与你一同坚持的火种们
+<p class="cr-line">그리고 이름 없는 것.<br>이제는 이름이 생겼다.</p>	<p class="cr-line">And the nameless thing.<br>Now it has a name.</p>	<p class="cr-line">そして名もなきもの。<br>今は名前がある。</p>	<p class="cr-line">还有那无名之物。<br>如今它有了名字。</p>
+<div class="cr-end">끝</div>	<div class="cr-end">END</div>	<div class="cr-end">終</div>	<div class="cr-end">完</div>
+<p class="cr-line">끝까지 꺼지지 않아서 고맙다.</p>	<p class="cr-line">Thank you for never going out.</p>	<p class="cr-line">最後まで消えずにいてくれて、ありがとう。</p>	<p class="cr-line">谢谢你直到最后都没有熄灭。</p>
+종의 메아리	Bell Echo	鐘のこだま	钟之回响
+구르기가 끝나는 자리에서 종이 울려 주위를 친다. 가만히 있어도 가끔 운다.	A bell rings where your roll ends and strikes everything around. It rings on its own now and then.	回避の終わりで鐘が鳴り周りを打つ。じっとしていても時々鳴る。	翻滚结束处钟声响起，冲击周围。静止时也会偶尔自鸣。
+울림 피해 +40%	Ring damage +40%	響きのダメージ +40%	钟鸣伤害 +40%
+저절로 우는 간격 -30%	Rings on its own 30% more often	自然に鳴る間隔 -30%	自鸣间隔 -30%
+울림이 두 번 퍼진다	The ring spreads twice	響きが二度広がる	钟鸣扩散两次
+엮는 실	Binding Thread	結ぶ糸	缠结丝线
+가장 가까운 적에게 실을 건다. 멀어질수록 실이 팽팽해져 더 아프다.	Ties a thread to the nearest foe. The farther it goes, the tighter and more painful.	一番近い敵に糸をかける。離れるほど糸が張って痛くなる。	把丝线系在最近的敌人身上。离得越远绷得越紧，越疼。
+실 +1	Threads +1	糸 +1	丝线 +1
+팽팽할 때 피해 두 배	Double damage when taut	張っている時ダメージ二倍	绷紧时伤害翻倍
+거울 쌍검	Mirror Twin Blades	鏡の双剣	镜之双剑
+앞을 베면 거울 속 칼이 뒤를 벤다.	Cut ahead, and the blade in the mirror cuts behind.	前を斬ると鏡の中の剣が後ろを斬る。	向前斩时，镜中之剑会斩向身后。
+피해 +35%	Damage +35%	ダメージ +35%	伤害 +35%
+거리 +20%	Reach +20%	距離 +20%	距离 +20%
+거울 칼이 두 번 벤다	The mirror blade cuts twice	鏡の剣が二度斬る	镜之剑斩两次
+물때 작살	Tide Harpoon	潮の銛	潮汐鱼叉
+작살을 던졌다가 끌어당긴다. 갈 때와 올 때 두 번 꿰뚫는다.	Throws a harpoon and reels it back. Pierces on the way out and on the way back.	銛を投げて引き戻す。行きと帰りで二度貫く。	掷出鱼叉再拉回，去时回时各贯穿一次。
+작살 +1	Harpoons +1	銛 +1	鱼叉 +1
+더 멀리 날아간다	Flies farther	遠くまで飛ぶ	飞得更远
+돌아올 때 적을 끌고 온다	Drags foes back with it	戻るとき敵を引きずってくる	收回时会把敌人拖回来
+해시계	Sundial	日時計	日晷
+그림자가 한 바퀴 돌면 하늘에서 빛기둥이 떨어진다.	When the shadow goes all the way around, a pillar of light falls from the sky.	影が一周すると空から光の柱が落ちる。	影子转完一圈，天上就会落下光柱。
+빛기둥 피해 +40%	Pillar damage +40%	光の柱のダメージ +40%	光柱伤害 +40%
+한 바퀴가 빨라진다	The shadow turns faster	一周が速くなる	转一圈更快
+빛기둥 +1	Pillars +1	光の柱 +1	光柱 +1
+빛기둥이 더 넓다	Wider pillars	光の柱が広くなる	光柱更宽
+판결봉	Gavel	判決の槌	判决槌
+같은 적을 거듭 치면 네 번째에 판결이 떨어진다.	Hit the same foe again and again, and the fourth hit brings the verdict.	同じ敵を打ち続けると、四発目に判決が下る。	连续敲打同一个敌人，第四下便会落下判决。
+판결 피해 +50%	Verdict damage +50%	判決ダメージ +50%	判决伤害 +50%
+판결이 세 번째에 떨어진다	The verdict falls on the third hit	判決が三発目に下る	第三下就落下判决
+판결	VERDICT	判決	判决
+그림자 걸음	Shadow Step	影歩き	影步
+구르고 난 뒤 1.2초 동안 피해 +15%	Damage +15% for 1.2s after a roll	回避後1.2秒間ダメージ +15%	翻滚后 1.2 秒内伤害 +15%
+가시 갑옷	Thorn Mail	茨の鎧	荆棘甲
+맞으면 주위를 찌른다. 피해 45	Stabs everything around you when hit. 45 damage	被弾すると周りを刺す。ダメージ45	受击时刺击周围，伤害 45
+마지막 불꽃	Last Flame	最後の炎	最后的火焰
+체력이 35% 아래면 피해 +12%	Damage +12% below 35% HP	体力35%以下でダメージ +12%	生命低于 35% 时伤害 +12%
+심판	Judgment	審判	审判
+금빛 성역 안으로	Into the golden sanctuary	金色の聖域の中へ	进入金色圣域
+필살	FINISHER	必殺	必杀
+낙서는 종이 위로 돌아갔다	The scribble went back onto the paper	落書きは紙の上に戻った	涂鸦回到了纸上
+한 판에 	Defeat 	一回で	一局内击倒
+마리 쓰러뜨리기	 in one run	体倒す	个
+분 	m 	分	分
+초 	s 	秒	秒
+버티기	survived	耐える	坚持
+한 판에 거물 	Defeat bosses ×	一回で大物を	一局内击倒首领
+연쇄 	Keep a 	連鎖 	达成
+ 이어가기	-hit chain	 を繋ぐ	 连锁
+한 판에 무기 	Evolve 	一回で武器を	一局内进化
+개 진화	 weapons in one run	個進化	 件武器
+무기 하나 진화시키기	Evolve one weapon	武器をひとつ進化させる	进化一件武器
+한 판에 상자 	Open 	一回で宝箱を	一局内打开
+개 열기	 chests in one run	個開ける	 个宝箱
+한 판에 섬광 	Use Flash 	一回で閃光を	一局内使用闪光
+번 쓰기	 times in one run	回使う	 次
+레벨 	Reach level 	レベル	达到
+ 찍기		に到達	 级
+새 의뢰까지 	New requests in 	新しい依頼まで 	距新委托
+시간 	h 	時間 	小时
+분	m	分	分钟
+끝냈다. 파편을 받았다.	Done. Shards received.	達成。欠片を受け取った。	已完成，获得碎片。
+오늘 최고 	Today's best 	今日の最高 	今日最佳
+<button class="buy" disabled>잠김</button>	<button class="buy" disabled>Locked</button>	<button class="buy" disabled>未開放</button>	<button class="buy" disabled>未解锁</button>
+<button class="buy go" data-go>들어간다</button>	<button class="buy go" data-go>Enter</button>	<button class="buy go" data-go>入る</button>	<button class="buy go" data-go>进入</button>
+>제작</button>	>Craft</button>	>製作</button>	>制作</button>
+ · 격파 	 · Defeated 	 · 撃破 	 · 击破
+회	×	回	次
+ 쓰러뜨리면 문의 위치가 보인다.	 must fall before this gate can be found.	を倒すと門の場所が見える。	被击倒后，门的位置就会显现。
+다시 잡으면 파편 	Again: Shards 	再撃破: 欠片 	再次击破：碎片
+첫 격파: 파편 	First kill: Shards 	初撃破: 欠片 	首次击破：碎片
+, 직업 <b>	, Class <b>	、職業 <b>	，职业 <b>
+, 장비 <b>	, Gear <b>	、装備 <b>	，装备 <b>
+<div class="acts"><span>막 골라 시작</span>	<div class="acts"><span>Start from act</span>	<div class="acts"><span>幕を選んで開始</span>	<div class="acts"><span>选择幕开始</span>
+막</button>	</button>	幕</button>	幕</button>
+ · 준비 	 · Prep 	 · 準備 	 · 准备
+무장을 고른다	Choose your arms	武装を選ぶ	选择武装
+이 문 앞에서는 이것 하나뿐이다. 속도와 체력 +100, 막이 끝날 때마다 다시 일어선다.	Before this gate, this is all you get. Speed and HP +100, and you rise again at the end of each act.	この門の前ではこれ一つだけだ。速度と体力 +100、幕が終わるたびに立ち上がる。	在这道门前只有这一件。速度与生命 +100，每一幕结束都会重新站起。
+고른 것은 두 단계씩 오른다. 	Each pick goes up two levels. 	選んだものは二段階ずつ上がる。	选中的会各提升两级。
+먼저 무기를 하나 고른다. 	Pick a weapon first. 	まず武器を一つ選ぶ。	先选一件武器。
+막		幕	幕
+유물을 고른다	Choose a relic	遺物を選ぶ	选择遗物
+거물이 흘린 것. 이 문 안에서만 힘을 쓴다.	Dropped by the boss. Its power works only inside this gate.	大物が落としたもの。この門の中でだけ力を持つ。	首领掉落之物，只在这道门内生效。
+싸워라	Fight	戦え	战斗
+막부터	: from this act	幕から	幕开始
+로컬 테스트	Local test	ローカルテスト	本地测试
+작업대로	To the Workbench	作業台へ	前往工作台
+쓰러졌다	You fell	倒れた	倒下了
+<div class="earn"><div><span class="eyebrow">받은 파편</span><small>	<div class="earn"><div><span class="eyebrow">Shards earned</span><small>	<div class="earn"><div><span class="eyebrow">得た欠片</span><small>	<div class="earn"><div><span class="eyebrow">获得碎片</span><small>
+첫 격파 보상	First kill reward	初撃破の報酬	首次击破奖励
+다시 잡은 보상	Rematch reward	再撃破の報酬	再次击破奖励
+남긴 상처만큼	For the wounds you left	残した傷のぶん	按留下的伤口计算
+"><div><span class="eyebrow">제작 재료</span><b>	"><div><span class="eyebrow">Crafting material</span><b>	"><div><span class="eyebrow">製作素材</span><b>	"><div><span class="eyebrow">制作材料</span><b>
+다음 포탈, 	Used to make the next portal, 	次のポータル、	用于制作下一道传送门：
+을 만드는 데 쓴다.	.	を作るのに使う。	。
+모든 문을 닫았다. 모아 두면 언젠가 쓸 데가 생긴다.	Every gate is closed. Keep them; someday they'll be useful.	すべての門を閉じた。取っておけばいつか使い道ができる。	所有的门都已关闭。留着吧，总有一天会派上用场。
+"><div><span class="eyebrow">새 보스 장비</span><b>	"><div><span class="eyebrow">New boss gear</span><b>	"><div><span class="eyebrow">新しいボス装備</span><b>	"><div><span class="eyebrow">新首领装备</span><b>
+</b><p>이제부터 문 안에서 고를 수 있다.</p></div></div>	</b><p>You can now pick it inside the gates.</p></div></div>	</b><p>これから門の中で選べる。</p></div></div>	</b><p>今后可以在门内选择。</p></div></div>
+"><div><span class="eyebrow">보스 한정 직업 합류</span><b>	"><div><span class="eyebrow">Boss-only class joins</span><b>	"><div><span class="eyebrow">ボス限定職業が仲間に</span><b>	"><div><span class="eyebrow">首领限定职业加入</span><b>
+ 무너졌다. 문이 닫히고, 남은 것은 손에 쥔 것뿐이다.	 has fallen. The gate closes, and all that's left is what you hold.	が崩れた。門が閉じ、残ったのは手に握ったものだけだ。	倒下了。门已关闭，剩下的只有手中握着的东西。
+거물의 체력이 	The boss has 	大物の体力が 	首领还剩
+% 남았다. 포탈은 닫혔다. 다시 만들어 오면 된다.	% HP left. The portal is closed. Make another and come back.	% 残った。ポータルは閉じた。また作ってくればいい。	% 生命。传送门已关闭，再造一个回来就行。
+싸운 시간	Time fought	戦った時間	战斗时间
+깎아 낸 체력	HP carved off	削った体力	削减的生命
+거물에게 준 피해	Damage to boss	大物に与えたダメージ	对首领造成的伤害
+개		個	个
+얻은 유물	Relics found	得た遺物	获得的遗物
+<div><div class="label"><span class="eyebrow">유물</span></div><div class="build">	<div><div class="label"><span class="eyebrow">Relics</span></div><div class="build">	<div><div class="label"><span class="eyebrow">遺物</span></div><div class="build">	<div><div class="label"><span class="eyebrow">遗物</span></div><div class="build">
+<div><div class="label"><span class="eyebrow">들고 간 장비</span></div><div class="build">	<div><div class="label"><span class="eyebrow">Gear you brought</span></div><div class="build">	<div><div class="label"><span class="eyebrow">持っていった装備</span></div><div class="build">	<div><div class="label"><span class="eyebrow">携带的装备</span></div><div class="build">
+마지막 문	The Last Gate	最後の門	最后之门
+나무검	Wooden Sword	木の剣	木剑
+장작 패다 남은 나무로 깎았다.	Carved from leftover firewood.	薪割りの残りの木を削った。	用劈柴剩下的木头削成的。
+돌검	Stone Sword	石の剣	石剑
+무겁다. 맞으면 멀리 날아간다.	Heavy. Whatever it hits flies far.	重い。当たると遠くへ飛ぶ。	很沉，被击中的会飞出老远。
+구리검	Copper Sword	銅の剣	铜剑
+가볍고 빠르다.	Light and quick.	軽くて速い。	轻巧迅速。
+소금결정검	Salt Crystal Sword	塩結晶の剣	盐晶剑
+결정이 부서지며 급소를 찌른다. 치명타 +15%.	The crystal shatters and strikes vital spots. Crit +15%.	結晶が砕けて急所を突く。会心 +15%。	晶体碎裂时直刺要害。暴击 +15%。
+얼음검	Ice Sword	氷の剣	冰剑
+베인 것은 잠깐 굳는다.	Whatever it cuts freezes for a moment.	斬られたものは一瞬固まる。	被斩中的会短暂冻结。
+잉크검	Ink Sword	インクの剣	墨剑
+휘두르면 잉크 날이 앞으로 날아간다.	Swing it and a blade of ink flies forward.	振るとインクの刃が前へ飛ぶ。	挥动时会有墨刃向前飞出。
+모모가 마지막으로 그려 준 칼. 넓고 무겁다.	The last sword Momo drew for you. Wide and heavy.	モモが最後に描いてくれた剣。広くて重い。	桃桃最后为你画的剑，宽大而沉重。
+등불 마을	Lantern Village	灯火の村	灯火村
+얼룩이	Blotling	しみっこ	墨点怪
+재나방	Ash Moth	灰の蛾	灰蛾
+침뱉이	Spitter	つば吐き	吐沫怪
+쪼개기	Splitter	割れっこ	分裂怪
+불붙은 것	Burning Thing	火のついたもの	着火的东西
+뿔쟁이	Horned Brute	角持ち	角兽
+포자덩이	Spore Blob	胞子玉	孢子团
+가시덤불	Thornbush	茨の茂み	荆棘丛
+그루터기	Stump	切り株	树桩
+모래 유충	Sand Grub	砂の幼虫	沙幼虫
+날벌레	Gnat	羽虫	飞虫
+전갈	Scorpion	サソリ	蝎子
+딱정벌레	Beetle	甲虫	甲虫
+땅굴쟁이	Burrower	穴掘り	掘地虫
+숫양	Ram	雄羊	公羊
+진눈깨비	Sleet Blob	みぞれ玉	雨夹雪团
+갈매기	Gull	カモメ	海鸥
+잠수부	Diver	潜水夫	潜水员
+유빙	Ice Floe	流氷	浮冰
+기뢰	Mine	機雷	水雷
+얼룩	Blot	染み	墨渍
+글자	Glyph	文字	文字
+잉크병	Inkpot	インク瓶	墨水瓶
+바렌	Baren	バレン	巴伦
+고물상	Junk Dealer	古物商	旧货商
+하스	Has	ハス	哈斯
+촌장	Village Elder	村長	村长
+모모	Momo	モモ	桃桃
+꼬마	Kid	子ども	小孩
+그렌	Gren	グレン	格伦
+대장장이	Blacksmith	鍛冶屋	铁匠
+노라	Nora	ノラ	诺拉
+등지기	Lamplighter	灯守	守灯人
+케이	Kei	ケイ	凯伊
+떠돌이	Wanderer	流れ者	流浪者
+두르	Dur	ドゥル	杜尔
+석공	Stonemason	石工	石匠
+루	Ru	ル	露
+빨래하는 사람	Washer	洗濯する人	洗衣人
+세라	Sera	セラ	瑟拉
+할머니	Grandmother	おばあさん	老奶奶
+진	Jin	ジン	金
+이라	Ira	イラ	伊拉
+숲지기	Forest Warden	森番	守林人
+피오	Pio	ピオ	皮奥
+떠돌이 상인	Traveling Merchant	旅の商人	行商
+모스	Moss	モス	莫斯
+버섯 캐는 사람	Mushroom Picker	キノコ採り	采蘑菇的人
+사이	Sai	サイ	赛
+낙타꾼	Camel Driver	ラクダ使い	驼夫
+오르	Or	オル	奥尔
+소금 대장장이	Salt Smith	塩の鍛冶屋	盐铁匠
+하나	Hana	ハナ	哈娜
+물 긷는 사람	Water Carrier	水汲み	挑水人
+벨라	Bella	ベラ	贝拉
+선장	Captain	船長	船长
+탐	Tam	タム	塔姆
+낚시꾼	Angler	釣り人	钓鱼人
+페이	Fey	フェイ	菲伊
+사서	Librarian	司書	图书管理员
+잉크쟁이	Inkwright	インク書き	墨匠
+필경사	Scribe	筆写人	抄写员
+종탑 길은 아직 닫혀 있다.	The bell tower road is still closed.	鐘楼への道はまだ閉ざされている。	通往钟楼的路还关着。
+동쪽: 마을 뒤 들판. 해 지면 나가지 말 것.	East: the field behind the village. Do not go out after dark.	東: 村の裏の野原。日が暮れたら出ないこと。	东：村后的田野。天黑后不要出去。
+마을 뒤 들판	Field Behind the Village	村の裏の野原	村后田野
+우물 뚜껑이 단단히 덮여 있다.	The well cover is shut tight.	井戸のふたは固く閉じている。	井盖盖得严严实实。
+옛 우물	Old Well	古井戸	古井
+옛 우물. 들어가지 마시오. 촌장.	Old well. Do not enter. — The Elder	古井戸。入るべからず。村長。	古井，禁止进入。村长。
+옛 우물 아래	Beneath the Old Well	古井戸の底	古井底下
+들판으로	To the field	野原へ	去田野
+돌을 발판에 올리면 문이 열린다. 꼬이면 나갔다 오면 된다	Put stones on the plates to open the door. If you get stuck, leave and come back	石を踏み板に乗せると扉が開く。詰まったら出て戻ればいい	把石头推到踏板上门就会开。卡住了就出去再回来
+채석장	Quarry	採石場	采石场
+갈림길	Crossroads	分かれ道	岔路口
+종소리가 길을 막는다. 가까이 갈수록 머리가 울린다.	The bell's ringing blocks the road. The closer you get, the more your head pounds.	鐘の音が道をふさぐ。近づくほど頭が鳴る。	钟声挡住了路。越靠近，头越嗡嗡作响。
+북: 송전탑 언덕  남: 무너진 마을 터  동: 숲	N: Power Tower Hill  S: Ruined Town Site  E: Forest	北: 送電塔の丘  南: 崩れた町の跡  東: 森	北：输电塔山丘  南：崩塌的村镇遗址  东：森林
+무너진 마을 터	Ruined Town Site	崩れた町の跡	崩塌的村镇遗址
+송전탑 언덕	Power Tower Hill	送電塔の丘	输电塔山丘
+종탑	Bell Tower	鐘楼	钟楼
+종이 혼자 운다. 문 안에 무언가 있다.	The bell rings by itself. Something is behind the gate.	鐘がひとりでに鳴る。門の中に何かいる。	钟自己在响。门里有什么东西。
+숲 입구	Forest Entrance	森の入口	森林入口
+버섯 동굴	Mushroom Cave	キノコの洞窟	蘑菇洞
+숲으로	To the forest	森へ	去森林
+벽에 긁힌 글씨: 동쪽 위에서 시작해 그 아래로. 서쪽 위로 건너가 그 아래로. 마지막은 가운데.	Scratched on the wall: start at the top east and go below it. Cross to the top west and go below it. Last, the middle.	壁に刻まれた字: 東の上から始めてその下へ。西の上へ渡ってその下へ。最後は真ん中。	墙上刻着字：从东边上方开始，再到它下方。走到西边上方，再到它下方。最后是中间。
+더 깊은 곳	Deeper	もっと深くへ	更深处
+동굴 깊은 곳	Cave Depths	洞窟の奥	洞穴深处
+돌아가기	Go back	戻る	返回
+깊은 숲	Deep Forest	深い森	深林
+덩굴이 길을 막았다. 숲지기가 무언가 알 것 같다.	Vines block the road. The forest warden might know something.	つるが道をふさいだ。森番が何か知っていそうだ。	藤蔓挡住了路。守林人或许知道些什么。
+등불 아홉 개. 하나를 건드리면 이웃도 함께 바뀐다. 전부 켜면 상자가 열린다.	Nine lamps. Touch one and its neighbors change too. Light them all and the chest opens.	灯りが九つ。一つに触れると隣も一緒に変わる。全部つけると箱が開く。	九盏灯。碰一盏，相邻的也会跟着变。全部点亮，箱子就会打开。
+늪	Swamp	沼	沼泽
+실 잣는 집	Spinner's Hut	糸紡ぎの家	纺线小屋
+실이 저절로 감긴다. 누가 옷을 짓고 있다.	The thread winds itself. Someone is sewing clothes.	糸がひとりでに巻かれる。誰かが服を縫っている。	线自己缠绕起来，有人在缝衣服。
+사슴 길	Stag Trail	鹿の道	鹿径
+부엉이 둥지	Owl's Nest	フクロウの巣	枭巢
+늙은 참나무 터	Old Oak Grounds	老いた樫の跡	老橡树之地
+참나무와 부엉이가 숲을 붙잡고 있다.	The oak and the owl are holding the forest.	樫とフクロウが森をつかんでいる。	橡树和夜枭牢牢抓着这片森林。
+숲이 아직 길을 놓아주지 않는다. 실 잣는 집의 문도 닫혀 있어야 한다.	The forest won't let you go yet. The spinner's gate must be closed too.	森はまだ道を放してくれない。糸紡ぎの家の門も閉じていなければ。	森林还不肯放你走。纺线小屋的门也必须关上。
+오아시스	Oasis	オアシス	绿洲
+모래 언덕	Dunes	砂丘	沙丘
+소금 광산	Salt Mine	塩の鉱山	盐矿
+밖으로	Outside	外へ	出去
+광산 깊은 곳	Mine Depths	鉱山の奥	矿山深处
+가운데 결정을 두드리면 노래한다	Strike the crystal in the middle and it sings	真ん中の結晶を叩くと歌う	敲击中间的结晶，它就会歌唱
+뼈 협곡	Bone Canyon	骨の峡谷	骨之峡谷
+소금 평원	Salt Flats	塩の平原	盐之平原
+평원 끝이 일렁인다. 사막의 세 주인이 아직 살아 있다.	The edge of the flats shimmers. The desert's three masters still live.	平原の端が揺らめく。砂漠の三つの主はまだ生きている。	平原尽头在摇曳。沙漠的三位主人还活着。
+쌍둥이 신전	Twin Temple	双子の神殿	双子神殿
+태양 제단	Sun Altar	太陽の祭壇	太阳祭坛
+해가 진 적 없는 제단. 문 너머가 뜨겁다.	An altar where the sun has never set. It's hot beyond the gate.	日が沈んだことのない祭壇。門の向こうが熱い。	太阳从未落下的祭坛。门的另一边很热。
+모래가 길을 삼켰다. 태양 제단의 문도 닫혀 있어야 한다.	Sand swallowed the road. The sun altar's gate must be closed too.	砂が道を呑んだ。太陽の祭壇の門も閉じていなければ。	沙子吞没了道路。太阳祭坛的门也必须关上。
+얼어붙은 부두	Frozen Docks	凍った埠頭	冰封码头
+얼음 위에서는 멈출 수 없다. 바위에 부딪혀야 선다	You can't stop on ice. Only a rock will stop you	氷の上では止まれない。岩にぶつかれば止まる	在冰上停不下来，撞到岩石才会停
+배 무덤	Ship Graveyard	船の墓場	沉船坟场
+등대	Lighthouse	灯台	灯塔
+빙산 들판	Iceberg Field	氷山の原	冰山原野
+물때의 문	Tide Gate	潮時の門	潮汐之门
+바닷물이 문을 막고 있다. 문 안의 것과 등대를 먼저 잠재워야 한다.	Seawater blocks the gate. Quiet what's inside the gate and the lighthouse first.	海水が門をふさいでいる。門の中のものと灯台を先に鎮めなければ。	海水堵住了门。必须先让门里的东西和灯塔平息下来。
+바다뱀 만	Serpent Bay	海蛇の湾	海蛇湾
+얼음 바다뱀이 만을 감고 있다.	The ice serpent is coiled around the bay.	氷の海蛇が湾を巻いている。	冰海蛇盘踞着整个海湾。
+찢긴 광장	Torn Plaza	破れた広場	撕裂广场
+도장 관청	Stamp Office	ハンコ役所	印章官署
+종이 미로	Paper Maze	紙の迷路	纸之迷宫
+잉크 강	Ink River	インクの川	墨河
+광장으로	To the plaza	広場へ	去广场
+결재 순서: 전부 켜진 다음에야 안으로 들인다.	Approval order: no one enters until every lamp is lit.	決裁の順序: 全部ついてからでなければ中へ通さない。	审批顺序：全部点亮之后才放行。
+심판의 뜰	Court of Judgment	審判の庭	审判之庭
+뜰의 문이 판결을 기다린다.	The court's gate awaits a verdict.	庭の門が判決を待っている。	庭院之门在等待判决。
+뿌리 구멍	Root Hollow	根の穴	根洞
+하늘 계단	Sky Stairs	空の階段	天阶
+계단 끝이 보이지 않는다. 아직 지워지지 않은 것이 남았다.	You can't see the end of the stairs. Something not yet erased remains.	階段の果てが見えない。まだ消されていないものが残っている。	看不到台阶的尽头。还有尚未被抹去的东西。
+지우는 손의 책상	The Erasing Hand's Desk	消す手の机	抹除之手的书桌
+손이 아직 지우개를 쥐고 있다.	The hand still holds its eraser.	手はまだ消しゴムを握っている。	那只手仍握着橡皮擦。
+하늘 끝	The Sky's Edge	空の果て	天之尽头
+등불 마을의 바렌에게 말을 건다	Talk to Baren in Lantern Village	灯火の村のバレンに話しかける	和灯火村的巴伦说话
+마을 뒤 들판의 것들을 치우고 바렌에게 돌아간다	Clear the field behind the village and return to Baren	村の裏の野原を片づけてバレンのもとへ戻る	清理村后田野，回到巴伦那里
+촌장 하스에게 말을 건다	Talk to Has, the village elder	村長ハスに話しかける	和村长哈斯说话
+들판의 옛 우물 아래에서 모모를 찾는다	Find Momo beneath the old well in the field	野原の古井戸の底でモモを探す	在田野古井底下寻找桃桃
+마을로 돌아간 모모에게 말을 건다	Talk to Momo back in the village	村に戻ったモモに話しかける	和回到村里的桃桃说话
+갈림길 남쪽, 무너진 마을 터의 울음을 멈춘다	Stop the weeping at the ruined town site, south of the crossroads	分かれ道の南、崩れた町の跡の泣き声を止める	让岔路口南边崩塌村镇遗址的哭声停下
+마을 북쪽 종탑의 문으로 들어간다	Enter the gate in the bell tower north of the village	村の北の鐘楼の門に入る	进入村子北边钟楼的门
+숲 입구의 버섯 동굴에서 화로를 순서대로 켠다	Light the braziers in order in the mushroom cave at the forest entrance	森の入口のキノコの洞窟で火鉢を順番に灯す	在森林入口的蘑菇洞里按顺序点燃火盆
+사슴 길 북쪽 부엉이 둥지의 밤부엉이를 쓰러뜨린다	Defeat the Night Owl in the owl's nest, north of the stag trail	鹿の道の北、フクロウの巣の夜のフクロウを倒す	击倒鹿径北边枭巢里的夜枭
+늙은 참나무를 쓰러뜨린다	Defeat the Old Oak	老いた樫を倒す	击倒老橡树
+깊은 숲 북쪽, 실 잣는 집의 문으로 들어간다	Enter the gate at the spinner's hut, north of the deep forest	深い森の北、糸紡ぎの家の門に入る	进入深林北边纺线小屋的门
+숲의 심장을 멈춘다	Stop the Heart of the Forest	森の心臓を止める	让森林之心停下
+모래 언덕의 소금 광산 깊은 곳으로 간다	Go deep into the salt mine in the dunes	砂丘の塩の鉱山の奥へ行く	深入沙丘里的盐矿
+소금 심장을 오아시스의 오르에게 가져간다	Bring the salt heart to Or at the oasis	塩の心臓をオアシスのオルに届ける	把盐之心带给绿洲的奥尔
+오아시스 남쪽 뼈 협곡의 뼈독수리를 쓰러뜨린다	Defeat the Bone Vulture in the bone canyon, south of the oasis	オアシスの南、骨の峡谷の骨ハゲワシを倒す	击倒绿洲南边骨之峡谷的骨秃鹫
+소금 평원의 신기루를 붙잡는다	Catch the Mirage on the salt flats	塩の平原の蜃気楼を捕まえる	抓住盐之平原上的海市蜃楼
+소금 평원 남쪽 태양 제단의 문으로 들어간다	Enter the gate at the sun altar, south of the salt flats	塩の平原の南、太陽の祭壇の門に入る	进入盐之平原南边太阳祭坛的门
+모래 구멍의 모래 왕을 쓰러뜨린다	Defeat the Sand King in the sinkhole	砂の穴の砂の王を倒す	击倒沙坑里的沙之王
+항구 북쪽 등대의 불을 끈다	Put out the lighthouse north of the harbor	港の北の灯台の火を消す	熄灭港口北边灯塔的火
+선장 벨라에게 돌아간다	Return to Captain Bella	船長ベラのもとへ戻る	回到船长贝拉那里
+얼어붙은 부두를 건너 배 무덤으로 간다	Cross the frozen docks to the ship graveyard	凍った埠頭を渡って船の墓場へ行く	穿过冰封码头前往沉船坟场
+빙산 들판 동쪽, 물때의 문으로 들어간다	Enter the tide gate, east of the iceberg field	氷山の原の東、潮時の門に入る	进入冰山原野东边的潮汐之门
+바다뱀 만의 얼음 바다뱀을 쓰러뜨린다	Defeat the Ice Sea Serpent in serpent bay	海蛇の湾の氷の海蛇を倒す	击倒海蛇湾的冰海蛇
+찢긴 광장 남쪽 잉크 강의 깃펜을 멈춘다	Stop the Quill at the ink river, south of the torn plaza	破れた広場の南、インクの川の羽ペンを止める	让撕裂广场南边墨河里的羽毛笔停下
+사서 페이에게 돌아간다	Return to Fey the librarian	司書フェイのもとへ戻る	回到图书管理员菲伊那里
+종이 미로 끝의 찢긴 페이지를 쓰러뜨린다	Defeat the Torn Page at the end of the paper maze	紙の迷路の果ての破れたページを倒す	击倒纸之迷宫尽头的撕裂书页
+광장 위 도장 관청의 등불을 전부 켠다	Light every lamp in the stamp office above the plaza	広場の上のハンコ役所の灯りをすべてつける	点亮广场上方印章官署里的所有灯
+심판의 뜰 문으로 들어간다	Enter the gate in the court of judgment	審判の庭の門に入る	进入审判之庭的门
+심판의 뜰 북쪽 뿌리 구멍의 문으로 들어간다	Enter the gate in root hollow, north of the court	審判の庭の北、根の穴の門に入る	进入审判之庭北边根洞的门
+하늘 계단의 문으로 들어간다	Enter the gate on the sky stairs	空の階段の門に入る	进入天阶的门
+지우는 손을 멈춘다	Stop the Erasing Hand	消す手を止める	让抹除之手停下
+하늘 끝의 카타클렘을 쓰러뜨린다	Defeat Cataklem at the sky's edge	空の果てのカタクレムを倒す	击倒天之尽头的卡塔克莱姆
+하늘 끝에 온 모모에게 말을 건다	Talk to Momo, who came to the sky's edge	空の果てに来たモモに話しかける	和来到天之尽头的桃桃说话
+이름 없는 문으로 들어간다	Enter the Nameless Gate	名もなき門に入る	进入无名之门
+등불 마을로 돌아간다	Return to Lantern Village	灯火の村へ戻る	回到灯火村
+어, 불씨네. 밤이 길었지?	Oh, an ember. Long night, huh?	お、火種じゃないか。長い夜だったろ？	哦，是火种啊。夜很长吧？
+빈손으로 다니면 오래 못 가. 이거라도 들어.	You won't last long empty-handed. Take this at least.	手ぶらじゃ長くもたない。これでも持っていきな。	空着手走不了多远。至少拿着这个。
+나무검이야. 장작 패다 남은 걸로 깎았어. 없는 것보단 낫지.	It's a wooden sword. Carved from leftover firewood. Better than nothing.	木の剣だ。薪割りの残りで削った。ないよりはましだろ。	是把木剑，用劈柴剩下的木头削的。总比没有强。
+마을 뒤 들판에 이상한 것들이 모여들었어. 여덟 마리쯤 치워 주면 값은 쳐줄게.	Strange things have gathered in the field behind the village. Clear out about eight and I'll make it worth your while.	村の裏の野原に妙なのが集まってる。八匹くらい片づけてくれたら礼はするよ。	村后的田野聚了些怪东西。清掉八只左右，我会给你报酬。
+진짜 해냈네. 약속한 거.	You actually did it. As promised.	本当にやったな。約束のものだ。	你还真做到了。说好的报酬。
+아, 그리고 촌장이 찾더라. 얼굴이 하얗던데.	Oh, and the elder was looking for you. Looked pale.	ああ、それと村長が探してたぞ。顔が真っ白だった。	啊，还有，村长在找你。脸色煞白的。
+들판은 동쪽 문 밖이야. 여덟 마리. 아직 	The field is out the east gate. Eight of them. Still 	野原は東の門の外だ。八匹。まだ	田野在东门外。八只。还剩
+마리 남았어.	 left.	匹残ってる。	只。
+필요한 거 있으면 골라. 물약은 늘 있어.	Pick what you need. I always have potions.	要るものがあれば選びな。ポーションはいつでもある。	需要什么就挑吧。药水一直都有。
+여기가 등불 마을이다. 불이 꺼지지 않은 마지막 마을이지.	This is Lantern Village. The last village where the fire hasn't gone out.	ここが灯火の村だ。火が消えていない最後の村だよ。	这里是灯火村，火还没熄灭的最后一个村子。
+바렌한테 먼저 가 봐. 맨손으로는 들판도 못 나간다.	Go see Baren first. You can't even step into the field barehanded.	まずバレンのところへ行け。素手じゃ野原にも出られん。	先去找巴伦。空着手连田野都出不去。
+모모가 안 보인다. 들판의 옛 우물로 내려가는 걸 본 애가 있어.	Momo is missing. A child saw her climbing down into the old well in the field.	モモが見当たらない。野原の古井戸へ降りていくのを見た子がいる。	桃桃不见了。有孩子看到她下了田野的古井。
+우물은 오래전에 막아 둔 길이다. 뚜껑은 열어 두마.	That well was sealed off long ago. I'll leave the cover open.	あの井戸はずっと前に塞いだ道だ。ふたは開けておこう。	那口井很久以前就封住了。我会把盖子打开。
+안쪽 문은 돌을 발판에 올려야 열릴 거다.	The inner door should open once you put stones on the plates.	奥の扉は石を踏み板に乗せれば開くはずだ。	里面的门把石头放到踏板上就能打开。
+모모를 데려와 줘서 고맙다. 그 애가 너를 찾더라.	Thank you for bringing Momo back. She's been asking for you.	モモを連れ戻してくれてありがとう。あの子がお前を探していたぞ。	谢谢你把桃桃带回来。那孩子一直在找你。
+밤마다 남쪽 무너진 마을 터에서 우는 소리가 난다.	Every night there's crying from the ruined town site to the south.	毎晩、南の崩れた町の跡から泣き声がする。	每天夜里，南边崩塌的村镇遗址都传来哭声。
+갈림길에서 남쪽이다. 울음이 그치면 종탑 길도 열어 주마.	It's south of the crossroads. When the crying stops, I'll open the bell tower road.	分かれ道から南だ。泣き声がやんだら鐘楼への道も開けてやろう。	从岔路口往南。哭声停了，我就打开通往钟楼的路。
+울음이 그쳤다. 대신 종이 저절로 울리기 시작했어.	The crying stopped. Instead, the bell started ringing on its own.	泣き声はやんだ。代わりに鐘がひとりでに鳴りはじめた。	哭声停了。可钟却开始自己响了起来。
+북쪽 종탑에 문이 하나 열렸다. 그 종소리가 숲으로 가는 길을 막고 있다.	A gate has opened in the bell tower to the north. That ringing is blocking the road to the forest.	北の鐘楼に門が一つ開いた。あの鐘の音が森への道をふさいでいる。	北边的钟楼开了一道门。那钟声挡住了去森林的路。
+숲에는 이라라는 숲지기가 있다. 고집은 세도 나쁜 애는 아니다.	There's a forest warden named Ira out there. Stubborn, but not a bad kid.	森にはイラという森番がいる。頑固だが悪い子じゃない。	森林里有个叫伊拉的守林人。脾气倔，但不是坏孩子。
+어디까지 가든, 불은 여기 켜 두마.	However far you go, I'll keep the fire lit here.	どこまで行こうと、火はここに灯しておく。	无论你走多远，我都会在这里点着火。
+돌아왔구나. 하늘은 그대로다.	You're back. The sky is the same.	戻ったか。空は相変わらずだ。	你回来了。天空还是老样子。
+그래도 불은 꺼지지 않았다. 그거면 됐다.	But the fire never went out. That's enough.	それでも火は消えなかった。それでいい。	可火终究没有熄灭。这就够了。
+밤은 아직 길다. 그래도 전보다는 짧다.	The night is still long. But shorter than it was.	夜はまだ長い。それでも前よりは短い。	夜还很长，但比以前短了。
+...누구야?	...Who are you?	……だれ？	……你是谁？
+크레용 주우러 내려왔는데 문이 닫혀 버렸어.	I came down to get my crayon and the door shut on me.	クレヨンを拾いに降りてきたら扉が閉まっちゃったの。	我下来捡蜡笔，结果门关上了。
+나 먼저 올라갈게! 고마워!	I'll go up first! Thank you!	先に上がってるね！ありがとう！	我先上去啦！谢谢你！
+아까 고마웠어. 그 칼 좀 줘 봐.	Thanks for earlier. Let me see that sword.	さっきはありがとう。その剣、ちょっと貸して。	刚才谢谢你。把那把剑给我看看。
+...됐다! 그림 그려 줬어. 이제 안 무서울걸?	...Done! I drew on it for you. Now you won't be scared, right?	……できた！絵を描いてあげた。これでもう怖くないでしょ？	……好啦！我给你画了画。这下不会怕了吧？
+낙서 한 줄	A Line of Scribble	落書きひとすじ	一笔涂鸦
+칼에 모모의 그림이 생겼다. 피해 +5%	Momo's drawing is on your sword now. Damage +5%	剣にモモの絵が描かれた。ダメージ +5%	剑上多了桃桃的画。伤害 +5%
+...따라왔어. 미안.	...I followed you. Sorry.	……ついてきちゃった。ごめん。	……我跟过来了。对不起。
+저 문 너머에 있는 거, 내가 무서울 때 그린 거랑 똑같이 생겼어.	The thing past that gate looks just like what I drew when I was scared.	あの門の向こうのやつ、わたしが怖いときに描いたのとそっくり。	那扇门后面的东西，跟我害怕时画的一模一样。
+칼 줘 봐. 이번엔 진짜 제대로 그려 줄게.	Give me the sword. This time I'll draw it properly.	剣を貸して。今度こそちゃんと描いてあげる。	把剑给我。这次我会好好画。
+...이건 좀 무섭게 됐다. 그래도 네 편이야.	...It came out kind of scary. But it's on your side.	……ちょっと怖くなっちゃった。でもあなたの味方だよ。	……画得有点吓人。不过它站在你这边。
+내 낙서 찾았어? 줘 봐!	Did you find my scribbles? Let me see!	わたしの落書き見つけた？見せて！	找到我的涂鸦了吗？给我看看！
+...맞아, 내가 그린 거. 이거 받아. 아빠가 준 부적인데 나는 안 써.	...Yep, I drew that. Take this. Dad gave me this charm, but I don't use it.	……うん、わたしが描いたやつ。これあげる。パパがくれたお守りだけど、わたしは使わないから。	……对，是我画的。这个给你。是爸爸给我的护身符，我用不上。
+낙서 조각 찾으면 갖다 줘. 바람에 다 날아갔어. 스무 장이야.	If you find scraps of my scribbles, bring them to me. The wind blew them all away. There are twenty.	落書きの切れ端を見つけたら持ってきて。風で全部飛んでっちゃったの。二十枚だよ。	要是找到我的涂鸦碎片就拿给我。全被风吹走了，一共二十张。
+칼 가져와. 갈아 줄게. 공짜는 아니고.	Bring me your sword. I'll sharpen it. Not for free, though.	剣を持ってこい。研いでやる。タダじゃないがな。	把剑拿来，我帮你磨。不过不是免费的。
+횃불에 불을 붙이면 거기서 다시 일어날 수 있어.	Light a torch and you can rise again there.	たいまつに火をつければ、そこでまた立ち上がれる。	点燃火炬，就能在那里重新站起来。
+쓰러져도 불은 기억해. 동전은 조금 흘리겠지만.	Even if you fall, the fire remembers. You'll drop a few coins, though.	倒れても火は覚えてる。コインは少し落とすけどね。	就算倒下，火也会记得你。只是会掉些铜币。
+남쪽은 무너진 마을 터, 북쪽은 송전탑 언덕. 언덕 위엔 커다란 새가 산다.	South is the ruined town site, north is power tower hill. A huge bird lives on the hill.	南は崩れた町の跡、北は送電塔の丘。丘の上には大きな鳥が住んでる。	南边是崩塌的村镇遗址，北边是输电塔山丘。山丘上住着一只大鸟。
+동쪽 숲길은 종소리 때문에 다들 못 가.	Nobody can take the east forest road because of the bell.	東の森の道は鐘の音のせいで誰も通れない。	东边的森林小路因为钟声谁都过不去。
+종이 멎었더라. 숲으로 가는구나.	The bell went quiet. So you're heading for the forest.	鐘が止んだな。森へ行くのか。	钟声停了。你要去森林了啊。
+숲에선 불빛을 따라가. 도깨비불 말고.	In the forest, follow the lights. Not the wisps.	森では灯りを追え。鬼火じゃなくてな。	在森林里要跟着灯光走。可别跟着鬼火。
+그 돌검, 잘 쓰고 있지? 부러지면 다시 와.	That stone sword treating you well? Come back if it breaks.	その石の剣、うまく使えてるか？折れたらまた来い。	那把石剑好用吧？断了就再来。
+좋은 돌이네. 잠깐만.	Good stone. Hang on.	いい石だ。ちょっと待て。	好石头。等一下。
+...자. 무겁지만 잘 안 부러진다.	...Here. It's heavy, but it won't break easily.	……ほら。重いが、そう簡単には折れん。	……给。很沉，但不容易断。
+돌검? 만들어 줄 수는 있지.	A stone sword? I could make you one.	石の剣？作ってやれなくはない。	石剑？倒是能给你做。
+여기 굴러다니는 놈들이 단단한 돌을 품고 있어. 셋만 가져와. 지금 	The things rolling around here carry hard stones inside them. Bring me three. You have 	ここらを転がってる連中が硬い石を抱えてる。三つ持ってこい。今	这附近滚来滚去的家伙体内有坚硬的石头。拿三块来。你现在有
+개.	.	個。	个。
+빨래가 안 말라. 해가 없으니까.	The laundry won't dry. No sun.	洗濯物が乾かない。日が出ないからね。	衣服晾不干，没有太阳嘛。
+그래도 빨아는 둬야지. 언젠가 뜰 거니까.	Still, you have to wash it. The sun will come up someday.	それでも洗っておかないと。いつか出るからね。	但还是得洗。太阳总有一天会出来的。
+우리 젊을 땐 하늘이 파랬다. 거짓말 같지?	When we were young the sky was blue. Hard to believe, isn't it?	わたしらが若いころは空が青かった。嘘みたいだろう？	我们年轻的时候天空是蓝的。听起来像假话吧？
+저 위가 찢어진 날, 다들 그림자를 무서워하기 시작했어.	The day the sky up there tore, everyone started fearing shadows.	あの上が破れた日から、みんな影を怖がるようになった。	从上面被撕开的那天起，大家开始害怕影子。
+모모 누나가 그린 거 봤어? 엄청 잘 그려.	Did you see what Momo drew? She's really good.	モモ姉ちゃんが描いたの見た？すっごく上手なんだ。	你看过桃桃姐姐画的画吗？画得超好。
+나도 칼 갖고 싶다.	I want a sword too.	ぼくも剣がほしいな。	我也想要一把剑。
+숲이 잠겼어. 버섯 동굴의 불이 다 꺼져서 길 잃은 것들이 쏟아져.	The forest is sealed. The fires in the mushroom cave went out, and lost things are pouring out.	森が閉ざされた。キノコの洞窟の火が全部消えて、迷ったものたちがあふれ出てる。	森林被封住了。蘑菇洞里的火全灭了，迷路的东西涌了出来。
+동굴 안 화로를 순서대로 켜야 해. 순서는 벽에 적혀 있어.	You need to light the braziers in the cave in order. The order is written on the wall.	洞窟の火鉢を順番に灯さないと。順番は壁に書いてある。	得按顺序点燃洞里的火盆。顺序写在墙上。
+동굴은 여기서 북동쪽이야.	The cave is northeast of here.	洞窟はここから北東だよ。	洞穴在这里的东北方。
+불이 돌아왔네. 동쪽 사슴 길로 가 봐.	The fire is back. Head east along the stag trail.	火が戻ったね。東の鹿の道へ行ってみて。	火回来了。往东边的鹿径去吧。
+늙은 참나무와 밤부엉이가 숲을 붙잡고 있어. 둘 다 쓰러져야 숲의 심장으로 갈 수 있어.	The Old Oak and the Night Owl are holding the forest. Both must fall before you can reach the Heart of the Forest.	老いた樫と夜のフクロウが森をつかんでる。両方倒さないと森の心臓には行けない。	老橡树和夜枭牢牢抓着森林。两个都倒下才能前往森林之心。
+참나무가 쓰러졌구나. 이거 가져가. 숲지기들이 쓰던 구리검이야.	So the oak fell. Take this. It's the copper sword the wardens used.	樫が倒れたんだね。これ持っていって。森番たちが使ってた銅の剣だよ。	橡树倒下了啊。拿着这个，是守林人们用过的铜剑。
+숲의 심장은 참나무 터 동쪽이야. 실 잣는 집 문도 잊지 마.	The Heart of the Forest is east of the oak grounds. Don't forget the spinner's gate.	森の心臓は樫の跡の東だよ。糸紡ぎの家の門も忘れないで。	森林之心在橡树之地东边。别忘了纺线小屋的门。
+숲이 숨을 쉬어. 고마워. 사막은 동쪽 끝이야. 물 챙겨.	The forest is breathing. Thank you. The desert is at the far east. Bring water.	森が息をしてる。ありがとう。砂漠は東の果てだよ。水を持っていって。	森林在呼吸了。谢谢你。沙漠在最东边，带上水。
+또 만났네. 길이 달라도 장사는 같지.	We meet again. Different road, same business.	また会ったね。道は違っても商売は同じさ。	又见面了。路不同，生意一样。
+버섯 캐다가 갇혔어. 저 화로들만 켜지면 나갈 수 있는데.	I got trapped picking mushrooms. If those braziers were lit I could get out.	キノコを採ってたら閉じ込められた。あの火鉢さえつけば出られるのに。	我采蘑菇时被困住了。只要那些火盆点亮，我就能出去。
+순서? 나는 글을 못 읽어.	The order? I can't read.	順番？おれは字が読めないんだ。	顺序？我不识字。
+사막에선 낮이 없어. 소금이 빛을 대신 내지.	There's no day in the desert. The salt gives off light instead.	砂漠に昼はない。塩が代わりに光るんだ。	沙漠里没有白天，盐代替太阳发光。
+광산 안 결정이 노래를 부르면, 그 순서대로 밟아.	When the crystal in the mine sings, step on them in that order.	鉱山の中の結晶が歌ったら、その順番で踏め。	矿里的结晶唱歌时，就照那个顺序踩下去。
+소금검은 물에 약해. 농담이야.	Salt swords are weak to water. Just kidding.	塩の剣は水に弱い。冗談だよ。	盐剑怕水。开玩笑的。
+이게 소금 심장이구나. 아직 뛰네.	So this is a salt heart. Still beating.	これが塩の心臓か。まだ脈打ってる。	这就是盐之心啊。还在跳动。
+...자. 소금결정검. 부서지면서 벤다.	...Here. The salt crystal sword. It cuts as it shatters.	……ほら。塩結晶の剣だ。砕けながら斬る。	……给你，盐晶剑。碎裂的同时斩击。
+소금으로 칼을 만들 줄 아는 건 나밖에 없어. 재료가 없을 뿐이지.	I'm the only one who knows how to make a sword from salt. I just don't have the material.	塩で剣を作れるのはおれだけだ。材料がないだけさ。	会用盐打剑的只有我。只是缺材料。
+광산 깊은 곳 거인 가슴에 소금 심장이 있어. 그걸 가져와.	There's a salt heart in the chest of the giant deep in the mine. Bring it to me.	鉱山の奥にいる巨人の胸に塩の心臓がある。それを持ってこい。	矿山深处巨人的胸口里有颗盐之心。把它拿来。
+이 물이 마지막 물이야. 여기서 싸우지 마.	This water is the last water. Don't fight here.	この水が最後の水なの。ここで戦わないで。	这是最后的水了。别在这里打。
+배가 얼음에 박힌 지 삼 년째야.	The ship has been stuck in the ice for three years.	船が氷に刺さって三年になる。	船卡在冰里已经三年了。
+등대 불이 미쳐서 돌고 있어. 그것부터 꺼 줘. 북쪽이야.	The lighthouse lamp has gone mad and keeps spinning. Put it out first. It's north.	灯台の火が狂って回ってる。まずそれを消して。北よ。	灯塔的灯疯了似的转个不停。先把它熄掉，在北边。
+등대가 조용해졌어. 선원들이 울더라.	The lighthouse is quiet. The sailors wept.	灯台が静かになった。船乗りたちが泣いてたよ。	灯塔安静了。水手们都哭了。
+이거 받아. 얼음 속에서 건진 칼이야. 베인 것은 굳어.	Take this. A sword we pulled out of the ice. Whatever it cuts freezes.	これを持っていって。氷の中から引き上げた剣よ。斬られたものは固まる。	拿着这个。是从冰里捞上来的剑，被它斩中的会冻住。
+바다뱀이 만을 감고 있는 한 아무도 못 나가. 동쪽 부두를 건너.	As long as the serpent is coiled around the bay, no one can leave. Cross the east docks.	海蛇が湾を巻いている限り、誰も出られない。東の埠頭を渡って。	只要海蛇还盘着海湾，谁都出不去。穿过东边的码头吧。
+얼음 구멍에 줄을 내린 지 이틀째야. 아무것도 안 물어.	Two days since I dropped a line in this ice hole. Nothing bites.	氷の穴に糸を垂らして二日目だ。何も食いつかない。	在冰洞里下钩两天了，什么都没咬。
+부두 얼음은 미끄러워. 바위를 보고 멈춰.	The dock ice is slippery. Watch for rocks to stop on.	埠頭の氷は滑る。岩を見て止まれ。	码头的冰很滑，看准岩石停下来。
+여기는 하늘이 찢어진 자리 바로 아래야. 떨어진 종이들이 길이 됐지.	This is right under the place where the sky tore. The fallen paper became roads.	ここは空が破れた場所のすぐ下。落ちた紙が道になったの。	这里就在天空撕裂处的正下方。落下的纸张变成了路。
+남쪽 강에서 깃펜이 잉크를 풀고 있어. 그걸 멈추면 잉크로 칼을 만들어 줄게.	In the river to the south, the quill is spilling ink. Stop it, and I'll make you a sword of ink.	南の川で羽ペンがインクを流している。それを止めたら、インクで剣を作ってあげる。	南边的河里，羽毛笔在洒墨。让它停下，我就用墨给你做把剑。
+강이 맑아졌어. 약속한 거야. 잉크검.	The river is clear. As promised. The ink sword.	川が澄んだ。約束どおり。インクの剣よ。	河水清了。说好的，墨剑。
+지우는 손은 계단 끝 책상에 앉아 있어. 무엇이든 지워. 너도.	The Erasing Hand sits at the desk at the top of the stairs. It erases anything. You too.	消す手は階段の果ての机に座っている。何でも消す。お前も。	抹除之手坐在台阶尽头的书桌前。它什么都抹，你也一样。
+하늘을 다시 쓰는 중이야. 한 글자 쓰면 두 글자가 지워져.	I'm rewriting the sky. Every letter I write erases two.	空を書き直しているところ。一文字書くと二文字消える。	我在重写天空。写一个字，就会被抹掉两个。
+그래도 쓰는 사람이 있어야 지울 것도 있지.	Still, there has to be someone writing for there to be anything to erase.	それでも、書く者がいなければ消すものもない。	可总得有人写，才会有东西可抹。
+과수원	Orchard	果樹園	果园
+사과나무가 열매 대신 재를 맺는다.	The apple trees bear ash instead of fruit.	りんごの木が実の代わりに灰を結ぶ。	苹果树结的不是果实，是灰。
+옛 물레방아	Old Watermill	古い水車	旧水车
+멈춘 물레. 돌 두 개가 제자리를 잃었다. 아래로 밀어라.	The wheel has stopped. Two stones lost their places. Push them down.	止まった水車。石が二つ居場所をなくした。下へ押せ。	水车停了。两块石头离开了原位。往下推。
+갈대밭	Reed Bed	葦原	芦苇荡
+지하 묘지	Catacombs	地下墓所	地下墓穴
+종을 두드리면 돌이 순서를 알려 준다	Strike the bell and the stones will tell you the order	鐘を叩けば石が順番を教えてくれる	敲钟，石头就会告诉你顺序
+갈림길로	To the crossroads	分かれ道へ	去岔路口
+채석장 아래	Under the Quarry	採石場の下	采石场底下
+위로	Up	上へ	向上
+고사리 골짜기	Fern Valley	シダの谷	蕨谷
+사냥꾼 야영지	Hunter's Camp	狩人の野営地	猎人营地
+동쪽 덤불엔 뿔 사슴 떼가 산다. 혼자 가지 말 것.	Herds of horned stags live in the thicket to the east. Do not go alone.	東の茂みには角鹿の群れが住む。一人で行かないこと。	东边的灌木丛里有角鹿群。不要独自前往。
+덤불	Thicket	茂み	灌木丛
+늪 사당	Swamp Shrine	沼の祠	沼泽神龛
+사당 기둥에 새긴 말: 해 지는 쪽 아래, 그 위. 해 뜨는 쪽 아래, 그 위.	Carved on the shrine pillar: below where the sun sets, then above. Below where it rises, then above.	祠の柱に刻まれた言葉: 日の沈む側の下、その上。日の昇る側の下、その上。	神龛柱上刻着：日落一侧的下方，再上方。日出一侧的下方，再上方。
+버섯 굴	Fungus Burrow	キノコの穴	蘑菇窟
+버섯 등불 아홉. 하나를 건드리면 이웃도 바뀐다.	Nine mushroom lamps. Touch one and its neighbors change too.	キノコの灯りが九つ。一つに触れると隣も変わる。	九盏蘑菇灯。碰一盏，相邻的也会变。
+대상 야영지	Caravan Camp	隊商の野営地	商队营地
+남쪽 모래톱	South Sandbar	南の砂州	南沙洲
+화석 동굴	Fossil Cave	化石の洞窟	化石洞
+뼈를 두드리면 화석이 운다	Strike the bone and the fossils cry out	骨を叩くと化石が鳴く	敲击骨头，化石便会鸣叫
+거울 회랑	Mirror Hall	鏡の回廊	镜之回廊
+거울 앞에 돌 셋. 각자 제 그림자 위에 서야 한다.	Three stones before the mirror. Each must stand on its own shadow.	鏡の前に石が三つ。それぞれ自分の影の上に立たねばならない。	镜子前有三块石头，每一块都要站在自己的影子上。
+모래 바다	Sand Sea	砂の海	沙海
+어시장	Fish Market	魚市場	鱼市
+난파선 창고	Shipwreck Hold	難破船の倉庫	沉船货舱
+갑판으로	To the deck	甲板へ	去甲板
+절벽 길	Cliff Path	崖の道	悬崖小路
+얼음 호수	Frozen Lake	氷の湖	冰湖
+바위에 부딪혀야 멈춘다	Only a rock will stop you	岩にぶつからないと止まらない	撞到岩石才会停
+호수 한가운데 상자가 얼어붙어 있다. 곧장 가서는 닿지 않는다.	A chest is frozen in the middle of the lake. You can't reach it by going straight.	湖の真ん中に箱が凍りついている。まっすぐ行っても届かない。	湖中央冻着一个箱子。直接过去够不着。
+진주 동굴	Pearl Cave	真珠の洞窟	珍珠洞
+진주 아홉 알. 모두 빛나야 조개가 열린다.	Nine pearls. The clam opens only when all of them shine.	真珠が九粒。すべて光れば貝が開く。	九颗珍珠。全部发光，贝壳才会打开。
+기록 보관소	Archive	記録保管所	档案馆
+접힌 골짜기	Folded Valley	折れた谷	折叠山谷
+잉크 샘	Ink Spring	インクの泉	墨泉
+샘가에 쓴 글: 오른쪽 위, 오른쪽 아래, 왼쪽 위, 가운데, 왼쪽 아래.	Written beside the spring: top right, bottom right, top left, middle, bottom left.	泉のほとりの文字: 右上、右下、左上、真ん中、左下。	泉边写着：右上，右下，左上，中间，左下。
+여백	The Margin	余白	留白
+구름 다락	Cloud Loft	雲の屋根裏	云阁
+아래로 내려가는 굴	A burrow leading down	下へ続く穴	通往下方的洞
+마루	Maru	マル	马鲁
+과수원지기	Orchard Keeper	果樹園の番人	果园看守
+오리	Ori	オリ	奥莉
+갈대 베는 사람	Reed Cutter	葦刈り	割苇人
+수아	Sua	スア	苏雅
+약초꾼	Herbalist	薬草採り	采药人
+바크	Bark	バーク	巴克
+야밀	Yamil	ヤミル	亚米尔
+대상 상인	Caravan Trader	隊商の商人	商队商人
+노아	Noa	ノア	诺亚
+이야기꾼	Storyteller	語り部	说书人
+카야	Kaya	カヤ	卡娅
+낙타꾼의 딸	Camel Driver's Daughter	ラクダ使いの娘	驼夫的女儿
+루나	Luna	ルナ	露娜
+생선 장수	Fishmonger	魚屋	鱼贩
+게일	Gale	ゲイル	盖尔
+등대지기의 딸	Lighthouse Keeper's Daughter	灯台守の娘	灯塔看守的女儿
+오닉	Onik	オニク	奥尼克
+서기	Clerk	書記	书记员
+니나	Nina	ニナ	妮娜
+여백지기	Keeper of the Margin	余白の番人	留白看守
+재나방이 줄었어. 나무가 숨을 쉬네.	Fewer ash moths. The trees can breathe.	灰の蛾が減った。木が息をしてる。	灰蛾少了，树能喘气了。
+이거 받아. 할아버지가 남긴 부적이야.	Take this. A charm my grandfather left me.	これを受け取ってくれ。祖父が残したお守りだ。	拿着这个。是我爷爷留下的护身符。
+과수원이 재나방 천지야. 열 마리만 쫓아 줘. 지금 	The orchard is crawling with ash moths. Chase off just ten. So far 	果樹園が灰の蛾だらけだ。十匹だけ追い払ってくれ。今	果园里全是灰蛾。帮我赶走十只就好。现在
+마리.	.	匹。	只。
+북쪽 물레방아는 들어가면 문이 닫혀. 조심해.	The watermill to the north locks its door when you go in. Be careful.	北の水車は入ると扉が閉まる。気をつけて。	北边的水车一进去门就会关上。小心。
+사과가 다시 열리면 하나 줄게. 아마 내년쯤.	When the apples come back I'll give you one. Next year, maybe.	りんごがまた実ったら一つやるよ。たぶん来年かな。	等苹果再结出来我给你一个。大概明年吧。
+갈대 사이에 뭐가 숨어 있어. 가까이 가면 터지는 놈들이야.	Something is hiding in the reeds. The kind that bursts when you get close.	葦の間に何か隠れてる。近づくと弾けるやつらだ。	芦苇里藏着东西，是一靠近就会爆的那种。
+갈대는 베어도 다시 자라. 그게 좋아.	Cut the reeds and they grow back. I like that.	葦は刈ってもまた生える。それがいい。	芦苇割了还会再长。我喜欢这点。
+다섯 개 다 모았네. 잠깐만.	You gathered all five. Hang on.	五つ全部集めたね。ちょっと待って。	五个都凑齐了。等一下。
+...됐다. 큰 물약 셋. 그리고 이건 덤.	...There. Three large potions. And this, as a bonus.	……できた。大きなポーション三つ。それとこれはおまけ。	……好了。三瓶大药水，这个算赠品。
+포자덩이를 베면 버섯이 떨어져. 다섯 개만 모아 줘. 약을 만들 거야.	Cut a spore blob and a mushroom drops. Bring me just five. I'm making medicine.	胞子玉を斬るとキノコが落ちる。五つだけ集めて。薬を作るの。	砍孢子团会掉蘑菇。帮我收集五个，我要做药。
+지금 	So far 	今	现在有
+약은 언제든 팔아.	I sell medicine anytime.	薬はいつでも売るよ。	药随时都卖。
+덤불이 조용해졌다. 제법이군.	The thicket's gone quiet. Not bad.	茂みが静かになった。やるな。	灌木丛安静了。不赖嘛。
+사냥꾼 몫이다. 받아.	A hunter's share. Take it.	狩人の分け前だ。受け取れ。	猎人的份，拿着。
+덤불의 사슴 떼가 야영지를 넘본다. 열다섯 마리.	The stag herd in the thicket is eyeing our camp. Fifteen of them.	茂みの鹿の群れが野営地を狙っている。十五頭だ。	灌木丛里的鹿群在打营地的主意。十五头。
+. 뿔 큰 놈은 조심해.	. Watch the ones with big horns.	。角の大きいやつに気をつけろ。	。小心角大的家伙。
+다음 사냥 때도 불러 주지.	Call me next time you hunt.	次の狩りにも呼んでやる。	下次打猎也叫上我。
+물 빼고는 다 판다. 물은 안 팔아.	I sell everything but water. Water I don't sell.	水以外は何でも売る。水は売らない。	除了水什么都卖。水不卖。
+사막이 바다였을 때 얘기 들어 볼래?	Want to hear about when the desert was a sea?	砂漠が海だったころの話、聞くかい？	想听听沙漠还是大海时的故事吗？
+그때는 소금이 물에 녹아 있었어. 지금은 물이 소금에 갇혀 있지.	Back then the salt was dissolved in the water. Now the water is trapped in the salt.	あのころは塩が水に溶けていた。今は水が塩に閉じ込められてる。	那时盐溶在水里。如今水被困在盐里。
+모래 왕은 원래 바다를 지키던 거래. 바다가 없어진 걸 아직 모르는 거지.	They say the Sand King used to guard the sea. It still doesn't know the sea is gone.	砂の王はもともと海を守っていたそうだ。海がなくなったことをまだ知らないのさ。	听说沙之王原本守护着大海。它还不知道大海已经没了。
+항아리 세 개! 다 찾았구나.	Three jars! You found them all.	壺が三つ！全部見つけたんだね。	三个罐子！你全找到了。
+아빠가 이거 주라고 했어. 사막에선 이게 돈보다 귀해.	Dad told me to give you this. Out here it's worth more than money.	パパがこれをあげてって。砂漠ではこれがお金より大事なの。	爸爸让我把这个给你。在沙漠里这比钱还珍贵。
+물 항아리 세 개를 남쪽 모래톱에 묻어 뒀는데 모래가 다 덮었어.	I buried three water jars on the south sandbar, and the sand covered them all.	水の壺を三つ南の砂州に埋めておいたら、砂が全部覆っちゃった。	我在南沙洲埋了三个水罐，结果全被沙子盖住了。
+찾아 줄래? 지금 	Will you find them? So far 	探してくれる？今	能帮我找找吗？现在有
+물 맛 좀 봐. 소금 맛이지?	Have a taste. Salty, right?	ちょっと飲んでみて。塩の味がするでしょ？	尝一口。是咸的吧？
+갈매기가 안 보여! 오늘은 장사 되겠다.	No gulls in sight! Business will be good today.	カモメがいない！今日は商売になりそう。	看不到海鸥了！今天生意有着落了。
+이거 받아. 얼음 밑에서 건진 거야.	Take this. Something I pulled up from under the ice.	これ受け取って。氷の下から引き上げたものよ。	拿着。是我从冰底下捞上来的。
+갈매기들이 생선을 다 물어 가. 열두 마리만 쫓아 줘.	The gulls keep stealing all the fish. Chase off just twelve.	カモメが魚を全部くわえていく。十二羽だけ追い払って。	海鸥把鱼都叼走了。帮我赶走十二只就好。
+필요한 거 있어?	Need anything?	何か要る？	需要什么吗？
+아버지가 등대지기였어. 불이 미친 날 사라졌지.	My father was the lighthouse keeper. He vanished the day the light went mad.	父は灯台守だった。灯りが狂った日に消えたの。	我父亲是灯塔看守，灯发疯的那天就不见了。
+절벽 끝 상자는 아버지 거야. 가져가도 돼. 아버지도 그러라고 할 거야.	The chest at the end of the cliff is his. You can take it. He'd want you to.	崖の端の箱は父のもの。持っていっていいよ。父もそう言うはず。	悬崖尽头的箱子是他的。你可以拿走，他也会这么说的。
+네 조각. 맞다, 이 문장이었어.	Four pieces. Yes, this was the sentence.	四つの欠片。そう、この文だった。	四块碎片。没错，就是这句话。
+"불은 그림자를 만들지만, 그림자는 불을 끄지 못한다." 받아. 수고비야.	"Fire makes shadows, but shadows cannot put out fire." Take it. For your trouble.	「火は影を作るが、影は火を消せない。」受け取れ。手間賃だ。	"火会造出影子，但影子灭不了火。"拿着，辛苦费。
+글자 놈들이 문장을 찢어 들고 다녀. 네 조각만 찾아 줘.	The glyphs tear up sentences and carry them around. Find me just four pieces.	文字のやつらが文を破って持ち歩いている。四つだけ見つけてくれ。	那些文字把句子撕碎带在身上。帮我找回四块就好。
+문장이 붙었어. 다시 찢기기 전에 외워 둬.	The sentence is whole again. Memorize it before it tears.	文がつながった。また破れる前に覚えておけ。	句子拼好了。趁它再被撕碎前记住它。
+여기는 아무것도 안 쓰인 곳이야. 그래서 안전해.	Nothing is written here. That's why it's safe.	ここは何も書かれていない場所。だから安全なの。	这里什么都没写，所以很安全。
+쉬었다 가. 불은 내가 지킬게.	Rest a while. I'll guard the fire.	休んでいって。火はわたしが守るから。	歇一会儿吧。火由我来守。
+과수원의 재나방 열 마리를 쫓는다	Chase off ten ash moths in the orchard	果樹園の灰の蛾を十匹追い払う	赶走果园里的十只灰蛾
+고사리 골짜기에서 버섯 다섯 개를 모은다	Gather five mushrooms in fern valley	シダの谷でキノコを五つ集める	在蕨谷收集五个蘑菇
+덤불의 짐승 열다섯 마리를 잡는다	Hunt fifteen beasts in the thicket	茂みの獣を十五頭狩る	猎杀灌木丛里的十五头野兽
+남쪽 모래톱의 물 항아리 세 개를 찾는다	Find three water jars on the south sandbar	南の砂州で水の壺を三つ見つける	在南沙洲找到三个水罐
+어시장의 갈매기 열두 마리를 쫓는다	Chase off twelve gulls at the fish market	魚市場のカモメを十二羽追い払う	赶走鱼市的十二只海鸥
+기록 보관소에서 찢긴 문장 네 조각을 모은다	Gather four torn sentences in the archive	記録保管所で破れた文を四つ集める	在档案馆收集四块撕碎的句子
+ 동전	 coins	 コイン	 铜币
+얻었다	Obtained	手に入れた	获得
+물약	Potion	ポーション	药水
+큰 물약	Large Potion	大ポーション	大药水
+단단한 돌	Hard Stone	硬い石	坚硬的石头
+낙서 조각	Scribble Scrap	落書きの切れ端	涂鸦碎片
+소금 심장	Salt Heart	塩の心臓	盐之心
+불씨 부적	Ember Charm	火種のお守り	火种护符
+버섯	Mushroom	キノコ	蘑菇
+물 항아리	Water Jar	水の壺	水罐
+찢긴 문장	Torn Sentence	破れた文	撕碎的句子
+최대 체력 +15	Max HP +15	最大体力 +15	最大生命 +15
+손에 쥐었다	In hand	手にした	已握在手中
+체력과 힘이 올랐다	HP and strength rose	体力と力が上がった	生命和力量提升了
+갇혔다	Trapped	閉じ込められた	被困住了
+모두 쓰러뜨려야 길이 열린다	Defeat them all to open the way	全部倒さないと道は開かない	全部击倒，路才会打开
+쓰러짐	Down	撃破	倒下
+의뢰 완료	Request complete	依頼完了	委托完成
+의뢰판으로 돌아가 보상을 받는다	Return to the request board for your reward	依頼板に戻って報酬を受け取る	回到委托板领取奖励
+들판 정리	Field cleared	野原の片づけ	田野清理
+바렌에게 돌아간다	Return to Baren	バレンのもとへ戻る	回到巴伦那里
+조용해졌다	It's quiet now	静かになった	安静下来了
+길이 열렸다	The way is open	道が開いた	路开了
+문	Gate	門	门
+열리지 않는다	It won't open	開かない	打不开
+풀렸다	Solved	解けた	解开了
+어딘가 문이 열렸다	A door opened somewhere	どこかで扉が開いた	某处的门开了
+틀렸다	Wrong	違う	错了
+결정을 다시 두드려 들어 본다	Strike the crystal again and listen	結晶をもう一度叩いて聴き直す	再敲一次结晶听听看
+길이 막혀 있다.	The road is blocked.	道がふさがっている。	路被堵住了。
+말 걸기	Talk	話す	对话
+읽기	Read	読む	阅读
+열기	Open	開ける	打开
+불 붙이기	Light	火をつける	点燃
+켜고 끄기	Toggle	つけ消し	开关
+들어가기	Enter	入る	进入
+의뢰판	Request Board	依頼板	委托板
+두드리기	Strike	叩く	敲击
+살펴보기	Inspect	調べる	查看
+잠겨 있다. 근처에서 무언가를 풀어야 열린다.	Locked. Something nearby must be solved first.	鍵がかかっている。近くで何かを解かないと開かない。	锁着。得先解开附近的什么东西。
+불을 밝혔다	Torch lit	火を灯した	点亮了火炬
+기록했다. 쓰러지면 여기서 일어난다	Saved. If you fall, you'll rise here	記録した。倒れたらここで起きる	已记录。倒下的话会在这里醒来
+불이 꺼졌다	The fires went out	火が消えた	火熄灭了
+순서가 틀렸다	Wrong order	順番が違った	顺序错了
+문이 닫혀 있다. 지금 가진 것으로는 열리지 않는다.	The gate is shut. What you have now won't open it.	門は閉ざされている。今の持ち物では開かない。	门关着。凭你现在拥有的东西打不开。
+. 이미 한 번 닫은 문이다. 다시 싸울 수 있다.	. You've closed this gate once already. You can fight again.	。一度閉じた門だ。もう一度戦える。	。这道门你已经关过一次了，可以再战。
+문 너머에서 	Beyond the gate you sense 	門の向こうに	门的另一边传来
+의 기척이 느껴진다. 들어가면 안에서 무장을 고른다.	. Go in, and you'll choose your arms inside.	の気配がする。入ると中で武装を選ぶ。	的气息。进去后会在里面选择武装。
+다시 들어간다	Go in again	もう一度入る	再次进入
+들어간다	Go in	入る	进入
+아직	Not yet	まだ	还不了
+마리. 끝냈다. 보상 	 — done. Reward 	匹。完了。報酬 	只，完成了。奖励
+ 동전.	 coins.	 コイン。	 铜币。
+. 아직이다.	. Not yet.	。まだだ。	。还没完成。
+계속한다	Keep going	続ける	继续
+포기한다	Give up	あきらめる	放弃
+마리를 잡아 달라. 보상 	 wanted. Reward 	匹を狩ってほしい。報酬 	只，悬赏
+ 동전. 	 coins. Found anywhere in 	 コイン。	 铜币。
+ 어디에나 있다.	.	のどこにでもいる。	各处都有。
+받는다	Accept	受ける	接受
+의뢰	Request	依頼	委托
+마리		匹	只
+그만둔다	Never mind	やめておく	算了
+피해 +12%	Damage +12%	ダメージ +12%	伤害 +12%
+체력 40% 회복	Restores 40% HP	体力40%回復	恢复 40% 生命
+체력 전부 회복	Restores all HP	体力全回復	恢复全部生命
+최대 체력 +15. 계속 쌓인다	Max HP +15. Stacks without limit	最大体力 +15。いくらでも重なる	最大生命 +15，可无限叠加
+대장간	Smithy	鍛冶場	铁匠铺
+가게	Shop	店	商店
+<p class="note">지금은 할 수 있는 게 없다.</p>	<p class="note">Nothing to do here right now.</p>	<p class="note">今はできることがない。</p>	<p class="note">现在没什么可做的。</p>
+ · 가진 것 	 · Owned 	 · 所持 	 · 持有
+레벨	Level	レベル	等级
+체력	HP	体力	生命
+동전	Coins	コイン	铜币
+이야기 시간	Story time	物語の時間	故事时长
+<div><div class="label"><span class="eyebrow">할 일</span><span>	<div><div class="label"><span class="eyebrow">To do</span><span>	<div><div class="label"><span class="eyebrow">やること</span><span>	<div><div class="label"><span class="eyebrow">待办</span><span>
+모든 이야기를 마쳤다.	The whole story is done.	物語はすべて終わった。	故事已全部完成。
+<p class="note">의뢰: 	<p class="note">Request: 	<p class="note">依頼: 	<p class="note">委托：
+ · 끝	 · done	 · 完了	 · 完成
+<div><div class="label"><span class="eyebrow">곁일</span><span>	<div><div class="label"><span class="eyebrow">Errands</span><span>	<div><div class="label"><span class="eyebrow">寄り道</span><span>	<div><div class="label"><span class="eyebrow">支线</span><span>
+ 끝냄</span></div>	 done</span></div>	 完了</span></div>	 完成</span></div>
+<div><div class="label"><span class="eyebrow">칼</span><span>눌러서 바꿔 든다</span></div><div class="shop" id="smSwords"></div></div>	<div><div class="label"><span class="eyebrow">Swords</span><span>Tap to switch</span></div><div class="shop" id="smSwords"></div></div>	<div><div class="label"><span class="eyebrow">剣</span><span>押して持ち替える</span></div><div class="shop" id="smSwords"></div></div>	<div><div class="label"><span class="eyebrow">剑</span><span>点击切换</span></div><div class="shop" id="smSwords"></div></div>
+<div><div class="label"><span class="eyebrow">가진 것</span></div><p class="note">	<div><div class="label"><span class="eyebrow">Inventory</span></div><p class="note">	<div><div class="label"><span class="eyebrow">持ち物</span></div><p class="note">	<div><div class="label"><span class="eyebrow">持有物品</span></div><p class="note">
+ · 불씨 부적 	 · Ember Charm 	 · 火種のお守り 	 · 火种护符
+<p class="note">기록은 횃불에 불을 붙일 때 남는다. 나가면 마지막 횃불에서 이어진다.</p>	<p class="note">Progress is saved when you light a torch. If you quit, you'll continue from the last torch.</p>	<p class="note">記録はたいまつに火を灯したときに残る。抜けると最後のたいまつから続く。</p>	<p class="note">点燃火炬时会保存记录。退出后会从最后一个火炬继续。</p>
+ 피해 	 Damage 	 ダメージ 	 伤害
+들고 있다	Equipped	持っている	已装备
+든다	Equip	持つ	装备
+고물상 바렌을 찾아 말을 건다	Find Baren the junk dealer and talk to him	古物商バレンを探して話しかける	找到旧货商巴伦，和他说话
+동전 	Dropped 	コインを	掉了
+개를 흘렸다	 coins	枚落とした	 枚铜币
+불이 기억하고 있었다	The fire remembered you	火が覚えていた	火还记得你
+문을 닫았다	Gate closed	門を閉じた	关上了门
+다시 닫았다	Closed again	また閉じた	再次关上
+새 보스 장비	New boss gear	新しいボス装備	新首领装备
+횃불에서 다시 일어났다	You rose again at the torch	たいまつで再び立ち上がった	在火炬旁重新站了起来
+ · 닫음	 · closed	 · 閉じた	 · 已关闭
+<i class="b-t" title="횃불"></i>	<i class="b-t" title="Torch"></i>	<i class="b-t" title="たいまつ"></i>	<i class="b-t" title="火炬"></i>
+<i class="b-b" title="보스"></i>	<i class="b-b" title="Boss"></i>	<i class="b-b" title="ボス"></i>	<i class="b-b" title="首领"></i>
+<i class="b-p" title="문"></i>	<i class="b-p" title="Gate"></i>	<i class="b-p" title="門"></i>	<i class="b-p" title="门"></i>
+<b>아직 가 보지 않은 곳</b><p>	<b>Not yet visited</b><p>	<b>まだ行っていない場所</b><p>	<b>尚未去过的地方</b><p>
+ 어딘가.</p>	, somewhere.</p>	のどこか。</p>	的某处。</p>
+<span class="goal">할 일: 	<span class="goal">To do: 	<span class="goal">やること: 	<span class="goal">待办：
+ · 쓰러뜨림	 · defeated	 · 撃破済み	 · 已击倒
+ · 아직 살아 있다	 · still alive	 · まだ生きている	 · 仍然活着
+의 문	's gate	の門	之门
+ · 열려 있다	 · open	 · 開いている	 · 开着
+곁일: 	Errand: 	寄り道: 	支线：
+열지 않은 상자 	Unopened chests: 	開けていない箱 	未开启的箱子
+횃불이 켜져 있다	The torch is lit	たいまつが灯っている	火炬已点亮
+꺼진 횃불이 있다	There is an unlit torch	消えたたいまつがある	有一支熄灭的火炬
+ · 지금 여기	 · You are here	 · 今ここ	 · 当前位置
+<p>특별한 것은 없다.</p>	<p>Nothing special here.</p>	<p>特に何もない。</p>	<p>没什么特别的。</p>
+<button class="btn" id="mapGo">이 횃불로 간다</button>	<button class="btn" id="mapGo">Travel to this torch</button>	<button class="btn" id="mapGo">このたいまつへ行く</button>	<button class="btn" id="mapGo">前往这支火炬</button>
+<p class="note">싸우는 중에는 떠날 수 없다.</p>	<p class="note">You can't leave during a fight.</p>	<p class="note">戦っている間は離れられない。</p>	<p class="note">战斗中无法离开。</p>
+1. 등불 마을	1. Lantern Village	1. 灯火の村	1. 灯火村
+2. 무너진 마을 터	2. Ruined Town Site	2. 崩れた町の跡	2. 崩塌的村镇遗址
+3. 종탑	3. Bell Tower	3. 鐘楼	3. 钟楼
+4. 잠긴 숲	4. Sunken Forest	4. 沈んだ森	4. 沉没之森
+5. 숲의 심장	5. Heart of the Forest	5. 森の心臓	5. 森林之心
+6. 소금 사막	6. Salt Desert	6. 塩の砂漠	6. 盐之沙漠
+7. 모래 왕	7. Sand King	7. 砂の王	7. 沙之王
+8. 얼어붙은 항구	8. Frozen Harbor	8. 凍った港	8. 冰封港口
+9. 바다뱀	9. Sea Serpent	9. 海蛇	9. 海蛇
+10. 하늘 틈	10. The Sky Tear	10. 空の裂け目	10. 天之裂隙
+11. 지우는 손	11. The Erasing Hand	11. 消す手	11. 抹除之手
+12. 하늘 끝	12. The Sky's Edge	12. 空の果て	12. 天之尽头
+13. 이름 없는 문	13. The Nameless Gate	13. 名もなき門	13. 无名之门
+로컬 · 이 파트부터	Local · from this part	ローカル · このパートから	本地 · 从此章节开始
+진동: 	Vibration: 	振動: 	振动：
+켜짐	On	オン	开
+꺼짐	Off	オフ	关
+창 모드로	Windowed	ウィンドウに戻す	窗口模式
+전체 화면	Fullscreen	全画面	全屏
+한 번 더	Again	もう一度	再来一次
+<p class="lead">등불 마을에서 시작하는 긴 이야기. 나무검 한 자루로 시작해 칼을 바꿔 가며 다섯 땅을 지난다. 사람을 만나고, 퍼즐을 풀고, 문 너머의 거물들을 닫는다.</p>	<p class="lead">A long story that begins in Lantern Village. Start with a single wooden sword, trade up blade after blade, and cross five lands. Meet people, solve puzzles, and close the gates where the great ones wait.</p>	<p class="lead">灯火の村から始まる長い物語。木の剣一本から始め、剣を持ち替えながら五つの土地を越える。人に出会い、謎を解き、門の向こうの大物たちを閉じる。</p>	<p class="lead">从灯火村开始的漫长故事。从一把木剑起步，一路换剑，穿越五片土地。结识人们，解开谜题，关上门后的庞然大物。</p>
+<p class="note">횃불에 불을 붙이면 기록된다. 폰을 가로로 돌려도 된다. 공격은 알아서 나가고, 오른쪽 아래 단추로 말을 걸거나 조사한다.</p>	<p class="note">Lighting a torch saves your progress. Attacks happen on their own; the button at the lower right talks and inspects.</p>	<p class="note">たいまつに火を灯すと記録される。攻撃は自動で出て、右下のボタンで話しかけたり調べたりする。</p>	<p class="note">点燃火炬即会保存。攻击自动进行，右下角的按钮用来对话或查看。</p>
+마지막 횃불	Last torch	最後のたいまつ	最后的火炬
+진행	Progress	進行	进度
+할 일: 	To do: 	やること: 	待办：
+이야기를 끝까지 봤다.	You've seen the story to the end.	物語を最後まで見た。	你已看完整个故事。
+<button class="btn ghost" id="btnStoryNew">처음부터 다시</button>	<button class="btn ghost" id="btnStoryNew">Start over</button>	<button class="btn ghost" id="btnStoryNew">最初からやり直す</button>	<button class="btn ghost" id="btnStoryNew">从头开始</button>
+<div><div class="label"><span class="eyebrow">파트 골라 시작</span><span>로컬 전용 · 이야기 기록을 덮어쓴다</span></div><div class="parts">	<div><div class="label"><span class="eyebrow">Start from a part</span><span>Local only · overwrites your story save</span></div><div class="parts">	<div><div class="label"><span class="eyebrow">パートを選んで開始</span><span>ローカル専用 · 物語の記録を上書きする</span></div><div class="parts">	<div><div class="label"><span class="eyebrow">选择章节开始</span><span>仅限本地 · 会覆盖故事存档</span></div><div class="parts">
+이어 하기	Continue	続きから	继续
+시작한다	Begin	始める	开始
+기록이 지워진다. 한 번 더 누르기	Your save will be erased. Press once more	記録が消える。もう一度押す	存档会被清除。再按一次
+<span class="cost excl">보스 한정</span>	<span class="cost excl">Boss only</span>	<span class="cost excl">ボス限定</span>	<span class="cost excl">首领限定</span>
+ 처음 쓰러뜨리면 합류한다.	 — defeat it for the first time and this one joins.	を初めて倒すと仲間になる。	首次被击倒后加入。
+에서 밤을 넘기면 열린다.</p>	: survive a night there to unlock.</p>	で夜を越えると開く。</p>	：熬过那里的一夜即可解锁。</p>
+ 끝에는 <b>	 At the end waits <b>	 最後には <b>	 尽头等待着的是 <b>
+ 기다린다.	.	が待っている。	。
+ 끝에는 <b>카타클렘</b>이 기다린다.	 At the end waits <b>Cataklem</b>.	 最後には <b>カタクレム</b> が待っている。	 尽头等待着的是 <b>卡塔克莱姆</b>。
+<span class="mul">체력 ×	<span class="mul">HP ×	<span class="mul">体力 ×	<span class="mul">生命 ×
+ · 피해 ×	 · Damage ×	 · ダメージ ×	 · 伤害 ×
+ · 파편 ×	 · Shards ×	 · 欠片 ×	 · 碎片 ×
+<span class="mul">8분을 버티면 끝이 온다</span>	<span class="mul">Survive 8 minutes and the end comes</span>	<span class="mul">8分耐えれば終わりが来る</span>	<span class="mul">坚持 8 分钟，结局便会到来</span>
+ 잠김	 locked	 未開放	 未解锁
+<button class="buy max" disabled>다 했다</button>	<button class="buy max" disabled>Maxed</button>	<button class="buy max" disabled>完了</button>	<button class="buy max" disabled>已满</button>
+<div><div class="label"><span class="eyebrow">가장 멀리 간 밤</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">Your farthest night</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">一番遠くまで行った夜</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">走得最远的一夜</span></div><div class="tiles">
+버틴 시간	Time survived	耐えた時間	坚持时间
+한 판 최다 처치	Most kills in a run	一回の最多撃破	单局最多击倒
+최고 레벨	Highest level	最高レベル	最高等级
+최고 연쇄	Best chain	最高連鎖	最高连锁
+<div><div class="label"><span class="eyebrow">지금까지</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">So far</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">これまで</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">至今为止</span></div><div class="tiles">
+나간 밤	Nights out	出た夜	出发的夜晚
+넘긴 밤	Nights survived	越えた夜	熬过的夜晚
+쓰러뜨린 것	Things defeated	倒したもの	击倒的东西
+쓰러뜨린 거물	Bosses defeated	倒した大物	击倒的首领
+<div><div class="label"><span class="eyebrow">닫은 문</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">Gates closed</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">閉じた門</span></div><div class="tiles">	<div><div class="label"><span class="eyebrow">关闭的门</span></div><div class="tiles">
+<div><div class="label"><span class="eyebrow">진화 도감</span><span>	<div><div class="label"><span class="eyebrow">Evolution codex</span><span>	<div><div class="label"><span class="eyebrow">進化図鑑</span><span>	<div><div class="label"><span class="eyebrow">进化图鉴</span><span>
+<p class="note">무기를 LV5까지 올리고 짝이 되는 장신구를 갖춘 채 상자를 열면 진화한다. 상자는 강한 놈과 거물이 떨군다.</p></div>	<p class="note">Raise a weapon to LV5, carry its paired accessory, and open a chest to evolve it. Tough ones and bosses drop chests.</p></div>	<p class="note">武器をLV5まで上げ、対になる装身具を持ったまま箱を開けると進化する。箱は手強いやつと大物が落とす。</p></div>	<p class="note">把武器升到 LV5，带着与之配对的饰品打开宝箱即可进化。宝箱由强敌和首领掉落。</p></div>
+첫째 밤 · 	First night · 	最初の夜 · 	第一夜 ·
+</b><span>체력</span></div>	</b><span>HP</span></div>	</b><span>体力</span></div>	</b><span>生命</span></div>
+%</b><span>피해</span></div>	%</b><span>Damage</span></div>	%</b><span>ダメージ</span></div>	%</b><span>伤害</span></div>
+%</b><span>재사용 감소</span></div>	%</b><span>Cooldown cut</span></div>	%</b><span>再使用短縮</span></div>	%</b><span>冷却缩减</span></div>
+%</b><span>범위</span></div>	%</b><span>Area</span></div>	%</b><span>範囲</span></div>	%</b><span>范围</span></div>
+%</b><span>치명타</span></div>	%</b><span>Crit</span></div>	%</b><span>会心</span></div>	%</b><span>暴击</span></div>
+</b><span>투사체</span></div>	</b><span>Projectiles</span></div>	</b><span>投射物</span></div>	</b><span>投射物</span></div>
+이번 밤은 포기한다	Give up this night	今夜はあきらめる	放弃今晚
+진화	EVO	進化	进化
+하나를 고른다	Choose one	一つ選ぶ	选择一个
+ · 남은 선택 	 · Picks left 	 · 残りの選択 	 · 剩余选择
+유물	Relic	遺物	遗物
+<span class="badge">유물</span>	<span class="badge">Relic</span>	<span class="badge">遺物</span>	<span class="badge">遗物</span>
+무기	Weapon	武器	武器
+<span class="badge">새 무기</span>	<span class="badge">New weapon</span>	<span class="badge">新しい武器</span>	<span class="badge">新武器</span>
+<span class="chint ok">진화 준비 완료 · 상자를 열면 	<span class="chint ok">Ready to evolve · Open a chest for 	<span class="chint ok">進化準備完了 · 箱を開けると 	<span class="chint ok">可以进化 · 打开宝箱即得
+<span class="chint">진화하려면 	<span class="chint">Needs 	<span class="chint">進化には 	<span class="chint">进化需要
+ 필요</span>	 to evolve</span>	 が必要</span>	</span>
+<span class="chint">짝: 	<span class="chint">Pair: 	<span class="chint">対: 	<span class="chint">配对：
+ (있음)	 (owned)	 (所持)	 (已有)
+장신구	Accessory	装身具	饰品
+<span class="badge">새것</span>	<span class="badge">New</span>	<span class="badge">新しい</span>	<span class="badge">新</span>
+의 진화 재료	 (evolution material)	の進化素材	的进化材料
+ · 지금 들고 있다	 · carrying now	 · 今持っている	 · 正携带
+숨 돌리기	Catch Your Breath	ひと息	喘口气
+체력을 40% 되찾는다.	Restores 40% HP.	体力を40%取り戻す。	恢复 40% 生命。
+파편 주머니	Shard Pouch	欠片袋	碎片袋
+파편 +15. 끝나고 작업대에서 쓴다.	Shards +15. Spend them at the Workbench afterward.	欠片 +15。終わったら作業台で使う。	碎片 +15，结束后在工作台使用。
+칸이 다 찼다. 이제 키우기만 한다.	All slots are full. Now you only grow what you have.	枠が全部埋まった。あとは育てるだけだ。	栏位全满了，接下来只管升级。
+무기 	Weapons 	武器 	武器
+/4 · 장신구 	/4 · Accessories 	/4 · 装身具 	/4 · 饰品
+"><div><span class="eyebrow">진화 · 	"><div><span class="eyebrow">Evolution · 	"><div><span class="eyebrow">進化 · 	"><div><span class="eyebrow">进化 ·
+"><div><b>남은 것들</b><p>체력 30% 회복, 파편 +10</p></div>	"><div><b>Leftovers</b><p>Restore 30% HP, Shards +10</p></div>	"><div><b>残りもの</b><p>体力30%回復、欠片 +10</p></div>	"><div><b>剩余物</b><p>恢复 30% 生命，碎片 +10</p></div>
+불씨가 꺼졌다	The ember went out	火種が消えた	火种熄灭了
+카타클렘이 쓰러졌다. 하늘 한쪽이 희미하게 밝아 온다. 그래도 내일 밤은 또 온다.	Cataklem has fallen. One corner of the sky grows faintly bright. Still, tomorrow night will come again.	カタクレムが倒れた。空の片隅がかすかに明るくなる。それでも明日の夜はまた来る。	卡塔克莱姆倒下了。天空一角微微亮起。可明天的夜晚依旧会来。
+첫 일 분이 제일 길다. 움직임을 멈추지 말 것.	The first minute is the longest. Keep moving.	最初の一分が一番長い。動きを止めるな。	第一分钟最漫长。别停下脚步。
+거물 하나를 넘기면 다음이 보인다. 작업대에서 심지를 두껍게.	Get past one boss and you'll see the next. Thicken your wick at the Workbench.	大物を一体越えれば次が見える。作業台で芯を太くしろ。	熬过一个首领就能看到下一个。去工作台把灯芯加粗。
+거의 다 왔다. 무기를 진화시키면 밤이 짧아진다.	Almost there. Evolve a weapon and the night gets shorter.	もう少しだ。武器を進化させれば夜は短くなる。	就快到了。进化武器，黑夜就会变短。
+<span class="stamp-new">신기록</span>	<span class="stamp-new">New record</span>	<span class="stamp-new">新記録</span>	<span class="stamp-new">新纪录</span>
+ 돌파	 cleared	 突破	 突破
+에서 멈춤	 — fell	で停止	时止步
+<div class="earn"><div><span class="eyebrow">받은 파편</span><small>처치, 시간, 거물	<div class="earn"><div><span class="eyebrow">Shards earned</span><small>Kills, time, bosses	<div class="earn"><div><span class="eyebrow">得た欠片</span><small>撃破、時間、大物	<div class="earn"><div><span class="eyebrow">获得碎片</span><small>击倒、时间、首领
+, 지역 ×	, region ×	、地域 ×	，区域 ×
+처치	Kills	撃破	击倒
+<span class="stamp-new">최장 생존</span>	<span class="stamp-new">Longest survival</span>	<span class="stamp-new">最長生存</span>	<span class="stamp-new">最长生存</span>
+<span class="stamp-new">최다 처치</span>	<span class="stamp-new">Most kills</span>	<span class="stamp-new">最多撃破</span>	<span class="stamp-new">最多击倒</span>
+<span class="stamp-new">최고 레벨</span>	<span class="stamp-new">Highest level</span>	<span class="stamp-new">最高レベル</span>	<span class="stamp-new">最高等级</span>
+<div>의뢰 완료 · 	<div>Request complete · 	<div>依頼完了 · 	<div>委托完成 ·
+ 열렸다. 더 사나운 밤, 더 많은 파편.</div>	 is now open. Fiercer nights, more shards.</div>	 が開いた。より荒々しい夜、より多くの欠片。</div>	 已开放。更凶险的夜晚，更多的碎片。</div>
+<div><div class="label"><span class="eyebrow">이번 밤의 장비</span></div><div class="build">	<div><div class="label"><span class="eyebrow">Tonight's gear</span></div><div class="build">	<div><div class="label"><span class="eyebrow">今夜の装備</span></div><div class="build">	<div><div class="label"><span class="eyebrow">今晚的装备</span></div><div class="build">
+<p class="note">가진 파편 	<p class="note">Shards 	<p class="note">所持欠片 	<p class="note">持有碎片
+ · 다음 불씨 	 · Next ember 	 · 次の火種 	 · 下一个火种
+까지 	: 	まで 	还差
+섬광이 찼다	Flash is charged	閃光が溜まった	闪光已充满
+오른쪽 아래 원을 눌러라	Press the circle at the lower right	右下の円を押せ	按右下角的圆圈
+정말 포기한다 (한 번 더 누르기)	Really give up (press again)	本当にあきらめる(もう一度押す)	真的要放弃(再按一次)
+카타클렘	CATAKLEM	カタクレム	卡塔克莱姆
+처치	kills	撃破	击倒
+연쇄	chain	連鎖	连锁
+섬광	Flash	閃光	闪光
+화면 아무 데나 대고 끌면 움직인다	Touch anywhere and drag to move	画面のどこでも触れてドラッグで移動	在屏幕任意处按住拖动来移动
+공격은 알아서 나간다	Attacks happen on their own	攻撃は自動で出る	攻击会自动进行
+낙하 사흘째	Third day of the fall	落下三日目	坠落第三天
+밤	night	夜	夜
+하늘이 무너진 뒤로 해는 뜨지 않았다. 잉크처럼 번지는 것들 사이에서	The sun hasn't risen since the sky broke. Among the things that spread like ink,	空が崩れてから日は昇らない。インクのようににじむものたちの間で、	天空崩塌后太阳再未升起。在如墨晕染的东西之间，
+불씨 하나	one ember	火種がひとつ	一颗火种
+가 아직 버티고 있다.	 is still holding on.	まだ耐えている。	仍在坚持。
+이야기	Story	物語	故事
+등불 마을에서 시작	Begins in Lantern Village	灯火の村から始まる	从灯火村开始
+밤으로 나간다	Into the Night	夜へ出る	踏入夜晚
+균열 1	Rift 1	裂け目 1	裂隙 1
+작업대	Workbench	作業台	工作台
+문	Gate	門	门
+의뢰	Requests	依頼	委托
+기록	Records	記録	记录
+포탈	Portal	ポータル	传送门
+설정	Settings	設定	设置
+효과음	Sound	効果音	音效
+음악	Music	音楽	音乐
+진동	Vibration	振動	振动
+화면 흔들림	Screen shake	画面の揺れ	屏幕震动
+전체 화면	Fullscreen	全画面	全屏
+키보드	Keyboard	キーボード	键盘
+이동 WASD · 방향키	Move WASD · Arrow keys	移動 WASD · 矢印キー	移动 WASD · 方向键
+구르기 Shift · K	Roll Shift · K	回避 Shift · K	翻滚 Shift · K
+섬광 Space (밤 모드)	Flash Space (night mode)	閃光 Space (夜モード)	闪光 Space (夜晚模式)
+말 걸기 · 조사 E · Enter · Space (이야기)	Talk · Inspect E · Enter · Space (story)	話す · 調べる E · Enter · Space (物語)	对话 · 查看 E · Enter · Space (故事)
+물약 Q · 지도 M · 멈춤 Esc · 전체 화면 F11	Potion Q · Map M · Pause Esc · Fullscreen F11	ポーション Q · 地図 M · 一時停止 Esc · 全画面 F11	药水 Q · 地图 M · 暂停 Esc · 全屏 F11
+게임패드	Gamepad	ゲームパッド	手柄
+이동 왼쪽 스틱 · 십자키	Move Left stick · D-pad	移動 左スティック · 十字キー	移动 左摇杆 · 十字键
+A 확인 · 말 걸기 · 섬광	A Confirm · Talk · Flash	A 決定 · 話す · 閃光	A 确认 · 对话 · 闪光
+B 구르기 · 뒤로	B Roll · Back	B 回避 · 戻る	B 翻滚 · 返回
+X 물약 · Y 지도 · Start 멈춤	X Potion · Y Map · Start Pause	X ポーション · Y 地図 · Start 一時停止	X 药水 · Y 地图 · Start 暂停
+이어 하기	Continue	続きから	继续
+가게	Shop	店	商店
+멈춤	Paused	一時停止	暂停
+지도	Map	地図	地图
+계속	Resume	再開	继续
+타이틀로	To title	タイトルへ	返回标题
+횃불	Torch	たいまつ	火炬
+보스	Boss	ボス	首领
+곁일	Errand	寄り道	支线
+할 일	To do	やること	待办
+물약	Potion	ポーション	药水
+출발 준비	Get Ready	出発の準備	出发准备
+누구로 나갈까	Who goes out?	誰で出る？	派谁出发？
+파편으로 새 불씨를 깨운다	Wake new embers with shards	欠片で新しい火種を起こす	用碎片唤醒新的火种
+어디로 나갈까	Where to?	どこへ出る？	去哪里？
+밤을 넘기면 다음 땅이 열린다	Survive a night to open the next land	夜を越えると次の土地が開く	熬过一夜，下一片土地就会开放
+출발	Go	出発	出发
+강화	Upgrades	強化	强化
+포탈 제작	Craft Portals	ポータル製作	制作传送门
+영구 강화	Permanent upgrades	永続強化	永久强化
+모든 판에 적용된다	Applies to every run	すべての回に適用される	适用于每一局
+여덟 개의 문	Eight Gates	八つの門	八道门
+들어가면 포탈은 닫힌다	The portal closes once you enter	入るとポータルは閉じる	进入后传送门就会关闭
+포탈 안은 봉인된 원형 경기장이다. 경험치 대신 준비 단계에서 무장을 고르고, 거물이 무너질 때마다 유물을 얻는다. 오른쪽 아래 화살표로 구른다. 구르는 동안은 맞지 않는다.	Inside a portal is a sealed round arena. Instead of XP, you choose your arms during prep, and gain a relic each time the boss breaks. Roll with the arrow at the lower right. You can't be hit while rolling.	ポータルの中は封じられた円形の闘技場だ。経験値の代わりに準備段階で武装を選び、大物が崩れるたびに遺物を得る。右下の矢印で転がる。転がっている間は当たらない。	传送门里是封闭的圆形竞技场。没有经验值，而是在准备阶段选择武装，首领每崩溃一次就获得遗物。用右下角的箭头翻滚，翻滚时不会被击中。
+오늘의 의뢰	Today's Requests	今日の依頼	今日委托
+한 판 안에 해내야 한다	Must be done within one run	一回の中で達成すること	必须在一局内完成
+의뢰는 매일 자정에 바뀐다. 밤을 넘길수록 의뢰도 어려워지고, 파편도 많아진다.	Requests change every day at midnight. The further you go into the nights, the harder the requests and the more shards.	依頼は毎日0時に変わる。夜を越えるほど依頼は難しくなり、欠片も増える。	委托每天午夜更新。熬过的夜越多，委托越难，碎片也越多。
+하나를 고른다	Choose one	一つ選ぶ	选择一个
+다시 뽑기	Reroll	引き直し	重抽
+챙긴다	Take it	受け取る	收下
+잠깐 멈춤	Paused	ひと休み	暂停一下
+계속한다	Resume	続ける	继续
+이번 밤은 포기한다	Give up this night	今夜はあきらめる	放弃今晚
+처음으로	Main menu	最初へ	回到开头
+한 번 더	Again	もう一度	再来一次
+눌러서 넘기기	Tap to skip	押してスキップ	点击跳过
+세로로 들고 하는 게임이다.	This game is played upright.	縦に持って遊ぶゲームだ。	这款游戏要竖着玩。
+폰을 세워 주세요.	Please turn your phone upright.	スマホを縦にしてください。	请把手机竖过来。
+게임 화면	Game screen	ゲーム画面	游戏画面
+일시정지	Pause	一時停止	暂停
+섬광 쓰기	Use flash	閃光を使う	使用闪光
+구르기	Roll	回避	翻滚
+닫기	Close	閉じる	关闭
+뒤로	Back	戻る	返回
+메뉴	Menu	メニュー	菜单
