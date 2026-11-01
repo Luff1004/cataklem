@@ -2,30 +2,22 @@
 
 게임 페이지를 Electron으로 감싼 윈도우 실행 파일을 만든다.
 
-## 처음 한 번
+## 만들기
 
-1. Node.js LTS를 설치한다. https://nodejs.org
-2. 이 폴더에서 터미널을 열고:
-
-```
-npm install
-```
-
-## 실행해 보기
+1. 저장소 맨 위에서 게임을 빌드한다: `bash build.sh`
+   이때 `desktop/app/index.html`이 새로 만들어진다.
+2. 이 폴더에서 PowerShell로:
 
 ```
-npm run fonts
-npm start
+powershell -ExecutionPolicy Bypass -File make.ps1
 ```
 
-`npm run fonts`는 글꼴을 한 번 내려받아 `app/fonts`에 저장한다. 그래야 인터넷 없이도 글꼴이 제대로 나온다.
+결과는 OneDrive 밖의 `%USERPROFILE%\cataklem-desktop\dist\win-unpacked` 폴더에 생긴다.
+이 폴더 전체를 Steamworks의 SteamPipe로 올리면 된다. 실행 파일은 `CATAKLEM.exe`.
 
-## 스팀에 올릴 파일 만들기
+## 알아 둘 것
 
-```
-npm run dist
-```
-
-`dist/win-unpacked` 폴더가 생긴다. 이 폴더 전체를 Steamworks의 SteamPipe로 올리면 된다. 실행 파일은 `CATAKLEM.exe`.
-
-게임을 고친 뒤에는 저장소 맨 위에서 `bash build.sh`를 다시 돌리면 `desktop/app/index.html`이 새로 만들어진다.
+- 빌드는 일부러 OneDrive 밖에서 한다. node_modules 수천 개 파일이 OneDrive에 동기화되지 않게 하려는 것.
+- 글꼴은 처음 빌드할 때 한 번 내려받아 `app/fonts`에 넣는다. 그래서 인터넷 없이도 글꼴이 나온다.
+- Electron의 자체 압축 풀기가 최신 Node에서 중간에 멈추는 문제가 있어서, `make.ps1`은 내려받은 zip을 윈도우 기능으로 직접 푼다.
+- 실행 파일 서명은 껐다. 스팀 배포에는 필요 없다.

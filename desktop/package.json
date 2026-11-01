@@ -18,8 +18,19 @@
   "build": {
     "appId": "com.luff1004.cataklem",
     "productName": "CATAKLEM",
-    "directories": { "output": "dist" },
-    "files": ["main.js", "app/**/*"],
-    "win": { "target": "dir" }
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "app/**/*"
+    ],
+    "win": {
+      "target": "dir",
+      "signAndEditExecutable": false
+    }
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
   }
 }
