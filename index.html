@@ -9575,12 +9575,20 @@ function storySword(dt) {
   const sw = SWORDS[S.sword], plus = S.plus[S.sword] || 0;
   G.swT = (G.swT || 0) - dt; if (G.swT > 0) return;
   const R = sw.R;
-  let best = null, bd = 1e9;
-  for (const e of E) { if (e.dead || e.hidden || e.under) continue; const d = Math.hypot(e.x - P.x, e.y - P.y) - e.r; if (d < R && d < bd) { bd = d; best = e; } }
-  let pot = null;
-  if (!best) for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R) { pot = e; break; }
-  if (!best && !pot) return;
-  const tgt = best || pot, a = Math.atan2(tgt.y - P.y, tgt.x - P.x), side = (G.swN = (G.swN || 0) + 1) % 2 ? 1 : -1;
+  let a;
+  if (mouseAim()) {
+    // on PC the mouse decides: hold the button to keep swinging toward the cursor
+    if (!MOUSE.down) return;
+    const [mx, my] = mouseWorld(); a = Math.atan2(my - P.y, mx - P.x); P.face = Math.cos(a) < 0 ? -1 : 1;
+  } else {
+    let best = null, bd = 1e9;
+    for (const e of E) { if (e.dead || e.hidden || e.under) continue; const d = Math.hypot(e.x - P.x, e.y - P.y) - e.r; if (d < R && d < bd) { bd = d; best = e; } }
+    let pot = null;
+    if (!best) for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R) { pot = e; break; }
+    if (!best && !pot) return;
+    const tgt = best || pot; a = Math.atan2(tgt.y - P.y, tgt.x - P.x);
+  }
+  const side = (G.swN = (G.swN || 0) + 1) % 2 ? 1 : -1;
   const C = curClass(), dmg = sw.dmg * (1 + plus * .12) * (1 + (C.dmg || 0));
   for (const e of E) {
     if (e.dead || e.hidden || e.under) continue;
@@ -10040,9 +10048,11 @@ function areaLayer() {
     const v = vnoise(tx, ty, 3, (WD.A.seed || 1) + 40), al = (WD.reg === 5 ? .03 : .1) + v * (WD.reg === 5 ? .04 : .12);
     x.fillStyle = 'rgba(' + GROUND.join(',') + ',' + al.toFixed(3) + ')'; x.fillRect(tx * TL - .5, ty * TL - .5, TL + 1, TL + 1);
   }
+  if (WD.A.arena) arenaPlatform(x, R);
   // ground marks first
   for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
     const ch = WD.grid[ty][tx], X = tx * TL, Y = ty * TL;
+    if (WD.A.arena) { const g2 = arenaGeom(); if (((X + TL / 2 - g2.cx) / g2.rx) ** 2 + ((Y + TL / 2 - g2.cy) / g2.ry) ** 2 < 1) continue; }
     if ((ch === '.' || ch === ',') && WD.reg <= 2 && R() < (ch === ',' ? 1 : .3)) {
       // grass: a soft patch and blades of two shades, now and then a flower
       const n = ch === ',' ? 7 : 2, dark = WD.reg === 2 ? '#2E5E60' : '#4F7F4A', lite = WD.reg === 2 ? '#5E9A8A' : '#7FB06A';
@@ -10178,6 +10188,7 @@ function drawStoryWorld() {
   }
   drawTallAndEnts(now);
   drawArenaFxUp();
+  drawArenaLife(now);
   if (WD.boss) { wt(); ctx.globalAlpha = .25 + Math.sin(now * 2) * .08; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(WD.boss.x, WD.boss.y + 10, 70, 24, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
 }
 function label(x, y, text, col = COL.ink) {
@@ -10338,17 +10349,9 @@ function drawStoryOver() {
   }
   if (!S.sword || STATE === 'dying') return;
   const sw = SWORDS[S.sword], g = G.swing, q = g ? (now - g.t0) / g.dur : 9;
-  const a = q < 1 ? lerp(g.a0, g.a1, ease(q)) : (G.swA !== undefined && now - (g ? g.t0 : 0) < 600 ? g.a1 : (P.face > 0 ? -.5 : Math.PI + .5));
+  const a = q < 1 ? lerp(g.a0, g.a1, ease(q)) : (G.swA !== undefined && now - (g ? g.t0 : 0) < 600 ? g.a1 : (mouseAim() ? (() => { const [mx, my] = mouseWorld(); return Math.atan2(my - P.y, mx - P.x); })() : P.face > 0 ? -.5 : Math.PI + .5));
   const L = sw.R * .52, bx = P.x + Math.cos(a) * 10, by = P.y + 2 + Math.sin(a) * 10, ex = bx + Math.cos(a) * L, ey = by + Math.sin(a) * L, nx = -Math.sin(a), ny = Math.cos(a);
-  if (sw.scrib) { scribLine(bx, by, ex, ey, 6, 4); wt(); }
-  else {
-    ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.moveTo(bx + nx * 5.5, by + ny * 5.5); ctx.lineTo(ex + Math.cos(a) * 4, ey + Math.sin(a) * 4); ctx.lineTo(bx - nx * 5.5, by - ny * 5.5); ctx.fill();
-    ctx.fillStyle = sw.col; ctx.beginPath(); ctx.moveTo(bx + nx * 4, by + ny * 4); ctx.lineTo(ex, ey); ctx.lineTo(bx - nx * 4, by - ny * 4); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(bx + nx * 1.5, by + ny * 1.5); ctx.lineTo(ex - Math.cos(a) * 6, ey - Math.sin(a) * 6); ctx.stroke();
-    if (sf('scribble')) { ctx.strokeStyle = COL.pink; ctx.lineWidth = 1.4; ctx.beginPath(); for (let k = 0; k < 4; k++) { const f = .3 + k * .15, px = bx + (ex - bx) * f, py = by + (ey - by) * f; ctx.moveTo(px + nx * 3, py + ny * 3); ctx.lineTo(px - nx * 2 + Math.cos(a) * 4, py - ny * 2 + Math.sin(a) * 4); } ctx.stroke(); }
-  }
-  ctx.strokeStyle = COL.ink; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(bx + nx * 9, by + ny * 9); ctx.lineTo(bx - nx * 9, by - ny * 9); ctx.stroke();
-  ctx.strokeStyle = (S.plus[S.sword] || 0) >= 3 ? COL.yellow : COL.pink; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(bx + nx * 8, by + ny * 8); ctx.lineTo(bx - nx * 8, by - ny * 8); ctx.stroke();
+  drawSwordSpr(S.sword, bx, by, a, L * 1.25, S.plus[S.sword] || 0);
 }
 
 /* ---------- drawn on top: caves are dark, doorways fade ---------- */
@@ -10605,6 +10608,7 @@ function buildTall() {
     if (!TALL_CH.has(ch)) continue;
     if (ch === '#') put(ty, { k: 'wall', tx, ty, by: (ty + 1) * TL, sx: X, sy: ty * TL * TY - WALL_H, w: TL, h: TL * TY + WALL_H, n: R() });
     else if (ch === 't') { const img = treeSpr(reg, Math.floor(R() * 4)), s = .9 + R() * .25, ox = (R() - .5) * 10; put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx + ox - img.lw * s / 2, sy: (ty + .82) * TL * TY - img.lh * s + 6, w: img.lw * s, h: img.lh * s }); }
+    else if (ch === 'o' && WD.A.arena) { const v = Math.floor(R() * 3), img = columnSpr(reg, v); put(ty, { k: 'img', img, col: v !== 2, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .85) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
     else if (ch === 'o') { const img = rockSpr(reg, Math.floor(R() * 3)); put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .9) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
     else if (ch === 'c') { const img = cactusSpr(Math.floor(R() * 2)); put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .85) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
     else if (ch === 'b' || ch === 'f') put(ty, { k: ch === 'b' ? 'crate' : 'fence', tx, ty, by: (ty + 1) * TL, sx: X, sy: ty * TL * TY - 26, w: TL, h: TL * TY + 26 });
@@ -10726,6 +10730,102 @@ function drawWaterFx(now) {
     if (at(tx - 1, ty) !== '~') { ctx.moveTo(cxw + Math.cos(Math.PI * .65) * rf, cyw + Math.sin(Math.PI * .65) * rf); ctx.arc(cxw, cyw, rf, Math.PI * .65, Math.PI * 1.35); }
     if (at(tx + 1, ty) !== '~') { ctx.moveTo(cxw + Math.cos(-Math.PI * .35) * rf, cyw + Math.sin(-Math.PI * .35) * rf); ctx.arc(cxw, cyw, rf, -Math.PI * .35, Math.PI * .35); }
     ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ---------- boss arenas: a round stone floor, a rune circle, columns, drifting embers ---------- */
+const ARENA_LOOK = {
+  1: { stone: '#C9C4B4', dark: '#8E8878', rune: '#FF4F9E' }, 2: { stone: '#8FA8A0', dark: '#4F6A64', rune: '#7CF0C8' },
+  3: { stone: '#E6D3A4', dark: '#B0945C', rune: '#FFB03F' }, 4: { stone: '#C8DCE4', dark: '#7E9CAA', rune: '#7CC6D8' },
+  5: { stone: '#EDE8DC', dark: '#25356F', rune: '#FF4F9E' }
+};
+function arenaGeom() { return { cx: WD.w * TL / 2, cy: WD.h * TL / 2, rx: WD.w * TL * .4, ry: WD.h * TL * .38 }; }
+function arenaPlatform(x, R) {
+  const A = ARENA_LOOK[WD.reg], { cx, cy, rx, ry } = arenaGeom();
+  x.save();
+  // rim shadow, then the slab
+  x.fillStyle = 'rgba(20,27,64,.28)'; x.beginPath(); x.ellipse(cx + 4, cy + 8, rx + 10, ry + 10, 0, 0, TAU); x.fill();
+  x.fillStyle = A.dark; x.beginPath(); x.ellipse(cx, cy, rx + 8, ry + 8, 0, 0, TAU); x.fill();
+  x.fillStyle = A.stone; x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, TAU); x.fill();
+  x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, TAU); x.clip();
+  // rings of flagstones, each stone a touch lighter or darker
+  const rings = 6;
+  for (let i = 1; i <= rings; i++) {
+    const f = i / rings, f0 = (i - 1) / rings, n = 6 + i * 5, off = R() * TAU;
+    for (let k = 0; k < n; k++) {
+      const a = off + k / n * TAU, a2 = a + TAU / n, sh = (R() - .5) * .16;
+      x.fillStyle = sh > 0 ? 'rgba(255,255,255,' + sh.toFixed(3) + ')' : 'rgba(20,27,64,' + (-sh).toFixed(3) + ')';
+      x.beginPath(); x.ellipse(cx, cy, rx * f, ry * f, 0, a, a2); x.ellipse(cx, cy, rx * f0 + .01, ry * f0 + .01, 0, a2, a, true); x.closePath(); x.fill();
+    }
+    x.strokeStyle = 'rgba(20,27,64,.22)'; x.lineWidth = 1.6; x.beginPath(); x.ellipse(cx, cy, rx * f, ry * f, 0, 0, TAU); x.stroke();
+    x.beginPath();
+    for (let k = 0; k < n; k++) { const a = off + k / n * TAU; x.moveTo(cx + Math.cos(a) * rx * f0, cy + Math.sin(a) * ry * f0); x.lineTo(cx + Math.cos(a) * rx * f, cy + Math.sin(a) * ry * f); }
+    x.stroke();
+  }
+  // cracks, grit, moss
+  x.strokeStyle = 'rgba(20,27,64,.35)'; x.lineWidth = 1.2;
+  for (let k = 0; k < 12; k++) { let px = cx + (R() - .5) * rx * 1.8, py = cy + (R() - .5) * ry * 1.8; x.beginPath(); x.moveTo(px, py); for (let j = 0; j < 4; j++) { px += (R() - .5) * 30; py += (R() - .5) * 22; x.lineTo(px, py); } x.stroke(); }
+  for (let k = 0; k < 220; k++) { x.fillStyle = R() < .5 ? 'rgba(20,27,64,.12)' : 'rgba(255,255,255,.25)'; x.fillRect(cx + (R() - .5) * rx * 2, cy + (R() - .5) * ry * 2, 1.5, 1.5); }
+  if (WD.reg <= 2) for (let k = 0; k < 10; k++) { const a = R() * TAU, f = .75 + R() * .25; x.fillStyle = WD.reg === 2 ? 'rgba(63,124,106,.5)' : 'rgba(111,159,90,.5)'; x.beginPath(); x.ellipse(cx + Math.cos(a) * rx * f, cy + Math.sin(a) * ry * f, 10 + R() * 14, 5 + R() * 6, 0, 0, TAU); x.fill(); }
+  // the carved circle in the middle
+  x.strokeStyle = A.dark; x.lineWidth = 4; x.beginPath(); x.ellipse(cx, cy, rx * .34, ry * .34, 0, 0, TAU); x.stroke();
+  x.lineWidth = 2; x.beginPath(); x.ellipse(cx, cy, rx * .3, ry * .3, 0, 0, TAU); x.stroke();
+  x.beginPath(); for (let k = 0; k < 8; k++) { const a = k / 8 * TAU; x.moveTo(cx + Math.cos(a) * rx * .3, cy + Math.sin(a) * ry * .3); x.lineTo(cx + Math.cos(a + TAU * 3 / 8) * rx * .3, cy + Math.sin(a + TAU * 3 / 8) * ry * .3); } x.stroke();
+  x.restore();
+  // a carved edge
+  x.strokeStyle = COL.ink; x.lineWidth = 2.4; x.beginPath(); x.ellipse(cx, cy, rx + 8, ry + 8, 0, 0, TAU); x.stroke();
+  x.strokeStyle = 'rgba(255,255,255,.4)'; x.lineWidth = 1.5; x.beginPath(); x.ellipse(cx, cy - 1.5, rx, ry, 0, Math.PI * 1.05, Math.PI * 1.95); x.stroke();
+}
+function columnSpr(reg, v) {
+  const key = 'col' + reg + '_' + v; if (TALL_SPR[key]) return TALL_SPR[key];
+  const A = ARENA_LOOK[reg], ink = REG_INK[reg][1], broken = v === 2;
+  return (TALL_SPR[key] = tallCanvas(52, 120, 3, x => {
+    const cx = 26, base = 114, top = broken ? 46 : 18;
+    x.lineJoin = 'round';
+    // plinth
+    x.fillStyle = A.dark; x.fillRect(cx - 18, base - 12, 36, 12); x.fillStyle = A.stone; x.fillRect(cx - 18, base - 16, 36, 6);
+    x.strokeStyle = ink; x.lineWidth = 1.8; x.strokeRect(cx - 18, base - 16, 36, 16);
+    // shaft with flutes, lit from the left
+    const g = x.createLinearGradient(cx - 12, 0, cx + 12, 0); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.25, A.stone); g.addColorStop(1, A.dark);
+    x.fillStyle = g;
+    x.beginPath(); x.moveTo(cx - 12, base - 16); x.lineTo(cx - 11, top + 10);
+    if (broken) { x.lineTo(cx - 6, top + 2); x.lineTo(cx - 1, top + 8); x.lineTo(cx + 4, top); x.lineTo(cx + 11, top + 6); } else x.lineTo(cx + 11, top + 10);
+    x.lineTo(cx + 12, base - 16); x.closePath(); x.fill(); x.stroke();
+    x.strokeStyle = 'rgba(20,27,64,.25)'; x.lineWidth = 1.2; for (const fx of [-6, -1, 4, 8]) { x.beginPath(); x.moveTo(cx + fx, base - 18); x.lineTo(cx + fx * .95, top + 12); x.stroke(); }
+    if (!broken) {
+      x.fillStyle = A.stone; x.strokeStyle = ink; x.lineWidth = 1.8;
+      x.fillRect(cx - 16, top, 32, 10); x.strokeRect(cx - 16, top, 32, 10);
+      x.fillStyle = A.dark; x.fillRect(cx - 14, top + 10, 28, 4); x.strokeRect(cx - 14, top + 10, 28, 4);
+      x.fillStyle = '#5A4A3A'; x.beginPath(); x.ellipse(cx, top - 2, 9, 4, 0, 0, TAU); x.fill(); x.stroke();
+    } else { x.fillStyle = A.dark; for (let k = 0; k < 3; k++) { x.beginPath(); x.arc(cx - 14 + k * 12, base - 2, 3 + k, 0, TAU); x.fill(); } }
+    // a rune
+    x.strokeStyle = A.rune; x.lineWidth = 1.6; x.beginPath(); x.moveTo(cx - 3, base - 46); x.lineTo(cx + 3, base - 40); x.lineTo(cx - 3, base - 34); x.moveTo(cx, base - 48); x.lineTo(cx, base - 32); x.stroke();
+  }));
+}
+// light that moves in the arena: the circle breathes while the boss lives, flames on the columns, embers rising
+function drawArenaLife(now) {
+  if (!WD || !WD.A.arena) return;
+  const A = ARENA_LOOK[WD.reg], { cx, cy, rx, ry } = arenaGeom(), live = !!(G.boss && !G.boss.dead), pulse = .5 + Math.sin(now * 2.2) * .5;
+  wt();
+  ctx.save();
+  ctx.globalAlpha = live ? .35 + pulse * .3 : .12; ctx.strokeStyle = A.rune; ctx.lineWidth = 3; ctx.shadowColor = A.rune; ctx.shadowBlur = live ? 14 : 4;
+  ctx.beginPath(); ctx.ellipse(cx, cy, rx * .32, ry * .32, 0, 0, TAU); ctx.stroke();
+  ctx.lineWidth = 2; ctx.beginPath(); for (let k = 0; k < 8; k++) { const a = k / 8 * TAU + (live ? now * .15 : 0); ctx.moveTo(cx + Math.cos(a) * rx * .3, cy + Math.sin(a) * ry * .3); ctx.lineTo(cx + Math.cos(a + TAU * 3 / 8) * rx * .3, cy + Math.sin(a + TAU * 3 / 8) * ry * .3); } ctx.stroke();
+  ctx.restore();
+  // flames in the bowls on whole columns
+  wu();
+  if (WD.tall) for (const row of WD.tall) for (const o of row) if (o.col) {
+    const fx = o.sx + o.w / 2, fy = o.sy + 16, fl = 1 + Math.sin(now * 12 + fx) * .15;
+    ctx.globalAlpha = .3; ctx.fillStyle = A.rune; ctx.beginPath(); ctx.arc(fx, fy - 6, 18 * fl, 0, TAU); ctx.fill();
+    ctx.globalAlpha = 1; ctx.fillStyle = COL.pink; flamePathC(fx, fy - 6, 7 * fl); ctx.fillStyle = COL.yellow; flamePathC(fx, fy - 5, 4.5 * fl);
+  }
+  // embers drifting up off the floor
+  for (let i = 0; i < 26; i++) {
+    const q = (now * .18 + i * .0389) % 1, a = i * 2.39, f = .2 + (i * .37) % .8;
+    const x = cx + Math.cos(a) * rx * f + Math.sin(now + i) * 8, y = (cy + Math.sin(a) * ry * f) * TY - q * 90;
+    ctx.globalAlpha = Math.sin(q * Math.PI) * (live ? .9 : .4); ctx.fillStyle = i % 3 ? A.rune : COL.yellow;
+    ctx.fillRect(x, y, 2.4, 2.4);
   }
   ctx.globalAlpha = 1;
 }
@@ -11066,13 +11166,7 @@ function storyIcon(kind, id) {
   else if (kind === 'bigpotion') bottle(COL.yellow, 1);
   else if (kind === 'charm') { x.fillStyle = COL.pink; flamePath(x, 34, 36, 15); x.fill(); x.fillStyle = COL.yellow; flamePath(x, 32, 34, 15); x.fill(); x.strokeStyle = ink; x.lineWidth = 2.4; flamePath(x, 32, 34, 15); x.stroke(); x.fillStyle = COL.white; x.beginPath(); x.arc(32, 40, 4, 0, TAU); x.fill(); }
   else if (kind === 'sword' || kind === 'plus') {
-    const sw = SWORDS[id] || SWORDS.wood;
-    x.save(); x.translate(32, 32); x.rotate(-Math.PI / 4);
-    x.fillStyle = COL.pink; x.beginPath(); x.moveTo(-4 + 2, 14 + 2); x.lineTo(2, -26 + 2); x.lineTo(4 + 2, 14 + 2); x.fill();
-    x.fillStyle = sw.col; x.beginPath(); x.moveTo(-5, 14); x.lineTo(0, -26); x.lineTo(5, 14); x.closePath(); x.fill();
-    x.strokeStyle = ink; x.lineWidth = 2.2; x.stroke();
-    x.lineWidth = 5; x.beginPath(); x.moveTo(-11, 15); x.lineTo(11, 15); x.stroke(); x.lineWidth = 4; x.beginPath(); x.moveTo(0, 16); x.lineTo(0, 26); x.stroke();
-    x.restore();
+    swordIconInto(x, SWORDS[id] ? id : 'wood');
     if (kind === 'plus') { x.fillStyle = COL.yellow; x.strokeStyle = ink; x.lineWidth = 2; x.beginPath(); x.arc(48, 46, 10, 0, TAU); x.fill(); x.stroke(); x.fillStyle = ink; x.font = '900 14px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('+', 48, 47); }
   } else if (kind === 'class') {
     const S = SPR['p_' + STORY_CLASSES[id].look]; if (S) x.drawImage(S.img, 4, 4, 56, 56);
@@ -11768,6 +11862,87 @@ function drawCutOverlay() {
   ctx.font = '700 14px "Gothic A1", "Noto Sans JP", "Noto Sans SC", sans-serif'; ctx.fillStyle = 'rgba(244,241,234,.85)'; ctx.fillText(B.sub || '', tx, cyc + 40);
   ctx.restore();
 }
+
+/* ================= story: swords drawn properly, and the mouse swings them on PC ================= */
+const SWORD_LOOK = {
+  wood:   { blade: ['#D9A86A', '#B9894F', '#8A6440'], guard: '#6B4A33', grip: '#4A3424', pom: '#8A6440', len: 1 },
+  stone:  { blade: ['#B4B8C2', '#8C93A3', '#5E6474'], guard: '#5E6474', grip: '#3E3A44', pom: '#8C93A3', len: 1.02 },
+  copper: { blade: ['#F0A066', '#D2793A', '#9C5224'], guard: '#3F8E7A', grip: '#4A2E22', pom: '#D2793A', len: 1.04 },
+  salt:   { blade: ['#FFFFFF', '#F2EEDF', '#C9C2A8'], guard: '#D9A84E', grip: '#5A4A3A', pom: '#F2EEDF', len: 1.06 },
+  ice:    { blade: ['#E9F7FB', '#9ED6E6', '#5FA8C4'], guard: '#E9F7FB', grip: '#2C5A74', pom: '#7CC6D8', len: 1.08 },
+  ink:    { blade: ['#4A52A0', '#2B3170', '#141B40'], guard: '#FF4F9E', grip: '#141B40', pom: '#FF4F9E', len: 1.1 },
+  scrib:  { blade: ['#3A4290', '#1E2558', '#0B0E22'], guard: '#FFD23F', grip: '#141B40', pom: '#FF4F9E', len: 1.18 },
+};
+const SWSPR = {};
+// drawn lying flat: pommel at the left, point to the right; the hand sits at x = 14
+function swordSpr(id) {
+  if (SWSPR[id]) return SWSPR[id];
+  const Lk = SWORD_LOOK[id] || SWORD_LOOK.wood, len = Math.round(64 * Lk.len), H = 26, cy = H / 2, R = mulberry(id.length * 31 + 7);
+  const c = document.createElement('canvas'), res = 4; c.width = len * res; c.height = H * res;
+  const x = c.getContext('2d'); x.scale(res, res); x.lineJoin = 'round'; x.lineCap = 'round';
+  const ink = COL.ink, b0 = 24, bw = id === 'stone' ? 6.5 : id === 'scrib' ? 7 : 5.2, tip = len - 1;
+  // blade outline (shape differs a little per sword)
+  const blade = () => {
+    x.beginPath();
+    if (id === 'wood') { x.moveTo(b0, cy - bw); x.lineTo(tip - 8, cy - bw * .9); x.quadraticCurveTo(tip, cy - bw * .4, tip, cy); x.quadraticCurveTo(tip, cy + bw * .4, tip - 8, cy + bw * .9); x.lineTo(b0, cy + bw); }
+    else if (id === 'stone') { x.moveTo(b0, cy - bw); x.lineTo(b0 + 12, cy - bw - .5); x.lineTo(b0 + 15, cy - bw + 1.5); x.lineTo(tip - 10, cy - bw * .8); x.lineTo(tip, cy - 1); x.lineTo(tip - 2, cy + 2); x.lineTo(tip - 12, cy + bw * .9); x.lineTo(b0 + 20, cy + bw); x.lineTo(b0 + 17, cy + bw - 1.5); x.lineTo(b0, cy + bw); }
+    else if (id === 'salt' || id === 'ice') { x.moveTo(b0, cy - bw * .7); x.lineTo(b0 + 10, cy - bw); x.lineTo(tip - 14, cy - bw * .8); x.lineTo(tip - 6, cy - bw * 1.1); x.lineTo(tip, cy); x.lineTo(tip - 6, cy + bw * 1.1); x.lineTo(tip - 14, cy + bw * .8); x.lineTo(b0 + 10, cy + bw); x.lineTo(b0, cy + bw * .7); }
+    else if (id === 'scrib') { x.moveTo(b0, cy - bw); for (let k = 1; k < 8; k++) { const px = b0 + (tip - 10 - b0) * k / 7; x.lineTo(px, cy - bw + (k % 2 ? -1.4 : 1)); } x.lineTo(tip, cy); for (let k = 7; k >= 1; k--) { const px = b0 + (tip - 10 - b0) * k / 7; x.lineTo(px, cy + bw + (k % 2 ? 1.4 : -1)); } x.lineTo(b0, cy + bw); }
+    else { x.moveTo(b0, cy - bw); x.lineTo(tip - 12, cy - bw * .85); x.lineTo(tip, cy); x.lineTo(tip - 12, cy + bw * .85); x.lineTo(b0, cy + bw); }
+    x.closePath();
+  };
+  // ink rim and a pink offset, like the rest of the art
+  x.save(); x.translate(1.2, 1.2); blade(); x.fillStyle = COL.pink; x.globalAlpha = .7; x.fill(); x.restore(); x.globalAlpha = 1;
+  blade(); x.fillStyle = ink; x.lineWidth = 2.6; x.strokeStyle = ink; x.stroke();
+  // two-tone steel: lit upper half, shaded lower half, a fuller down the middle
+  blade(); x.save(); x.clip();
+  const g = x.createLinearGradient(0, cy - bw, 0, cy + bw); g.addColorStop(0, Lk.blade[0]); g.addColorStop(.48, Lk.blade[1]); g.addColorStop(.52, Lk.blade[2]); g.addColorStop(1, Lk.blade[1]);
+  x.fillStyle = g; x.fillRect(b0 - 2, 0, len, H);
+  if (id !== 'wood' && id !== 'scrib') { x.strokeStyle = 'rgba(20,27,64,.35)'; x.lineWidth = 1.4; x.beginPath(); x.moveTo(b0 + 3, cy); x.lineTo(tip - 16, cy); x.stroke(); x.strokeStyle = 'rgba(255,255,255,.55)'; x.lineWidth = .8; x.beginPath(); x.moveTo(b0 + 3, cy - 1.2); x.lineTo(tip - 16, cy - 1.2); x.stroke(); }
+  x.strokeStyle = 'rgba(255,255,255,.75)'; x.lineWidth = 1; x.beginPath(); x.moveTo(b0 + 2, cy - bw + 1.2); x.lineTo(tip - 10, cy - bw * .7); x.stroke();
+  if (id === 'wood') { x.strokeStyle = 'rgba(90,60,30,.45)'; x.lineWidth = .8; for (let k = 0; k < 5; k++) { const yy = cy - bw + 2 + k * bw * .4; x.beginPath(); x.moveTo(b0, yy); x.bezierCurveTo(b0 + 12, yy + 1.5, b0 + 22, yy - 1.5, tip - 6, yy + (R() - .5)); x.stroke(); } x.fillStyle = 'rgba(90,60,30,.5)'; x.beginPath(); x.ellipse(b0 + 18, cy + 1, 2.4, 1.3, 0, 0, TAU); x.fill(); }
+  if (id === 'stone') { x.fillStyle = 'rgba(20,27,64,.25)'; for (let k = 0; k < 9; k++) x.fillRect(b0 + R() * (tip - b0 - 8), cy - bw + R() * bw * 2, 1.4, 1.4); }
+  if (id === 'copper') { x.fillStyle = 'rgba(63,142,122,.55)'; for (let k = 0; k < 6; k++) { x.beginPath(); x.arc(b0 + 4 + R() * (tip - b0 - 16), cy - bw + R() * bw * 2, .8 + R() * 1.4, 0, TAU); x.fill(); } }
+  if (id === 'salt' || id === 'ice') { x.strokeStyle = id === 'ice' ? 'rgba(255,255,255,.8)' : 'rgba(180,160,120,.5)'; x.lineWidth = .8; x.beginPath(); for (let k = 0; k < 5; k++) { const px = b0 + 6 + k * (tip - b0 - 12) / 5; x.moveTo(px, cy - bw); x.lineTo(px + 4, cy); x.lineTo(px, cy + bw); } x.stroke(); }
+  if (id === 'ink' || id === 'scrib') { x.strokeStyle = COL.pink; x.lineWidth = 1.2; x.beginPath(); x.moveTo(b0 + 2, cy + bw - 1); x.lineTo(tip - 8, cy + bw * .5); x.stroke(); x.fillStyle = 'rgba(255,79,158,.6)'; for (let k = 0; k < 4; k++) { x.beginPath(); x.arc(b0 + 8 + k * 9, cy - 1 + (k % 2) * 2, 1.1, 0, TAU); x.fill(); } }
+  x.restore();
+  // crossguard
+  const gw = id === 'scrib' ? 11 : id === 'stone' ? 10 : 9;
+  x.fillStyle = Lk.guard; x.strokeStyle = ink; x.lineWidth = 1.8;
+  x.beginPath(); x.roundRect(b0 - 4, cy - gw, 4.5, gw * 2, 2); x.fill(); x.stroke();
+  x.fillStyle = 'rgba(255,255,255,.4)'; x.fillRect(b0 - 3.4, cy - gw + 1.5, 1.2, gw * 2 - 3);
+  if (id === 'salt' || id === 'ink' || id === 'scrib') { x.fillStyle = COL.pink; x.beginPath(); x.arc(b0 - 1.8, cy, 1.8, 0, TAU); x.fill(); }
+  // grip with a wrap, and the pommel
+  x.fillStyle = Lk.grip; x.beginPath(); x.roundRect(6, cy - 2.6, b0 - 9, 5.2, 1.5); x.fill(); x.stroke();
+  x.strokeStyle = 'rgba(255,255,255,.3)'; x.lineWidth = 1; for (let k = 0; k < 4; k++) { const px = 8 + k * 3.6; x.beginPath(); x.moveTo(px, cy - 2.4); x.lineTo(px + 2.2, cy + 2.4); x.stroke(); }
+  x.fillStyle = Lk.pom; x.strokeStyle = ink; x.lineWidth = 1.8; x.beginPath(); x.arc(5, cy, 3.6, 0, TAU); x.fill(); x.stroke();
+  x.fillStyle = 'rgba(255,255,255,.6)'; x.beginPath(); x.arc(4, cy - 1.2, 1.1, 0, TAU); x.fill();
+  c.len = len; c.hgt = H;
+  return (SWSPR[id] = c);
+}
+// the sword in hand: hand point (bx, by), angle a, world length L
+function drawSwordSpr(id, bx, by, a, L, plus) {
+  const img = swordSpr(id), s = L / (img.len - 14);
+  ctx.save();
+  ctx.setTransform(K, 0, 0, K, OX, OY); ctx.translate(bx, by * TY); ctx.scale(1, TY + (1 - TY) * Math.abs(Math.cos(a)));
+  ctx.rotate(a); ctx.scale(s, s);
+  if ((plus || 0) >= 3) { ctx.shadowColor = (plus || 0) >= 5 ? COL.yellow : COL.pink; ctx.shadowBlur = 10; }
+  ctx.drawImage(img, -14, -img.hgt / 2, img.len, img.hgt);
+  ctx.restore(); wt();
+}
+function swordIconInto(x, id) {
+  const img = swordSpr(id);
+  x.save(); x.translate(32, 32); x.rotate(-Math.PI / 4); const s = 60 / img.len; x.scale(s, s); x.drawImage(img, -img.len / 2, -img.hgt / 2, img.len, img.hgt); x.restore();
+}
+
+/* ---------- PC: click to swing toward the cursor ---------- */
+const MOUSE = { x: 0, y: 0, down: false, seen: false };
+addEventListener('mousemove', e => { MOUSE.x = e.clientX; MOUSE.y = e.clientY; MOUSE.seen = true; });
+addEventListener('mousedown', e => { if (e.button === 0 && e.target === cv) { MOUSE.down = true; MOUSE.x = e.clientX; MOUSE.y = e.clientY; } });
+addEventListener('mouseup', e => { if (e.button === 0) MOUSE.down = false; });
+addEventListener('blur', () => { MOUSE.down = false; });
+function mouseWorld() { return [(MOUSE.x * DPR - OX) / K, (MOUSE.y * DPR - OY) / (K * TY)]; }
+function mouseAim() { return IS_PC && MOUSE.seen && !(typeof PAD !== 'undefined' && PAD.on); }
 
 /* ================= screens ================= */
 const SCREENS = ['scrSInv', 'scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];

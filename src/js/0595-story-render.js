@@ -49,9 +49,11 @@ function areaLayer() {
     const v = vnoise(tx, ty, 3, (WD.A.seed || 1) + 40), al = (WD.reg === 5 ? .03 : .1) + v * (WD.reg === 5 ? .04 : .12);
     x.fillStyle = 'rgba(' + GROUND.join(',') + ',' + al.toFixed(3) + ')'; x.fillRect(tx * TL - .5, ty * TL - .5, TL + 1, TL + 1);
   }
+  if (WD.A.arena) arenaPlatform(x, R);
   // ground marks first
   for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
     const ch = WD.grid[ty][tx], X = tx * TL, Y = ty * TL;
+    if (WD.A.arena) { const g2 = arenaGeom(); if (((X + TL / 2 - g2.cx) / g2.rx) ** 2 + ((Y + TL / 2 - g2.cy) / g2.ry) ** 2 < 1) continue; }
     if ((ch === '.' || ch === ',') && WD.reg <= 2 && R() < (ch === ',' ? 1 : .3)) {
       // grass: a soft patch and blades of two shades, now and then a flower
       const n = ch === ',' ? 7 : 2, dark = WD.reg === 2 ? '#2E5E60' : '#4F7F4A', lite = WD.reg === 2 ? '#5E9A8A' : '#7FB06A';
@@ -187,6 +189,7 @@ function drawStoryWorld() {
   }
   drawTallAndEnts(now);
   drawArenaFxUp();
+  drawArenaLife(now);
   if (WD.boss) { wt(); ctx.globalAlpha = .25 + Math.sin(now * 2) * .08; ctx.fillStyle = COL.deep; ctx.beginPath(); ctx.ellipse(WD.boss.x, WD.boss.y + 10, 70, 24, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; }
 }
 function label(x, y, text, col = COL.ink) {
@@ -347,17 +350,9 @@ function drawStoryOver() {
   }
   if (!S.sword || STATE === 'dying') return;
   const sw = SWORDS[S.sword], g = G.swing, q = g ? (now - g.t0) / g.dur : 9;
-  const a = q < 1 ? lerp(g.a0, g.a1, ease(q)) : (G.swA !== undefined && now - (g ? g.t0 : 0) < 600 ? g.a1 : (P.face > 0 ? -.5 : Math.PI + .5));
+  const a = q < 1 ? lerp(g.a0, g.a1, ease(q)) : (G.swA !== undefined && now - (g ? g.t0 : 0) < 600 ? g.a1 : (mouseAim() ? (() => { const [mx, my] = mouseWorld(); return Math.atan2(my - P.y, mx - P.x); })() : P.face > 0 ? -.5 : Math.PI + .5));
   const L = sw.R * .52, bx = P.x + Math.cos(a) * 10, by = P.y + 2 + Math.sin(a) * 10, ex = bx + Math.cos(a) * L, ey = by + Math.sin(a) * L, nx = -Math.sin(a), ny = Math.cos(a);
-  if (sw.scrib) { scribLine(bx, by, ex, ey, 6, 4); wt(); }
-  else {
-    ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.moveTo(bx + nx * 5.5, by + ny * 5.5); ctx.lineTo(ex + Math.cos(a) * 4, ey + Math.sin(a) * 4); ctx.lineTo(bx - nx * 5.5, by - ny * 5.5); ctx.fill();
-    ctx.fillStyle = sw.col; ctx.beginPath(); ctx.moveTo(bx + nx * 4, by + ny * 4); ctx.lineTo(ex, ey); ctx.lineTo(bx - nx * 4, by - ny * 4); ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(bx + nx * 1.5, by + ny * 1.5); ctx.lineTo(ex - Math.cos(a) * 6, ey - Math.sin(a) * 6); ctx.stroke();
-    if (sf('scribble')) { ctx.strokeStyle = COL.pink; ctx.lineWidth = 1.4; ctx.beginPath(); for (let k = 0; k < 4; k++) { const f = .3 + k * .15, px = bx + (ex - bx) * f, py = by + (ey - by) * f; ctx.moveTo(px + nx * 3, py + ny * 3); ctx.lineTo(px - nx * 2 + Math.cos(a) * 4, py - ny * 2 + Math.sin(a) * 4); } ctx.stroke(); }
-  }
-  ctx.strokeStyle = COL.ink; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(bx + nx * 9, by + ny * 9); ctx.lineTo(bx - nx * 9, by - ny * 9); ctx.stroke();
-  ctx.strokeStyle = (S.plus[S.sword] || 0) >= 3 ? COL.yellow : COL.pink; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(bx + nx * 8, by + ny * 8); ctx.lineTo(bx - nx * 8, by - ny * 8); ctx.stroke();
+  drawSwordSpr(S.sword, bx, by, a, L * 1.25, S.plus[S.sword] || 0);
 }
 
 /* ---------- drawn on top: caves are dark, doorways fade ---------- */

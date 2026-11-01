@@ -36,13 +36,7 @@ function storyIcon(kind, id) {
   else if (kind === 'bigpotion') bottle(COL.yellow, 1);
   else if (kind === 'charm') { x.fillStyle = COL.pink; flamePath(x, 34, 36, 15); x.fill(); x.fillStyle = COL.yellow; flamePath(x, 32, 34, 15); x.fill(); x.strokeStyle = ink; x.lineWidth = 2.4; flamePath(x, 32, 34, 15); x.stroke(); x.fillStyle = COL.white; x.beginPath(); x.arc(32, 40, 4, 0, TAU); x.fill(); }
   else if (kind === 'sword' || kind === 'plus') {
-    const sw = SWORDS[id] || SWORDS.wood;
-    x.save(); x.translate(32, 32); x.rotate(-Math.PI / 4);
-    x.fillStyle = COL.pink; x.beginPath(); x.moveTo(-4 + 2, 14 + 2); x.lineTo(2, -26 + 2); x.lineTo(4 + 2, 14 + 2); x.fill();
-    x.fillStyle = sw.col; x.beginPath(); x.moveTo(-5, 14); x.lineTo(0, -26); x.lineTo(5, 14); x.closePath(); x.fill();
-    x.strokeStyle = ink; x.lineWidth = 2.2; x.stroke();
-    x.lineWidth = 5; x.beginPath(); x.moveTo(-11, 15); x.lineTo(11, 15); x.stroke(); x.lineWidth = 4; x.beginPath(); x.moveTo(0, 16); x.lineTo(0, 26); x.stroke();
-    x.restore();
+    swordIconInto(x, SWORDS[id] ? id : 'wood');
     if (kind === 'plus') { x.fillStyle = COL.yellow; x.strokeStyle = ink; x.lineWidth = 2; x.beginPath(); x.arc(48, 46, 10, 0, TAU); x.fill(); x.stroke(); x.fillStyle = ink; x.font = '900 14px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('+', 48, 47); }
   } else if (kind === 'class') {
     const S = SPR['p_' + STORY_CLASSES[id].look]; if (S) x.drawImage(S.img, 4, 4, 56, 56);

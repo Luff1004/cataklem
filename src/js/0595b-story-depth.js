@@ -226,6 +226,7 @@ function buildTall() {
     if (!TALL_CH.has(ch)) continue;
     if (ch === '#') put(ty, { k: 'wall', tx, ty, by: (ty + 1) * TL, sx: X, sy: ty * TL * TY - WALL_H, w: TL, h: TL * TY + WALL_H, n: R() });
     else if (ch === 't') { const img = treeSpr(reg, Math.floor(R() * 4)), s = .9 + R() * .25, ox = (R() - .5) * 10; put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx + ox - img.lw * s / 2, sy: (ty + .82) * TL * TY - img.lh * s + 6, w: img.lw * s, h: img.lh * s }); }
+    else if (ch === 'o' && WD.A.arena) { const v = Math.floor(R() * 3), img = columnSpr(reg, v); put(ty, { k: 'img', img, col: v !== 2, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .85) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
     else if (ch === 'o') { const img = rockSpr(reg, Math.floor(R() * 3)); put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .9) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
     else if (ch === 'c') { const img = cactusSpr(Math.floor(R() * 2)); put(ty, { k: 'img', img, by: (ty + 1) * TL, sx: cx - img.lw / 2, sy: (ty + .85) * TL * TY - img.lh + 4, w: img.lw, h: img.lh }); }
     else if (ch === 'b' || ch === 'f') put(ty, { k: ch === 'b' ? 'crate' : 'fence', tx, ty, by: (ty + 1) * TL, sx: X, sy: ty * TL * TY - 26, w: TL, h: TL * TY + 26 });
@@ -347,6 +348,102 @@ function drawWaterFx(now) {
     if (at(tx - 1, ty) !== '~') { ctx.moveTo(cxw + Math.cos(Math.PI * .65) * rf, cyw + Math.sin(Math.PI * .65) * rf); ctx.arc(cxw, cyw, rf, Math.PI * .65, Math.PI * 1.35); }
     if (at(tx + 1, ty) !== '~') { ctx.moveTo(cxw + Math.cos(-Math.PI * .35) * rf, cyw + Math.sin(-Math.PI * .35) * rf); ctx.arc(cxw, cyw, rf, -Math.PI * .35, Math.PI * .35); }
     ctx.stroke(); ctx.setLineDash([]);
+  }
+  ctx.globalAlpha = 1;
+}
+
+/* ---------- boss arenas: a round stone floor, a rune circle, columns, drifting embers ---------- */
+const ARENA_LOOK = {
+  1: { stone: '#C9C4B4', dark: '#8E8878', rune: '#FF4F9E' }, 2: { stone: '#8FA8A0', dark: '#4F6A64', rune: '#7CF0C8' },
+  3: { stone: '#E6D3A4', dark: '#B0945C', rune: '#FFB03F' }, 4: { stone: '#C8DCE4', dark: '#7E9CAA', rune: '#7CC6D8' },
+  5: { stone: '#EDE8DC', dark: '#25356F', rune: '#FF4F9E' }
+};
+function arenaGeom() { return { cx: WD.w * TL / 2, cy: WD.h * TL / 2, rx: WD.w * TL * .4, ry: WD.h * TL * .38 }; }
+function arenaPlatform(x, R) {
+  const A = ARENA_LOOK[WD.reg], { cx, cy, rx, ry } = arenaGeom();
+  x.save();
+  // rim shadow, then the slab
+  x.fillStyle = 'rgba(20,27,64,.28)'; x.beginPath(); x.ellipse(cx + 4, cy + 8, rx + 10, ry + 10, 0, 0, TAU); x.fill();
+  x.fillStyle = A.dark; x.beginPath(); x.ellipse(cx, cy, rx + 8, ry + 8, 0, 0, TAU); x.fill();
+  x.fillStyle = A.stone; x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, TAU); x.fill();
+  x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, TAU); x.clip();
+  // rings of flagstones, each stone a touch lighter or darker
+  const rings = 6;
+  for (let i = 1; i <= rings; i++) {
+    const f = i / rings, f0 = (i - 1) / rings, n = 6 + i * 5, off = R() * TAU;
+    for (let k = 0; k < n; k++) {
+      const a = off + k / n * TAU, a2 = a + TAU / n, sh = (R() - .5) * .16;
+      x.fillStyle = sh > 0 ? 'rgba(255,255,255,' + sh.toFixed(3) + ')' : 'rgba(20,27,64,' + (-sh).toFixed(3) + ')';
+      x.beginPath(); x.ellipse(cx, cy, rx * f, ry * f, 0, a, a2); x.ellipse(cx, cy, rx * f0 + .01, ry * f0 + .01, 0, a2, a, true); x.closePath(); x.fill();
+    }
+    x.strokeStyle = 'rgba(20,27,64,.22)'; x.lineWidth = 1.6; x.beginPath(); x.ellipse(cx, cy, rx * f, ry * f, 0, 0, TAU); x.stroke();
+    x.beginPath();
+    for (let k = 0; k < n; k++) { const a = off + k / n * TAU; x.moveTo(cx + Math.cos(a) * rx * f0, cy + Math.sin(a) * ry * f0); x.lineTo(cx + Math.cos(a) * rx * f, cy + Math.sin(a) * ry * f); }
+    x.stroke();
+  }
+  // cracks, grit, moss
+  x.strokeStyle = 'rgba(20,27,64,.35)'; x.lineWidth = 1.2;
+  for (let k = 0; k < 12; k++) { let px = cx + (R() - .5) * rx * 1.8, py = cy + (R() - .5) * ry * 1.8; x.beginPath(); x.moveTo(px, py); for (let j = 0; j < 4; j++) { px += (R() - .5) * 30; py += (R() - .5) * 22; x.lineTo(px, py); } x.stroke(); }
+  for (let k = 0; k < 220; k++) { x.fillStyle = R() < .5 ? 'rgba(20,27,64,.12)' : 'rgba(255,255,255,.25)'; x.fillRect(cx + (R() - .5) * rx * 2, cy + (R() - .5) * ry * 2, 1.5, 1.5); }
+  if (WD.reg <= 2) for (let k = 0; k < 10; k++) { const a = R() * TAU, f = .75 + R() * .25; x.fillStyle = WD.reg === 2 ? 'rgba(63,124,106,.5)' : 'rgba(111,159,90,.5)'; x.beginPath(); x.ellipse(cx + Math.cos(a) * rx * f, cy + Math.sin(a) * ry * f, 10 + R() * 14, 5 + R() * 6, 0, 0, TAU); x.fill(); }
+  // the carved circle in the middle
+  x.strokeStyle = A.dark; x.lineWidth = 4; x.beginPath(); x.ellipse(cx, cy, rx * .34, ry * .34, 0, 0, TAU); x.stroke();
+  x.lineWidth = 2; x.beginPath(); x.ellipse(cx, cy, rx * .3, ry * .3, 0, 0, TAU); x.stroke();
+  x.beginPath(); for (let k = 0; k < 8; k++) { const a = k / 8 * TAU; x.moveTo(cx + Math.cos(a) * rx * .3, cy + Math.sin(a) * ry * .3); x.lineTo(cx + Math.cos(a + TAU * 3 / 8) * rx * .3, cy + Math.sin(a + TAU * 3 / 8) * ry * .3); } x.stroke();
+  x.restore();
+  // a carved edge
+  x.strokeStyle = COL.ink; x.lineWidth = 2.4; x.beginPath(); x.ellipse(cx, cy, rx + 8, ry + 8, 0, 0, TAU); x.stroke();
+  x.strokeStyle = 'rgba(255,255,255,.4)'; x.lineWidth = 1.5; x.beginPath(); x.ellipse(cx, cy - 1.5, rx, ry, 0, Math.PI * 1.05, Math.PI * 1.95); x.stroke();
+}
+function columnSpr(reg, v) {
+  const key = 'col' + reg + '_' + v; if (TALL_SPR[key]) return TALL_SPR[key];
+  const A = ARENA_LOOK[reg], ink = REG_INK[reg][1], broken = v === 2;
+  return (TALL_SPR[key] = tallCanvas(52, 120, 3, x => {
+    const cx = 26, base = 114, top = broken ? 46 : 18;
+    x.lineJoin = 'round';
+    // plinth
+    x.fillStyle = A.dark; x.fillRect(cx - 18, base - 12, 36, 12); x.fillStyle = A.stone; x.fillRect(cx - 18, base - 16, 36, 6);
+    x.strokeStyle = ink; x.lineWidth = 1.8; x.strokeRect(cx - 18, base - 16, 36, 16);
+    // shaft with flutes, lit from the left
+    const g = x.createLinearGradient(cx - 12, 0, cx + 12, 0); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.25, A.stone); g.addColorStop(1, A.dark);
+    x.fillStyle = g;
+    x.beginPath(); x.moveTo(cx - 12, base - 16); x.lineTo(cx - 11, top + 10);
+    if (broken) { x.lineTo(cx - 6, top + 2); x.lineTo(cx - 1, top + 8); x.lineTo(cx + 4, top); x.lineTo(cx + 11, top + 6); } else x.lineTo(cx + 11, top + 10);
+    x.lineTo(cx + 12, base - 16); x.closePath(); x.fill(); x.stroke();
+    x.strokeStyle = 'rgba(20,27,64,.25)'; x.lineWidth = 1.2; for (const fx of [-6, -1, 4, 8]) { x.beginPath(); x.moveTo(cx + fx, base - 18); x.lineTo(cx + fx * .95, top + 12); x.stroke(); }
+    if (!broken) {
+      x.fillStyle = A.stone; x.strokeStyle = ink; x.lineWidth = 1.8;
+      x.fillRect(cx - 16, top, 32, 10); x.strokeRect(cx - 16, top, 32, 10);
+      x.fillStyle = A.dark; x.fillRect(cx - 14, top + 10, 28, 4); x.strokeRect(cx - 14, top + 10, 28, 4);
+      x.fillStyle = '#5A4A3A'; x.beginPath(); x.ellipse(cx, top - 2, 9, 4, 0, 0, TAU); x.fill(); x.stroke();
+    } else { x.fillStyle = A.dark; for (let k = 0; k < 3; k++) { x.beginPath(); x.arc(cx - 14 + k * 12, base - 2, 3 + k, 0, TAU); x.fill(); } }
+    // a rune
+    x.strokeStyle = A.rune; x.lineWidth = 1.6; x.beginPath(); x.moveTo(cx - 3, base - 46); x.lineTo(cx + 3, base - 40); x.lineTo(cx - 3, base - 34); x.moveTo(cx, base - 48); x.lineTo(cx, base - 32); x.stroke();
+  }));
+}
+// light that moves in the arena: the circle breathes while the boss lives, flames on the columns, embers rising
+function drawArenaLife(now) {
+  if (!WD || !WD.A.arena) return;
+  const A = ARENA_LOOK[WD.reg], { cx, cy, rx, ry } = arenaGeom(), live = !!(G.boss && !G.boss.dead), pulse = .5 + Math.sin(now * 2.2) * .5;
+  wt();
+  ctx.save();
+  ctx.globalAlpha = live ? .35 + pulse * .3 : .12; ctx.strokeStyle = A.rune; ctx.lineWidth = 3; ctx.shadowColor = A.rune; ctx.shadowBlur = live ? 14 : 4;
+  ctx.beginPath(); ctx.ellipse(cx, cy, rx * .32, ry * .32, 0, 0, TAU); ctx.stroke();
+  ctx.lineWidth = 2; ctx.beginPath(); for (let k = 0; k < 8; k++) { const a = k / 8 * TAU + (live ? now * .15 : 0); ctx.moveTo(cx + Math.cos(a) * rx * .3, cy + Math.sin(a) * ry * .3); ctx.lineTo(cx + Math.cos(a + TAU * 3 / 8) * rx * .3, cy + Math.sin(a + TAU * 3 / 8) * ry * .3); } ctx.stroke();
+  ctx.restore();
+  // flames in the bowls on whole columns
+  wu();
+  if (WD.tall) for (const row of WD.tall) for (const o of row) if (o.col) {
+    const fx = o.sx + o.w / 2, fy = o.sy + 16, fl = 1 + Math.sin(now * 12 + fx) * .15;
+    ctx.globalAlpha = .3; ctx.fillStyle = A.rune; ctx.beginPath(); ctx.arc(fx, fy - 6, 18 * fl, 0, TAU); ctx.fill();
+    ctx.globalAlpha = 1; ctx.fillStyle = COL.pink; flamePathC(fx, fy - 6, 7 * fl); ctx.fillStyle = COL.yellow; flamePathC(fx, fy - 5, 4.5 * fl);
+  }
+  // embers drifting up off the floor
+  for (let i = 0; i < 26; i++) {
+    const q = (now * .18 + i * .0389) % 1, a = i * 2.39, f = .2 + (i * .37) % .8;
+    const x = cx + Math.cos(a) * rx * f + Math.sin(now + i) * 8, y = (cy + Math.sin(a) * ry * f) * TY - q * 90;
+    ctx.globalAlpha = Math.sin(q * Math.PI) * (live ? .9 : .4); ctx.fillStyle = i % 3 ? A.rune : COL.yellow;
+    ctx.fillRect(x, y, 2.4, 2.4);
   }
   ctx.globalAlpha = 1;
 }

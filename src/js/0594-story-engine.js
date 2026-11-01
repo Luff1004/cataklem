@@ -345,12 +345,20 @@ function storySword(dt) {
   const sw = SWORDS[S.sword], plus = S.plus[S.sword] || 0;
   G.swT = (G.swT || 0) - dt; if (G.swT > 0) return;
   const R = sw.R;
-  let best = null, bd = 1e9;
-  for (const e of E) { if (e.dead || e.hidden || e.under) continue; const d = Math.hypot(e.x - P.x, e.y - P.y) - e.r; if (d < R && d < bd) { bd = d; best = e; } }
-  let pot = null;
-  if (!best) for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R) { pot = e; break; }
-  if (!best && !pot) return;
-  const tgt = best || pot, a = Math.atan2(tgt.y - P.y, tgt.x - P.x), side = (G.swN = (G.swN || 0) + 1) % 2 ? 1 : -1;
+  let a;
+  if (mouseAim()) {
+    // on PC the mouse decides: hold the button to keep swinging toward the cursor
+    if (!MOUSE.down) return;
+    const [mx, my] = mouseWorld(); a = Math.atan2(my - P.y, mx - P.x); P.face = Math.cos(a) < 0 ? -1 : 1;
+  } else {
+    let best = null, bd = 1e9;
+    for (const e of E) { if (e.dead || e.hidden || e.under) continue; const d = Math.hypot(e.x - P.x, e.y - P.y) - e.r; if (d < R && d < bd) { bd = d; best = e; } }
+    let pot = null;
+    if (!best) for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R) { pot = e; break; }
+    if (!best && !pot) return;
+    const tgt = best || pot; a = Math.atan2(tgt.y - P.y, tgt.x - P.x);
+  }
+  const side = (G.swN = (G.swN || 0) + 1) % 2 ? 1 : -1;
   const C = curClass(), dmg = sw.dmg * (1 + plus * .12) * (1 + (C.dmg || 0));
   for (const e of E) {
     if (e.dead || e.hidden || e.under) continue;
