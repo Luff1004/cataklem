@@ -3,10 +3,10 @@
    houses and rocks stand up out of it and are drawn row by row with the people,
    so you can walk behind a tree and come out the other side. */
 const TALL_CH = new Set(['#', 't', 'h', 'o', 'c', 'b', 'f']);
-const WALL_H = 30;
+const WALL_H = 24;
 const REG_LOOK = {
-  1: { top: '#B7C59A', front: '#7E8C6A', line: '#4F5C45', leaf: ['#3F6B4A', '#5E8F5A', '#8CBB72'], trunk: '#6B4A33', rock: '#9AA0AE', roof: ['#C25A5A', '#9C4040'], wall: '#E6D7B8' },
-  2: { top: '#6F9C93', front: '#3F6560', line: '#24403E', leaf: ['#1F3F45', '#2E5E60', '#4F8A7E'], trunk: '#3E2F2A', rock: '#7D8E92', roof: ['#5A6FA8', '#3F4F80'], wall: '#D6D2C2' },
+  1: { top: '#B9BCC4', front: '#7C808C', line: '#3E4250', leaf: ['#3F6B4A', '#5E8F5A', '#8CBB72'], trunk: '#6B4A33', rock: '#9AA0AE', roof: ['#C25A5A', '#9C4040'], wall: '#E6D7B8' },
+  2: { top: '#8C9A9C', front: '#56656A', line: '#2A3438', leaf: ['#1F3F45', '#2E5E60', '#4F8A7E'], trunk: '#3E2F2A', rock: '#7D8E92', roof: ['#5A6FA8', '#3F4F80'], wall: '#D6D2C2' },
   3: { top: '#E9D9AE', front: '#C4A775', line: '#8A6E45', leaf: ['#4E8A5E', '#6FAE6A', '#A9D47E'], trunk: '#8A6440', rock: '#E2D2A8', roof: ['#D08A4A', '#A8662E'], wall: '#F2E6C8' },
   4: { top: '#DDEBF0', front: '#9EB8C4', line: '#5D7884', leaf: ['#2E5A5E', '#3F7C78', '#E9F4F6'], trunk: '#5A4636', rock: '#B9C8D0', roof: ['#3F7C9C', '#2C5A74'], wall: '#E8EEF0' },
   5: { top: '#F4F1EA', front: '#C9C4B8', line: '#25356F', leaf: ['#141B40', '#25356F', '#F4F1EA'], trunk: '#141B40', rock: '#E6E1D6', roof: ['#141B40', '#25356F'], wall: '#F4F1EA' }
@@ -22,7 +22,7 @@ function tallCanvas(w, h, res, fn) {
 function treeSpr(reg, v) {
   const key = 'tree' + reg + '_' + v; if (TALL_SPR[key]) return TALL_SPR[key];
   const L = REG_LOOK[reg], R = mulberry(reg * 31 + v * 7 + 3), [ink] = [REG_INK[reg][1]];
-  const c = tallCanvas(84, 118, 2, x => {
+  const c = tallCanvas(84, 118, 3, x => {
     const cx = 42, base = 112;
     x.lineJoin = 'round';
     if (reg === 3) {
@@ -52,19 +52,35 @@ function treeSpr(reg, v) {
       }
       return;
     }
-    // a round tree: trunk, three shades of leaves, a rim of ink
-    x.fillStyle = L.trunk; x.beginPath(); x.moveTo(cx - 5, base); x.lineTo(cx - 3, base - 40); x.lineTo(cx + 3, base - 40); x.lineTo(cx + 6, base); x.closePath(); x.fill();
-    x.strokeStyle = ink; x.lineWidth = 1.5; x.stroke();
-    x.strokeStyle = L.trunk; x.lineWidth = 3; x.beginPath(); x.moveTo(cx, base - 34); x.lineTo(cx - 10, base - 48); x.moveTo(cx + 1, base - 38); x.lineTo(cx + 9, base - 52); x.stroke();
-    const blobs = [];
-    for (let k = 0; k < 9; k++) { const a = k / 9 * TAU + R() * .4, d = 12 + R() * 8; blobs.push([cx + Math.cos(a) * d * 1.15, base - 66 + Math.sin(a) * d * .85, 13 + R() * 6]); }
-    blobs.push([cx, base - 68, 18]);
-    x.fillStyle = ink; for (const [bx, by, r] of blobs) { x.beginPath(); x.arc(bx, by, r + 2, 0, TAU); x.fill(); }
-    x.fillStyle = L.leaf[0]; for (const [bx, by, r] of blobs) { x.beginPath(); x.arc(bx, by, r, 0, TAU); x.fill(); }
-    x.fillStyle = L.leaf[1]; for (const [bx, by, r] of blobs) { x.beginPath(); x.arc(bx - r * .22, by - r * .25, r * .78, 0, TAU); x.fill(); }
-    x.fillStyle = L.leaf[2]; for (const [bx, by, r] of blobs) if (by < base - 64) { x.beginPath(); x.arc(bx - r * .4, by - r * .45, r * .42, 0, TAU); x.fill(); }
-    if (reg === 5) { x.strokeStyle = COL.pink; x.lineWidth = 1.2; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(cx + (R() - .5) * 30, base - 66 + (R() - .5) * 26, 4 + R() * 5, 0, TAU * .7); x.stroke(); } }
-    if (reg === 1 && v % 2 === 0) { x.fillStyle = COL.pink; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(cx + (R() - .5) * 40, base - 64 + (R() - .5) * 28, 2.2, 0, TAU); x.fill(); } }
+    // a round tree: a flared trunk with bark, then clumps of leaves in three depths, lit from the upper left
+    const leafDark = L.leaf[0], leafMid = L.leaf[1], leafLite = L.leaf[2];
+    x.fillStyle = L.trunk; x.beginPath();
+    x.moveTo(cx - 11, base); x.quadraticCurveTo(cx - 5, base - 4, cx - 5, base - 14); x.lineTo(cx - 3.5, base - 46); x.lineTo(cx + 3.5, base - 46); x.lineTo(cx + 5, base - 14); x.quadraticCurveTo(cx + 5, base - 4, cx + 12, base); x.closePath(); x.fill();
+    x.strokeStyle = ink; x.lineWidth = 1.6; x.stroke();
+    x.save(); x.clip(); x.fillStyle = 'rgba(0,0,0,.28)'; x.fillRect(cx + 1, base - 50, 14, 52); x.restore();
+    x.strokeStyle = 'rgba(0,0,0,.35)'; x.lineWidth = 1; x.beginPath();
+    for (let k = 0; k < 5; k++) { const yy = base - 8 - k * 7 - R() * 3; x.moveTo(cx - 3 + R() * 2, yy); x.quadraticCurveTo(cx, yy - 3, cx + 2 + R() * 2, yy - 1); }
+    x.stroke();
+    x.strokeStyle = L.trunk; x.lineCap = 'round';
+    for (const [dx, dy, lw] of [[-13, -58, 4], [12, -62, 3.5], [-3, -66, 3]]) { x.lineWidth = lw; x.beginPath(); x.moveTo(cx, base - 40); x.quadraticCurveTo(cx + dx * .4, base - 50, cx + dx, base + dy); x.stroke(); }
+    // clumps
+    const clumps = [];
+    for (let k = 0; k < 7; k++) { const a = k / 7 * TAU + R() * .5, d = 15 + R() * 7; clumps.push([cx + Math.cos(a) * d * 1.2, base - 70 + Math.sin(a) * d * .8, 12 + R() * 5]); }
+    clumps.push([cx - 4, base - 76, 16], [cx + 6, base - 66, 15]);
+    const scallop = (bx, by, r, n, jit) => { x.beginPath(); for (let i = 0; i <= n; i++) { const a = i / n * TAU, q = r * (.86 + ((i * 37 + Math.floor(bx)) % 7) / 7 * jit); i ? x.lineTo(bx + Math.cos(a) * q, by + Math.sin(a) * q) : x.moveTo(bx + Math.cos(a) * q, by + Math.sin(a) * q); } x.closePath(); };
+    x.fillStyle = ink; for (const [bx, by, r] of clumps) { scallop(bx, by, r + 2.2, 14, .3); x.fill(); }
+    x.fillStyle = leafDark; for (const [bx, by, r] of clumps) { scallop(bx, by, r, 14, .3); x.fill(); }
+    x.fillStyle = leafMid; for (const [bx, by, r] of clumps) { scallop(bx - r * .18, by - r * .22, r * .8, 12, .25); x.fill(); }
+    x.fillStyle = leafLite; for (const [bx, by, r] of clumps) if (by < base - 66 || bx < cx) { scallop(bx - r * .38, by - r * .42, r * .42, 10, .2); x.fill(); }
+    // leaf flecks and a few gaps of shadow
+    for (let k = 0; k < 46; k++) {
+      const a = R() * TAU, d = R() * 26, fx = cx + Math.cos(a) * d * 1.25, fy = base - 70 + Math.sin(a) * d * .85;
+      x.fillStyle = fy < base - 74 && fx < cx + 6 ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.18)';
+      x.beginPath(); x.ellipse(fx, fy, 2.2, 1.2, a, 0, TAU); x.fill();
+    }
+    x.fillStyle = 'rgba(0,0,0,.22)'; x.beginPath(); x.ellipse(cx + 8, base - 56, 18, 6, 0, 0, TAU); x.fill();
+    if (reg === 5) { x.strokeStyle = COL.pink; x.lineWidth = 1.2; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(cx + (R() - .5) * 30, base - 70 + (R() - .5) * 26, 4 + R() * 5, 0, TAU * .7); x.stroke(); } }
+    if (reg === 1 && v % 2 === 0) { for (let k = 0; k < 7; k++) { const fx = cx + (R() - .5) * 44, fy = base - 70 + (R() - .5) * 30; x.fillStyle = COL.pink; x.beginPath(); x.arc(fx, fy, 2.4, 0, TAU); x.fill(); x.fillStyle = 'rgba(255,255,255,.7)'; x.fillRect(fx - 1, fy - 1.4, 1.2, 1.2); } }
   });
   return (TALL_SPR[key] = c);
 }
@@ -141,6 +157,63 @@ function houseSpr(reg, w, d) {
   }));
 }
 
+
+/* ---------- rock: printed tiles for the top of the high ground and the cliff face ---------- */
+function cliffTop(reg, v) {
+  const depth = TL * TY, key = 'ctop' + reg + '_' + v + '_' + Math.round(TY * 100); if (TALL_SPR[key]) return TALL_SPR[key];
+  const L = REG_LOOK[reg], R = mulberry(reg * 101 + v * 13 + 1);
+  return (TALL_SPR[key] = tallCanvas(TL, depth, 3, x => {
+    x.fillStyle = L.top; x.fillRect(0, 0, TL, depth);
+    // slabs of stone
+    const cols = 2 + Math.floor(R() * 2), rows = 2;
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+      const x0 = i * TL / cols + (R() - .5) * 4, y0 = j * depth / rows + (R() - .5) * 3, w = TL / cols + (R() - .5) * 6, h = depth / rows + (R() - .5) * 4;
+      const sh = (R() - .5) * .12;
+      x.fillStyle = sh > 0 ? 'rgba(255,255,255,' + sh.toFixed(3) + ')' : 'rgba(20,27,64,' + (-sh).toFixed(3) + ')';
+      x.beginPath(); x.moveTo(x0 + 2, y0 + R() * 2); x.lineTo(x0 + w - 1, y0 + R() * 2); x.lineTo(x0 + w - R() * 2, y0 + h - 1); x.lineTo(x0 + R() * 2, y0 + h - 1); x.closePath(); x.fill();
+      x.strokeStyle = 'rgba(20,27,64,.22)'; x.lineWidth = .9; x.stroke();
+      x.strokeStyle = 'rgba(255,255,255,.3)'; x.beginPath(); x.moveTo(x0 + 3, y0 + 1.5); x.lineTo(x0 + w - 3, y0 + 1.5); x.stroke();
+    }
+    // grain: specks and a hairline crack
+    for (let k = 0; k < 26; k++) { x.fillStyle = R() < .5 ? 'rgba(20,27,64,.16)' : 'rgba(255,255,255,.22)'; x.fillRect(R() * TL, R() * depth, 1 + R(), 1 + R()); }
+    x.strokeStyle = 'rgba(20,27,64,.3)'; x.lineWidth = .9; x.beginPath(); let px = R() * TL, py = R() * depth; x.moveTo(px, py); for (let k = 0; k < 3; k++) { px += (R() - .5) * 14; py += R() * 8; x.lineTo(px, py); } x.stroke();
+    if (reg <= 2 && R() < .55) { // moss
+      const mx = R() * TL, my = R() * depth;
+      for (let k = 0; k < 9; k++) { x.fillStyle = k % 2 ? (reg === 2 ? '#3F7C6A' : '#6F9F5A') : (reg === 2 ? '#2E5E50' : '#4F7F4A'); x.globalAlpha = .7; x.beginPath(); x.arc(mx + (R() - .5) * 12, my + (R() - .5) * 7, 1.6 + R() * 2.2, 0, TAU); x.fill(); }
+      x.globalAlpha = 1;
+    }
+    if (reg === 3) { x.strokeStyle = 'rgba(138,110,69,.35)'; x.lineWidth = 1; for (let k = 0; k < 2; k++) { const yy = 6 + R() * (depth - 10); x.beginPath(); x.moveTo(0, yy); x.quadraticCurveTo(TL / 2, yy - 4, TL, yy); x.stroke(); } }
+    if (reg === 4 && R() < .7) { x.fillStyle = 'rgba(255,255,255,.85)'; x.beginPath(); x.ellipse(R() * TL, R() * depth, 8 + R() * 8, 3 + R() * 3, 0, 0, TAU); x.fill(); }
+    if (reg === 5) { x.strokeStyle = 'rgba(37,53,111,.22)'; x.lineWidth = .8; for (let k = 0; k < 4; k++) { x.beginPath(); x.moveTo(4, 5 + k * 8); x.lineTo(10 + R() * 30, 5 + k * 8); x.stroke(); } }
+  }));
+}
+function cliffFace(reg, v) {
+  const key = 'cface' + reg + '_' + v; if (TALL_SPR[key]) return TALL_SPR[key];
+  const L = REG_LOOK[reg], R = mulberry(reg * 211 + v * 17 + 3), H = WALL_H;
+  return (TALL_SPR[key] = tallCanvas(TL, H, 3, x => {
+    const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, L.front); g.addColorStop(1, L.line);
+    x.fillStyle = g; x.fillRect(0, 0, TL, H);
+    // stacked chunks of rock, each with a lit top facet and a shaded side
+    let yy = 0;
+    while (yy < H) {
+      const rh = 7 + R() * 7; let xx = -R() * 10;
+      while (xx < TL) {
+        const rw = 10 + R() * 14, top = yy + R() * 1.5;
+        x.fillStyle = 'rgba(255,255,255,' + (.06 + R() * .1).toFixed(3) + ')';
+        x.beginPath(); x.moveTo(xx + 1, top + 2); x.lineTo(xx + rw * .3, top); x.lineTo(xx + rw - 1, top + 1); x.lineTo(xx + rw - 2, top + rh * .45); x.lineTo(xx + 2, top + rh * .4); x.closePath(); x.fill();
+        x.fillStyle = 'rgba(20,27,64,' + (.1 + R() * .12).toFixed(3) + ')';
+        x.beginPath(); x.moveTo(xx + rw * .6, top + rh * .45); x.lineTo(xx + rw - 1, top + 1); x.lineTo(xx + rw - 1, top + rh); x.lineTo(xx + rw * .55, top + rh); x.closePath(); x.fill();
+        x.strokeStyle = 'rgba(20,27,64,.32)'; x.lineWidth = .9; x.beginPath(); x.moveTo(xx + rw, top); x.lineTo(xx + rw - 1, top + rh); x.lineTo(xx, top + rh + .5); x.stroke();
+        xx += rw;
+      }
+      yy += rh;
+    }
+    if (reg <= 2) { for (let k = 0; k < 3; k++) { const vx = R() * TL; x.strokeStyle = reg === 2 ? '#3F7C6A' : '#6F9F5A'; x.lineWidth = 1.4; x.beginPath(); x.moveTo(vx, 0); x.quadraticCurveTo(vx + 2, H * .3, vx - 1, H * (.3 + R() * .4)); x.stroke(); } }
+    if (reg === 4) { x.fillStyle = 'rgba(255,255,255,.8)'; for (let k = 0; k < 4; k++) { const ix = R() * TL; x.beginPath(); x.moveTo(ix - 2, 0); x.lineTo(ix + 2, 0); x.lineTo(ix, 4 + R() * 6); x.fill(); } }
+    const sh = x.createLinearGradient(0, H * .6, 0, H); sh.addColorStop(0, 'rgba(20,27,64,0)'); sh.addColorStop(1, 'rgba(20,27,64,.35)'); x.fillStyle = sh; x.fillRect(0, 0, TL, H);
+  }));
+}
+
 /* ---------- the list of tall things in an area ---------- */
 function buildTall() {
   if (WD.tall) return WD.tall;
@@ -173,22 +246,29 @@ function drawTallOne(o) {
   const at = (tx, ty) => tx < 0 || ty < 0 || tx >= WD.w || ty >= WD.h ? '#' : WD.grid[ty][tx];
   if (o.k === 'wall') {
     const below = at(o.tx, o.ty + 1) === '#', above = at(o.tx, o.ty - 1) === '#', lt = at(o.tx - 1, o.ty) === '#', rt = at(o.tx + 1, o.ty) === '#';
-    ctx.fillStyle = L.top; ctx.fillRect(X - .3, top - .3, TL + .6, depth + .6);
-    if (WD.reg <= 2) { ctx.fillStyle = 'rgba(20,27,64,.12)'; ctx.fillRect(X + 6 + o.n * 20, top + 8, 10, 4); ctx.fillRect(X + 26 - o.n * 14, top + 22, 8, 3); }
-    else if (WD.reg === 5) { ctx.strokeStyle = 'rgba(37,53,111,.25)'; ctx.lineWidth = 1; for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.moveTo(X + 6, top + 8 + k * 9); ctx.lineTo(X + 16 + o.n * 22, top + 8 + k * 9); ctx.stroke(); } }
+    const vv = ((o.tx * 7 + o.ty * 13) % 4 + 4) % 4;
+    const rr = 16, tl = !above && !lt ? rr : 0, tr = !above && !rt ? rr : 0, bl = !below && !lt ? rr * .6 : 0, br = !below && !rt ? rr * .6 : 0;
+    ctx.save(); ctx.beginPath(); ctx.roundRect(X - .3, top - .3, TL + .6, depth + .6 + (below ? 0 : WALL_H), [tl, tr, br, bl]); ctx.clip();
+    ctx.drawImage(cliffTop(WD.reg, vv), X - .3, top - .3, TL + .6, depth + .6);
+    const shade = vnoise(o.tx, o.ty, 4, 11) * .12; ctx.fillStyle = 'rgba(20,27,64,' + shade.toFixed(3) + ')'; ctx.fillRect(X - 1, top - 1, TL + 2, depth + 2);
     if (!below) {
-      ctx.fillStyle = L.front; ctx.fillRect(X - .3, b - WALL_H, TL + .6, WALL_H);
-      ctx.strokeStyle = 'rgba(20,27,64,.22)'; ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.moveTo(X, b - WALL_H / 2); ctx.lineTo(X + TL, b - WALL_H / 2);
-      const off = (o.tx % 2) * 16; for (let k = 0; k < 3; k++) { const vx = X + 8 + off + k * 24; if (vx < X + TL) { ctx.moveTo(vx, b - WALL_H); ctx.lineTo(vx, b - WALL_H / 2); } const vx2 = X + 20 - off / 2 + k * 24; if (vx2 < X + TL) { ctx.moveTo(vx2, b - WALL_H / 2); ctx.lineTo(vx2, b); } }
-      ctx.stroke();
-      ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(X, b - WALL_H, TL, 2);
-      ctx.fillStyle = ink; ctx.fillRect(X - .3, b - 2, TL + .6, 2);
+      const fy = b - WALL_H;
+      ctx.drawImage(cliffFace(WD.reg, vv), X - .3, fy, TL + .6, WALL_H);
+      // a ragged lip where the top meets the face
+      ctx.fillStyle = 'rgba(255,255,255,.28)'; ctx.fillRect(X - .3, fy, TL + .6, 1.6);
+      ctx.fillStyle = 'rgba(20,27,64,.35)'; ctx.fillRect(X - .3, fy + 1.6, TL + .6, 1.2);
     }
-    ctx.fillStyle = ink;
-    if (!above) ctx.fillRect(X - .3, top, TL + .6, 2);
-    if (!lt) ctx.fillRect(X, top, 2, o.h - (below ? 0 : 0));
-    if (!rt) ctx.fillRect(X + TL - 2, top, 2, o.h);
+    ctx.restore();
+    if (!below) { ctx.fillStyle = 'rgba(20,27,64,.22)'; ctx.beginPath(); ctx.roundRect(X + (lt ? 0 : 6), b, TL - (lt ? 0 : 6) - (rt ? 0 : 6), 5, 2); ctx.fill(); }
+    if (!above || !lt || !rt) {
+      ctx.strokeStyle = ink; ctx.globalAlpha = .5; ctx.lineWidth = 1.6; ctx.beginPath();
+      if (!above) { ctx.moveTo(X + tl, top); ctx.lineTo(X + TL - tr, top); }
+      if (tl) ctx.arc(X + tl, top + tl, tl, Math.PI, Math.PI * 1.5);
+      if (tr) { ctx.moveTo(X + TL - tr, top); ctx.arc(X + TL - tr, top + tr, tr, -Math.PI / 2, 0); }
+      if (!lt) { ctx.moveTo(X, top + tl); ctx.lineTo(X, b - bl); }
+      if (!rt) { ctx.moveTo(X + TL, top + tr); ctx.lineTo(X + TL, b - br); }
+      ctx.stroke(); ctx.globalAlpha = 1;
+    }
     return;
   }
   if (o.k === 'crate') {
@@ -225,17 +305,20 @@ function drawTallAndEnts(now) {
 function drawTallFront() {
   if (!WD || !WD.tall) return;
   const rows = WD.tall;
-  const cover = (x0, x1, y0, y1, wy, alpha) => {
-    const ra = clamp(Math.floor(wy / TL), 0, WD.h - 1), rb = Math.min(WD.h - 1, ra + 6);
+  const cover = (x0, x1, y0, y1, wy) => {
+    const ra = clamp(Math.floor(wy / TL), 0, WD.h - 1), rb = Math.min(WD.h - 1, ra + 6); let hit = false;
     for (let r = ra; r <= rb; r++) for (const o of rows[r]) {
       if (o.by <= wy + 2 || o.sx > x1 || o.sx + o.w < x0 || o.sy > y1 || o.sy + o.h < y0) continue;
-      ctx.globalAlpha = alpha; drawTallOne(o);
+      drawTallOne(o); hit = true;
     }
+    return hit;
   };
   wu();
-  for (const e of E) { if (e.dead || !onScreen(e.x, e.y, 60)) continue; const r = e.r || 12; cover(e.x - r, e.x + r, e.y * TY - r * 2, e.y * TY + r * .4, e.y, 1); }
-  cover(P.x - 16, P.x + 16, P.y * TY - 40, P.y * TY + 12, P.y, .42);
-  ctx.globalAlpha = 1;
+  for (const e of E) { if (e.dead || !onScreen(e.x, e.y, 60)) continue; const r = e.r || 12; cover(e.x - r, e.x + r, e.y * TY - r * 2, e.y * TY + r * .4, e.y); }
+  if (cover(P.x - 16, P.x + 16, P.y * TY - 40, P.y * TY + 12, P.y)) {
+    const S = SPR['p_' + (G.char || 'lamp')];
+    if (S) { ctx.globalAlpha = .38; spr(S.img, P.x, P.y - 2, 40, 40, 0, P.face * 1, 1); ctx.globalAlpha = 1; wu(); }
+  }
 }
 // water that moves, with foam where it meets the shore
 function drawWaterFx(now) {
@@ -254,14 +337,15 @@ function drawWaterFx(now) {
     }
     const tw = (Math.sin(now * 3 + ph * 2.1) + 1) / 2;
     if (tw > .92) { ctx.globalAlpha = (tw - .92) * 10; ctx.fillStyle = COL.white; ctx.fillRect(X + 12 + (ph * 7 % 24), Y + 14 + (ph * 5 % 20), 3, 3); }
-    // foam along each shore
-    ctx.strokeStyle = COL.white; ctx.lineWidth = 3; ctx.setLineDash([7, 5]); ctx.lineDashOffset = -now * 12;
-    ctx.globalAlpha = .55 + Math.sin(now * 2 + ph) * .2;
+    // foam curling along the shore
+    ctx.strokeStyle = COL.white; ctx.lineWidth = 2.6; ctx.setLineDash([6, 6]); ctx.lineDashOffset = -now * 10;
+    ctx.globalAlpha = .5 + Math.sin(now * 2 + ph) * .2;
+    const cxw = X + TL / 2, cyw = Y + TL / 2, rf = TL * .7 - 4;
     ctx.beginPath();
-    if (at(tx, ty - 1) !== '~') { ctx.moveTo(X, Y + 9); ctx.lineTo(X + TL, Y + 9); }
-    if (at(tx, ty + 1) !== '~') { ctx.moveTo(X, Y + TL - 4); ctx.lineTo(X + TL, Y + TL - 4); }
-    if (at(tx - 1, ty) !== '~') { ctx.moveTo(X + 4, Y); ctx.lineTo(X + 4, Y + TL); }
-    if (at(tx + 1, ty) !== '~') { ctx.moveTo(X + TL - 4, Y); ctx.lineTo(X + TL - 4, Y + TL); }
+    if (at(tx, ty - 1) !== '~') ctx.arc(cxw, cyw, rf, Math.PI * 1.15, Math.PI * 1.85);
+    if (at(tx, ty + 1) !== '~') { ctx.moveTo(cxw + Math.cos(Math.PI * .15) * rf, cyw + Math.sin(Math.PI * .15) * rf); ctx.arc(cxw, cyw, rf, Math.PI * .15, Math.PI * .85); }
+    if (at(tx - 1, ty) !== '~') { ctx.moveTo(cxw + Math.cos(Math.PI * .65) * rf, cyw + Math.sin(Math.PI * .65) * rf); ctx.arc(cxw, cyw, rf, Math.PI * .65, Math.PI * 1.35); }
+    if (at(tx + 1, ty) !== '~') { ctx.moveTo(cxw + Math.cos(-Math.PI * .35) * rf, cyw + Math.sin(-Math.PI * .35) * rf); ctx.arc(cxw, cyw, rf, -Math.PI * .35, Math.PI * .35); }
     ctx.stroke(); ctx.setLineDash([]);
   }
   ctx.globalAlpha = 1;

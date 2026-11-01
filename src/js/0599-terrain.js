@@ -7,13 +7,14 @@ function vnoise(x, y, s, seed) {
   return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
 }
 function genTerrain(A, attempt) {
-  const w = A.w || 26, h = A.h || 18, seed = (A.seed || 1) * 13 + attempt * 101, R = mulberry(seed), reg = A.reg;
-  const obs = { 1: ['t', 'o', 't'], 2: ['t', 'o', 't'], 3: ['o', 'c', 'o'], 4: ['#', 'o', 'b'], 5: ['#', 'x', '#'] }[reg];
+  // every place is its own size; the rock all around hides the rectangle
+  const Rs = mulberry((A.seed || 1) * 7 + 5), grow = A.arena ? 0 : 1;
+  const w = (A.w || 26) + Math.round(Rs() * 10 * grow), h = (A.h || 18) + Math.round(Rs() * 7 * grow);
+  const seed = (A.seed || 1) * 13 + attempt * 101, R = mulberry(seed), reg = A.reg;
+  const obs = ['#'];
+  const deco = { 1: ['t', 't', 'o'], 2: ['t', 't', 'o'], 3: ['o', 'c', 'o'], 4: ['o', 't', 'b'], 5: ['x', 'o', 'x'] }[reg];
   const g = [], core = new Uint8Array(w * h);
-  for (let y = 0; y < h; y++) {
-    g.push([]);
-    for (let x = 0; x < w; x++) { const v = vnoise(x, y, 4, seed); g[y].push(v < .58 ? obs[0] : v < .82 ? obs[1] : obs[2]); }
-  }
+  for (let y = 0; y < h; y++) { g.push([]); for (let x = 0; x < w; x++) g[y].push('#'); }
   const inside = (x, y) => x > 0 && y > 0 && x < w - 1 && y < h - 1;
   const disc = (cx, cy, r) => {
     for (let y = Math.floor(cy - r - 1); y <= cy + r + 1; y++) for (let x = Math.floor(cx - r - 1); x <= cx + r + 1; x++)
@@ -117,6 +118,25 @@ function genTerrain(A, attempt) {
     const lx = Math.floor(neck.x + ux * 2.2), ly = Math.floor(neck.y + uy * 2.2);
     disc(lx + .5, ly + .5, .9); extra.push(['lever', lx, ly, { g: 'sc' }]);
   }
+  // a few small groves and rock piles, never on the road, and a stone or tree here and there at the cliff foot
+  const keepOff = new Set();
+  for (const e of (A.ents || [])) for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) keepOff.add((e[1] + dx) + ',' + (e[2] + dy));
+  for (const side in (A.exits || {})) { const p = inner[side]; for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) keepOff.add((Math.floor(p[0]) + dx) + ',' + (Math.floor(p[1]) + dy)); }
+  for (const [, tx, ty] of extra) for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) keepOff.add((tx + dx) + ',' + (ty + dy));
+  const free = (x, y) => inside(x, y) && g[y][x] === '.' && !core[y * w + x] && !keepOff.has(x + ',' + y);
+  const nClus = A.arena ? 0 : 2 + Math.floor(R() * 3);
+  for (let k = 0; k < nClus; k++) {
+    let tx = 0, ty = 0, ok = false;
+    for (let tries = 0; tries < 30 && !ok; tries++) { tx = 2 + Math.floor(R() * (w - 4)); ty = 2 + Math.floor(R() * (h - 4)); ok = free(tx, ty); }
+    if (!ok) continue;
+    const kind = deco[Math.floor(R() * deco.length)], n = 2 + Math.floor(R() * 3);
+    for (let i = 0; i < n; i++) { const x = tx + Math.round((R() - .5) * 3), y = ty + Math.round((R() - .5) * 2.4); if (free(x, y)) g[y][x] = kind; }
+  }
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    if (!free(x, y)) continue;
+    let rock = 0; for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (g[y + dy][x + dx] === '#') rock++;
+    if (rock && R() < .06) g[y][x] = R() < .55 ? 'o' : deco[0];
+  }
   // water, kept off the road
   for (let k = 0; k < (A.water || 0); k++) {
     let best = null;
@@ -145,7 +165,7 @@ function genTerrain(A, attempt) {
   for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
     if (g[y][x] !== '.') continue;
     if (core[y * w + x] && (reg === 1 || reg === 3) && vnoise(x, y, 3, seed + 2) > .35) g[y][x] = '+';
-    else if (vnoise(x, y, 2.5, seed + 3) > .62) g[y][x] = ',';
+    else if (vnoise(x, y, 3, seed + 3) > .42) g[y][x] = ',';
   }
   for (const e of (A.ents || [])) if (inside(e[1], e[2])) g[e[2]][e[1]] = '.';
   return { rows: g.map(r => r.join('')), extra };

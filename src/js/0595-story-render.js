@@ -43,24 +43,59 @@ function areaLayer() {
   const x = c.getContext('2d'); x.scale(SC, SC);
   const R = mulberry(WD.A.seed || 99), [A, B] = REG_INK[WD.reg];
   const at = (tx, ty) => tx < 0 || ty < 0 || tx >= WD.w || ty >= WD.h ? '#' : WD.grid[ty][tx];
+  // the ground has a colour of its own, in soft patches
+  const GROUND = { 1: [120, 165, 95], 2: [70, 120, 105], 3: [215, 180, 120], 4: [200, 225, 235], 5: [37, 53, 111] }[WD.reg];
+  for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
+    const v = vnoise(tx, ty, 3, (WD.A.seed || 1) + 40), al = (WD.reg === 5 ? .03 : .1) + v * (WD.reg === 5 ? .04 : .12);
+    x.fillStyle = 'rgba(' + GROUND.join(',') + ',' + al.toFixed(3) + ')'; x.fillRect(tx * TL - .5, ty * TL - .5, TL + 1, TL + 1);
+  }
   // ground marks first
   for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
     const ch = WD.grid[ty][tx], X = tx * TL, Y = ty * TL;
+    if ((ch === '.' || ch === ',') && WD.reg <= 2 && R() < (ch === ',' ? 1 : .3)) {
+      // grass: a soft patch and blades of two shades, now and then a flower
+      const n = ch === ',' ? 7 : 2, dark = WD.reg === 2 ? '#2E5E60' : '#4F7F4A', lite = WD.reg === 2 ? '#5E9A8A' : '#7FB06A';
+      if (ch === ',') { x.fillStyle = WD.reg === 2 ? 'rgba(70,130,110,.16)' : 'rgba(110,170,90,.18)'; x.beginPath(); x.ellipse(X + TL / 2, Y + TL / 2, TL * .7, TL * .5, R(), 0, TAU); x.fill(); }
+      x.lineWidth = 1.5; x.lineCap = 'round';
+      for (let k = 0; k < n; k++) {
+        const gx = X + 4 + R() * 40, gy = Y + 10 + R() * 34, hh = 6 + R() * 7;
+        x.strokeStyle = R() < .5 ? dark : lite; x.beginPath();
+        x.moveTo(gx - 3, gy); x.quadraticCurveTo(gx - 3, gy - hh * .5, gx - 5, gy - hh * .9);
+        x.moveTo(gx, gy); x.lineTo(gx + (R() - .5) * 2, gy - hh);
+        x.moveTo(gx + 3, gy); x.quadraticCurveTo(gx + 3, gy - hh * .5, gx + 5, gy - hh * .8); x.stroke();
+      }
+      if (ch === ',' && R() < .25) { const fx = X + 8 + R() * 32, fy = Y + 8 + R() * 30; x.fillStyle = [COL.pink, COL.yellow, COL.white][Math.floor(R() * 3)]; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(fx + Math.cos(k * 1.26) * 2.6, fy + Math.sin(k * 1.26) * 2.6, 1.8, 0, TAU); x.fill(); } x.fillStyle = COL.yellow; x.beginPath(); x.arc(fx, fy, 1.4, 0, TAU); x.fill(); }
+      continue;
+    }
     if (ch === '+') { x.fillStyle = 'rgba(37,53,111,.08)'; x.fillRect(X - 2, Y - 2, TL + 4, TL + 4); x.fillStyle = 'rgba(37,53,111,.12)'; for (let k = 0; k < 5; k++) { x.beginPath(); x.arc(X + R() * TL, Y + R() * TL, 1.5 + R() * 2, 0, TAU); x.fill(); } }
     if (ch === ',') { x.strokeStyle = 'rgba(37,53,111,.3)'; x.lineWidth = 1.4; for (let k = 0; k < 2; k++) { const gx = X + 10 + R() * 28, gy = Y + 14 + R() * 24; x.beginPath(); x.moveTo(gx - 4, gy); x.quadraticCurveTo(gx - 4, gy - 5, gx - 6, gy - 9); x.moveTo(gx, gy); x.lineTo(gx, gy - 10); x.moveTo(gx + 4, gy); x.quadraticCurveTo(gx + 4, gy - 5, gx + 6, gy - 8); x.stroke(); } }
     if (ch === 'i') { x.fillStyle = 'rgba(160,215,232,.55)'; x.fillRect(X, Y, TL, TL); x.strokeStyle = 'rgba(255,255,255,.8)'; x.lineWidth = 1.5; x.beginPath(); x.moveTo(X + 8 + R() * 10, Y + 30); x.lineTo(X + 22 + R() * 10, Y + 16); x.stroke(); }
     if (ch === '=') { x.fillStyle = '#B9894F'; x.fillRect(X, Y + 4, TL, TL - 8); x.strokeStyle = COL.ink; x.lineWidth = 1.5; for (let k = 0; k < 4; k++) { x.beginPath(); x.moveTo(X + k * 12, Y + 4); x.lineTo(X + k * 12, Y + TL - 4); x.stroke(); } }
     if (EXIT_CH[ch]) { x.fillStyle = 'rgba(37,53,111,.06)'; x.fillRect(X, Y, TL, TL); }
   }
-  // water under everything solid
-  for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {
-    if (WD.grid[ty][tx] !== '~') continue;
-    const X = tx * TL, Y = ty * TL;
-    x.fillStyle = WD.reg === 5 ? 'rgba(20,27,64,.75)' : WD.reg === 3 ? 'rgba(10,138,134,.45)' : 'rgba(60,150,180,.5)';
-    x.fillRect(X - .5, Y - .5, TL + 1, TL + 1);
-    x.strokeStyle = 'rgba(255,255,255,.55)'; x.lineWidth = 1.6;
-    for (let k = 0; k < 2; k++) { const wy = Y + 12 + k * 18 + R() * 4; x.beginPath(); x.moveTo(X + 6, wy); x.quadraticCurveTo(X + 16, wy - 5, X + 26, wy); x.quadraticCurveTo(X + 36, wy + 5, X + 44, wy); x.stroke(); }
-    if (at(tx, ty - 1) !== '~') { x.fillStyle = B; x.fillRect(X, Y, TL, 3); }
+  // water: one rounded body per lake, a sandy bank, deeper in the middle
+  const wt2 = [];
+  for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) if (WD.grid[ty][tx] === '~') wt2.push([tx, ty]);
+  if (wt2.length) {
+    const blob = (r, grow) => {
+      x.beginPath();
+      for (const [tx, ty] of wt2) {
+        const cx = tx * TL + TL / 2, cy = ty * TL + TL / 2;
+        x.moveTo(cx + r, cy); x.arc(cx, cy, r, 0, TAU);
+        if (at(tx + 1, ty) === '~') x.rect(cx, cy - r, TL, r * 2);
+        if (at(tx, ty + 1) === '~') x.rect(cx - r, cy, r * 2, TL);
+        if (grow && at(tx + 1, ty) === '~' && at(tx, ty + 1) === '~' && at(tx + 1, ty + 1) === '~') x.rect(cx, cy, TL, TL);
+      }
+    };
+    const deep = WD.reg === 5 ? '#141B40' : WD.reg === 3 ? '#1F8A86' : WD.reg === 4 ? '#4E9CBC' : '#3C8FB4';
+    const mid = WD.reg === 5 ? '#25356F' : WD.reg === 3 ? '#3FB0A8' : WD.reg === 4 ? '#7CC0DA' : '#5FB0D0';
+    x.fillStyle = WD.reg === 5 ? 'rgba(20,27,64,.35)' : 'rgba(170,140,95,.55)'; blob(TL * .7 + 6, true); x.fill();
+    x.fillStyle = mid; blob(TL * .7, true); x.fill();
+    x.save(); blob(TL * .7, true); x.clip();
+    x.fillStyle = deep; x.globalAlpha = .55; blob(TL * .7 - 12, true); x.fill(); x.globalAlpha = .4; blob(TL * .7 - 22, true); x.fill(); x.globalAlpha = 1;
+    x.strokeStyle = 'rgba(255,255,255,.18)'; x.lineWidth = 1.2;
+    for (const [tx, ty] of wt2) { const X = tx * TL, Y = ty * TL; for (let k = 0; k < 2; k++) { const wy = Y + 12 + k * 18 + R() * 4; x.beginPath(); x.moveTo(X + 6, wy); x.quadraticCurveTo(X + 16, wy - 4, X + 26, wy); x.quadraticCurveTo(X + 36, wy + 4, X + 44, wy); x.stroke(); } }
+    x.restore();
   }
   // solid things, back to front
   for (let ty = 0; ty < WD.h; ty++) for (let tx = 0; tx < WD.w; tx++) {

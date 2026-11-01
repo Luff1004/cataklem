@@ -108,6 +108,8 @@ function buildArea(id) {
   let rows = A.map ? normRows(A.map, A.map[0].length) : gen.rows;
   const w = rows[0].length, h = rows.length, ents = [];
   const grid = rows.map(r => r.split(''));
+  // hand-made places get rock at the edge too, not a wall of trees
+  if (A.map) for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if ((x === 0 || y === 0 || x === w - 1 || y === h - 1) && grid[y][x] === 't') grid[y][x] = '#';
   // letters in a hand map are entities from the legend
   if (A.legend) for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     const L = A.legend[grid[y][x]];

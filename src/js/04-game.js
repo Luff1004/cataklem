@@ -597,8 +597,11 @@ function updatePlayer(dt) {
     GH.push({ x: P.x, y: P.y, life: .28, max: .28, dead: false });
   } else { P.vx = lerp(P.vx, mx * P.speed * spMul, f); P.vy = lerp(P.vy, my * P.speed * spMul, f); }
   if (G.mode === 'story' && WD) storyMove(dt);
-  P.x += P.vx * dt; P.y += P.vy * dt;
-  if (G.mode === 'story' && WD) storyCollideP();
+  if (G.mode === 'story' && WD) {
+    // small steps so a dash can never skip over a one-tile rock or tree
+    const n = Math.max(1, Math.ceil(Math.hypot(P.vx, P.vy) * dt / 8));
+    for (let i = 0; i < n; i++) { P.x += P.vx * dt / n; P.y += P.vy * dt / n; storyCollideP(); }
+  } else { P.x += P.vx * dt; P.y += P.vy * dt; }
   if (G.mode === 'boss') {
     if (G.pull > 0 && G.boss && !G.boss.dead && STATE === 'play') { const dx = G.boss.x - P.x, dy = G.boss.y - P.y, d = Math.hypot(dx, dy) || 1; P.x += dx / d * G.pull * dt; P.y += dy / d * G.pull * dt; if (Math.random() < .6) PT.push({ x: P.x + rnd(-200, 200), y: P.y + rnd(-200, 200), vx: dx / d * 260, vy: dy / d * 260, life: .5, max: .5, s: rnd(2, 4), c: COL.white, dead: false }); }
     uClampPlayer();

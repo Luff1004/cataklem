@@ -10,7 +10,7 @@ function resize() {
   ZOOM = clamp(Math.sqrt(W * H / 364000), .82, 1.6);
   ctx.imageSmoothingEnabled = true;
 }
-function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); TY = G && G.mode === 'story' ? .8 : 1; CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K * TY; VHW = W / 2 / z; VHH = H / 2 / z / TY; }
+function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); TY = G && G.mode === 'story' ? .72 : 1; CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K * TY; VHW = W / 2 / z; VHH = H / 2 / z / TY; }
 function onScreen(x, y, m = 0) { return Math.abs(x - CX) < VHW + m && Math.abs(y - CY) < VHH + m; }
 function wt() { ctx.setTransform(K, 0, 0, K * TY, OX, OY); }
 function spr(img, x, y, w, h, rot = 0, sx = 1, sy = 1) {
