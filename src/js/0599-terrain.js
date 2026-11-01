@@ -8,7 +8,7 @@ function vnoise(x, y, s, seed) {
 }
 function genTerrain(A, attempt) {
   // every place is its own size; the rock all around hides the rectangle
-  const Rs = mulberry((A.seed || 1) * 7 + 5), grow = A.arena ? 0 : 1;
+  const Rs = mulberry((A.seed || 1) * 7 + 5), grow = A.arena || A.chase ? 0 : 1;
   const w = (A.w || 26) + Math.round(Rs() * 10 * grow), h = (A.h || 18) + Math.round(Rs() * 7 * grow);
   const seed = (A.seed || 1) * 13 + attempt * 101, R = mulberry(seed), reg = A.reg;
   const obs = ['#'];
@@ -81,7 +81,7 @@ function genTerrain(A, attempt) {
     tree(pts.map((_, i) => i));
     if (pts.length > 3 && !A.arena) { const i = 1 + Math.floor(R() * (pts.length - 1)), j = 1 + Math.floor(R() * (pts.length - 1)); if (i !== j) edges.push([i, j, 0]); }
   }
-  for (const [i, j] of edges) worm(pts[i][0], pts[i][1], pts[j][0], pts[j][1], .85, A.arena ? 2.6 : 2.3, true);
+  for (const [i, j] of edges) worm(pts[i][0], pts[i][1], pts[j][0], pts[j][1], A.chase ? 1.5 : .85, A.arena ? 2.6 : A.chase ? 2.6 : 2.3, true);
   // places to stand
   if (!sc0) disc(cx, cy, A.arena ? 0 : 2.4);
   for (const e of (A.ents || [])) disc(e[1] + .5, e[2] + .5, 1.6);
@@ -124,7 +124,12 @@ function genTerrain(A, attempt) {
   for (const side in (A.exits || {})) { const p = inner[side]; for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) keepOff.add((Math.floor(p[0]) + dx) + ',' + (Math.floor(p[1]) + dy)); }
   for (const [, tx, ty] of extra) for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) keepOff.add((tx + dx) + ',' + (ty + dy));
   const free = (x, y) => inside(x, y) && g[y][x] === '.' && !core[y * w + x] && !keepOff.has(x + ',' + y);
-  const nClus = A.arena ? 0 : 2 + Math.floor(R() * 3);
+  const nClus = A.arena || A.chase ? 0 : 2 + Math.floor(R() * 3);
+  // a chase road gets rocks in the way, to weave around at a run
+  if (A.chase) for (let x = 8; x < w - 8; x += 5 + Math.floor(R() * 3)) {
+    const ys = []; for (let y = 2; y < h - 2; y++) if (g[y][x] === '.' && core[y * w + x]) ys.push(y);
+    if (ys.length > 2) { const y = ys[Math.floor(R() * ys.length)]; g[y][x] = deco[Math.floor(R() * deco.length)]; }
+  }
   for (let k = 0; k < nClus; k++) {
     let tx = 0, ty = 0, ok = false;
     for (let tries = 0; tries < 30 && !ok; tries++) { tx = 2 + Math.floor(R() * (w - 4)); ty = 2 + Math.floor(R() * (h - 4)); ok = free(tx, ty); }

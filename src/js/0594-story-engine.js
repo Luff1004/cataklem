@@ -135,7 +135,7 @@ function refreshBlk() {
     const c = WD.grid[y][x];
     if (SOLID.has(c)) blk[y * W2 + x] = 1;
     const side = EXIT_CH[c];
-    if (side) { const ex = exitInfo(side); if (!ex || !ex.open || WD.bossLock || WD.locked) blk[y * W2 + x] = 1; }
+    if (side) { const ex = exitInfo(side); if (!ex || !ex.open || WD.bossLock || WD.locked || (WD.chase && side === 'W')) blk[y * W2 + x] = 1; }
   }
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
@@ -209,6 +209,7 @@ function enterArea(id, how) {
   if (WD.A.lock && WD.locked) setTimeout(() => { if (WD && WD.locked) banner('갇혔다', '모두 쓰러뜨려야 길이 열린다', 'warn'); }, 1400);
   G.trans = null; G.fade = Math.max(G.fade || 0, .9);
   storyHUD(true);
+  chaseStart(how);
 }
 function freeSpot(ok) {
   for (let k = 0; k < 80; k++) {
@@ -288,6 +289,7 @@ function storyTick(dt) {
   for (const b of EB) if (!b.dead && BULLET_WALL.has(tileAt(b.x, b.y))) { b.dead = true; burst(b.x, b.y, 3, COL.ink, 80); }
   for (const p of PR) if (!p.dead && p.kind === 'swave' && BULLET_WALL.has(tileAt(p.x, p.y))) p.dead = true;
   storySword(dt);
+  chaseTick(dt);
   // pickups
   for (const s of G.spk) {
     s.t += dt; s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= Math.exp(-dt * 5); s.vy *= Math.exp(-dt * 5);

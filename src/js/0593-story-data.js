@@ -167,9 +167,11 @@ const AREAS = {
     mobs: [['stag', 3], ['thorn', 3], ['stump', 3]], ents: [['chest', 14, 2, { id: 'sp_coin', coin: 120 }]] },
   owl_nest: { name: '부엉이 둥지', reg: 2, arena: 1, w: 26, h: 20, seed: 33, exits: { S: 'stag_path' },
     ents: [['torch', 12, 16], ['boss', 13, 7, { id: 'owl', hp: 3200 }]] },
-  oak_hollow: { name: '늙은 참나무 터', reg: 2, arena: 1, w: 26, h: 20, seed: 35, exits: { W: 'stag_path', E: ['grove_heart', 'beat_owl beat_oak', '참나무와 부엉이가 숲을 붙잡고 있다.'] },
+  root_run: { name: '뿌리 길', reg: 2, w: 64, h: 13, seed: 301, note: '뒤를 보지 마라', chase: { kind: 'roots', flag: 'run_roots', spd: .9 }, exits: { W: 'oak_hollow', E: 'grove_heart' } },
+  sand_run: { name: '무너지는 사구', reg: 3, w: 68, h: 13, seed: 303, note: '땅이 꺼진다', chase: { kind: 'sand', flag: 'run_sand', spd: .92 }, exits: { W: 'sink_pit', E: 'harbor' } },
+  oak_hollow: { name: '늙은 참나무 터', reg: 2, arena: 1, w: 26, h: 20, seed: 35, exits: { W: 'stag_path', E: ['root_run', 'beat_owl beat_oak', '참나무와 부엉이가 숲을 붙잡고 있다.'] },
     ents: [['torch', 3, 10], ['boss', 14, 9, { id: 'oak', hp: 3000 }]] },
-  grove_heart: { name: '숲의 심장', reg: 2, arena: 1, w: 28, h: 22, seed: 37, exits: { W: 'oak_hollow', E: ['oasis', 'beat_grove gate_loom', '숲이 아직 길을 놓아주지 않는다. 실 잣는 집의 문도 닫혀 있어야 한다.'] },
+  grove_heart: { name: '숲의 심장', reg: 2, arena: 1, w: 28, h: 22, seed: 37, exits: { W: 'root_run', E: ['oasis', 'beat_grove gate_loom', '숲이 아직 길을 놓아주지 않는다. 실 잣는 집의 문도 닫혀 있어야 한다.'] },
     ents: [['torch', 3, 11], ['boss', 15, 10, { id: 'grove', hp: 7000 }]] },
 
   /* ---------------- region 3: 소금 사막 ---------------- */
@@ -211,11 +213,11 @@ const AREAS = {
     ents: [['portal', 12, 6, { gate: 'twins' }], ['torch', 8, 12], ['box', 5, 5], ['box', 18, 5], ['plate', 5, 13, { g: 'p' }], ['plate', 18, 13, { g: 'p' }], ['chest', 12, 15, { id: 'tt_charm', item: 'charm', g: 'p' }]] },
   sun_altar: { name: '태양 제단', reg: 3, w: 24, h: 18, dens: .05, seed: 53, exits: { N: 'salt_flats' },
     ents: [['portal', 12, 9, { gate: 'sun' }], ['torch', 8, 5], ['sign', 15, 5, { text: '해가 진 적 없는 제단. 문 너머가 뜨겁다.' }]] },
-  sink_pit: { name: '모래 구멍', reg: 3, arena: 1, w: 28, h: 22, seed: 55, exits: { W: 'salt_flats', E: ['harbor', 'beat_sandking gate_sun', '모래가 길을 삼켰다. 태양 제단의 문도 닫혀 있어야 한다.'] },
+  sink_pit: { name: '모래 구멍', reg: 3, arena: 1, w: 28, h: 22, seed: 55, exits: { W: 'salt_flats', E: ['sand_run', 'beat_sandking gate_sun', '모래가 길을 삼켰다. 태양 제단의 문도 닫혀 있어야 한다.'] },
     ents: [['torch', 3, 11], ['boss', 15, 10, { id: 'sandking', hp: 16000 }]] },
 
   /* ---------------- region 4: 얼어붙은 항구 ---------------- */
-  harbor: { name: '얼어붙은 항구', reg: 4, w: 30, h: 20, shortcut: ['W', 'E'], dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
+  harbor: { name: '얼어붙은 항구', reg: 4, w: 30, h: 20, shortcut: ['W', 'E'], dens: .05, seed: 61, water: 2, exits: { W: 'sand_run', E: 'docks', N: 'lighthouse' },
     ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['waystone', 16, 4], ['pot', 3, 3], ['pot', 4, 3]] },
   docks: { name: '얼어붙은 부두', reg: 4, map: [
     '##########################',

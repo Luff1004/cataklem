@@ -1454,6 +1454,10 @@ I18N([["선택","SELECTED","選択中","已选"],
 ["실이 저절로 감긴다. 누가 옷을 짓고 있다.","The thread winds itself. Someone is sewing clothes.","糸がひとりでに巻かれる。誰かが服を縫っている。","线自己缠绕起来，有人在缝衣服。"],
 ["사슴 길","Stag Trail","鹿の道","鹿径"],
 ["부엉이 둥지","Owl's Nest","フクロウの巣","枭巢"],
+["뿌리 길","Root Road","根の道","根之路"],
+["뒤를 보지 마라","Don't look back","振り返るな","别回头"],
+["무너지는 사구","Collapsing Dunes","崩れる砂丘","崩塌沙丘"],
+["땅이 꺼진다","The ground gives way","地面が沈む","地面在塌陷"],
 ["늙은 참나무 터","Old Oak Grounds","老いた樫の跡","老橡树之地"],
 ["참나무와 부엉이가 숲을 붙잡고 있다.","The oak and the owl are holding the forest.","樫とフクロウが森をつかんでいる。","橡树和夜枭牢牢抓着这片森林。"],
 ["숲이 아직 길을 놓아주지 않는다. 실 잣는 집의 문도 닫혀 있어야 한다.","The forest won't let you go yet. The spinner's gate must be closed too.","森はまだ道を放してくれない。糸紡ぎの家の門も閉じていなければ。","森林还不肯放你走。纺线小屋的门也必须关上。"],
@@ -1908,6 +1912,13 @@ I18N([["선택","SELECTED","選択中","已选"],
 ["구겨진 종이 벽","Crumpled Paper Wall","くしゃくしゃの紙の壁","揉皱的纸墙"],
 ["지렛대","Lever","レバー","拉杆"],
 ["건너뛰기","Skip","スキップ","跳过"],
+["뿌리 해일","Root Tide","根の津波","根潮"],
+["모래 벌레","Sand Worm","砂虫","沙虫"],
+["동쪽 끝까지 달린다","Run to the east end","東の端まで走れ","跑到东边尽头"],
+["붙잡혔다","Caught","捕まった","被抓住了"],
+["처음부터 다시 달린다","Run it again from the start","最初から走り直し","从头再跑一次"],
+["빠져나왔다","You made it out","抜け出した","逃出来了"],
+["멀어진다","falls behind","遠ざかる","渐渐远去"],
 ["한 번 더","Again","もう一度","再来一次"],
 ["<p class=\"lead\">등불 마을에서 시작하는 긴 이야기. 나무검 한 자루로 시작해 칼을 바꿔 가며 다섯 땅을 지난다. 사람을 만나고, 퍼즐을 풀고, 문 너머의 거물들을 닫는다.</p>","<p class=\"lead\">A long story that begins in Lantern Village. Start with a single wooden sword, trade up blade after blade, and cross five lands. Meet people, solve puzzles, and close the gates where the great ones wait.</p>","<p class=\"lead\">灯火の村から始まる長い物語。木の剣一本から始め、剣を持ち替えながら五つの土地を越える。人に出会い、謎を解き、門の向こうの大物たちを閉じる。</p>","<p class=\"lead\">从灯火村开始的漫长故事。从一把木剑起步，一路换剑，穿越五片土地。结识人们，解开谜题，关上门后的庞然大物。</p>"],
 ["<p class=\"note\">횃불에 불을 붙이면 기록된다. 폰을 가로로 돌려도 된다. 공격은 알아서 나가고, 오른쪽 아래 단추로 말을 걸거나 조사한다.</p>","<p class=\"note\">Lighting a torch saves your progress. Attacks happen on their own; the button at the lower right talks and inspects.</p>","<p class=\"note\">たいまつに火を灯すと記録される。攻撃は自動で出て、右下のボタンで話しかけたり調べたりする。</p>","<p class=\"note\">点燃火炬即会保存。攻击自动进行，右下角的按钮用来对话或查看。</p>"],
@@ -8885,9 +8896,11 @@ const AREAS = {
     mobs: [['stag', 3], ['thorn', 3], ['stump', 3]], ents: [['chest', 14, 2, { id: 'sp_coin', coin: 120 }]] },
   owl_nest: { name: L('부엉이 둥지'), reg: 2, arena: 1, w: 26, h: 20, seed: 33, exits: { S: 'stag_path' },
     ents: [['torch', 12, 16], ['boss', 13, 7, { id: 'owl', hp: 3200 }]] },
-  oak_hollow: { name: L('늙은 참나무 터'), reg: 2, arena: 1, w: 26, h: 20, seed: 35, exits: { W: 'stag_path', E: ['grove_heart', 'beat_owl beat_oak', L('참나무와 부엉이가 숲을 붙잡고 있다.')] },
+  root_run: { name: L('뿌리 길'), reg: 2, w: 64, h: 13, seed: 301, note: L('뒤를 보지 마라'), chase: { kind: 'roots', flag: 'run_roots', spd: .9 }, exits: { W: 'oak_hollow', E: 'grove_heart' } },
+  sand_run: { name: L('무너지는 사구'), reg: 3, w: 68, h: 13, seed: 303, note: L('땅이 꺼진다'), chase: { kind: 'sand', flag: 'run_sand', spd: .92 }, exits: { W: 'sink_pit', E: 'harbor' } },
+  oak_hollow: { name: L('늙은 참나무 터'), reg: 2, arena: 1, w: 26, h: 20, seed: 35, exits: { W: 'stag_path', E: ['root_run', 'beat_owl beat_oak', L('참나무와 부엉이가 숲을 붙잡고 있다.')] },
     ents: [['torch', 3, 10], ['boss', 14, 9, { id: 'oak', hp: 3000 }]] },
-  grove_heart: { name: L('숲의 심장'), reg: 2, arena: 1, w: 28, h: 22, seed: 37, exits: { W: 'oak_hollow', E: ['oasis', 'beat_grove gate_loom', L('숲이 아직 길을 놓아주지 않는다. 실 잣는 집의 문도 닫혀 있어야 한다.')] },
+  grove_heart: { name: L('숲의 심장'), reg: 2, arena: 1, w: 28, h: 22, seed: 37, exits: { W: 'root_run', E: ['oasis', 'beat_grove gate_loom', L('숲이 아직 길을 놓아주지 않는다. 실 잣는 집의 문도 닫혀 있어야 한다.')] },
     ents: [['torch', 3, 11], ['boss', 15, 10, { id: 'grove', hp: 7000 }]] },
 
   /* ---------------- region 3: 소금 사막 ---------------- */
@@ -8929,11 +8942,11 @@ const AREAS = {
     ents: [['portal', 12, 6, { gate: 'twins' }], ['torch', 8, 12], ['box', 5, 5], ['box', 18, 5], ['plate', 5, 13, { g: 'p' }], ['plate', 18, 13, { g: 'p' }], ['chest', 12, 15, { id: 'tt_charm', item: 'charm', g: 'p' }]] },
   sun_altar: { name: L('태양 제단'), reg: 3, w: 24, h: 18, dens: .05, seed: 53, exits: { N: 'salt_flats' },
     ents: [['portal', 12, 9, { gate: 'sun' }], ['torch', 8, 5], ['sign', 15, 5, { text: L('해가 진 적 없는 제단. 문 너머가 뜨겁다.') }]] },
-  sink_pit: { name: L('모래 구멍'), reg: 3, arena: 1, w: 28, h: 22, seed: 55, exits: { W: 'salt_flats', E: ['harbor', 'beat_sandking gate_sun', L('모래가 길을 삼켰다. 태양 제단의 문도 닫혀 있어야 한다.')] },
+  sink_pit: { name: L('모래 구멍'), reg: 3, arena: 1, w: 28, h: 22, seed: 55, exits: { W: 'salt_flats', E: ['sand_run', 'beat_sandking gate_sun', L('모래가 길을 삼켰다. 태양 제단의 문도 닫혀 있어야 한다.')] },
     ents: [['torch', 3, 11], ['boss', 15, 10, { id: 'sandking', hp: 16000 }]] },
 
   /* ---------------- region 4: 얼어붙은 항구 ---------------- */
-  harbor: { name: L('얼어붙은 항구'), reg: 4, w: 30, h: 20, shortcut: ['W', 'E'], dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
+  harbor: { name: L('얼어붙은 항구'), reg: 4, w: 30, h: 20, shortcut: ['W', 'E'], dens: .05, seed: 61, water: 2, exits: { W: 'sand_run', E: 'docks', N: 'lighthouse' },
     ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['waystone', 16, 4], ['pot', 3, 3], ['pot', 4, 3]] },
   docks: { name: L('얼어붙은 부두'), reg: 4, map: [
     '##########################',
@@ -9419,7 +9432,7 @@ function refreshBlk() {
     const c = WD.grid[y][x];
     if (SOLID.has(c)) blk[y * W2 + x] = 1;
     const side = EXIT_CH[c];
-    if (side) { const ex = exitInfo(side); if (!ex || !ex.open || WD.bossLock || WD.locked) blk[y * W2 + x] = 1; }
+    if (side) { const ex = exitInfo(side); if (!ex || !ex.open || WD.bossLock || WD.locked || (WD.chase && side === 'W')) blk[y * W2 + x] = 1; }
   }
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
@@ -9493,6 +9506,7 @@ function enterArea(id, how) {
   if (WD.A.lock && WD.locked) setTimeout(() => { if (WD && WD.locked) banner(L('갇혔다'), L('모두 쓰러뜨려야 길이 열린다'), 'warn'); }, 1400);
   G.trans = null; G.fade = Math.max(G.fade || 0, .9);
   storyHUD(true);
+  chaseStart(how);
 }
 function freeSpot(ok) {
   for (let k = 0; k < 80; k++) {
@@ -9572,6 +9586,7 @@ function storyTick(dt) {
   for (const b of EB) if (!b.dead && BULLET_WALL.has(tileAt(b.x, b.y))) { b.dead = true; burst(b.x, b.y, 3, COL.ink, 80); }
   for (const p of PR) if (!p.dead && p.kind === 'swave' && BULLET_WALL.has(tileAt(p.x, p.y))) p.dead = true;
   storySword(dt);
+  chaseTick(dt);
   // pickups
   for (const s of G.spk) {
     s.t += dt; s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= Math.exp(-dt * 5); s.vy *= Math.exp(-dt * 5);
@@ -10386,6 +10401,7 @@ function flamePathC(x, y, s) { ctx.beginPath(); ctx.moveTo(x, y - s * 1.4); ctx.
 function drawStoryOver() {
   if (!WD) return;
   drawTallFront();
+  drawChase(performance.now() / 1000);
   const S = SAVE.story, now = performance.now();
   wt();
   for (const s of G.spk) {
@@ -10427,6 +10443,7 @@ function drawStoryTop() {
   drawPcPrompt();
   if (!WD) return;
   drawArenaFxTop(performance.now() / 1000);
+  drawChaseTop();
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     const sx = (P.x * K + OX), sy = (P.y * K * TY + OY), r0 = 120 * K, r1 = 360 * K;
@@ -10442,6 +10459,7 @@ function storyCam(dt) {
   const k = 1 - Math.exp(-dt * 8), mw = WD.w * TL, mh = WD.h * TL;
   let tx = P.x + P.vx * .12, ty = P.y + P.vy * .12;
   if (G.boss && !G.boss.dead) { tx = lerp(tx, G.boss.x, .25); ty = lerp(ty, G.boss.y, .25); }
+  if (WD.chase) tx += 150;
   tx = mw > VHW * 2 ? clamp(tx, VHW, mw - VHW) : mw / 2;
   ty = mh > VHH * 2 ? clamp(ty, VHH, mh - VHH) : mh / 2;
   G.camX = lerp(G.camX, tx, k); G.camY = lerp(G.camY, ty, k);
@@ -11485,7 +11503,7 @@ function vnoise(x, y, s, seed) {
 }
 function genTerrain(A, attempt) {
   // every place is its own size; the rock all around hides the rectangle
-  const Rs = mulberry((A.seed || 1) * 7 + 5), grow = A.arena ? 0 : 1;
+  const Rs = mulberry((A.seed || 1) * 7 + 5), grow = A.arena || A.chase ? 0 : 1;
   const w = (A.w || 26) + Math.round(Rs() * 10 * grow), h = (A.h || 18) + Math.round(Rs() * 7 * grow);
   const seed = (A.seed || 1) * 13 + attempt * 101, R = mulberry(seed), reg = A.reg;
   const obs = ['#'];
@@ -11558,7 +11576,7 @@ function genTerrain(A, attempt) {
     tree(pts.map((_, i) => i));
     if (pts.length > 3 && !A.arena) { const i = 1 + Math.floor(R() * (pts.length - 1)), j = 1 + Math.floor(R() * (pts.length - 1)); if (i !== j) edges.push([i, j, 0]); }
   }
-  for (const [i, j] of edges) worm(pts[i][0], pts[i][1], pts[j][0], pts[j][1], .85, A.arena ? 2.6 : 2.3, true);
+  for (const [i, j] of edges) worm(pts[i][0], pts[i][1], pts[j][0], pts[j][1], A.chase ? 1.5 : .85, A.arena ? 2.6 : A.chase ? 2.6 : 2.3, true);
   // places to stand
   if (!sc0) disc(cx, cy, A.arena ? 0 : 2.4);
   for (const e of (A.ents || [])) disc(e[1] + .5, e[2] + .5, 1.6);
@@ -11601,7 +11619,12 @@ function genTerrain(A, attempt) {
   for (const side in (A.exits || {})) { const p = inner[side]; for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) keepOff.add((Math.floor(p[0]) + dx) + ',' + (Math.floor(p[1]) + dy)); }
   for (const [, tx, ty] of extra) for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) keepOff.add((tx + dx) + ',' + (ty + dy));
   const free = (x, y) => inside(x, y) && g[y][x] === '.' && !core[y * w + x] && !keepOff.has(x + ',' + y);
-  const nClus = A.arena ? 0 : 2 + Math.floor(R() * 3);
+  const nClus = A.arena || A.chase ? 0 : 2 + Math.floor(R() * 3);
+  // a chase road gets rocks in the way, to weave around at a run
+  if (A.chase) for (let x = 8; x < w - 8; x += 5 + Math.floor(R() * 3)) {
+    const ys = []; for (let y = 2; y < h - 2; y++) if (g[y][x] === '.' && core[y * w + x]) ys.push(y);
+    if (ys.length > 2) { const y = ys[Math.floor(R() * ys.length)]; g[y][x] = deco[Math.floor(R() * deco.length)]; }
+  }
   for (let k = 0; k < nClus; k++) {
     let tx = 0, ty = 0, ok = false;
     for (let tries = 0; tries < 30 && !ok; tries++) { tx = 2 + Math.floor(R() * (w - 4)); ty = 2 + Math.floor(R() * (h - 4)); ok = free(tx, ty); }
@@ -12016,6 +12039,98 @@ addEventListener('mouseup', e => { if (e.button === 0) MOUSE.down = false; });
 addEventListener('blur', () => { MOUSE.down = false; });
 function mouseWorld() { return [(MOUSE.x * DPR - OX) / K, (MOUSE.y * DPR - OY) / (K * TY)]; }
 function mouseAim() { return IS_PC && MOUSE.seen && !(typeof PAD !== 'undefined' && PAD.on); }
+
+/* ================= story: chases =================
+   A long road with something huge coming up behind. Run east; if it catches you,
+   it hurts and you start the road again. Once you make it out, the road is quiet. */
+const CHASE_KIND = {
+  roots: { name: L('뿌리 해일'), col: '#3E2F2A', col2: '#6B4A33', glow: '#7CF0C8' },
+  sand: { name: L('모래 벌레'), col: '#B0945C', col2: '#E6D3A4', glow: '#FFB03F' },
+};
+function chaseStart(how) {
+  const C = WD.A.chase; WD.chase = null;
+  if (!C || sf(C.flag)) return;
+  if (how && how.side && how.side !== 'W') return;   // only when you come in from the start of the road
+  WD.chase = { x: P.x - 520, t: -1.8, sx: P.x, sy: P.y, caught: 0 };
+  refreshBlk();
+  setTimeout(() => { if (WD && WD.chase) { banner(L('도망쳐'), L(CHASE_KIND[C.kind].name) + ' · ' + L('동쪽 끝까지 달린다'), 'warn'); SFX.roar(); shake(10); } }, 300);
+}
+function chaseTick(dt) {
+  const c = WD.chase; if (!c) return;
+  const C = WD.A.chase;
+  c.t += dt;
+  if (c.t > 0) {
+    // a little slower than you walk, a little faster when you dawdle; it never falls far behind
+    const sp = (P.speed || 165) * (C.spd || .9) * (1 + Math.min(.35, c.t * .01));
+    c.x += sp * dt; c.x = Math.max(c.x, P.x - 520);
+  }
+  const gap = P.x - c.x;
+  if (c.t > 0) { shake(clamp(5 - gap / 80, 0, 5)); if (Math.random() < .3) SFX.rumble && gate('chaseRum', 700) && SFX.rumble(); }
+  // nothing else lives on this road while it runs
+  for (const e of E) if (!e.dead && e.x < c.x + 30) { e.dead = true; burst(e.x, e.y, 8, COL.ink, 200); }
+  if (gap < 34 && STATE === 'play') {
+    c.caught++;
+    // a fixed bite: a fifth of your health, whatever the region
+    if (P.hp <= P.maxHp * .2 + 1) { hurtPlayer(P.hp * 99 + 9999, true); return; }
+    P.hp -= P.maxHp * .2; P.inv = 1.2; SFX.hurt && SFX.hurt();
+    G.flash = .5; shake(18); SFX.boom(true); buzz([60, 40, 60]);
+    banner(L('붙잡혔다'), L('처음부터 다시 달린다'), 'warn');
+    P.x = c.sx; P.y = c.sy; P.vx = P.vy = 0; P.slide = null; G.camX = P.x; G.camY = P.y;
+    c.x = P.x - 560; c.t = -1.2;
+  }
+  // made it
+  if (P.x > (WD.w - 4) * TL) {
+    setf(C.flag); WD.chase = null; refreshBlk();
+    banner(L('빠져나왔다'), josa(L(CHASE_KIND[C.kind].name), L('이'), L('가')) + ' ' + L('멀어진다'), 'good');
+    SFX.win(); gainStoryXp(120 * WD.reg); persist();
+  }
+}
+function drawChase(now) {
+  const c = WD && WD.chase; if (!c) return;
+  const K2 = CHASE_KIND[WD.A.chase.kind], mh = WD.h * TL, fx = c.x;
+  wu(); ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  const top = -40, bot = mh * TY + 40;
+  // the body: a wall of it from the left edge of the world up to its front
+  ctx.fillStyle = K2.col; ctx.beginPath(); ctx.moveTo(fx - 2000, top); ctx.lineTo(fx, top);
+  for (let y = top; y <= bot; y += 12) ctx.lineTo(fx + Math.sin(y / 30 + now * 4) * 14 + Math.sin(y / 11 + now * 7) * 6, y);
+  ctx.lineTo(fx - 2000, bot); ctx.closePath(); ctx.fill();
+  if (WD.A.chase.kind === 'roots') {
+    // roots lashing forward
+    for (let i = 0; i < 14; i++) {
+      const y = top + (i + .5) / 14 * (bot - top), reach = 40 + Math.sin(now * 3 + i * 1.7) * 30 + (i % 3) * 12;
+      for (const [col, lw] of [[COL.ink, 13], [K2.col2, 9], ['rgba(255,255,255,.15)', 3]]) {
+        ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath(); ctx.moveTo(fx - 10, y);
+        ctx.quadraticCurveTo(fx + reach * .5, y + Math.sin(now * 5 + i) * 16, fx + reach, y + Math.sin(now * 4 + i * 2) * 10); ctx.stroke();
+      }
+    }
+    // glowing knots like eyes in the bark
+    for (let i = 0; i < 6; i++) { const y = top + (i + .5) / 6 * (bot - top); ctx.fillStyle = K2.glow; ctx.globalAlpha = .6 + Math.sin(now * 6 + i) * .3; ctx.beginPath(); ctx.ellipse(fx - 30 - (i % 2) * 40, y, 6, 3, 0, 0, TAU); ctx.fill(); }
+    ctx.globalAlpha = 1;
+  } else {
+    // a wave of sand, and the worm's head breaching near you
+    ctx.fillStyle = K2.col2; for (let i = 0; i < 18; i++) { const y = top + (i / 18) * (bot - top), r = 14 + Math.sin(now * 5 + i) * 6; ctx.beginPath(); ctx.arc(fx + 6 + Math.sin(now * 3 + i) * 8, y, r, 0, TAU); ctx.fill(); }
+    const hy = clamp(P.y * TY, 60, bot - 60) + Math.sin(now * 2) * 20, hx = fx + 10, bob = Math.sin(now * 6) * 6;
+    ctx.fillStyle = COL.ink; ctx.beginPath(); ctx.ellipse(hx, hy + bob, 62, 70, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#8A6E45'; ctx.beginPath(); ctx.ellipse(hx - 4, hy + bob, 58, 66, 0, 0, TAU); ctx.fill();
+    ctx.strokeStyle = 'rgba(20,27,64,.35)'; ctx.lineWidth = 2; for (let k = -2; k <= 2; k++) { ctx.beginPath(); ctx.ellipse(hx - 4, hy + bob, 58, 66 - Math.abs(k) * 8, 0, -Math.PI / 2, Math.PI / 2); ctx.stroke(); }
+    // the mouth, opening and closing, ringed with teeth
+    const open = .5 + Math.sin(now * 5) * .5;
+    ctx.fillStyle = '#2A1A10'; ctx.beginPath(); ctx.ellipse(hx + 34, hy + bob, 18 + open * 10, 30 + open * 14, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = COL.paper; for (let k = 0; k < 10; k++) { const a = k / 10 * TAU, rx = 18 + open * 10, ry = 30 + open * 14; const tx = hx + 34 + Math.cos(a) * rx, ty = hy + bob + Math.sin(a) * ry; ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(tx - Math.cos(a) * 8 - Math.sin(a) * 3, ty - Math.sin(a) * 8 + Math.cos(a) * 3); ctx.lineTo(tx - Math.cos(a) * 8 + Math.sin(a) * 3, ty - Math.sin(a) * 8 - Math.cos(a) * 3); ctx.fill(); }
+    // spray
+    ctx.fillStyle = K2.col2; for (let i = 0; i < 16; i++) { const q = (now * 2 + i * .13) % 1; ctx.globalAlpha = 1 - q; ctx.fillRect(fx + q * 60 + (i % 4) * 6, hy - 80 + i * 10 - q * 30, 3, 3); }
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+}
+// the edge of the screen goes red as it gets close
+function drawChaseTop() {
+  const c = WD && WD.chase; if (!c || c.t < 0) return;
+  const gap = P.x - c.x, k = clamp(1 - gap / 380, 0, 1); if (k <= 0) return;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  const g = ctx.createLinearGradient(0, 0, W * .35, 0); g.addColorStop(0, 'rgba(255,79,158,' + (.45 * k).toFixed(3) + ')'); g.addColorStop(1, 'rgba(255,79,158,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W * .35, H);
+}
 
 /* ================= screens ================= */
 const SCREENS = ['scrSInv', 'scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];

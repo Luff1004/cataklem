@@ -333,6 +333,7 @@ function flamePathC(x, y, s) { ctx.beginPath(); ctx.moveTo(x, y - s * 1.4); ctx.
 function drawStoryOver() {
   if (!WD) return;
   drawTallFront();
+  drawChase(performance.now() / 1000);
   const S = SAVE.story, now = performance.now();
   wt();
   for (const s of G.spk) {
@@ -374,6 +375,7 @@ function drawStoryTop() {
   drawPcPrompt();
   if (!WD) return;
   drawArenaFxTop(performance.now() / 1000);
+  drawChaseTop();
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     const sx = (P.x * K + OX), sy = (P.y * K * TY + OY), r0 = 120 * K, r1 = 360 * K;
@@ -389,6 +391,7 @@ function storyCam(dt) {
   const k = 1 - Math.exp(-dt * 8), mw = WD.w * TL, mh = WD.h * TL;
   let tx = P.x + P.vx * .12, ty = P.y + P.vy * .12;
   if (G.boss && !G.boss.dead) { tx = lerp(tx, G.boss.x, .25); ty = lerp(ty, G.boss.y, .25); }
+  if (WD.chase) tx += 150;
   tx = mw > VHW * 2 ? clamp(tx, VHW, mw - VHW) : mw / 2;
   ty = mh > VHH * 2 ? clamp(ty, VHH, mh - VHH) : mh / 2;
   G.camX = lerp(G.camX, tx, k); G.camY = lerp(G.camY, ty, k);
