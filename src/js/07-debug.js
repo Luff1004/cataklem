@@ -50,7 +50,7 @@ if (/debug/.test(location.search)) {
     get U() { return G.u; }, get INPUT() { return INPUT; }, get OB() { return OB; },
     tick(dt) { setCam(G.camX, G.camY); step(dt); if (STATE === 'cut') updateCut(dt); },
     walk(x, y) { return walkable(x, y); },
-    st: { enter: (id, how) => enterArea(id, how || {}), wd: () => WD, act: () => doAct(), near: () => nearAct(), adv: () => advanceDlg(), S: () => SAVE.story, areas: () => Object.keys(AREAS), setf, give: giveSword, gate: id => storyGate(id), gateEnd: w => storyGateEnd(w), spec: id => AREAS[id], EXIT_CH, ents: () => WD.ents, dlg: () => !!DLG, close: () => closeStoryScreen(), exitInfo: s => exitInfo(s), steps: () => STORY_STEPS },
+    st: { enter: (id, how) => enterArea(id, how || {}), wd: () => WD, act: () => doAct(), near: () => nearAct(), adv: () => advanceDlg(), S: () => SAVE.story, areas: () => Object.keys(AREAS), setf, give: giveSword, gate: id => storyGate(id), gateEnd: w => storyGateEnd(w), spec: id => AREAS[id], EXIT_CH, ents: () => WD.ents, dlg: () => !!DLG, close: () => closeStoryScreen(), exitInfo: s => exitInfo(s), steps: () => STORY_STEPS, why: id => { const A = AREAS[id]; const out = []; for (let a = 0; a < 6; a++) { terrainOk(A, genTerrain(A, a)); out.push(TERR_WHY); } return out; }, genOk: id => { const A = AREAS[id]; if (A.map) return 'map'; for (let a = 0; a < 40; a++) if (terrainOk(A, genTerrain(A, a))) return a; return -1; } },
     pad: dt => padPoll(dt),
     finish() { const e = G.boss; e.hp = 1; G.uPhaseT = 999; },
     run() { document.getElementById('btnPlay').click(); document.getElementById('btnGo').click(); },

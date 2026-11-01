@@ -104,7 +104,8 @@ function genArea(A) {
 }
 function buildArea(id) {
   const A = AREAS[id];
-  let rows = A.map ? normRows(A.map, A.map[0].length) : genArea(A);
+  const gen = A.map ? null : genArea2(A);
+  let rows = A.map ? normRows(A.map, A.map[0].length) : gen.rows;
   const w = rows[0].length, h = rows.length, ents = [];
   const grid = rows.map(r => r.split(''));
   // letters in a hand map are entities from the legend
@@ -112,7 +113,7 @@ function buildArea(id) {
     const L = A.legend[grid[y][x]];
     if (L) { ents.push(mkEnt(L[0], x, y, L[1] || {})); grid[y][x] = '.'; }
   }
-  for (const [k, x, y, o] of (A.ents || [])) { ents.push(mkEnt(k, x, y, o || {})); if (SOLID.has(grid[y][x])) grid[y][x] = '.'; }
+  for (const [k, x, y, o] of [...(A.ents || []), ...(gen ? gen.extra : [])]) { ents.push(mkEnt(k, x, y, o || {})); if (SOLID.has(grid[y][x])) grid[y][x] = '.'; }
   for (const e of ents) if (e.k === 'lamp') e.on = !!e.o.on;
   return { id, A, reg: A.reg, w, h, grid, ents, blk: new Uint8Array(w * h), seq: {}, playing: null, boss: null, bossLock: false, locked: false };
 }

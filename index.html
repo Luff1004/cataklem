@@ -8719,7 +8719,7 @@ const AREAS = {
     ents: [['npc', 6, 5, { id: 'baren' }], ['npc', 17, 5, { id: 'has' }], ['npc', 9, 10, { id: 'momo', if: 'momo_found' }], ['npc', 20, 11, { id: 'gren' }],
       ['torch', 17, 9], ['npc', 19, 10, { id: 'nora' }], ['npc', 3, 11, { id: 'ru' }], ['npc', 6, 16, { id: 'seri' }], ['npc', 18, 15, { id: 'jin' }], ['npc', 9, 13, { id: 'rea' }], ['waystone', 13, 14],
       ['sign', 22, 7, { text: L('동쪽: 마을 뒤 들판. 해 지면 나가지 말 것.') }], ['pot', 2, 13], ['pot', 3, 13], ['pot', 24, 2], ['chest', 24, 15, { id: 'v_page', item: 'page' }]] },
-  field: { name: L('마을 뒤 들판'), reg: 1, w: 28, h: 18, dens: .1, seed: 3, exits: { W: 'village', E: 'crossroad', N: 'quarry' },
+  field: { name: L('마을 뒤 들판'), reg: 1, w: 30, h: 20, shortcut: ['W', 'E'], dens: .1, seed: 3, exits: { W: 'village', E: 'crossroad', N: 'quarry' },
     mobs: [['blob', 7], ['moth', 4]],
     ents: [['door', 20, 4, { to: 'well', at: 'up', need: 'well_open', no: L('우물 뚜껑이 단단히 덮여 있다.'), label: L('옛 우물') }], ['sign', 4, 5, { text: L('옛 우물. 들어가지 마시오. 촌장.') }],
       ['pot', 9, 13], ['pot', 10, 13], ['pot', 22, 14], ['chest', 25, 2, { id: 'f_coin', coin: 30 }]] },
@@ -8785,7 +8785,7 @@ const AREAS = {
     flagOnSolve: { b: 'cave_lit' }, mobs: [['spore', 4], ['puff', 2]] },
   cave_depths: { name: L('동굴 깊은 곳'), reg: 2, arena: 1, w: 24, h: 20, seed: 23, dark: 1, music: 'cave',
     ents: [['door', 12, 17, { to: 'mushroom_cave', at: 'cave_depths', label: L('돌아가기') }], ['boss', 12, 7, { id: 'bloom', hp: 3600, opt: 1 }], ['chest', 2, 2, { id: 'cd_charm', item: 'charm' }]] },
-  deepwood: { name: L('깊은 숲'), reg: 2, w: 28, h: 20, dens: .16, seed: 25, exits: { W: 'forest_gate', E: ['stag_path', 'cave_lit', L('덩굴이 길을 막았다. 숲지기가 무언가 알 것 같다.')], S: 'swamp', N: 'loom_hut' },
+  deepwood: { name: L('깊은 숲'), reg: 2, w: 30, h: 22, shortcut: ['W', 'S'], dens: .16, seed: 25, exits: { W: 'forest_gate', E: ['stag_path', 'cave_lit', L('덩굴이 길을 막았다. 숲지기가 무언가 알 것 같다.')], S: 'swamp', N: 'loom_hut' },
     mobs: [['thorn', 4], ['spore', 4], ['wisp', 4]],
     ents: [['torch', 13, 10], ['lamp', 5, 4, { g: 'l', i: 0, j: 0 }], ['lamp', 7, 4, { g: 'l', i: 1, j: 0, on: 1 }], ['lamp', 9, 4, { g: 'l', i: 2, j: 0 }],
       ['lamp', 5, 6, { g: 'l', i: 0, j: 1, on: 1 }], ['lamp', 7, 6, { g: 'l', i: 1, j: 1, on: 1 }], ['lamp', 9, 6, { g: 'l', i: 2, j: 1, on: 1 }],
@@ -8808,7 +8808,7 @@ const AREAS = {
   oasis: { name: L('오아시스'), reg: 3, w: 26, h: 18, dens: .06, seed: 41, water: 1, exits: { W: 'grove_heart', E: 'dunes', S: 'bone_canyon' },
     mobs: [],
     ents: [['torch', 8, 9], ['npc', 6, 6, { id: 'sai' }], ['npc', 18, 6, { id: 'or' }], ['npc', 11, 13, { id: 'hana' }], ['npc', 16, 12, { id: 'pio' }], ['board', 9, 6, { reg: 3 }], ['waystone', 13, 14]] },
-  dunes: { name: L('모래 언덕'), reg: 3, w: 30, h: 20, dens: .08, seed: 43, exits: { W: 'oasis', E: 'salt_flats' },
+  dunes: { name: L('모래 언덕'), reg: 3, w: 32, h: 22, shortcut: ['W', 'E'], dens: .08, seed: 43, exits: { W: 'oasis', E: 'salt_flats' },
     mobs: [['grub', 6], ['gnat', 5], ['burrow', 3], ['scorp', 2]],
     ents: [['door', 15, 3, { to: 'crystal_mine', at: 'up', label: L('소금 광산') }], ['chest', 27, 17, { id: 'du_page', item: 'page' }], ['pot', 4, 4], ['pot', 5, 4]] },
   crystal_mine: { name: L('소금 광산'), reg: 3, music: 'cave', dark: 1, map: [
@@ -8847,7 +8847,7 @@ const AREAS = {
     ents: [['torch', 3, 11], ['boss', 15, 10, { id: 'sandking', hp: 16000 }]] },
 
   /* ---------------- region 4: 얼어붙은 항구 ---------------- */
-  harbor: { name: L('얼어붙은 항구'), reg: 4, w: 28, h: 18, dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
+  harbor: { name: L('얼어붙은 항구'), reg: 4, w: 30, h: 20, shortcut: ['W', 'E'], dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
     ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['waystone', 16, 4], ['pot', 3, 3], ['pot', 4, 3]] },
   docks: { name: L('얼어붙은 부두'), reg: 4, map: [
     '##########################',
@@ -8912,7 +8912,7 @@ const AREAS = {
       D: ['lamp', { g: 'm', i: 0, j: 1 }], E: ['lamp', { g: 'm', i: 1, j: 1 }], F: ['lamp', { g: 'm', i: 2, j: 1, on: 1 }], H: ['lamp', { g: 'm', i: 0, j: 2, on: 1 }], I: ['lamp', { g: 'm', i: 1, j: 2 }], J: ['lamp', { g: 'm', i: 2, j: 2 }],
       S: ['sign', { text: L('결재 순서: 전부 켜진 다음에야 안으로 들인다.') }], G: ['gate', { g: 'm' }] },
     ents: [['boss', 13, 13, { id: 'stamp', hp: 30000 }]] },
-  court: { name: L('심판의 뜰'), reg: 5, w: 26, h: 20, dens: .06, seed: 87, exits: { W: 'paper_maze', N: 'root_hollow', E: ['sky_stair', 'gate_judge beat_pagegiant', L('뜰의 문이 판결을 기다린다.')] },
+  court: { name: L('심판의 뜰'), reg: 5, w: 28, h: 22, shortcut: ['W', 'E'], dens: .06, seed: 87, exits: { W: 'paper_maze', N: 'root_hollow', E: ['sky_stair', 'gate_judge beat_pagegiant', L('뜰의 문이 판결을 기다린다.')] },
     mobs: [['glyph', 3], ['blink', 3]], ents: [['portal', 13, 6, { gate: 'judge' }], ['torch', 8, 14]] },
   root_hollow: { name: L('뿌리 구멍'), reg: 5, w: 24, h: 18, dens: .1, seed: 89, exits: { S: 'court' },
     ents: [['portal', 12, 6, { gate: 'root' }], ['torch', 8, 12], ['chest', 20, 3, { id: 'rh_page', item: 'page' }]] },
@@ -9302,7 +9302,8 @@ function genArea(A) {
 }
 function buildArea(id) {
   const A = AREAS[id];
-  let rows = A.map ? normRows(A.map, A.map[0].length) : genArea(A);
+  const gen = A.map ? null : genArea2(A);
+  let rows = A.map ? normRows(A.map, A.map[0].length) : gen.rows;
   const w = rows[0].length, h = rows.length, ents = [];
   const grid = rows.map(r => r.split(''));
   // letters in a hand map are entities from the legend
@@ -9310,7 +9311,7 @@ function buildArea(id) {
     const L = A.legend[grid[y][x]];
     if (L) { ents.push(mkEnt(L[0], x, y, L[1] || {})); grid[y][x] = '.'; }
   }
-  for (const [k, x, y, o] of (A.ents || [])) { ents.push(mkEnt(k, x, y, o || {})); if (SOLID.has(grid[y][x])) grid[y][x] = '.'; }
+  for (const [k, x, y, o] of [...(A.ents || []), ...(gen ? gen.extra : [])]) { ents.push(mkEnt(k, x, y, o || {})); if (SOLID.has(grid[y][x])) grid[y][x] = '.'; }
   for (const e of ents) if (e.k === 'lamp') e.on = !!e.o.on;
   return { id, A, reg: A.reg, w, h, grid, ents, blk: new Uint8Array(w * h), seq: {}, playing: null, boss: null, bossLock: false, locked: false };
 }
@@ -10831,6 +10832,203 @@ $('shopSide').addEventListener('click', e => {
   if (e.clientX < r.left + 4) { $('scrSShop').querySelector('.shop2').classList.toggle('closed'); SFX.tap(); }
 });
 $('shopSide').setAttribute('data-tab', L('상점'));
+
+/* ================= story terrain: winding roads that narrow and widen, clearings, lakes, blocked shortcuts ================= */
+function vnoise(x, y, s, seed) {
+  const xi = Math.floor(x / s), yi = Math.floor(y / s), xf = x / s - xi, yf = y / s - yi;
+  const hs = (a, b) => { const t = Math.sin(a * 127.1 + b * 311.7 + seed * 74.7) * 43758.5453; return t - Math.floor(t); };
+  const sm = f => f * f * (3 - 2 * f), u = sm(xf), v = sm(yf);
+  const a = hs(xi, yi), b = hs(xi + 1, yi), c = hs(xi, yi + 1), d = hs(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function genTerrain(A, attempt) {
+  const w = A.w || 26, h = A.h || 18, seed = (A.seed || 1) * 13 + attempt * 101, R = mulberry(seed), reg = A.reg;
+  const obs = { 1: ['t', 'o', 't'], 2: ['t', 'o', 't'], 3: ['o', 'c', 'o'], 4: ['#', 'o', 'b'], 5: ['#', 'x', '#'] }[reg];
+  const g = [], core = new Uint8Array(w * h);
+  for (let y = 0; y < h; y++) {
+    g.push([]);
+    for (let x = 0; x < w; x++) { const v = vnoise(x, y, 4, seed); g[y].push(v < .58 ? obs[0] : v < .82 ? obs[1] : obs[2]); }
+  }
+  const inside = (x, y) => x > 0 && y > 0 && x < w - 1 && y < h - 1;
+  const disc = (cx, cy, r) => {
+    for (let y = Math.floor(cy - r - 1); y <= cy + r + 1; y++) for (let x = Math.floor(cx - r - 1); x <= cx + r + 1; x++)
+      if (inside(x, y) && (x + .5 - cx) ** 2 + (y + .5 - cy) ** 2 <= r * r + .3) g[y][x] = '.';
+  };
+  const wormPts = [];
+  const worm = (ax, ay, bx, by, rmin, rmax, keep) => {
+    let x = ax, y = ay, ang = Math.atan2(by - y, bx - x), wig = 0, t = R() * 10;
+    const pts = [];
+    for (let s = 0; s < 600; s++) {
+      const d = Math.hypot(bx - x, by - y); if (d < .8) break;
+      const want = Math.atan2(by - y, bx - x);
+      wig += (R() - .5) * .5; wig *= .9;
+      let da = want - ang; while (da > Math.PI) da -= TAU; while (da < -Math.PI) da += TAU;
+      ang += da * (d < 4 ? .5 : .16) + wig * .35;
+      x = clamp(x + Math.cos(ang) * .6, 1.5, w - 2.5); y = clamp(y + Math.sin(ang) * .6, 1.5, h - 2.5);
+      t += .07;
+      const k = (Math.sin(t) * .5 + .5) * vnoise(x, y, 5, seed + 9), r = rmin + (rmax - rmin) * k;
+      disc(x, y, r); core[Math.floor(y) * w + Math.floor(x)] = 1; pts.push([x, y]);
+    }
+    disc(bx, by, rmin + .3);
+    if (keep) wormPts.push(...pts);
+    return pts;
+  };
+  const cx = w / 2, cy = h / 2;
+  const inner = { W: [1.8, cy], E: [w - 1.8, cy], N: [cx, 1.8], S: [cx, h - 1.8] };
+  const sc0 = A.shortcut, pts = sc0 ? [] : [[cx, cy]];
+  for (const side in (A.exits || {})) pts.push(inner[side]);
+  for (const e of (A.ents || [])) pts.push([e[1] + .5, e[2] + .5]);
+  const nClear = A.arena ? 0 : 2 + Math.floor(R() * 2);
+  for (let k = 0; k < nClear; k++) pts.push([3 + R() * (w - 6), 3 + R() * (h - 6)]);
+  // the shortcut: two exits, a direct road with a choke, and a long way round
+  let neck = null;
+  const sc = A.shortcut;
+  if (sc) {
+    const [pa, pb] = [inner[sc[0]], inner[sc[1]]];
+    const direct = worm(pa[0], pa[1], pb[0], pb[1], .9, 1.6, false);
+    const fi = Math.floor(direct.length * (.42 + R() * .16)), n = direct[fi], n2 = direct[fi + 2] || n;
+    neck = { x: n[0], y: n[1], dx: n2[0] - n[0], dy: n2[1] - n[1] };
+    const horiz = Math.abs(pa[0] - pb[0]) > Math.abs(pa[1] - pb[1]);
+    const far = horiz ? [cx + (R() - .5) * w * .3, cy < h / 2 ? h - 3 : 3] : [cx < w / 2 ? w - 3 : 3, cy + (R() - .5) * h * .3];
+    if (horiz) far[1] = R() < .5 ? 2.6 : h - 3.6; else far[0] = R() < .5 ? 2.6 : w - 3.6;
+    worm(pa[0], pa[1], far[0], far[1], .9, 2.4, true);
+    worm(far[0], far[1], pb[0], pb[1], .9, 2.4, true);
+  }
+  // connect everything with a minimal tree, plus one extra loop; with a shortcut, each side of the choke on its own
+  const edges = [];
+  const tree = idx => {
+    if (idx.length < 2) return;
+    const used = [idx[0]], left = idx.slice(1);
+    while (left.length) {
+      let best = null;
+      for (const i of used) for (const j of left) { const d = Math.hypot(pts[i][0] - pts[j][0], pts[i][1] - pts[j][1]); if (!best || d < best[2]) best = [i, j, d]; }
+      edges.push(best); used.push(best[1]); left.splice(left.indexOf(best[1]), 1);
+    }
+  };
+  if (neck) {
+    const [pa, pb] = [inner[sc0[0]], inner[sc0[1]]], ax = pb[0] - pa[0], ay = pb[1] - pa[1];
+    const ia = pts.findIndex(p => p === pa), ib = pts.findIndex(p => p === pb);
+    const sideA = [ia], sideB = [ib];
+    pts.forEach((p, i) => { if (i === ia || i === ib) return; ((p[0] - neck.x) * ax + (p[1] - neck.y) * ay < 0 ? sideA : sideB).push(i); });
+    tree(sideA); tree(sideB);
+  } else {
+    tree(pts.map((_, i) => i));
+    if (pts.length > 3 && !A.arena) { const i = 1 + Math.floor(R() * (pts.length - 1)), j = 1 + Math.floor(R() * (pts.length - 1)); if (i !== j) edges.push([i, j, 0]); }
+  }
+  for (const [i, j] of edges) worm(pts[i][0], pts[i][1], pts[j][0], pts[j][1], .85, A.arena ? 2.6 : 2.3, true);
+  // places to stand
+  if (!sc0) disc(cx, cy, A.arena ? 0 : 2.4);
+  for (const e of (A.ents || [])) disc(e[1] + .5, e[2] + .5, 1.6);
+  const fixedN = (sc0 ? 0 : 1) + Object.keys(A.exits || {}).length + (A.ents || []).length;
+  for (let k = fixedN; k < pts.length; k++) disc(pts[k][0], pts[k][1], 2.2 + R() * 1.8);
+  if (A.arena) {
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      const v = ((x + .5 - cx) / (w * .42)) ** 2 + ((y + .5 - cy) / (h * .4)) ** 2 + (vnoise(x, y, 3, seed + 5) - .5) * .35;
+      if (v < 1) g[y][x] = '.';
+    }
+    for (const [px, py] of [[-.22, -.2], [.22, -.2], [-.22, .22], [.22, .22]]) { const ox = Math.round(cx + px * w), oy = Math.round(cy + py * h); if (inside(ox, oy)) g[oy][ox] = 'o'; }
+  }
+  // soften the edges
+  for (let p = 0; p < 2; p++) {
+    const snap = g.map(r => r.slice());
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      if (snap[y][x] === '.') continue;
+      let n = 0; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && snap[y + dy][x + dx] === '.') n++;
+      if (n >= 5) g[y][x] = '.';
+    }
+  }
+  // the choke itself
+  const extra = [];
+  if (neck) {
+    const l = Math.hypot(neck.dx, neck.dy) || 1, ux = neck.dx / l, uy = neck.dy / l, px = -uy, py = ux;
+    // wall off the open strip across the road at the choke, edge to edge
+    const strip = new Set([Math.floor(neck.x) + ',' + Math.floor(neck.y)]);
+    for (const sg of [-1, 1]) for (let k = .25; k < 9; k += .25) {
+      const tx = Math.floor(neck.x + px * k * sg), ty = Math.floor(neck.y + py * k * sg);
+      if (!inside(tx, ty) || g[ty][tx] !== '.') break;
+      strip.add(tx + ',' + ty);
+    }
+    for (const c of strip) { const [tx, ty] = c.split(',').map(Number); g[ty][tx] = '.'; extra.push(['barrier', tx, ty, { g: 'sc' }]); }
+    const lx = Math.floor(neck.x + ux * 2.2), ly = Math.floor(neck.y + uy * 2.2);
+    disc(lx + .5, ly + .5, .9); extra.push(['lever', lx, ly, { g: 'sc' }]);
+  }
+  // water, kept off the road
+  for (let k = 0; k < (A.water || 0); k++) {
+    let best = null;
+    for (let tries = 0; tries < 40; tries++) {
+      const x = 3 + R() * (w - 6), y = 3 + R() * (h - 6);
+      let near = 99; for (let yy = -3; yy <= 3; yy++) for (let xx = -3; xx <= 3; xx++) { const tx = Math.floor(x) + xx, ty = Math.floor(y) + yy; if (inside(tx, ty) && core[ty * w + tx]) near = Math.min(near, Math.hypot(xx, yy)); }
+      if (!best || near > best[2]) best = [x, y, near];
+    }
+    const [lx, ly] = best, rx = 1.6 + R() * 2.4, ry = 1.3 + R() * 1.8;
+    for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+      const v = ((x + .5 - lx) / rx) ** 2 + ((y + .5 - ly) / ry) ** 2 + (vnoise(x, y, 2, seed + k) - .5) * .5;
+      if (v < 1 && !core[y * w + x]) g[y][x] = '~';
+      else if (v < 1 && core[y * w + x]) g[y][x] = '=';
+    }
+  }
+  // borders and exits
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!inside(x, y)) g[y][x] = obs[0];
+  const ex = { W: '<', E: '>', N: '^', S: 'v' };
+  for (const side in (A.exits || {})) for (let k = -1; k <= 1; k++) {
+    if (side === 'W') { g[Math.floor(cy) + k][0] = ex.W; g[Math.floor(cy) + k][1] = '.'; }
+    if (side === 'E') { g[Math.floor(cy) + k][w - 1] = ex.E; g[Math.floor(cy) + k][w - 2] = '.'; }
+    if (side === 'N') { g[0][Math.floor(cx) + k] = ex.N; g[1][Math.floor(cx) + k] = '.'; }
+    if (side === 'S') { g[h - 1][Math.floor(cx) + k] = ex.S; g[h - 2][Math.floor(cx) + k] = '.'; }
+  }
+  // dirt along the busiest roads, grass in the quiet parts
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    if (g[y][x] !== '.') continue;
+    if (core[y * w + x] && (reg === 1 || reg === 3) && vnoise(x, y, 3, seed + 2) > .35) g[y][x] = '+';
+    else if (vnoise(x, y, 2.5, seed + 3) > .62) g[y][x] = ',';
+  }
+  for (const e of (A.ents || [])) if (inside(e[1], e[2])) g[e[2]][e[1]] = '.';
+  return { rows: g.map(r => r.join('')), extra };
+}
+/* keep trying until every exit, person and chest can be reached, and a shortcut really saves a walk */
+function genArea2(A) {
+  for (let attempt = 0; attempt < 40; attempt++) {
+    const res = genTerrain(A, attempt);
+    if (terrainOk(A, res)) return res;
+  }
+  if (A.shortcut) return genArea2({ ...A, shortcut: null });
+  return genTerrain(A, 0);
+}
+let TERR_WHY = '';
+function terrainOk(A, res) {
+  TERR_WHY = '';
+  const rows = res.rows, w = rows[0].length, h = rows.length;
+  const solidC = new Set(['#', 't', 'o', '~', 'h', 'f', 'c', 'b', 'x']);
+  const block = new Set(), barrier = new Set();
+  for (const [k, x, y] of (A.ents || [])) if (['npc', 'torch', 'sign', 'chest', 'box', 'brazier', 'lamp', 'pot', 'board', 'bell', 'portal', 'waystone'].includes(k)) block.add(x + ',' + y);
+  for (const [k, x, y] of res.extra) if (k === 'barrier') barrier.add(x + ',' + y); else block.add(x + ',' + y);
+  const bfs = (sx, sy, useBarrier) => {
+    const dist = new Map([[sx + ',' + sy, 0]]), q = [[sx, sy]];
+    while (q.length) {
+      const [x, y] = q.shift(), d = dist.get(x + ',' + y);
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const nx = x + dx, ny = y + dy, key = nx + ',' + ny;
+        if (nx < 0 || ny < 0 || nx >= w || ny >= h || dist.has(key)) continue;
+        const c = rows[ny][nx];
+        if (solidC.has(c) || block.has(key) || (useBarrier && barrier.has(key))) continue;
+        dist.set(key, d + 1); if (!'<>^v'.includes(c)) q.push([nx, ny]);
+      }
+    }
+    return dist;
+  };
+  const start = (() => { for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if ('<>^v'.includes(rows[y][x])) return [x, y]; return [Math.floor(w / 2), Math.floor(h / 2)]; })();
+  const closed = bfs(start[0], start[1], true);
+  const near = (x, y, m) => [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => m.has((x + dx) + ',' + (y + dy)));
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if ('<>^v'.includes(rows[y][x]) && !closed.has(x + ',' + y)) { TERR_WHY = 'exit ' + x + ',' + y; return false; }
+  for (const [k, x, y] of [...(A.ents || []), ...res.extra]) if (k !== 'barrier' && !near(x, y, closed)) { TERR_WHY = 'ent ' + k + ' ' + x + ',' + y; return false; }
+  if (A.shortcut) {
+    const side = s => { for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (rows[y][x] === { W: '<', E: '>', N: '^', S: 'v' }[s]) return [x, y]; };
+    const [a, b] = [side(A.shortcut[0]), side(A.shortcut[1])];
+    const dClosed = bfs(a[0], a[1], true).get(b[0] + ',' + b[1]), dOpen = bfs(a[0], a[1], false).get(b[0] + ',' + b[1]);
+    if (!dClosed || !dOpen || dClosed < dOpen * 1.25) { TERR_WHY = 'sc ' + dClosed + ' ' + dOpen; return false; }
+  }
+  return true;
+}
 
 /* ================= screens ================= */
 const SCREENS = ['scrSInv', 'scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];

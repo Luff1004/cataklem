@@ -87,7 +87,7 @@ const AREAS = {
     ents: [['npc', 6, 5, { id: 'baren' }], ['npc', 17, 5, { id: 'has' }], ['npc', 9, 10, { id: 'momo', if: 'momo_found' }], ['npc', 20, 11, { id: 'gren' }],
       ['torch', 17, 9], ['npc', 19, 10, { id: 'nora' }], ['npc', 3, 11, { id: 'ru' }], ['npc', 6, 16, { id: 'seri' }], ['npc', 18, 15, { id: 'jin' }], ['npc', 9, 13, { id: 'rea' }], ['waystone', 13, 14],
       ['sign', 22, 7, { text: '동쪽: 마을 뒤 들판. 해 지면 나가지 말 것.' }], ['pot', 2, 13], ['pot', 3, 13], ['pot', 24, 2], ['chest', 24, 15, { id: 'v_page', item: 'page' }]] },
-  field: { name: '마을 뒤 들판', reg: 1, w: 28, h: 18, dens: .1, seed: 3, exits: { W: 'village', E: 'crossroad', N: 'quarry' },
+  field: { name: '마을 뒤 들판', reg: 1, w: 30, h: 20, shortcut: ['W', 'E'], dens: .1, seed: 3, exits: { W: 'village', E: 'crossroad', N: 'quarry' },
     mobs: [['blob', 7], ['moth', 4]],
     ents: [['door', 20, 4, { to: 'well', at: 'up', need: 'well_open', no: '우물 뚜껑이 단단히 덮여 있다.', label: '옛 우물' }], ['sign', 4, 5, { text: '옛 우물. 들어가지 마시오. 촌장.' }],
       ['pot', 9, 13], ['pot', 10, 13], ['pot', 22, 14], ['chest', 25, 2, { id: 'f_coin', coin: 30 }]] },
@@ -153,7 +153,7 @@ const AREAS = {
     flagOnSolve: { b: 'cave_lit' }, mobs: [['spore', 4], ['puff', 2]] },
   cave_depths: { name: '동굴 깊은 곳', reg: 2, arena: 1, w: 24, h: 20, seed: 23, dark: 1, music: 'cave',
     ents: [['door', 12, 17, { to: 'mushroom_cave', at: 'cave_depths', label: '돌아가기' }], ['boss', 12, 7, { id: 'bloom', hp: 3600, opt: 1 }], ['chest', 2, 2, { id: 'cd_charm', item: 'charm' }]] },
-  deepwood: { name: '깊은 숲', reg: 2, w: 28, h: 20, dens: .16, seed: 25, exits: { W: 'forest_gate', E: ['stag_path', 'cave_lit', '덩굴이 길을 막았다. 숲지기가 무언가 알 것 같다.'], S: 'swamp', N: 'loom_hut' },
+  deepwood: { name: '깊은 숲', reg: 2, w: 30, h: 22, shortcut: ['W', 'S'], dens: .16, seed: 25, exits: { W: 'forest_gate', E: ['stag_path', 'cave_lit', '덩굴이 길을 막았다. 숲지기가 무언가 알 것 같다.'], S: 'swamp', N: 'loom_hut' },
     mobs: [['thorn', 4], ['spore', 4], ['wisp', 4]],
     ents: [['torch', 13, 10], ['lamp', 5, 4, { g: 'l', i: 0, j: 0 }], ['lamp', 7, 4, { g: 'l', i: 1, j: 0, on: 1 }], ['lamp', 9, 4, { g: 'l', i: 2, j: 0 }],
       ['lamp', 5, 6, { g: 'l', i: 0, j: 1, on: 1 }], ['lamp', 7, 6, { g: 'l', i: 1, j: 1, on: 1 }], ['lamp', 9, 6, { g: 'l', i: 2, j: 1, on: 1 }],
@@ -176,7 +176,7 @@ const AREAS = {
   oasis: { name: '오아시스', reg: 3, w: 26, h: 18, dens: .06, seed: 41, water: 1, exits: { W: 'grove_heart', E: 'dunes', S: 'bone_canyon' },
     mobs: [],
     ents: [['torch', 8, 9], ['npc', 6, 6, { id: 'sai' }], ['npc', 18, 6, { id: 'or' }], ['npc', 11, 13, { id: 'hana' }], ['npc', 16, 12, { id: 'pio' }], ['board', 9, 6, { reg: 3 }], ['waystone', 13, 14]] },
-  dunes: { name: '모래 언덕', reg: 3, w: 30, h: 20, dens: .08, seed: 43, exits: { W: 'oasis', E: 'salt_flats' },
+  dunes: { name: '모래 언덕', reg: 3, w: 32, h: 22, shortcut: ['W', 'E'], dens: .08, seed: 43, exits: { W: 'oasis', E: 'salt_flats' },
     mobs: [['grub', 6], ['gnat', 5], ['burrow', 3], ['scorp', 2]],
     ents: [['door', 15, 3, { to: 'crystal_mine', at: 'up', label: '소금 광산' }], ['chest', 27, 17, { id: 'du_page', item: 'page' }], ['pot', 4, 4], ['pot', 5, 4]] },
   crystal_mine: { name: '소금 광산', reg: 3, music: 'cave', dark: 1, map: [
@@ -215,7 +215,7 @@ const AREAS = {
     ents: [['torch', 3, 11], ['boss', 15, 10, { id: 'sandking', hp: 16000 }]] },
 
   /* ---------------- region 4: 얼어붙은 항구 ---------------- */
-  harbor: { name: '얼어붙은 항구', reg: 4, w: 28, h: 18, dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
+  harbor: { name: '얼어붙은 항구', reg: 4, w: 30, h: 20, shortcut: ['W', 'E'], dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
     ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['waystone', 16, 4], ['pot', 3, 3], ['pot', 4, 3]] },
   docks: { name: '얼어붙은 부두', reg: 4, map: [
     '##########################',
@@ -280,7 +280,7 @@ const AREAS = {
       D: ['lamp', { g: 'm', i: 0, j: 1 }], E: ['lamp', { g: 'm', i: 1, j: 1 }], F: ['lamp', { g: 'm', i: 2, j: 1, on: 1 }], H: ['lamp', { g: 'm', i: 0, j: 2, on: 1 }], I: ['lamp', { g: 'm', i: 1, j: 2 }], J: ['lamp', { g: 'm', i: 2, j: 2 }],
       S: ['sign', { text: '결재 순서: 전부 켜진 다음에야 안으로 들인다.' }], G: ['gate', { g: 'm' }] },
     ents: [['boss', 13, 13, { id: 'stamp', hp: 30000 }]] },
-  court: { name: '심판의 뜰', reg: 5, w: 26, h: 20, dens: .06, seed: 87, exits: { W: 'paper_maze', N: 'root_hollow', E: ['sky_stair', 'gate_judge beat_pagegiant', '뜰의 문이 판결을 기다린다.'] },
+  court: { name: '심판의 뜰', reg: 5, w: 28, h: 22, shortcut: ['W', 'E'], dens: .06, seed: 87, exits: { W: 'paper_maze', N: 'root_hollow', E: ['sky_stair', 'gate_judge beat_pagegiant', '뜰의 문이 판결을 기다린다.'] },
     mobs: [['glyph', 3], ['blink', 3]], ents: [['portal', 13, 6, { gate: 'judge' }], ['torch', 8, 14]] },
   root_hollow: { name: '뿌리 구멍', reg: 5, w: 24, h: 18, dens: .1, seed: 89, exits: { S: 'court' },
     ents: [['portal', 12, 6, { gate: 'root' }], ['torch', 8, 12], ['chest', 20, 3, { id: 'rh_page', item: 'page' }]] },
