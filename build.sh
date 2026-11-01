@@ -20,4 +20,7 @@ pack nodebug > artifact.html
 mkdir -p docs
 { echo "$HEAD"; cat artifact.html; echo '</body></html>'; } > docs/index.html
 touch docs/.nojekyll
+# desktop build: same page, fonts from the local folder instead of Google
+mkdir -p desktop/app
+{ echo "$HEAD"; sed -e '/fonts.gstatic.com/d' -e '/rel="preconnect" href="https:\/\/fonts.googleapis.com"/d' -e 's#<link rel="stylesheet" href="https://fonts.googleapis.com[^>]*>#<link rel="stylesheet" href="fonts/fonts.css">#' artifact.html; echo '</body></html>'; } > desktop/app/index.html
 echo "built: $(wc -c < artifact.html) bytes"

@@ -53,8 +53,8 @@ function audioInit() {
   comp.threshold.value = -16; comp.knee.value = 14; comp.ratio.value = 4; comp.attack.value = .003; comp.release.value = .2;
   comp.connect(c.destination);
   AU.out = c.createGain(); AU.out.gain.value = .9; AU.out.connect(comp);
-  AU.sfx = c.createGain(); AU.sfx.gain.value = SAVE.sound ? .75 : 0; AU.sfx.connect(AU.out);
-  AU.mus = c.createGain(); AU.mus.gain.value = SAVE.music ? .3 : 0; AU.mus.connect(AU.out);
+  AU.sfx = c.createGain(); AU.sfx.gain.value = SAVE.sound ? .75 * (SAVE.sfxVol ?? 1) : 0; AU.sfx.connect(AU.out);
+  AU.mus = c.createGain(); AU.mus.gain.value = SAVE.music ? .3 * (SAVE.musVol ?? 1) : 0; AU.mus.connect(AU.out);
   const len = c.sampleRate | 0, b = c.createBuffer(1, len, c.sampleRate), d = b.getChannelData(0);
   for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
   AU.noise = b;
@@ -62,8 +62,8 @@ function audioInit() {
 }
 function setVolumes() {
   if (!AU.ctx) return;
-  AU.sfx.gain.value = SAVE.sound ? .75 : 0;
-  AU.mus.gain.value = SAVE.music ? .3 : 0;
+  AU.sfx.gain.value = SAVE.sound ? .75 * (SAVE.sfxVol ?? 1) : 0;
+  AU.mus.gain.value = SAVE.music ? .3 * (SAVE.musVol ?? 1) : 0;
 }
 function gate(name, ms) { const n = performance.now(); if (AU.last[name] && n - AU.last[name] < ms) return false; AU.last[name] = n; return true; }
 function tone(f, dur, o = {}) {

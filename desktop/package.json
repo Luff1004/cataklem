@@ -1,0 +1,25 @@
+{
+  "name": "cataklem",
+  "productName": "CATAKLEM",
+  "version": "1.0.0",
+  "description": "CATAKLEM",
+  "author": "Luff1004",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "fonts": "node fetch-fonts.js",
+    "start": "electron .",
+    "dist": "node fetch-fonts.js && electron-builder --win dir"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.luff1004.cataklem",
+    "productName": "CATAKLEM",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "app/**/*"],
+    "win": { "target": "dir" }
+  }
+}

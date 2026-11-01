@@ -7,7 +7,7 @@ function resize() {
   W = Math.max(1, innerWidth); H = Math.max(1, innerHeight);
   DPR = Math.min(2, window.devicePixelRatio || 1) * QUALITY;
   cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
-  ZOOM = clamp(Math.min(W, H) / 410, .82, 1.5);
+  ZOOM = clamp(Math.sqrt(W * H / 364000), .82, 1.6);
   ctx.imageSmoothingEnabled = true;
 }
 function setCam(cx, cy) { const z = ZOOM * ((G && G.camZoom) || 1); CX = cx; CY = cy; K = DPR * z; OX = W * DPR / 2 - cx * K; OY = H * DPR / 2 - cy * K; VHW = W / 2 / z; VHH = H / 2 / z; }
@@ -27,7 +27,7 @@ function drawBG() {
 
 /* ================= world render ================= */
 function render(rdt) {
-  const sx = (Math.random() - .5) * G.shake * 2, sy = (Math.random() - .5) * G.shake * 2;
+  const sk = G.shake * (SAVE.shakeAmt ?? 1), sx = (Math.random() - .5) * sk * 2, sy = (Math.random() - .5) * sk * 2;
   setCam(G.camX + sx, G.camY + sy);
   drawBG();
   if (G.mode === 'boss') drawArenaFloor();

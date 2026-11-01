@@ -1,5 +1,5 @@
 /* ================= screens ================= */
-const SCREENS = ['scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
+const SCREENS = ['scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
 function show(id) { for (const s of SCREENS) $(s).hidden = s !== id; }
 function hideAll() { for (const s of SCREENS) $(s).hidden = true; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -378,6 +378,7 @@ function updMove() {
   const k = INPUT.keys;
   const kx = (k.d || k.arrowright ? 1 : 0) - (k.a || k.arrowleft ? 1 : 0), ky = (k.s || k.arrowdown ? 1 : 0) - (k.w || k.arrowup ? 1 : 0);
   if (kx || ky) { const l = Math.hypot(kx, ky); mx = kx / l; my = ky / l; }
+  if (INPUT.padx || INPUT.pady) { mx = INPUT.padx; my = INPUT.pady; const l = Math.hypot(mx, my); if (l > 1) { mx /= l; my /= l; } }
   INPUT.mx = mx; INPUT.my = my;
 }
 cv.addEventListener('pointerdown', e => {
@@ -466,6 +467,7 @@ let last = performance.now(), perfAcc = 0, perfN = 0, perfChecked = 0;
 function frame(now) {
   requestAnimationFrame(frame);
   const rdt = Math.min(.05, Math.max(0, (now - last) / 1000)); last = now;
+  padPoll(rdt);
   if (STATE === 'intro') { updateIntro(rdt); render(rdt); return; }
   if (STATE === 'cut') { updateCut(rdt); render(rdt); updateHUD(); return; }
   if (STATE === 'play' || STATE === 'dying' || STATE === 'winning') {

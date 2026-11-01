@@ -268,11 +268,24 @@ body.story .rotate{display:none!important}
 .btn.story{background:var(--teal);box-shadow:5px 5px 0 var(--ink)}
 i.coin{display:inline-block;width:13px;height:13px;border-radius:50%;background:var(--yellow);border:2px solid var(--ink);vertical-align:-2px}
 .stbody{display:flex;flex-direction:column;gap:14px}
+.setlist{display:flex;flex-direction:column;gap:14px}
+.setrow{display:grid;grid-template-columns:96px 1fr 48px;gap:12px;align-items:center;font:800 15px/1 var(--f-body);color:var(--ink)}
+.setrow b{font:700 13px/1 var(--f-mono);text-align:right}
+.setrow input{width:100%;accent-color:var(--pink);height:28px}
+.keys{border:2.5px solid var(--ink);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.keys p{margin:0 0 6px;font:700 13px/1.7 var(--f-body)}
+.padfocus{outline:4px solid var(--yellow)!important;outline-offset:3px}
+@media (min-width:900px) and (min-height:520px){
+  .screen{padding-left:max(var(--sl),calc(50vw - 300px));padding-right:max(var(--sr),calc(50vw - 300px))}
+  .screen .scroll{margin-left:0;margin-right:0;padding-left:4px;padding-right:4px}
+  #scrSMap{padding-left:max(var(--sl),calc(50vw - 560px));padding-right:max(var(--sr),calc(50vw - 560px))}
+}
 .parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
 .parts .btn{font-size:15px;padding:11px 12px;flex-direction:column;align-items:flex-start;gap:4px;box-shadow:3px 3px 0 var(--ink)}
 .parts .btn .sub{font:700 11px/1 var(--f-body);opacity:.7}
 .smb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .smb .smq{grid-column:1/3}
+.smb #smSettings{grid-column:1/3}
 .s-map{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
 .s-map i{display:block;width:20px;height:16px;border:2.5px solid var(--ink);border-radius:2px;background:linear-gradient(90deg,transparent 30%,var(--ink) 30% 40%,transparent 40% 62%,var(--ink) 62% 72%,transparent 72%)}
 #scrSMap{gap:10px}
@@ -539,6 +552,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
     <div class="meta">
       <span><i class="shard"></i> <b class="num" id="tShards">0</b> <button class="toggle chip" id="btnPortalChip">포탈</button></span>
       <span class="toggles">
+        <button class="toggle" id="btnSettings">설정</button>
         <button class="toggle" id="tgSound" aria-pressed="true">효과음</button>
         <button class="toggle" id="tgMusic" aria-pressed="true">음악</button>
         <button class="toggle" id="tgHaptic" aria-pressed="true">진동</button>
@@ -547,6 +561,18 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
   </div>
 </section>
 
+<section class="screen sheet" id="scrSettings" hidden>
+  <div class="shead"><button class="back" id="setBack" aria-label="닫기"></button><h2>설정</h2><span class="right"></span></div>
+  <div class="scroll"><div class="setlist">
+    <label class="setrow"><span>효과음</span><input type="range" id="setSfx" min="0" max="100" step="5"><b id="setSfxV"></b></label>
+    <label class="setrow"><span>음악</span><input type="range" id="setMus" min="0" max="100" step="5"><b id="setMusV"></b></label>
+    <label class="setrow"><span>화면 흔들림</span><input type="range" id="setShake" min="0" max="100" step="5"><b id="setShakeV"></b></label>
+    <button class="btn ghost" id="setHaptic">진동</button>
+    <button class="btn ghost" id="setFull">전체 화면</button>
+    <div class="keys"><span class="eyebrow">키보드</span><p>이동 WASD · 방향키<br>구르기 Shift · K<br>섬광 Space (밤 모드)<br>말 걸기 · 조사 E · Enter · Space (이야기)<br>물약 Q · 지도 M · 멈춤 Esc · 전체 화면 F11</p>
+      <span class="eyebrow">게임패드</span><p>이동 왼쪽 스틱 · 십자키<br>A 확인 · 말 걸기 · 섬광<br>B 구르기 · 뒤로<br>X 물약 · Y 지도 · Start 멈춤</p></div>
+  </div></div>
+</section>
 <section class="screen sheet" id="scrStory" hidden>
   <div class="shead"><button class="back" data-back aria-label="뒤로"></button><h2>이야기</h2><span class="right"></span></div>
   <div class="scroll"><div class="stbody" id="stBody"></div></div>
@@ -559,7 +585,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
 <section class="screen sheet" id="scrSMenu" hidden>
   <div class="shead"><button class="back" id="smBack" aria-label="닫기"></button><h2>멈춤</h2><span class="right"></span></div>
   <div class="scroll"><div class="stbody" id="smBody"></div></div>
-  <div class="smb"><button class="btn ghost" id="smMap">지도</button><button class="btn" id="smResume">계속</button><button class="btn ghost smq" id="smQuit">타이틀로</button></div>
+  <div class="smb"><button class="btn ghost" id="smSettings">설정</button><button class="btn ghost" id="smMap">지도</button><button class="btn" id="smResume">계속</button><button class="btn ghost smq" id="smQuit">타이틀로</button></div>
 </section>
 <section class="screen sheet" id="scrSMap" hidden>
   <div class="shead"><button class="back" id="mapBack" aria-label="닫기"></button><h2>지도</h2><span class="right"><b class="num" id="mapSeen"></b></span></div>
@@ -625,6 +651,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
     <div class="pstats" id="pzStats"></div>
     <div class="toggles"><button class="toggle" id="pzSound" aria-pressed="true">효과음</button><button class="toggle" id="pzMusic" aria-pressed="true">음악</button><button class="toggle" id="pzHaptic" aria-pressed="true">진동</button></div>
     <button class="btn inv" id="btnResume">계속한다</button>
+    <button class="btn ghost small" id="pzSettings" style="width:100%">설정</button>
     <div class="confirm" id="quitRow"><button class="btn ghost small" id="btnQuit" style="width:100%">이번 밤은 포기한다</button></div>
   </div>
 </section>
