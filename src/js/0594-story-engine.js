@@ -371,7 +371,7 @@ function storySword(dt) {
   for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R + 10 && angDiff(Math.atan2(e.y - P.y, e.x - P.x), a) < sw.arc / 2 + .4) breakPot(e);
   if (sw.wave) PR.push({ kind: 'swave', x: P.x + Math.cos(a) * 30, y: P.y + Math.sin(a) * 30, vx: Math.cos(a) * 520, vy: Math.sin(a) * 520, a, r: 26, dmg: dmg * .5, pierce: 99, life: .6, hitset: new Set(), boom: 0, bdmg: 0, size: 1, t: 0, dead: false });
   (G.slashes = G.slashes || []).push({ a, R, arc: sw.arc, t0: performance.now(), h: false, side, col: sw.col, scrib: sw.scrib });
-  G.swing = { a0: a - sw.arc / 2 * side, a1: a + sw.arc / 2 * side, t0: performance.now(), dur: 130 };
+  G.swing = { a0: a - sw.arc / 2 * side, a1: a + sw.arc / 2 * side, t0: performance.now(), dur: 170 };
   G.swA = a;
   G.swT = sw.cd * (1 + (C.cd || 0));
   SFX.slash(false);

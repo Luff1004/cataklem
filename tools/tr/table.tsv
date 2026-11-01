@@ -1272,3 +1272,59 @@ X 물약 · Y 지도 · Start 멈춤	X Potion · Y Map · Start Pause	X ポー�
 닫기	Close	閉じる	关闭
 뒤로	Back	戻る	返回
 메뉴	Menu	メニュー	菜单
+레아	Rea	レア	蕾雅
+직업 상인	Class Merchant	職業商人	职业商人
+옷을 바꾸면 걸음이 바뀌고, 걸음이 바뀌면 싸움이 바뀌어.	Change your clothes and your step changes. Change your step and the fight changes.	服を変えれば足取りが変わる。足取りが変われば戦い方も変わる。	换了衣服，步子就变了。步子变了，打法也就变了。
+골라 봐. 한 번 산 건 가방에서 언제든 바꿔 입을 수 있어.	Pick one. Anything you buy, you can switch to from your bag any time.	選んでみて。一度買えば、いつでも鞄から着替えられる。	挑一件吧。买过的随时能在背包里换上。
+길돌	Waystone	道標石	路石
+당기기	Pull	引く	拉动
+직업 상점	Class Shop	職業屋	职业店
+네 가게	's Shop	の店	的店
+직업을 바꿨다. 가방에서 다시 고를 수 있다	Class changed. You can switch again from your bag	職業を変えた。鞄からまた選べる	职业已更换。可在背包里重新选择
+고마워. 잘 써.	Thanks. Use it well.	ありがとう。大事に使って。	谢了。好好用。
+좋은 걸 골랐네.	Good pick.	いい物を選んだね。	眼光不错。
+또 와.	Come again.	また来て。	再来啊。
+칼 갈기	Sharpening	研ぎ	磨剑
+직업	Classes	職業	职业
+물건	Goods	品物	商品
+지금은 할 수 있는 게 없다.	Nothing to do here right now.	今できることはない。	现在没什么可做的。
+가진 것	Owned	所持	持有
+산다	Buy	買う	购买
+특별한 것 없음. 그래서 무엇이든 된다.	Nothing special, so it can become anything.	特に何もない。だから何にでもなれる。	没什么特别的，所以什么都能成为。
+최대 체력 +30%. 이동 속도 -8%.	Max HP +30%. Move speed -8%.	最大体力 +30%。移動速度 -8%。	最大体力 +30%。移动速度 -8%。
+결투가	Duelist	決闘士	决斗者
+치명타 +12%. 치명타 피해 ×2.5.	Crit +12%. Crit damage ×2.5.	会心 +12%。会心ダメージ ×2.5。	暴击 +12%。暴击伤害 ×2.5。
+바람잡이	Runner	風駆け	疾风者
+이동 속도 +18%. 구르기가 빨리 돌아온다.	Move speed +18%. Dash comes back faster.	移動速度 +18%。回避が早く戻る。	移动速度 +18%。冲刺冷却更快。
+장사	Brute	怪力	力士
+칼 피해 +22%. 휘두르기가 조금 느려진다.	Sword damage +22%. Swings a little slower.	剣ダメージ +22%。振りが少し遅くなる。	剑伤害 +22%。挥剑稍慢。
+약초술사	Herbalist	薬草師	药草师
+물약 회복 1.6배. 초당 체력 1 회복.	Potions heal 1.6×. Regain 1 HP per second.	薬の回復 1.6倍。毎秒体力1回復。	药水回复 1.6 倍。每秒回复 1 点体力。
+그림자 사냥꾼	Shadow Hunter	影狩り	暗影猎手
+쓰러뜨릴 때마다 체력 2% 회복. 피해 +8%.	Heal 2% HP on each kill. Damage +8%.	倒すたびに体力2%回復。ダメージ +8%。	每次击倒回复 2% 体力。伤害 +8%。
+길이 달라도 장사는 같지. 천천히 봐.	Different road, same trade. Take your time.	道が違っても商売は同じさ。ゆっくり見て。	路不同，买卖一样。慢慢看。
+물 빼고는 다 있어.	Got everything but water.	水以外は何でもある。	除了水什么都有。
+칼 내려놔. 어디까지 갈아 줄까.	Put the sword down. How sharp do you want it?	剣を置きな。どこまで研ぐ？	把剑放下。要磨到什么程度？
+사람은 옷을 바꾸면 걸음도 바뀌어. 골라 봐.	New clothes, new step. Pick one.	服を変えれば足取りも変わる。選んで。	换身衣服，步子也会变。挑吧。
+눌러서 바꿔 든다	Tap to switch	押して持ち替える	点击切换
+피해	DMG	ダメージ	伤害
+아직 칼이 없다.	No sword yet.	まだ剣がない。	还没有剑。
+직업 상인 레아에게서 산다	Bought from Rea, the class merchant	職業商人レアから買う	向职业商人蕾雅购买
+입고 있다	Wearing	着ている	穿着中
+입는다	Wear	着る	穿上
+가방	Bag	鞄	背包
+마신다	Drink	飲む	喝下
+가방이 비어 있다.	The bag is empty.	鞄は空っぽだ。	背包是空的。
+길돌이 깨어났다	The waystone woke up	道標石が目覚めた	路石苏醒了
+이제 여기로 곧장 올 수 있다	You can come straight here now	これでここへ直接来られる	现在可以直接来这里了
+다른 길돌을 깨우면 이곳에서 곧장 갈 수 있다.	Wake other waystones to travel straight there from here.	他の道標石を目覚めさせれば、ここから直接行ける。	唤醒其他路石，就能从这里直接过去。
+길돌이 웅웅거린다. 어디로 갈까.	The waystone hums. Where to?	道標石がうなる。どこへ行く？	路石嗡嗡作响。去哪儿？
+길이 뚫렸다	The way is open	道が開いた	道路打通了
+이제 이쪽으로 곧장 다닐 수 있다	You can take this way straight through now	これでこっちを通れる	现在可以直接走这边了
+무너진 잔해	Rubble	崩れた瓦礫	倒塌的瓦砾
+쓰러진 고목	Fallen Tree	倒れた古木	倒下的古树
+소금 결정 벽	Salt Crystal Wall	塩の結晶の壁	盐晶墙
+얼음 벽	Ice Wall	氷の壁	冰墙
+구겨진 종이 벽	Crumpled Paper Wall	くしゃくしゃの紙の壁	揉皱的纸墙
+지렛대	Lever	レバー	拉杆
+건너뛰기	Skip	スキップ	跳过

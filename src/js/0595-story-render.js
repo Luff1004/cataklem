@@ -350,8 +350,21 @@ function drawStoryOver() {
   }
   if (!S.sword || STATE === 'dying') return;
   const sw = SWORDS[S.sword], g = G.swing, q = g ? (now - g.t0) / g.dur : 9;
-  const a = q < 1 ? lerp(g.a0, g.a1, ease(q)) : (G.swA !== undefined && now - (g ? g.t0 : 0) < 600 ? g.a1 : (mouseAim() ? (() => { const [mx, my] = mouseWorld(); return Math.atan2(my - P.y, mx - P.x); })() : P.face > 0 ? -.5 : Math.PI + .5));
-  const L = sw.R * .52, bx = P.x + Math.cos(a) * 10, by = P.y + 2 + Math.sin(a) * 10, ex = bx + Math.cos(a) * L, ey = by + Math.sin(a) * L, nx = -Math.sin(a), ny = Math.cos(a);
+  // the swing follows through, then the blade drifts back to rest instead of freezing
+  const rest = mouseAim() ? (() => { const [mx, my] = mouseWorld(); return Math.atan2(my - P.y, mx - P.x) + (P.face > 0 ? -.9 : .9); })() : (P.face > 0 ? -.5 : Math.PI + .5);
+  const fdt = Math.min(.05, (now - (G.swLast || now)) / 1000); G.swLast = now;
+  let a;
+  if (q < 1) {
+    const e = 1 - Math.pow(1 - q, 3), over = Math.sin(q * Math.PI) * .12 * Math.sign(g.a1 - g.a0);
+    a = lerp(g.a0, g.a1, e) + over; G.swVis = a;
+  } else {
+    let cur = G.swVis === undefined ? rest : G.swVis, d = rest - cur;
+    while (d > Math.PI) d -= TAU; while (d < -Math.PI) d += TAU;
+    const settle = q < 2.2 ? 5 : 11;
+    cur += d * (1 - Math.exp(-fdt * settle)); G.swVis = cur; a = cur;
+  }
+  const breath = q >= 1 ? Math.sin(now / 420) * .04 : 0; a += breath;
+  const L = sw.R * .52, reach = q < 1 ? 10 + Math.sin(q * Math.PI) * 6 : 9, bx = P.x + Math.cos(a) * reach, by = P.y + 2 + Math.sin(a) * reach;
   drawSwordSpr(S.sword, bx, by, a, L * 1.25, S.plus[S.sword] || 0);
 }
 
