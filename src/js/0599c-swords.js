@@ -73,7 +73,13 @@ function swordIconInto(x, id) {
 /* ---------- PC: click to swing toward the cursor ---------- */
 const MOUSE = { x: 0, y: 0, down: false, seen: false };
 addEventListener('mousemove', e => { MOUSE.x = e.clientX; MOUSE.y = e.clientY; MOUSE.seen = true; });
-addEventListener('mousedown', e => { if (e.button === 0 && e.target === cv) { MOUSE.down = true; MOUSE.x = e.clientX; MOUSE.y = e.clientY; } });
+// any left click in the field swings, unless it lands on a button or an open screen
+addEventListener('mousedown', e => {
+  if (e.button !== 0) return;
+  const t = e.target;
+  if (t !== cv && t.closest && t.closest('button, a, input, select, label, .screen, #sDlg, .stick, [data-ui]')) return;
+  MOUSE.down = true; MOUSE.seen = true; MOUSE.x = e.clientX; MOUSE.y = e.clientY;
+}, true);
 addEventListener('mouseup', e => { if (e.button === 0) MOUSE.down = false; });
 addEventListener('blur', () => { MOUSE.down = false; });
 function mouseWorld() { return [(MOUSE.x * DPR - OX) / K, (MOUSE.y * DPR - OY) / (K * TY)]; }

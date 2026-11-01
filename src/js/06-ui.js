@@ -384,6 +384,8 @@ function updMove() {
 cv.addEventListener('pointerdown', e => {
   audioInit();
   if (STATE !== 'play' || INPUT.joy) return;
+  // on PC the mouse swings the sword in story mode; walking stays on the keys
+  if (e.pointerType === 'mouse' && G.mode === 'story' && typeof IS_PC !== 'undefined' && IS_PC) { MOUSE.down = true; MOUSE.seen = true; MOUSE.x = e.clientX; MOUSE.y = e.clientY; return; }
   INPUT.joy = { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY };
   try { cv.setPointerCapture(e.pointerId); } catch (_) {}
   updMove(); e.preventDefault();
