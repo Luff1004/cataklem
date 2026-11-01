@@ -54,6 +54,7 @@ const NPCS = {
   bella: { name: '벨라', role: '선장', look: { c: COL.pink, hat: 'crown', item: 'staff' } },
   tam: { name: '탐', role: '낚시꾼', look: { c: '#7CC6D8', hat: 'wide', item: 'staff' } },
   fey: { name: '페이', role: '사서', look: { c: COL.teal, hat: 'point', item: 'book' } },
+  rea: { name: '레아', role: '직업 상인', look: { c: '#7CC6D8', hat: 'crown', item: 'bag' } },
   ink: { name: '잉크쟁이', role: '필경사', look: { c: '#2B3170', hat: 'hood', item: 'book' } },
 };
 
@@ -84,7 +85,7 @@ const AREAS = {
     'tttttttttttttttttttttttttt'],
     exits: { N: ['belltower', 'beat_colossus', '종탑 길은 아직 닫혀 있다.'], E: 'field' },
     ents: [['npc', 6, 5, { id: 'baren' }], ['npc', 17, 5, { id: 'has' }], ['npc', 9, 10, { id: 'momo', if: 'momo_found' }], ['npc', 20, 11, { id: 'gren' }],
-      ['torch', 17, 9], ['npc', 19, 10, { id: 'nora' }], ['npc', 3, 11, { id: 'ru' }], ['npc', 6, 16, { id: 'seri' }], ['npc', 18, 15, { id: 'jin' }],
+      ['torch', 17, 9], ['npc', 19, 10, { id: 'nora' }], ['npc', 3, 11, { id: 'ru' }], ['npc', 6, 16, { id: 'seri' }], ['npc', 18, 15, { id: 'jin' }], ['npc', 9, 13, { id: 'rea' }], ['waystone', 13, 14],
       ['sign', 22, 7, { text: '동쪽: 마을 뒤 들판. 해 지면 나가지 말 것.' }], ['pot', 2, 13], ['pot', 3, 13], ['pot', 24, 2], ['chest', 24, 15, { id: 'v_page', item: 'page' }]] },
   field: { name: '마을 뒤 들판', reg: 1, w: 28, h: 18, dens: .1, seed: 3, exits: { W: 'village', E: 'crossroad', N: 'quarry' },
     mobs: [['blob', 7], ['moth', 4]],
@@ -127,7 +128,7 @@ const AREAS = {
   /* ---------------- region 2: 잠긴 숲 ---------------- */
   forest_gate: { name: '숲 입구', reg: 2, w: 26, h: 18, dens: .12, seed: 21, exits: { W: 'crossroad', E: 'deepwood' },
     mobs: [['spore', 4], ['wisp', 3]],
-    ents: [['torch', 6, 9], ['npc', 9, 7, { id: 'ira' }], ['npc', 9, 12, { id: 'pio' }], ['board', 5, 6, { reg: 2 }], ['door', 18, 3, { to: 'mushroom_cave', at: 'up', label: '버섯 동굴' }], ['chest', 23, 15, { id: 'fg_page', item: 'page' }]] },
+    ents: [['torch', 6, 9], ['npc', 9, 7, { id: 'ira' }], ['npc', 9, 12, { id: 'pio' }], ['board', 5, 6, { reg: 2 }], ['waystone', 12, 14], ['door', 18, 3, { to: 'mushroom_cave', at: 'up', label: '버섯 동굴' }], ['chest', 23, 15, { id: 'fg_page', item: 'page' }]] },
   mushroom_cave: { name: '버섯 동굴', reg: 2, music: 'cave', dark: 1, map: [
     '##########################',
     '#..U.....................#',
@@ -174,7 +175,7 @@ const AREAS = {
   /* ---------------- region 3: 소금 사막 ---------------- */
   oasis: { name: '오아시스', reg: 3, w: 26, h: 18, dens: .06, seed: 41, water: 1, exits: { W: 'grove_heart', E: 'dunes', S: 'bone_canyon' },
     mobs: [],
-    ents: [['torch', 8, 9], ['npc', 6, 6, { id: 'sai' }], ['npc', 18, 6, { id: 'or' }], ['npc', 11, 13, { id: 'hana' }], ['npc', 16, 12, { id: 'pio' }], ['board', 9, 6, { reg: 3 }]] },
+    ents: [['torch', 8, 9], ['npc', 6, 6, { id: 'sai' }], ['npc', 18, 6, { id: 'or' }], ['npc', 11, 13, { id: 'hana' }], ['npc', 16, 12, { id: 'pio' }], ['board', 9, 6, { reg: 3 }], ['waystone', 13, 14]] },
   dunes: { name: '모래 언덕', reg: 3, w: 30, h: 20, dens: .08, seed: 43, exits: { W: 'oasis', E: 'salt_flats' },
     mobs: [['grub', 6], ['gnat', 5], ['burrow', 3], ['scorp', 2]],
     ents: [['door', 15, 3, { to: 'crystal_mine', at: 'up', label: '소금 광산' }], ['chest', 27, 17, { id: 'du_page', item: 'page' }], ['pot', 4, 4], ['pot', 5, 4]] },
@@ -215,7 +216,7 @@ const AREAS = {
 
   /* ---------------- region 4: 얼어붙은 항구 ---------------- */
   harbor: { name: '얼어붙은 항구', reg: 4, w: 28, h: 18, dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
-    ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['pot', 3, 3], ['pot', 4, 3]] },
+    ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['waystone', 16, 4], ['pot', 3, 3], ['pot', 4, 3]] },
   docks: { name: '얼어붙은 부두', reg: 4, map: [
     '##########################',
     '#~~~~~~~~~~~~~~~~~~~~~~~~#',
@@ -251,7 +252,7 @@ const AREAS = {
   /* ---------------- region 5: 하늘 틈 ---------------- */
   plaza: { name: '찢긴 광장', reg: 5, w: 28, h: 18, dens: .06, seed: 81, exits: { W: 'leviathan_bay', E: 'paper_maze', S: 'ink_river' },
     mobs: [['smudge', 3], ['scrap', 3]],
-    ents: [['torch', 12, 9], ['npc', 8, 6, { id: 'fey' }], ['npc', 16, 6, { id: 'pio' }], ['npc', 19, 12, { id: 'ink' }], ['board', 10, 6, { reg: 5 }], ['door', 22, 3, { to: 'stamp_office', at: 'up', label: '도장 관청' }]] },
+    ents: [['torch', 12, 9], ['npc', 8, 6, { id: 'fey' }], ['npc', 16, 6, { id: 'pio' }], ['npc', 19, 12, { id: 'ink' }], ['board', 10, 6, { reg: 5 }], ['waystone', 14, 13], ['door', 22, 3, { to: 'stamp_office', at: 'up', label: '도장 관청' }]] },
   paper_maze: { name: '종이 미로', reg: 5, w: 32, h: 22, dens: .3, seed: 83, exits: { W: 'plaza', E: 'court' },
     mobs: [['inkpot', 4], ['glyph', 3], ['scrap', 4], ['eraser', 2]], ents: [['torch', 3, 11], ['boss', 26, 11, { id: 'pagegiant', hp: 26000 }], ['chest', 16, 2, { id: 'pm_page', item: 'page' }]] },
   ink_river: { name: '잉크 강', reg: 5, arena: 1, w: 28, h: 22, seed: 85, water: 3, exits: { N: 'plaza' },
@@ -355,6 +356,7 @@ const TALK = {
     [S => (SAVE.story.items.page || 0) > (SAVE.story.pagesPaid || 0), ['내 낙서 찾았어? 줘 봐!', '...맞아, 내가 그린 거. 이거 받아. 아빠가 준 부적인데 나는 안 써.'], () => payPages()],
     [S => true, ['낙서 조각 찾으면 갖다 줘. 바람에 다 날아갔어. 스무 장이야.'], null],
   ],
+  rea: [[S => true, ['옷을 바꾸면 걸음이 바뀌고, 걸음이 바뀌면 싸움이 바뀌어.', '골라 봐. 한 번 산 건 가방에서 언제든 바꿔 입을 수 있어.'], () => openStoryShop('class')]],
   gren: [[S => true, ['칼 가져와. 갈아 줄게. 공짜는 아니고.'], () => openStoryShop('smith')]],
   nora: [[S => true, ['횃불에 불을 붙이면 거기서 다시 일어날 수 있어.', '쓰러져도 불은 기억해. 동전은 조금 흘리겠지만.'], null]],
   kei: [

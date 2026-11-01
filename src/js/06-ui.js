@@ -1,5 +1,5 @@
 /* ================= screens ================= */
-const SCREENS = ['scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
+const SCREENS = ['scrSInv', 'scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
 function show(id) { for (const s of SCREENS) $(s).hidden = s !== id; }
 function hideAll() { for (const s of SCREENS) $(s).hidden = true; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -406,7 +406,7 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   INPUT.keys[k] = true; updMove();
   if ((k === ' ' || k === 'f') && STATE === 'play' && G.mode !== 'story') { useUlt(); e.preventDefault(); }
-  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); if (k === 'm' && STATE === 'play') openStoryMap(); }
+  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); if (k === 'm' && STATE === 'play') openStoryMap(); if ((k === 'i' || k === 'tab') && STATE === 'play') { openInventory(); e.preventDefault(); } }
   if (k === 'shift' || k === 'k') tryDash();
   if (k === 'escape') { if (STATE === 'play') pauseGame(); else if (STATE === 'pause') resumeGame(); else if (STATE === 'smenu') closeStoryScreen(); }
   if (STATE === 'level' && ['1', '2', '3', '4'].includes(k)) { const i = +k - 1, el = $('cards').children[i]; if (el && CHOICES[i]) chooseCard(i, el); }
@@ -431,6 +431,8 @@ $('sDash').addEventListener('pointerdown', e => { e.stopPropagation(); e.prevent
 $('sPot').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); usePotion(); });
 $('sMenu').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openSMenu(); });
 $('sMap').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openStoryMap(); });
+$('sInv').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openInventory(); });
+$('invBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
 $('mapBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
 $('smMap').addEventListener('click', () => { SFX.tap(); openStoryMap(); });
 $('sDlg').addEventListener('pointerdown', e => { e.preventDefault(); advanceDlg(); });

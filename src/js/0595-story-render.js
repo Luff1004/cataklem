@@ -1,9 +1,11 @@
 /* ================= story mode: drawing ================= */
 /* people, printed like everything else: a cloak, a head, a hat, something in hand */
-function buildStoryArt() {
-  for (const id in NPCS) {
-    const L = NPCS[id].look, sc = L.big ? 1.15 : L.small ? .8 : 1, r = 16 * sc;
-    regCreature('npc_' + id, r, (x, c, cy, rr) => {
+const NPC_RES = 3;
+function buildStoryArt() { for (const id in NPCS) regNpc(id, 'npc_' + id, NPC_RES); }
+function regNpc(id, key, mult) {
+  {
+    const L = NPCS[id].look, sc = L.big ? 1.15 : L.small ? .8 : 1, r = 16 * sc * mult;
+    regCreature(key, r, (x, c, cy, rr) => {
       const s = rr / 16;
       x.beginPath(); x.moveTo(c - 11 * s, cy + 15 * s); x.quadraticCurveTo(c - 10 * s, cy - 2 * s, c - 6 * s, cy - 4 * s); x.lineTo(c + 6 * s, cy - 4 * s); x.quadraticCurveTo(c + 10 * s, cy - 2 * s, c + 11 * s, cy + 15 * s); x.closePath(); x.fill();
       x.beginPath(); x.arc(c, cy - 9 * s, 7 * s, 0, TAU); x.fill();
@@ -27,7 +29,22 @@ function buildStoryArt() {
       if (L.beard) { x.fillStyle = COL.white; x.globalAlpha = .85; x.beginPath(); x.moveTo(c - 5 * s, cy - 5 * s); x.quadraticCurveTo(c, cy + 4 * s, c + 5 * s, cy - 5 * s); x.fill(); x.globalAlpha = 1; }
       if (L.item === 'torch') { x.fillStyle = COL.yellow; flamePath(x, c + 12 * s, cy - 11 * s, 3.4 * s); x.fill(); }
       if (L.item === 'crayon') { x.fillStyle = COL.yellow; x.save(); x.translate(c + 12 * s, cy + 2 * s); x.rotate(-.6); x.fillRect(-2 * s, -9 * s, 4 * s, 3 * s); x.restore(); }
-      x.fillStyle = COL.white; x.globalAlpha = .35; x.fillRect(c - 1 * s, cy, 2 * s, 13 * s); x.globalAlpha = 1;
+      // shade on the far side of the cloak, a collar, a belt, buttons, hands and boots
+      x.save(); x.globalCompositeOperation = 'source-atop';
+      x.fillStyle = 'rgba(20,27,64,.28)'; x.beginPath(); x.moveTo(c + 2 * s, cy - 4 * s); x.lineTo(c + 12 * s, cy + 16 * s); x.lineTo(c + 2 * s, cy + 16 * s); x.closePath(); x.fill();
+      x.fillStyle = 'rgba(255,255,255,.22)'; x.beginPath(); x.moveTo(c - 6 * s, cy - 3 * s); x.lineTo(c - 9 * s, cy + 14 * s); x.lineTo(c - 6.5 * s, cy + 14 * s); x.lineTo(c - 4 * s, cy - 3 * s); x.fill();
+      x.restore();
+      x.fillStyle = COL.paper; x.globalAlpha = .9; x.beginPath(); x.moveTo(c - 5 * s, cy - 4 * s); x.lineTo(c, cy + 1 * s); x.lineTo(c + 5 * s, cy - 4 * s); x.lineTo(c + 3 * s, cy - 4.5 * s); x.lineTo(c, cy - 1.5 * s); x.lineTo(c - 3 * s, cy - 4.5 * s); x.fill();
+      x.globalAlpha = 1; x.fillStyle = COL.deep; x.fillRect(c - 9.5 * s, cy + 6 * s, 19 * s, 2.4 * s);
+      x.fillStyle = COL.yellow; x.fillRect(c - 1.6 * s, cy + 5.6 * s, 3.2 * s, 3.2 * s);
+      x.fillStyle = COL.white; x.globalAlpha = .7; for (const by of [1.5, 10.5]) { x.beginPath(); x.arc(c, cy + by * s, .9 * s, 0, TAU); x.fill(); }
+      x.globalAlpha = 1; x.fillStyle = '#F2D6B8'; x.strokeStyle = COL.deep; x.lineWidth = .9 * s;
+      for (const hx of [-10.5, 10.5]) { x.beginPath(); x.arc(c + hx * s, cy + 8.5 * s, 2 * s, 0, TAU); x.fill(); x.stroke(); }
+      x.fillStyle = COL.deep; x.beginPath(); x.ellipse(c - 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.ellipse(c + 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.fill();
+      x.fillStyle = '#F2D6B8'; x.globalAlpha = .9; x.beginPath(); x.ellipse(c, cy - 7.5 * s, 4.6 * s, 3.4 * s, 0, 0, TAU); x.fill(); x.globalAlpha = 1;
+      eyes(x, [[c - 2.6 * s, cy - 8.4 * s], [c + 2.6 * s, cy - 8.4 * s]], 1.5 * s, .85 * s, .2);
+      x.fillStyle = 'rgba(255,79,158,.45)'; x.beginPath(); x.arc(c - 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.arc(c + 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.fill();
+      x.strokeStyle = COL.deep; x.lineWidth = .7 * s; x.beginPath(); x.arc(c, cy - 6.4 * s, 1.2 * s, .3, Math.PI - .3); x.stroke();
     }, { plates: [{ col: L.c, dx: 1.6, dy: 1.2 }, { col: COL.ink, dx: 0, dy: 0 }] });
   }
 }
@@ -158,12 +175,13 @@ function label(x, y, text, col = COL.ink) {
 function drawEnt(e, now) {
   const x = e.x, y = e.y, S = SAVE.story;
   wt();
+  if (drawEnt2(e, now)) return;
   switch (e.k) {
     case 'npc': {
       const SP2 = SPR['npc_' + e.o.id]; if (!SP2) break;
       spr(SP.shadow, x, y + 14, 26, 8);
       const b = Math.sin(now * 2.2 + e.t) * .03, face = P.x < x ? -1 : 1;
-      spr(SP2.img, x, y - 4, SP2.size * 1.25, SP2.size * 1.25, 0, face * (1 + b), 1 - b);
+      spr(SP2.img, x, y - 4, SP2.size * 1.25 / NPC_RES, SP2.size * 1.25 / NPC_RES, 0, face * (1 + b), 1 - b);
       const list = TALK[e.o.id], idx = list.findIndex(r => r[0](S));
       if (idx < list.length - 1 && list[idx][2] && !/openStoryShop/.test(String(list[idx][2]))) { wt(); ctx.font = '400 22px "Gasoek One", sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = COL.pink; ctx.fillText('!', x + 2, y - 38 + Math.sin(now * 5) * 3 + 2); ctx.fillStyle = COL.yellow; ctx.fillText('!', x, y - 38 + Math.sin(now * 5) * 3); }
       if (Math.hypot(P.x - x, P.y - y) < TL * 2.6) label(x, y + 30, NPCS[e.o.id].name);
@@ -318,7 +336,9 @@ function drawStoryOver() {
 }
 
 /* ---------- drawn on top: caves are dark, doorways fade ---------- */
+
 function drawStoryTop() {
+  drawPcPrompt();
   if (!WD) return;
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);

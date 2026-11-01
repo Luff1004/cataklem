@@ -37,6 +37,10 @@ function applyStats() {
   P.maxHp = 100 + (S.lv - 1) * 14 + S.charms * 15;
   P.might = (1 + (S.lv - 1) * .035) * (sf('scribble') ? 1.05 : 1);
   P.crit = .05 + (sw && sw.crit || 0); P.critMul = 2; P.armorMul = 1; P.cdMul = 1; P.area = 1; P.regen = 0; P.leech = 0; P.speed = 165;
+  const C = curClass();
+  G.char = C.look;
+  P.maxHp *= 1 + (C.hp || 0); P.speed *= 1 + (C.spd || 0); P.crit += C.crit || 0; if (C.critMul) P.critMul = C.critMul;
+  P.dashMul = C.dash || 1; P.regen = C.regen || 0;
   P.hp = Math.min(P.hp || P.maxHp, P.maxHp);
 }
 const xpNeedS = L => Math.round(14 + L * 11 + L * L * .7);
@@ -114,7 +118,7 @@ function buildArea(id) {
 }
 function mkEnt(k, tx, ty, o) { return { k, tx, ty, x: (tx + .5) * TL, y: (ty + .5) * TL, o, t: Math.random() * 10 }; }
 const entOn = e => (!e.o.if || allf(e.o.if)) && (!e.o.unless || !sf(e.o.unless)) && !e.gone;
-const SOLID_ENT = new Set(['npc', 'torch', 'sign', 'chest', 'box', 'brazier', 'lamp', 'pot', 'board', 'bell', 'portal']);
+const SOLID_ENT = new Set(['npc', 'torch', 'sign', 'chest', 'box', 'brazier', 'lamp', 'pot', 'board', 'bell', 'portal', 'waystone', 'lever']);
 function gSolved(g) { return !!SAVE.story.solved[WD.id + ':' + g]; }
 function exitInfo(side) {
   const v = WD.A.exits && WD.A.exits[side]; if (!v) return null;
@@ -133,6 +137,7 @@ function refreshBlk() {
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
     if (e.k === 'gate' && !gSolved(e.o.g)) blk[e.ty * W2 + e.tx] = 1;
+    if (e.k === 'barrier' && !gSolved(e.o.g)) blk[e.ty * W2 + e.tx] = 1;
     if (e.k === 'door' && (WD.bossLock || WD.locked)) blk[e.ty * W2 + e.tx] = 1;
     if (SOLID_ENT.has(e.k) && !(e.k === 'pot' && e.broken)) blk[e.ty * W2 + e.tx] = 1;
   }
@@ -256,6 +261,7 @@ function storyKill(e) {
   if (Math.random() < .03) G.spk.push({ k: 'heart', x: e.x, y: e.y, v: 0, vx: rnd(-80, 80), vy: rnd(-80, 80), t: 0 });
   const dr = WD.A.drop; if (dr && Math.random() < dr[1]) G.spk.push({ k: 'item', it: dr[0], x: e.x, y: e.y, v: 1, vx: rnd(-80, 80), vy: rnd(-80, 80), t: 0 });
   gainStoryXp((ED.xp || 1) * 2 * WD.reg * (e.elite ? 6 : 1));
+  if (curClass().leech) heal(P.maxHp * curClass().leech);
   S.ak[WD.id] = (S.ak[WD.id] || 0) + 1; S.kills++;
   const B = S.bounty;
   if (B && !B.done && B.type === e.type) { B.got++; if (B.got >= B.need) { B.done = true; banner('의뢰 완료', '의뢰판으로 돌아가 보상을 받는다', 'good'); } }
@@ -341,7 +347,7 @@ function storySword(dt) {
   if (!best) for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R) { pot = e; break; }
   if (!best && !pot) return;
   const tgt = best || pot, a = Math.atan2(tgt.y - P.y, tgt.x - P.x), side = (G.swN = (G.swN || 0) + 1) % 2 ? 1 : -1;
-  const dmg = sw.dmg * (1 + plus * .12);
+  const C = curClass(), dmg = sw.dmg * (1 + plus * .12) * (1 + (C.dmg || 0));
   for (const e of E) {
     if (e.dead || e.hidden || e.under) continue;
     const dx = e.x - P.x, dy = e.y - P.y, d = Math.hypot(dx, dy) || 1;
@@ -355,7 +361,7 @@ function storySword(dt) {
   (G.slashes = G.slashes || []).push({ a, R, arc: sw.arc, t0: performance.now(), h: false, side, col: sw.col, scrib: sw.scrib });
   G.swing = { a0: a - sw.arc / 2 * side, a1: a + sw.arc / 2 * side, t0: performance.now(), dur: 130 };
   G.swA = a;
-  G.swT = sw.cd;
+  G.swT = sw.cd * (1 + (C.cd || 0));
   SFX.slash(false);
 }
 function breakPot(e) {
@@ -434,7 +440,7 @@ function nearAct() {
   let best = null, bd = TL * 1.45;
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
-    if (!['npc', 'sign', 'chest', 'torch', 'brazier', 'lamp', 'portal', 'board', 'bell'].includes(e.k)) continue;
+    if (!['npc', 'sign', 'chest', 'torch', 'brazier', 'lamp', 'portal', 'board', 'bell', 'waystone', 'lever'].includes(e.k)) continue;
     if (e.k === 'chest' && SAVE.story.opened[e.o.id]) continue;
     const d = Math.hypot(e.x - P.x, e.y - P.y);
     if (d < bd) { bd = d; best = e; }
@@ -451,12 +457,14 @@ function nearAct() {
   }
   return best;
 }
-const ACT_LABEL = { npc: '말 걸기', sign: '읽기', chest: '열기', torch: '불 붙이기', brazier: '불 붙이기', lamp: '켜고 끄기', portal: '들어가기', board: '의뢰판', bell: '두드리기', exitlock: '살펴보기' };
+const ACT_LABEL = { waystone: '길돌', lever: '당기기', npc: '말 걸기', sign: '읽기', chest: '열기', torch: '불 붙이기', brazier: '불 붙이기', lamp: '켜고 끄기', portal: '들어가기', board: '의뢰판', bell: '두드리기', exitlock: '살펴보기' };
 function doAct() {
   if (STATE !== 'play' || G.mode !== 'story' || G.trans) return;
   const e = nearAct(); if (!e) return;
   const S = SAVE.story;
   if (e.k === 'npc') return talkTo(e.o.id);
+  if (e.k === 'waystone') return waystoneAct(e);
+  if (e.k === 'lever') return leverAct(e);
   if (e.k === 'sign') return dialog([['', e.o.text]]);
   if (e.k === 'exitlock') return dialog([['', e.msg]]);
   if (e.k === 'chest') {
@@ -501,7 +509,9 @@ function doAct() {
 
 /* ---------- talking ---------- */
 let DLG = null;
+let LAST_NPC = null;
 function talkTo(id) {
+  LAST_NPC = id;
   const S = SAVE.story, N = NPCS[id], list = TALK[id];
   const ent = list.find(r => r[0](S));
   const lines = typeof ent[1] === 'function' ? ent[1](S) : ent[1];
@@ -572,6 +582,10 @@ function bountyTalk(reg) {
 /* ---------- shops ---------- */
 function shopItems(kind) {
   const S = SAVE.story, r = WD ? WD.reg : 1, list = [];
+  if (kind === 'class') {
+    for (const id in STORY_CLASSES) { if (id === 'wanderer') continue; const d = STORY_CLASSES[id]; if (!(S.classes || []).includes(id)) list.push({ k: 'class', id, name: d.name, desc: d.desc, price: d.price }); }
+    return list;
+  }
   if (kind === 'smith') {
     for (const id of S.swords) { const p = S.plus[id] || 0; if (p < 5) list.push({ k: 'plus', id, name: SWORDS[id].name + ' +' + (p + 1), desc: '피해 +12%', price: Math.round(60 * (SWORD_ORDER.indexOf(id) + 1) ** 1.6 * (p + 1)) }); }
     return list;
@@ -585,25 +599,30 @@ function shopItems(kind) {
 let SHOP_KIND = null;
 function openStoryShop(kind) {
   SHOP_KIND = kind; STATE = 'smenu'; INPUT.joy = null; updMove();
+  SHOP_NPC = LAST_NPC || 'pio';
   show('scrSShop'); renderStoryShop();
+  $('shopSay').textContent = L(SHOP_SAY[kind] || SHOP_SAY.pio);
+  if (!SHOP_RAF) SHOP_RAF = requestAnimationFrame(shopLoop);
 }
 function renderStoryShop() {
   const S = SAVE.story;
-  $('ssTitle').textContent = SHOP_KIND === 'smith' ? '대장간' : '가게';
+  $('ssTitle').textContent = SHOP_KIND === 'smith' ? '대장간' : SHOP_KIND === 'class' ? '직업' : '가게';
   $('ssCoin').textContent = fmtNum(S.coin);
   const host = $('ssList'); host.innerHTML = '';
   const items = shopItems(SHOP_KIND);
   if (!items.length) host.innerHTML = '<p class="note">지금은 할 수 있는 게 없다.</p>';
   for (const it of items) {
-    const row = document.createElement('div'); row.className = 'row';
+    const row = document.createElement('div'); row.className = 'row si';
     const have = it.k === 'potion' || it.k === 'bigpotion' ? ' · 가진 것 ' + (S.items[it.k] || 0) : '';
-    row.innerHTML = '<div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + '</button>';
+    const ico = it.k === 'sword' || it.k === 'plus' ? storyIcon(it.k, it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
+    row.innerHTML = '<img alt="" src="' + ico + '"><div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + '</button>';
     row.querySelector('button').addEventListener('click', () => {
       if (S.coin < it.price) { SFX.deny(); return; }
       S.coin -= it.price; SFX.chest(); buzz(20);
       if (it.k === 'plus') { S.plus[it.id] = (S.plus[it.id] || 0) + 1; SFX.clank(); }
       else if (it.k === 'charm') { S.charms++; applyStats(); }
       else if (it.k === 'sword') { S.swords.push(it.id); S.sword = it.id; applyStats(); }
+      else if (it.k === 'class') { S.classes = S.classes || []; S.classes.push(it.id); S.cls = it.id; applyStats(); banner(it.name, L('직업을 바꿨다. 가방에서 다시 고를 수 있다'), 'good'); }
       else S.items[it.k] = (S.items[it.k] || 0) + 1;
       persist(); renderStoryShop();
     });
@@ -627,18 +646,10 @@ function renderSMenu() {
     '<div><div class="label"><span class="eyebrow">할 일</span><span>' + done + ' / ' + STORY_STEPS.length + '</span></div><p class="lead">' + esc(step ? step.t : '모든 이야기를 마쳤다.') + '</p>' +
     (S.bounty ? '<p class="note">의뢰: ' + esc(S.bounty.name) + ' ' + S.bounty.got + ' / ' + S.bounty.need + (S.bounty.done ? ' · 끝' : '') + '</p>' : '') + '</div>' +
     (() => { const sq = SIDE_QUESTS.filter(q => S.seen[q.at] && !sf(q.f)); return sq.length ? '<div><div class="label"><span class="eyebrow">곁일</span><span>' + SIDE_QUESTS.filter(q => sf(q.f)).length + ' / ' + SIDE_QUESTS.length + ' 끝냄</span></div>' + sq.map(q => '<p class="note">' + esc(q.t) + ' · ' + esc(q.who) + '</p>').join('') + '</div>' : ''; })() +
-    '<div><div class="label"><span class="eyebrow">칼</span><span>눌러서 바꿔 든다</span></div><div class="shop" id="smSwords"></div></div>' +
     '<div><div class="label"><span class="eyebrow">가진 것</span></div><p class="note">' +
       ['potion', 'bigpotion', 'stone', 'page', 'salt_heart', 'mushroom', 'jar', 'sentence'].filter(k => S.items[k]).map(k => esc(ITEM_NAME[k]) + ' ' + S.items[k]).join(' · ') + (S.charms ? ' · 불씨 부적 ' + S.charms : '') + '</p></div>' +
     '<p class="note">기록은 횃불에 불을 붙일 때 남는다. 나가면 마지막 횃불에서 이어진다.</p>';
-  const host = $('smSwords');
-  for (const id of SWORD_ORDER) {
-    if (!S.swords.includes(id)) continue;
-    const sw = SWORDS[id], row = document.createElement('div'); row.className = 'row';
-    row.innerHTML = '<div><b>' + esc(sw.name) + (S.plus[id] ? ' +' + S.plus[id] : '') + '</b><p>' + esc(sw.desc) + ' 피해 ' + Math.round(sw.dmg * (1 + (S.plus[id] || 0) * .12)) + '</p></div><button class="buy' + (S.sword === id ? ' max' : '') + '">' + (S.sword === id ? '들고 있다' : '든다') + '</button>';
-    row.querySelector('button').addEventListener('click', () => { S.sword = id; applyStats(); persist(); SFX.tap(); renderSMenu(); });
-    host.appendChild(row);
-  }
+  $('smBody').querySelector('.tiles').insertAdjacentHTML('afterend', '<p class="note">' + esc(L('직업')) + ': ' + esc(curClass().name) + ' · ' + esc(L('칼')) + ': ' + esc(S.sword ? SWORDS[S.sword].name : '-') + '</p>');
 }
 
 /* ---------- HUD ---------- */
@@ -664,7 +675,7 @@ function usePotion() {
   if (STATE !== 'play' || G.mode !== 'story') return;
   const S = SAVE.story, k = P.hp < P.maxHp * .45 && S.items.bigpotion ? 'bigpotion' : S.items.potion ? 'potion' : S.items.bigpotion ? 'bigpotion' : null;
   if (!k) return;
-  S.items[k]--; heal(P.maxHp * (k === 'bigpotion' ? 1 : .4)); SFX.heal(); buzz(15); persist(); storyHUD(true);
+  S.items[k]--; heal(P.maxHp * (k === 'bigpotion' ? 1 : .4) * (curClass().pot || 1)); SFX.heal(); buzz(15); persist(); storyHUD(true);
 }
 
 /* ---------- start, death, portals ---------- */

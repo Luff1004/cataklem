@@ -295,6 +295,27 @@ html[lang=en] .btn,html[lang=en] .shead h2{letter-spacing:-.01em}
 .parts .btn{font-size:15px;padding:11px 12px;flex-direction:column;align-items:flex-start;gap:4px;box-shadow:3px 3px 0 var(--ink)}
 .parts .btn .sub{font:700 11px/1 var(--f-body);opacity:.7}
 .smb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.s-inv{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
+.s-inv i{display:block;width:20px;height:16px;border:2.5px solid var(--ink);border-radius:3px 3px 5px 5px;position:relative;margin-top:4px}
+.s-inv i::before{content:"";position:absolute;left:4px;right:4px;top:-8px;height:6px;border:2.5px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0}
+body.pc #sHud .s-dash,body.pc #sHud .s-act,body.pc #hud .dashb{display:none!important}
+.row.si,.row.inv{grid-template-columns:48px minmax(0,1fr) auto}
+.row.si img,.row.inv img{width:48px;height:48px}
+#scrSShop{padding:0;background:var(--paper)}
+.shop2{position:absolute;inset:0}
+.shop-view{position:absolute;inset:0;overflow:hidden}
+#shopCv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.shop-view .back{position:absolute;left:var(--sl);top:calc(var(--st) + 12px);z-index:2}
+.shop-say{position:absolute;left:calc(var(--sl) + 58px);top:calc(var(--st) + 12px);max-width:min(30%,320px);background:var(--paper);border:2.5px solid var(--ink);border-radius:3px;padding:8px 12px;font:800 13px/1.45 var(--f-body);color:var(--ink);box-shadow:3px 3px 0 var(--pink);text-align:center}
+.shop-side{position:absolute;top:0;right:0;bottom:0;width:min(62%,460px);display:flex;flex-direction:column;gap:8px;padding:calc(var(--st) + 14px) var(--sr) calc(var(--sb) + 12px) 14px;background:rgba(228,229,223,.94);border-left:3px solid var(--ink);box-shadow:-6px 0 0 rgba(20,27,64,.12);transition:transform .25s}
+.shop-side::before{content:attr(data-tab);position:absolute;left:-38px;top:calc(var(--st) + 70px);width:35px;padding:14px 0;writing-mode:vertical-rl;text-align:center;background:var(--ink);color:var(--paper);font:400 15px/1 var(--f-display);border-radius:3px 0 0 3px;letter-spacing:.1em}
+.shop2.closed .shop-side{transform:translateX(calc(100% - 4px))}
+.shop-head{display:flex;align-items:center;justify-content:space-between}
+.shop-head h2{margin:0;font:400 26px/1 var(--f-display);color:var(--ink)}
+.shop-head .right{font:700 15px/1 var(--f-mono);display:flex;gap:6px;align-items:center}
+.shop-side .scroll{flex:1;min-height:0;margin:0;padding:0 2px}
+@media (orientation:landscape){.shop-side{width:min(44%,480px)}.shop-say{max-width:min(36%,360px)}}
+.d-ch{flex-wrap:wrap}
 .smb .smq{grid-column:1/3}
 .smb #smSettings{grid-column:1/3}
 .s-map{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
@@ -591,9 +612,18 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
   <div class="scroll"><div class="stbody" id="stBody"></div></div>
   <button class="btn" id="btnStoryGo">이어 하기<span class="sub" id="stSub"></span></button>
 </section>
-<section class="screen sheet" id="scrSShop" hidden>
-  <div class="shead"><button class="back" id="ssBack" aria-label="닫기"></button><h2 id="ssTitle">가게</h2><span class="right"><i class="coin"></i><b class="num" id="ssCoin">0</b></span></div>
-  <div class="scroll"><div class="shop" id="ssList"></div></div>
+<section class="screen" id="scrSShop" hidden>
+  <div class="shop2">
+    <div class="shop-view"><canvas id="shopCv"></canvas><div class="shop-say" id="shopSay"></div><button class="back" id="ssBack" aria-label="닫기"></button></div>
+    <div class="shop-side" id="shopSide" data-tab="상점">
+      <div class="shop-head"><h2 id="ssTitle">가게</h2><span class="right"><i class="coin"></i><b class="num" id="ssCoin">0</b></span></div>
+      <div class="scroll"><div class="shop" id="ssList"></div></div>
+    </div>
+  </div>
+</section>
+<section class="screen sheet" id="scrSInv" hidden>
+  <div class="shead"><button class="back" id="invBack" aria-label="닫기"></button><h2>가방</h2><span class="right"></span></div>
+  <div class="scroll"><div class="stbody" id="invBody"></div></div>
 </section>
 <section class="screen sheet" id="scrSMenu" hidden>
   <div class="shead"><button class="back" id="smBack" aria-label="닫기"></button><h2>멈춤</h2><span class="right"></span></div>
@@ -609,7 +639,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
 <div id="sHud" hidden>
   <div class="s-top">
     <div class="s-hp"><span class="lv" id="sLv">LV 1</span><div class="bar"><i id="sHpFill"></i><b id="sHpTxt"></b></div><div class="xpb"><i id="sXpFill"></i></div></div>
-    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-map" id="sMap" aria-label="지도"><i></i></button><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
+    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-inv" id="sInv" aria-label="가방"><i></i></button><button class="s-map" id="sMap" aria-label="지도"><i></i></button><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
   </div>
   <p class="s-obj" id="sObj"></p>
   <button class="s-pot" id="sPot" hidden><span>물약</span><b id="sPotN">0</b></button>

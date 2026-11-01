@@ -1,4 +1,5 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"></head><body>
+<script>window.CATAKLEM_PC=1</script>
 <title>카타클렘</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#E4E5DF">
@@ -294,6 +295,27 @@ html[lang=en] .btn,html[lang=en] .shead h2{letter-spacing:-.01em}
 .parts .btn{font-size:15px;padding:11px 12px;flex-direction:column;align-items:flex-start;gap:4px;box-shadow:3px 3px 0 var(--ink)}
 .parts .btn .sub{font:700 11px/1 var(--f-body);opacity:.7}
 .smb{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.s-inv{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
+.s-inv i{display:block;width:20px;height:16px;border:2.5px solid var(--ink);border-radius:3px 3px 5px 5px;position:relative;margin-top:4px}
+.s-inv i::before{content:"";position:absolute;left:4px;right:4px;top:-8px;height:6px;border:2.5px solid var(--ink);border-bottom:0;border-radius:6px 6px 0 0}
+body.pc #sHud .s-dash,body.pc #sHud .s-act,body.pc #hud .dashb{display:none!important}
+.row.si,.row.inv{grid-template-columns:48px minmax(0,1fr) auto}
+.row.si img,.row.inv img{width:48px;height:48px}
+#scrSShop{padding:0;background:var(--paper)}
+.shop2{position:absolute;inset:0}
+.shop-view{position:absolute;inset:0;overflow:hidden}
+#shopCv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.shop-view .back{position:absolute;left:var(--sl);top:calc(var(--st) + 12px);z-index:2}
+.shop-say{position:absolute;left:calc(var(--sl) + 58px);top:calc(var(--st) + 12px);max-width:min(30%,320px);background:var(--paper);border:2.5px solid var(--ink);border-radius:3px;padding:8px 12px;font:800 13px/1.45 var(--f-body);color:var(--ink);box-shadow:3px 3px 0 var(--pink);text-align:center}
+.shop-side{position:absolute;top:0;right:0;bottom:0;width:min(62%,460px);display:flex;flex-direction:column;gap:8px;padding:calc(var(--st) + 14px) var(--sr) calc(var(--sb) + 12px) 14px;background:rgba(228,229,223,.94);border-left:3px solid var(--ink);box-shadow:-6px 0 0 rgba(20,27,64,.12);transition:transform .25s}
+.shop-side::before{content:attr(data-tab);position:absolute;left:-38px;top:calc(var(--st) + 70px);width:35px;padding:14px 0;writing-mode:vertical-rl;text-align:center;background:var(--ink);color:var(--paper);font:400 15px/1 var(--f-display);border-radius:3px 0 0 3px;letter-spacing:.1em}
+.shop2.closed .shop-side{transform:translateX(calc(100% - 4px))}
+.shop-head{display:flex;align-items:center;justify-content:space-between}
+.shop-head h2{margin:0;font:400 26px/1 var(--f-display);color:var(--ink)}
+.shop-head .right{font:700 15px/1 var(--f-mono);display:flex;gap:6px;align-items:center}
+.shop-side .scroll{flex:1;min-height:0;margin:0;padding:0 2px}
+@media (orientation:landscape){.shop-side{width:min(44%,480px)}.shop-say{max-width:min(36%,360px)}}
+.d-ch{flex-wrap:wrap}
 .smb .smq{grid-column:1/3}
 .smb #smSettings{grid-column:1/3}
 .s-map{pointer-events:auto;width:42px;height:42px;border:2.5px solid var(--ink);background:var(--paper);border-radius:3px;box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;padding:0}
@@ -590,9 +612,18 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
   <div class="scroll"><div class="stbody" id="stBody"></div></div>
   <button class="btn" id="btnStoryGo">이어 하기<span class="sub" id="stSub"></span></button>
 </section>
-<section class="screen sheet" id="scrSShop" hidden>
-  <div class="shead"><button class="back" id="ssBack" aria-label="닫기"></button><h2 id="ssTitle">가게</h2><span class="right"><i class="coin"></i><b class="num" id="ssCoin">0</b></span></div>
-  <div class="scroll"><div class="shop" id="ssList"></div></div>
+<section class="screen" id="scrSShop" hidden>
+  <div class="shop2">
+    <div class="shop-view"><canvas id="shopCv"></canvas><div class="shop-say" id="shopSay"></div><button class="back" id="ssBack" aria-label="닫기"></button></div>
+    <div class="shop-side" id="shopSide" data-tab="상점">
+      <div class="shop-head"><h2 id="ssTitle">가게</h2><span class="right"><i class="coin"></i><b class="num" id="ssCoin">0</b></span></div>
+      <div class="scroll"><div class="shop" id="ssList"></div></div>
+    </div>
+  </div>
+</section>
+<section class="screen sheet" id="scrSInv" hidden>
+  <div class="shead"><button class="back" id="invBack" aria-label="닫기"></button><h2>가방</h2><span class="right"></span></div>
+  <div class="scroll"><div class="stbody" id="invBody"></div></div>
 </section>
 <section class="screen sheet" id="scrSMenu" hidden>
   <div class="shead"><button class="back" id="smBack" aria-label="닫기"></button><h2>멈춤</h2><span class="right"></span></div>
@@ -608,7 +639,7 @@ body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
 <div id="sHud" hidden>
   <div class="s-top">
     <div class="s-hp"><span class="lv" id="sLv">LV 1</span><div class="bar"><i id="sHpFill"></i><b id="sHpTxt"></b></div><div class="xpb"><i id="sXpFill"></i></div></div>
-    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-map" id="sMap" aria-label="지도"><i></i></button><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
+    <div class="s-r"><span class="s-coin"><i class="coin"></i><b id="sCoin">0</b></span><button class="s-inv" id="sInv" aria-label="가방"><i></i></button><button class="s-map" id="sMap" aria-label="지도"><i></i></button><button class="s-menu" id="sMenu" aria-label="메뉴"><i></i></button></div>
   </div>
   <p class="s-obj" id="sObj"></p>
   <button class="s-pot" id="sPot" hidden><span>물약</span><b id="sPotN">0</b></button>
@@ -1741,13 +1772,9 @@ I18N([["선택","SELECTED","選択中","已选"],
 [" · 끝"," · done"," · 完了"," · 完成"],
 ["<div><div class=\"label\"><span class=\"eyebrow\">곁일</span><span>","<div><div class=\"label\"><span class=\"eyebrow\">Errands</span><span>","<div><div class=\"label\"><span class=\"eyebrow\">寄り道</span><span>","<div><div class=\"label\"><span class=\"eyebrow\">支线</span><span>"],
 [" 끝냄</span></div>"," done</span></div>"," 完了</span></div>"," 完成</span></div>"],
-["<div><div class=\"label\"><span class=\"eyebrow\">칼</span><span>눌러서 바꿔 든다</span></div><div class=\"shop\" id=\"smSwords\"></div></div>","<div><div class=\"label\"><span class=\"eyebrow\">Swords</span><span>Tap to switch</span></div><div class=\"shop\" id=\"smSwords\"></div></div>","<div><div class=\"label\"><span class=\"eyebrow\">剣</span><span>押して持ち替える</span></div><div class=\"shop\" id=\"smSwords\"></div></div>","<div><div class=\"label\"><span class=\"eyebrow\">剑</span><span>点击切换</span></div><div class=\"shop\" id=\"smSwords\"></div></div>"],
 ["<div><div class=\"label\"><span class=\"eyebrow\">가진 것</span></div><p class=\"note\">","<div><div class=\"label\"><span class=\"eyebrow\">Inventory</span></div><p class=\"note\">","<div><div class=\"label\"><span class=\"eyebrow\">持ち物</span></div><p class=\"note\">","<div><div class=\"label\"><span class=\"eyebrow\">持有物品</span></div><p class=\"note\">"],
 [" · 불씨 부적 "," · Ember Charm "," · 火種のお守り "," · 火种护符"],
 ["<p class=\"note\">기록은 횃불에 불을 붙일 때 남는다. 나가면 마지막 횃불에서 이어진다.</p>","<p class=\"note\">Progress is saved when you light a torch. If you quit, you'll continue from the last torch.</p>","<p class=\"note\">記録はたいまつに火を灯したときに残る。抜けると最後のたいまつから続く。</p>","<p class=\"note\">点燃火炬时会保存记录。退出后会从最后一个火炬继续。</p>"],
-[" 피해 "," Damage "," ダメージ "," 伤害"],
-["들고 있다","Equipped","持っている","已装备"],
-["든다","Equip","持つ","装备"],
 ["고물상 바렌을 찾아 말을 건다","Find Baren the junk dealer and talk to him","古物商バレンを探して話しかける","找到旧货商巴伦，和他说话"],
 ["동전 ","Dropped ","コインを","掉了"],
 ["개를 흘렸다"," coins","枚落とした"," 枚铜币"],
@@ -1794,6 +1821,8 @@ I18N([["선택","SELECTED","選択中","已选"],
 ["꺼짐","Off","オフ","关"],
 ["창 모드로","Windowed","ウィンドウに戻す","窗口模式"],
 ["전체 화면","Fullscreen","全画面","全屏"],
+["들고 있다","Equipped","持っている","已装备"],
+["든다","Equip","持つ","装备"],
 ["한 번 더","Again","もう一度","再来一次"],
 ["<p class=\"lead\">등불 마을에서 시작하는 긴 이야기. 나무검 한 자루로 시작해 칼을 바꿔 가며 다섯 땅을 지난다. 사람을 만나고, 퍼즐을 풀고, 문 너머의 거물들을 닫는다.</p>","<p class=\"lead\">A long story that begins in Lantern Village. Start with a single wooden sword, trade up blade after blade, and cross five lands. Meet people, solve puzzles, and close the gates where the great ones wait.</p>","<p class=\"lead\">灯火の村から始まる長い物語。木の剣一本から始め、剣を持ち替えながら五つの土地を越える。人に出会い、謎を解き、門の向こうの大物たちを閉じる。</p>","<p class=\"lead\">从灯火村开始的漫长故事。从一把木剑起步，一路换剑，穿越五片土地。结识人们，解开谜题，关上门后的庞然大物。</p>"],
 ["<p class=\"note\">횃불에 불을 붙이면 기록된다. 폰을 가로로 돌려도 된다. 공격은 알아서 나가고, 오른쪽 아래 단추로 말을 걸거나 조사한다.</p>","<p class=\"note\">Lighting a torch saves your progress. Attacks happen on their own; the button at the lower right talks and inspects.</p>","<p class=\"note\">たいまつに火を灯すと記録される。攻撃は自動で出て、右下のボタンで話しかけたり調べたりする。</p>","<p class=\"note\">点燃火炬即会保存。攻击自动进行，右下角的按钮用来对话或查看。</p>"],
@@ -8655,6 +8684,7 @@ const NPCS = {
   bella: { name: L('벨라'), role: L('선장'), look: { c: COL.pink, hat: 'crown', item: 'staff' } },
   tam: { name: L('탐'), role: L('낚시꾼'), look: { c: '#7CC6D8', hat: 'wide', item: 'staff' } },
   fey: { name: L('페이'), role: L('사서'), look: { c: COL.teal, hat: 'point', item: 'book' } },
+  rea: { name: L('레아'), role: L('직업 상인'), look: { c: '#7CC6D8', hat: 'crown', item: 'bag' } },
   ink: { name: L('잉크쟁이'), role: L('필경사'), look: { c: '#2B3170', hat: 'hood', item: 'book' } },
 };
 
@@ -8685,7 +8715,7 @@ const AREAS = {
     'tttttttttttttttttttttttttt'],
     exits: { N: ['belltower', 'beat_colossus', L('종탑 길은 아직 닫혀 있다.')], E: 'field' },
     ents: [['npc', 6, 5, { id: 'baren' }], ['npc', 17, 5, { id: 'has' }], ['npc', 9, 10, { id: 'momo', if: 'momo_found' }], ['npc', 20, 11, { id: 'gren' }],
-      ['torch', 17, 9], ['npc', 19, 10, { id: 'nora' }], ['npc', 3, 11, { id: 'ru' }], ['npc', 6, 16, { id: 'seri' }], ['npc', 18, 15, { id: 'jin' }],
+      ['torch', 17, 9], ['npc', 19, 10, { id: 'nora' }], ['npc', 3, 11, { id: 'ru' }], ['npc', 6, 16, { id: 'seri' }], ['npc', 18, 15, { id: 'jin' }], ['npc', 9, 13, { id: 'rea' }], ['waystone', 13, 14],
       ['sign', 22, 7, { text: L('동쪽: 마을 뒤 들판. 해 지면 나가지 말 것.') }], ['pot', 2, 13], ['pot', 3, 13], ['pot', 24, 2], ['chest', 24, 15, { id: 'v_page', item: 'page' }]] },
   field: { name: L('마을 뒤 들판'), reg: 1, w: 28, h: 18, dens: .1, seed: 3, exits: { W: 'village', E: 'crossroad', N: 'quarry' },
     mobs: [['blob', 7], ['moth', 4]],
@@ -8728,7 +8758,7 @@ const AREAS = {
   /* ---------------- region 2: 잠긴 숲 ---------------- */
   forest_gate: { name: L('숲 입구'), reg: 2, w: 26, h: 18, dens: .12, seed: 21, exits: { W: 'crossroad', E: 'deepwood' },
     mobs: [['spore', 4], ['wisp', 3]],
-    ents: [['torch', 6, 9], ['npc', 9, 7, { id: 'ira' }], ['npc', 9, 12, { id: 'pio' }], ['board', 5, 6, { reg: 2 }], ['door', 18, 3, { to: 'mushroom_cave', at: 'up', label: L('버섯 동굴') }], ['chest', 23, 15, { id: 'fg_page', item: 'page' }]] },
+    ents: [['torch', 6, 9], ['npc', 9, 7, { id: 'ira' }], ['npc', 9, 12, { id: 'pio' }], ['board', 5, 6, { reg: 2 }], ['waystone', 12, 14], ['door', 18, 3, { to: 'mushroom_cave', at: 'up', label: L('버섯 동굴') }], ['chest', 23, 15, { id: 'fg_page', item: 'page' }]] },
   mushroom_cave: { name: L('버섯 동굴'), reg: 2, music: 'cave', dark: 1, map: [
     '##########################',
     '#..U.....................#',
@@ -8775,7 +8805,7 @@ const AREAS = {
   /* ---------------- region 3: 소금 사막 ---------------- */
   oasis: { name: L('오아시스'), reg: 3, w: 26, h: 18, dens: .06, seed: 41, water: 1, exits: { W: 'grove_heart', E: 'dunes', S: 'bone_canyon' },
     mobs: [],
-    ents: [['torch', 8, 9], ['npc', 6, 6, { id: 'sai' }], ['npc', 18, 6, { id: 'or' }], ['npc', 11, 13, { id: 'hana' }], ['npc', 16, 12, { id: 'pio' }], ['board', 9, 6, { reg: 3 }]] },
+    ents: [['torch', 8, 9], ['npc', 6, 6, { id: 'sai' }], ['npc', 18, 6, { id: 'or' }], ['npc', 11, 13, { id: 'hana' }], ['npc', 16, 12, { id: 'pio' }], ['board', 9, 6, { reg: 3 }], ['waystone', 13, 14]] },
   dunes: { name: L('모래 언덕'), reg: 3, w: 30, h: 20, dens: .08, seed: 43, exits: { W: 'oasis', E: 'salt_flats' },
     mobs: [['grub', 6], ['gnat', 5], ['burrow', 3], ['scorp', 2]],
     ents: [['door', 15, 3, { to: 'crystal_mine', at: 'up', label: L('소금 광산') }], ['chest', 27, 17, { id: 'du_page', item: 'page' }], ['pot', 4, 4], ['pot', 5, 4]] },
@@ -8816,7 +8846,7 @@ const AREAS = {
 
   /* ---------------- region 4: 얼어붙은 항구 ---------------- */
   harbor: { name: L('얼어붙은 항구'), reg: 4, w: 28, h: 18, dens: .05, seed: 61, water: 2, exits: { W: 'sink_pit', E: 'docks', N: 'lighthouse' },
-    ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['pot', 3, 3], ['pot', 4, 3]] },
+    ents: [['torch', 10, 9], ['npc', 7, 6, { id: 'bella' }], ['npc', 20, 12, { id: 'tam' }], ['npc', 14, 13, { id: 'pio' }], ['board', 12, 6, { reg: 4 }], ['waystone', 16, 4], ['pot', 3, 3], ['pot', 4, 3]] },
   docks: { name: L('얼어붙은 부두'), reg: 4, map: [
     '##########################',
     '#~~~~~~~~~~~~~~~~~~~~~~~~#',
@@ -8852,7 +8882,7 @@ const AREAS = {
   /* ---------------- region 5: 하늘 틈 ---------------- */
   plaza: { name: L('찢긴 광장'), reg: 5, w: 28, h: 18, dens: .06, seed: 81, exits: { W: 'leviathan_bay', E: 'paper_maze', S: 'ink_river' },
     mobs: [['smudge', 3], ['scrap', 3]],
-    ents: [['torch', 12, 9], ['npc', 8, 6, { id: 'fey' }], ['npc', 16, 6, { id: 'pio' }], ['npc', 19, 12, { id: 'ink' }], ['board', 10, 6, { reg: 5 }], ['door', 22, 3, { to: 'stamp_office', at: 'up', label: L('도장 관청') }]] },
+    ents: [['torch', 12, 9], ['npc', 8, 6, { id: 'fey' }], ['npc', 16, 6, { id: 'pio' }], ['npc', 19, 12, { id: 'ink' }], ['board', 10, 6, { reg: 5 }], ['waystone', 14, 13], ['door', 22, 3, { to: 'stamp_office', at: 'up', label: L('도장 관청') }]] },
   paper_maze: { name: L('종이 미로'), reg: 5, w: 32, h: 22, dens: .3, seed: 83, exits: { W: 'plaza', E: 'court' },
     mobs: [['inkpot', 4], ['glyph', 3], ['scrap', 4], ['eraser', 2]], ents: [['torch', 3, 11], ['boss', 26, 11, { id: 'pagegiant', hp: 26000 }], ['chest', 16, 2, { id: 'pm_page', item: 'page' }]] },
   ink_river: { name: L('잉크 강'), reg: 5, arena: 1, w: 28, h: 22, seed: 85, water: 3, exits: { N: 'plaza' },
@@ -8956,6 +8986,7 @@ const TALK = {
     [S => (SAVE.story.items.page || 0) > (SAVE.story.pagesPaid || 0), [L('내 낙서 찾았어? 줘 봐!'), L('...맞아, 내가 그린 거. 이거 받아. 아빠가 준 부적인데 나는 안 써.')], () => payPages()],
     [S => true, [L('낙서 조각 찾으면 갖다 줘. 바람에 다 날아갔어. 스무 장이야.')], null],
   ],
+  rea: [[S => true, [L('옷을 바꾸면 걸음이 바뀌고, 걸음이 바뀌면 싸움이 바뀌어.'), L('골라 봐. 한 번 산 건 가방에서 언제든 바꿔 입을 수 있어.')], () => openStoryShop('class')]],
   gren: [[S => true, [L('칼 가져와. 갈아 줄게. 공짜는 아니고.')], () => openStoryShop('smith')]],
   nora: [[S => true, [L('횃불에 불을 붙이면 거기서 다시 일어날 수 있어.'), L('쓰러져도 불은 기억해. 동전은 조금 흘리겠지만.')], null]],
   kei: [
@@ -9202,6 +9233,10 @@ function applyStats() {
   P.maxHp = 100 + (S.lv - 1) * 14 + S.charms * 15;
   P.might = (1 + (S.lv - 1) * .035) * (sf('scribble') ? 1.05 : 1);
   P.crit = .05 + (sw && sw.crit || 0); P.critMul = 2; P.armorMul = 1; P.cdMul = 1; P.area = 1; P.regen = 0; P.leech = 0; P.speed = 165;
+  const C = curClass();
+  G.char = C.look;
+  P.maxHp *= 1 + (C.hp || 0); P.speed *= 1 + (C.spd || 0); P.crit += C.crit || 0; if (C.critMul) P.critMul = C.critMul;
+  P.dashMul = C.dash || 1; P.regen = C.regen || 0;
   P.hp = Math.min(P.hp || P.maxHp, P.maxHp);
 }
 const xpNeedS = L => Math.round(14 + L * 11 + L * L * .7);
@@ -9279,7 +9314,7 @@ function buildArea(id) {
 }
 function mkEnt(k, tx, ty, o) { return { k, tx, ty, x: (tx + .5) * TL, y: (ty + .5) * TL, o, t: Math.random() * 10 }; }
 const entOn = e => (!e.o.if || allf(e.o.if)) && (!e.o.unless || !sf(e.o.unless)) && !e.gone;
-const SOLID_ENT = new Set(['npc', 'torch', 'sign', 'chest', 'box', 'brazier', 'lamp', 'pot', 'board', 'bell', 'portal']);
+const SOLID_ENT = new Set(['npc', 'torch', 'sign', 'chest', 'box', 'brazier', 'lamp', 'pot', 'board', 'bell', 'portal', 'waystone', 'lever']);
 function gSolved(g) { return !!SAVE.story.solved[WD.id + ':' + g]; }
 function exitInfo(side) {
   const v = WD.A.exits && WD.A.exits[side]; if (!v) return null;
@@ -9298,6 +9333,7 @@ function refreshBlk() {
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
     if (e.k === 'gate' && !gSolved(e.o.g)) blk[e.ty * W2 + e.tx] = 1;
+    if (e.k === 'barrier' && !gSolved(e.o.g)) blk[e.ty * W2 + e.tx] = 1;
     if (e.k === 'door' && (WD.bossLock || WD.locked)) blk[e.ty * W2 + e.tx] = 1;
     if (SOLID_ENT.has(e.k) && !(e.k === 'pot' && e.broken)) blk[e.ty * W2 + e.tx] = 1;
   }
@@ -9421,6 +9457,7 @@ function storyKill(e) {
   if (Math.random() < .03) G.spk.push({ k: 'heart', x: e.x, y: e.y, v: 0, vx: rnd(-80, 80), vy: rnd(-80, 80), t: 0 });
   const dr = WD.A.drop; if (dr && Math.random() < dr[1]) G.spk.push({ k: 'item', it: dr[0], x: e.x, y: e.y, v: 1, vx: rnd(-80, 80), vy: rnd(-80, 80), t: 0 });
   gainStoryXp((ED.xp || 1) * 2 * WD.reg * (e.elite ? 6 : 1));
+  if (curClass().leech) heal(P.maxHp * curClass().leech);
   S.ak[WD.id] = (S.ak[WD.id] || 0) + 1; S.kills++;
   const B = S.bounty;
   if (B && !B.done && B.type === e.type) { B.got++; if (B.got >= B.need) { B.done = true; banner(L('의뢰 완료'), L('의뢰판으로 돌아가 보상을 받는다'), 'good'); } }
@@ -9506,7 +9543,7 @@ function storySword(dt) {
   if (!best) for (const e of WD.ents) if (e.k === 'pot' && !e.broken && Math.hypot(e.x - P.x, e.y - P.y) < R) { pot = e; break; }
   if (!best && !pot) return;
   const tgt = best || pot, a = Math.atan2(tgt.y - P.y, tgt.x - P.x), side = (G.swN = (G.swN || 0) + 1) % 2 ? 1 : -1;
-  const dmg = sw.dmg * (1 + plus * .12);
+  const C = curClass(), dmg = sw.dmg * (1 + plus * .12) * (1 + (C.dmg || 0));
   for (const e of E) {
     if (e.dead || e.hidden || e.under) continue;
     const dx = e.x - P.x, dy = e.y - P.y, d = Math.hypot(dx, dy) || 1;
@@ -9520,7 +9557,7 @@ function storySword(dt) {
   (G.slashes = G.slashes || []).push({ a, R, arc: sw.arc, t0: performance.now(), h: false, side, col: sw.col, scrib: sw.scrib });
   G.swing = { a0: a - sw.arc / 2 * side, a1: a + sw.arc / 2 * side, t0: performance.now(), dur: 130 };
   G.swA = a;
-  G.swT = sw.cd;
+  G.swT = sw.cd * (1 + (C.cd || 0));
   SFX.slash(false);
 }
 function breakPot(e) {
@@ -9599,7 +9636,7 @@ function nearAct() {
   let best = null, bd = TL * 1.45;
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
-    if (!['npc', 'sign', 'chest', 'torch', 'brazier', 'lamp', 'portal', 'board', 'bell'].includes(e.k)) continue;
+    if (!['npc', 'sign', 'chest', 'torch', 'brazier', 'lamp', 'portal', 'board', 'bell', 'waystone', 'lever'].includes(e.k)) continue;
     if (e.k === 'chest' && SAVE.story.opened[e.o.id]) continue;
     const d = Math.hypot(e.x - P.x, e.y - P.y);
     if (d < bd) { bd = d; best = e; }
@@ -9616,12 +9653,14 @@ function nearAct() {
   }
   return best;
 }
-const ACT_LABEL = { npc: L('말 걸기'), sign: L('읽기'), chest: L('열기'), torch: L('불 붙이기'), brazier: L('불 붙이기'), lamp: L('켜고 끄기'), portal: L('들어가기'), board: L('의뢰판'), bell: L('두드리기'), exitlock: L('살펴보기') };
+const ACT_LABEL = { waystone: L('길돌'), lever: L('당기기'), npc: L('말 걸기'), sign: L('읽기'), chest: L('열기'), torch: L('불 붙이기'), brazier: L('불 붙이기'), lamp: L('켜고 끄기'), portal: L('들어가기'), board: L('의뢰판'), bell: L('두드리기'), exitlock: L('살펴보기') };
 function doAct() {
   if (STATE !== 'play' || G.mode !== 'story' || G.trans) return;
   const e = nearAct(); if (!e) return;
   const S = SAVE.story;
   if (e.k === 'npc') return talkTo(e.o.id);
+  if (e.k === 'waystone') return waystoneAct(e);
+  if (e.k === 'lever') return leverAct(e);
   if (e.k === 'sign') return dialog([['', e.o.text]]);
   if (e.k === 'exitlock') return dialog([['', e.msg]]);
   if (e.k === 'chest') {
@@ -9666,7 +9705,9 @@ function doAct() {
 
 /* ---------- talking ---------- */
 let DLG = null;
+let LAST_NPC = null;
 function talkTo(id) {
+  LAST_NPC = id;
   const S = SAVE.story, N = NPCS[id], list = TALK[id];
   const ent = list.find(r => r[0](S));
   const lines = typeof ent[1] === 'function' ? ent[1](S) : ent[1];
@@ -9737,6 +9778,10 @@ function bountyTalk(reg) {
 /* ---------- shops ---------- */
 function shopItems(kind) {
   const S = SAVE.story, r = WD ? WD.reg : 1, list = [];
+  if (kind === 'class') {
+    for (const id in STORY_CLASSES) { if (id === 'wanderer') continue; const d = STORY_CLASSES[id]; if (!(S.classes || []).includes(id)) list.push({ k: 'class', id, name: d.name, desc: d.desc, price: d.price }); }
+    return list;
+  }
   if (kind === 'smith') {
     for (const id of S.swords) { const p = S.plus[id] || 0; if (p < 5) list.push({ k: 'plus', id, name: SWORDS[id].name + ' +' + (p + 1), desc: L('피해 +12%'), price: Math.round(60 * (SWORD_ORDER.indexOf(id) + 1) ** 1.6 * (p + 1)) }); }
     return list;
@@ -9750,25 +9795,30 @@ function shopItems(kind) {
 let SHOP_KIND = null;
 function openStoryShop(kind) {
   SHOP_KIND = kind; STATE = 'smenu'; INPUT.joy = null; updMove();
+  SHOP_NPC = LAST_NPC || 'pio';
   show('scrSShop'); renderStoryShop();
+  $('shopSay').textContent = L(SHOP_SAY[kind] || SHOP_SAY.pio);
+  if (!SHOP_RAF) SHOP_RAF = requestAnimationFrame(shopLoop);
 }
 function renderStoryShop() {
   const S = SAVE.story;
-  $('ssTitle').textContent = SHOP_KIND === 'smith' ? L('대장간') : L('가게');
+  $('ssTitle').textContent = SHOP_KIND === 'smith' ? L('대장간') : SHOP_KIND === 'class' ? L('직업') : L('가게');
   $('ssCoin').textContent = fmtNum(S.coin);
   const host = $('ssList'); host.innerHTML = '';
   const items = shopItems(SHOP_KIND);
   if (!items.length) host.innerHTML = L('<p class="note">지금은 할 수 있는 게 없다.</p>');
   for (const it of items) {
-    const row = document.createElement('div'); row.className = 'row';
+    const row = document.createElement('div'); row.className = 'row si';
     const have = it.k === 'potion' || it.k === 'bigpotion' ? L(' · 가진 것 ') + (S.items[it.k] || 0) : '';
-    row.innerHTML = '<div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + '</button>';
+    const ico = it.k === 'sword' || it.k === 'plus' ? storyIcon(it.k, it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
+    row.innerHTML = '<img alt="" src="' + ico + '"><div><b>' + esc(it.name) + '</b><p>' + esc(it.desc + have) + '</p></div><button class="buy"' + (S.coin < it.price ? ' disabled' : '') + '><i class="coin"></i>' + fmtNum(it.price) + '</button>';
     row.querySelector('button').addEventListener('click', () => {
       if (S.coin < it.price) { SFX.deny(); return; }
       S.coin -= it.price; SFX.chest(); buzz(20);
       if (it.k === 'plus') { S.plus[it.id] = (S.plus[it.id] || 0) + 1; SFX.clank(); }
       else if (it.k === 'charm') { S.charms++; applyStats(); }
       else if (it.k === 'sword') { S.swords.push(it.id); S.sword = it.id; applyStats(); }
+      else if (it.k === 'class') { S.classes = S.classes || []; S.classes.push(it.id); S.cls = it.id; applyStats(); banner(it.name, L('직업을 바꿨다. 가방에서 다시 고를 수 있다'), 'good'); }
       else S.items[it.k] = (S.items[it.k] || 0) + 1;
       persist(); renderStoryShop();
     });
@@ -9792,18 +9842,10 @@ function renderSMenu() {
     L('<div><div class="label"><span class="eyebrow">할 일</span><span>') + done + ' / ' + STORY_STEPS.length + '</span></div><p class="lead">' + esc(step ? step.t : L('모든 이야기를 마쳤다.')) + '</p>' +
     (S.bounty ? L('<p class="note">의뢰: ') + esc(S.bounty.name) + ' ' + S.bounty.got + ' / ' + S.bounty.need + (S.bounty.done ? L(' · 끝') : '') + '</p>' : '') + '</div>' +
     (() => { const sq = SIDE_QUESTS.filter(q => S.seen[q.at] && !sf(q.f)); return sq.length ? L('<div><div class="label"><span class="eyebrow">곁일</span><span>') + SIDE_QUESTS.filter(q => sf(q.f)).length + ' / ' + SIDE_QUESTS.length + L(' 끝냄</span></div>') + sq.map(q => '<p class="note">' + esc(q.t) + ' · ' + esc(q.who) + '</p>').join('') + '</div>' : ''; })() +
-    L('<div><div class="label"><span class="eyebrow">칼</span><span>눌러서 바꿔 든다</span></div><div class="shop" id="smSwords"></div></div>') +
     L('<div><div class="label"><span class="eyebrow">가진 것</span></div><p class="note">') +
       ['potion', 'bigpotion', 'stone', 'page', 'salt_heart', 'mushroom', 'jar', 'sentence'].filter(k => S.items[k]).map(k => esc(ITEM_NAME[k]) + ' ' + S.items[k]).join(' · ') + (S.charms ? L(' · 불씨 부적 ') + S.charms : '') + '</p></div>' +
     L('<p class="note">기록은 횃불에 불을 붙일 때 남는다. 나가면 마지막 횃불에서 이어진다.</p>');
-  const host = $('smSwords');
-  for (const id of SWORD_ORDER) {
-    if (!S.swords.includes(id)) continue;
-    const sw = SWORDS[id], row = document.createElement('div'); row.className = 'row';
-    row.innerHTML = '<div><b>' + esc(sw.name) + (S.plus[id] ? ' +' + S.plus[id] : '') + '</b><p>' + esc(sw.desc) + L(' 피해 ') + Math.round(sw.dmg * (1 + (S.plus[id] || 0) * .12)) + '</p></div><button class="buy' + (S.sword === id ? ' max' : '') + '">' + (S.sword === id ? L('들고 있다') : L('든다')) + '</button>';
-    row.querySelector('button').addEventListener('click', () => { S.sword = id; applyStats(); persist(); SFX.tap(); renderSMenu(); });
-    host.appendChild(row);
-  }
+  $('smBody').querySelector('.tiles').insertAdjacentHTML('afterend', '<p class="note">' + esc(L('직업')) + ': ' + esc(curClass().name) + ' · ' + esc(L('칼')) + ': ' + esc(S.sword ? SWORDS[S.sword].name : '-') + '</p>');
 }
 
 /* ---------- HUD ---------- */
@@ -9829,7 +9871,7 @@ function usePotion() {
   if (STATE !== 'play' || G.mode !== 'story') return;
   const S = SAVE.story, k = P.hp < P.maxHp * .45 && S.items.bigpotion ? 'bigpotion' : S.items.potion ? 'potion' : S.items.bigpotion ? 'bigpotion' : null;
   if (!k) return;
-  S.items[k]--; heal(P.maxHp * (k === 'bigpotion' ? 1 : .4)); SFX.heal(); buzz(15); persist(); storyHUD(true);
+  S.items[k]--; heal(P.maxHp * (k === 'bigpotion' ? 1 : .4) * (curClass().pot || 1)); SFX.heal(); buzz(15); persist(); storyHUD(true);
 }
 
 /* ---------- start, death, portals ---------- */
@@ -9891,10 +9933,12 @@ function leaveStory() {
 
 /* ================= story mode: drawing ================= */
 /* people, printed like everything else: a cloak, a head, a hat, something in hand */
-function buildStoryArt() {
-  for (const id in NPCS) {
-    const L = NPCS[id].look, sc = L.big ? 1.15 : L.small ? .8 : 1, r = 16 * sc;
-    regCreature('npc_' + id, r, (x, c, cy, rr) => {
+const NPC_RES = 3;
+function buildStoryArt() { for (const id in NPCS) regNpc(id, 'npc_' + id, NPC_RES); }
+function regNpc(id, key, mult) {
+  {
+    const L = NPCS[id].look, sc = L.big ? 1.15 : L.small ? .8 : 1, r = 16 * sc * mult;
+    regCreature(key, r, (x, c, cy, rr) => {
       const s = rr / 16;
       x.beginPath(); x.moveTo(c - 11 * s, cy + 15 * s); x.quadraticCurveTo(c - 10 * s, cy - 2 * s, c - 6 * s, cy - 4 * s); x.lineTo(c + 6 * s, cy - 4 * s); x.quadraticCurveTo(c + 10 * s, cy - 2 * s, c + 11 * s, cy + 15 * s); x.closePath(); x.fill();
       x.beginPath(); x.arc(c, cy - 9 * s, 7 * s, 0, TAU); x.fill();
@@ -9918,7 +9962,22 @@ function buildStoryArt() {
       if (L.beard) { x.fillStyle = COL.white; x.globalAlpha = .85; x.beginPath(); x.moveTo(c - 5 * s, cy - 5 * s); x.quadraticCurveTo(c, cy + 4 * s, c + 5 * s, cy - 5 * s); x.fill(); x.globalAlpha = 1; }
       if (L.item === 'torch') { x.fillStyle = COL.yellow; flamePath(x, c + 12 * s, cy - 11 * s, 3.4 * s); x.fill(); }
       if (L.item === 'crayon') { x.fillStyle = COL.yellow; x.save(); x.translate(c + 12 * s, cy + 2 * s); x.rotate(-.6); x.fillRect(-2 * s, -9 * s, 4 * s, 3 * s); x.restore(); }
-      x.fillStyle = COL.white; x.globalAlpha = .35; x.fillRect(c - 1 * s, cy, 2 * s, 13 * s); x.globalAlpha = 1;
+      // shade on the far side of the cloak, a collar, a belt, buttons, hands and boots
+      x.save(); x.globalCompositeOperation = 'source-atop';
+      x.fillStyle = 'rgba(20,27,64,.28)'; x.beginPath(); x.moveTo(c + 2 * s, cy - 4 * s); x.lineTo(c + 12 * s, cy + 16 * s); x.lineTo(c + 2 * s, cy + 16 * s); x.closePath(); x.fill();
+      x.fillStyle = 'rgba(255,255,255,.22)'; x.beginPath(); x.moveTo(c - 6 * s, cy - 3 * s); x.lineTo(c - 9 * s, cy + 14 * s); x.lineTo(c - 6.5 * s, cy + 14 * s); x.lineTo(c - 4 * s, cy - 3 * s); x.fill();
+      x.restore();
+      x.fillStyle = COL.paper; x.globalAlpha = .9; x.beginPath(); x.moveTo(c - 5 * s, cy - 4 * s); x.lineTo(c, cy + 1 * s); x.lineTo(c + 5 * s, cy - 4 * s); x.lineTo(c + 3 * s, cy - 4.5 * s); x.lineTo(c, cy - 1.5 * s); x.lineTo(c - 3 * s, cy - 4.5 * s); x.fill();
+      x.globalAlpha = 1; x.fillStyle = COL.deep; x.fillRect(c - 9.5 * s, cy + 6 * s, 19 * s, 2.4 * s);
+      x.fillStyle = COL.yellow; x.fillRect(c - 1.6 * s, cy + 5.6 * s, 3.2 * s, 3.2 * s);
+      x.fillStyle = COL.white; x.globalAlpha = .7; for (const by of [1.5, 10.5]) { x.beginPath(); x.arc(c, cy + by * s, .9 * s, 0, TAU); x.fill(); }
+      x.globalAlpha = 1; x.fillStyle = '#F2D6B8'; x.strokeStyle = COL.deep; x.lineWidth = .9 * s;
+      for (const hx of [-10.5, 10.5]) { x.beginPath(); x.arc(c + hx * s, cy + 8.5 * s, 2 * s, 0, TAU); x.fill(); x.stroke(); }
+      x.fillStyle = COL.deep; x.beginPath(); x.ellipse(c - 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.ellipse(c + 5 * s, cy + 15.6 * s, 3.6 * s, 1.6 * s, 0, 0, TAU); x.fill();
+      x.fillStyle = '#F2D6B8'; x.globalAlpha = .9; x.beginPath(); x.ellipse(c, cy - 7.5 * s, 4.6 * s, 3.4 * s, 0, 0, TAU); x.fill(); x.globalAlpha = 1;
+      eyes(x, [[c - 2.6 * s, cy - 8.4 * s], [c + 2.6 * s, cy - 8.4 * s]], 1.5 * s, .85 * s, .2);
+      x.fillStyle = 'rgba(255,79,158,.45)'; x.beginPath(); x.arc(c - 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.arc(c + 4 * s, cy - 6 * s, 1.1 * s, 0, TAU); x.fill();
+      x.strokeStyle = COL.deep; x.lineWidth = .7 * s; x.beginPath(); x.arc(c, cy - 6.4 * s, 1.2 * s, .3, Math.PI - .3); x.stroke();
     }, { plates: [{ col: L.c, dx: 1.6, dy: 1.2 }, { col: COL.ink, dx: 0, dy: 0 }] });
   }
 }
@@ -10049,12 +10108,13 @@ function label(x, y, text, col = COL.ink) {
 function drawEnt(e, now) {
   const x = e.x, y = e.y, S = SAVE.story;
   wt();
+  if (drawEnt2(e, now)) return;
   switch (e.k) {
     case 'npc': {
       const SP2 = SPR['npc_' + e.o.id]; if (!SP2) break;
       spr(SP.shadow, x, y + 14, 26, 8);
       const b = Math.sin(now * 2.2 + e.t) * .03, face = P.x < x ? -1 : 1;
-      spr(SP2.img, x, y - 4, SP2.size * 1.25, SP2.size * 1.25, 0, face * (1 + b), 1 - b);
+      spr(SP2.img, x, y - 4, SP2.size * 1.25 / NPC_RES, SP2.size * 1.25 / NPC_RES, 0, face * (1 + b), 1 - b);
       const list = TALK[e.o.id], idx = list.findIndex(r => r[0](S));
       if (idx < list.length - 1 && list[idx][2] && !/openStoryShop/.test(String(list[idx][2]))) { wt(); ctx.font = '400 22px "Gasoek One", sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = COL.pink; ctx.fillText('!', x + 2, y - 38 + Math.sin(now * 5) * 3 + 2); ctx.fillStyle = COL.yellow; ctx.fillText('!', x, y - 38 + Math.sin(now * 5) * 3); }
       if (Math.hypot(P.x - x, P.y - y) < TL * 2.6) label(x, y + 30, NPCS[e.o.id].name);
@@ -10209,7 +10269,9 @@ function drawStoryOver() {
 }
 
 /* ---------- drawn on top: caves are dark, doorways fade ---------- */
+
 function drawStoryTop() {
+  drawPcPrompt();
   if (!WD) return;
   if (WD.A.dark) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -10528,8 +10590,248 @@ addEventListener('keydown', e => {
 });
 addEventListener('mousemove', () => { if (PAD.on) { document.body.classList.remove('pad'); } });
 
+/* ================= story mode: classes, the bag, shops you can look into, waystones, PC prompts ================= */
+const IS_PC = !!window.CATAKLEM_PC || (matchMedia('(pointer:fine)').matches && !('ontouchstart' in window));
+if (IS_PC) document.body.classList.add('pc');
+
+/* ---------- classes, sold by Lea ---------- */
+const STORY_CLASSES = {
+  wanderer: { name: L('떠돌이'), look: 'lamp', price: 0, desc: L('특별한 것 없음. 그래서 무엇이든 된다.') },
+  guard: { name: L('파수꾼'), look: 'warden', price: 400, desc: L('최대 체력 +30%. 이동 속도 -8%.'), hp: .3, spd: -.08 },
+  duelist: { name: L('결투가'), look: 'hunter', price: 700, desc: L('치명타 +12%. 치명타 피해 ×2.5.'), crit: .12, critMul: 2.5 },
+  runner: { name: L('바람잡이'), look: 'glow', price: 900, desc: L('이동 속도 +18%. 구르기가 빨리 돌아온다.'), spd: .18, dash: .6 },
+  brute: { name: L('장사'), look: 'sapper', price: 1300, desc: L('칼 피해 +22%. 휘두르기가 조금 느려진다.'), dmg: .22, cd: .1 },
+  mystic: { name: L('약초술사'), look: 'gardener', price: 1800, desc: L('물약 회복 1.6배. 초당 체력 1 회복.'), pot: 1.6, regen: 1 },
+  reaper: { name: L('그림자 사냥꾼'), look: 'abyss', price: 2600, desc: L('쓰러뜨릴 때마다 체력 2% 회복. 피해 +8%.'), leech: .02, dmg: .08 },
+};
+const curClass = () => STORY_CLASSES[(SAVE.story && SAVE.story.cls) || 'wanderer'] || STORY_CLASSES.wanderer;
+
+/* ---------- icons for shop rows and the bag ---------- */
+const SICON = {};
+function storyIcon(kind, id) {
+  const key = kind + ':' + (id || '');
+  if (SICON[key]) return SICON[key];
+  const c = document.createElement('canvas'); c.width = c.height = 96;
+  const x = c.getContext('2d'); x.scale(1.5, 1.5); x.lineJoin = 'round'; x.lineCap = 'round';
+  const ink = COL.ink;
+  const bottle = (col, big) => {
+    const s = big ? 1.15 : 1;
+    x.save(); x.translate(32, 36); x.scale(s, s);
+    x.fillStyle = COL.pink; x.beginPath(); x.ellipse(2, 8, 15, 15, 0, 0, TAU); x.fill();
+    x.fillStyle = col; x.beginPath(); x.ellipse(0, 6, 15, 15, 0, 0, TAU); x.fill();
+    x.fillStyle = '#E8E9E3'; x.fillRect(-6, -18, 12, 12); x.fillStyle = '#B9894F'; x.fillRect(-7, -22, 14, 6);
+    x.strokeStyle = ink; x.lineWidth = 2.6; x.beginPath(); x.ellipse(0, 6, 15, 15, 0, 0, TAU); x.stroke(); x.strokeRect(-6, -18, 12, 12); x.strokeRect(-7, -22, 14, 6);
+    x.fillStyle = 'rgba(255,255,255,.75)'; x.beginPath(); x.ellipse(-6, 1, 3, 6, -.4, 0, TAU); x.fill();
+    x.restore();
+  };
+  if (kind === 'potion') bottle(COL.pink);
+  else if (kind === 'bigpotion') bottle(COL.yellow, 1);
+  else if (kind === 'charm') { x.fillStyle = COL.pink; flamePath(x, 34, 36, 15); x.fill(); x.fillStyle = COL.yellow; flamePath(x, 32, 34, 15); x.fill(); x.strokeStyle = ink; x.lineWidth = 2.4; flamePath(x, 32, 34, 15); x.stroke(); x.fillStyle = COL.white; x.beginPath(); x.arc(32, 40, 4, 0, TAU); x.fill(); }
+  else if (kind === 'sword' || kind === 'plus') {
+    const sw = SWORDS[id] || SWORDS.wood;
+    x.save(); x.translate(32, 32); x.rotate(-Math.PI / 4);
+    x.fillStyle = COL.pink; x.beginPath(); x.moveTo(-4 + 2, 14 + 2); x.lineTo(2, -26 + 2); x.lineTo(4 + 2, 14 + 2); x.fill();
+    x.fillStyle = sw.col; x.beginPath(); x.moveTo(-5, 14); x.lineTo(0, -26); x.lineTo(5, 14); x.closePath(); x.fill();
+    x.strokeStyle = ink; x.lineWidth = 2.2; x.stroke();
+    x.lineWidth = 5; x.beginPath(); x.moveTo(-11, 15); x.lineTo(11, 15); x.stroke(); x.lineWidth = 4; x.beginPath(); x.moveTo(0, 16); x.lineTo(0, 26); x.stroke();
+    x.restore();
+    if (kind === 'plus') { x.fillStyle = COL.yellow; x.strokeStyle = ink; x.lineWidth = 2; x.beginPath(); x.arc(48, 46, 10, 0, TAU); x.fill(); x.stroke(); x.fillStyle = ink; x.font = '900 14px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('+', 48, 47); }
+  } else if (kind === 'class') {
+    const S = SPR['p_' + STORY_CLASSES[id].look]; if (S) x.drawImage(S.img, 4, 4, 56, 56);
+  } else if (kind === 'item') {
+    x.fillStyle = COL.paper; x.strokeStyle = ink; x.lineWidth = 2.4; x.beginPath(); x.roundRect(14, 14, 36, 36, 6); x.fill(); x.stroke();
+    x.fillStyle = id === 'stone' ? '#8C93A3' : id === 'salt_heart' ? '#F2EEDF' : id === 'mushroom' ? COL.teal : id === 'jar' ? '#7CC6D8' : COL.pink;
+    x.beginPath(); x.arc(32, 32, 11, 0, TAU); x.fill(); x.stroke();
+  }
+  return SICON[key] = c.toDataURL();
+}
+
+/* ---------- the shop, seen from across the counter ---------- */
+let SHOP_NPC = 'pio', SHOP_RAF = 0, SHOP_SEL = 0;
+const SHOP_SAY = {
+  baren: L('필요한 거 있으면 골라. 물약은 늘 있어.'), pio: L('길이 달라도 장사는 같지. 천천히 봐.'), sai: L('물 빼고는 다 있어.'),
+  smith: L('칼 내려놔. 어디까지 갈아 줄까.'), class: L('사람은 옷을 바꾸면 걸음도 바뀌어. 골라 봐.'),
+};
+function shopScene(t) {
+  const cv2 = $('shopCv'); if (!cv2) return;
+  const r = cv2.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+  if (cv2.width !== Math.round(r.width * dpr) || cv2.height !== Math.round(r.height * dpr)) { cv2.width = Math.round(r.width * dpr); cv2.height = Math.round(r.height * dpr); }
+  const x = cv2.getContext('2d'), w = r.width, h = r.height, reg = WD ? WD.reg : 1, R = mulberry(7 + reg);
+  x.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const wall = ['#E6D5BA', '#E6D5BA', '#CFE0D6', '#F0E5C8', '#DCE7EC', '#E6DEEA'][reg];
+  x.fillStyle = wall; x.fillRect(0, 0, w, h);
+  // planks
+  x.strokeStyle = 'rgba(37,53,111,.18)'; x.lineWidth = 1.5;
+  for (let y = 0; y < h; y += 26) { x.beginPath(); x.moveTo(0, y); x.lineTo(w, y); x.stroke(); }
+  // lamp glow
+  const lg = x.createRadialGradient(w * .5, h * .18, 10, w * .5, h * .18, h * .9);
+  lg.addColorStop(0, 'rgba(255,210,63,.35)'); lg.addColorStop(1, 'rgba(255,210,63,0)'); x.fillStyle = lg; x.fillRect(0, 0, w, h);
+  // shelves with jars and boxes
+  for (const sy of [h * .2, h * .42]) {
+    x.fillStyle = '#9C6E43'; x.fillRect(w * .04, sy, w * .92, 8); x.fillStyle = COL.ink; x.fillRect(w * .04, sy + 8, w * .92, 3);
+    let px = w * .06;
+    while (px < w * .94) {
+      const kind = R(), ww = 14 + R() * 22, hh = 18 + R() * 26;
+      if (Math.abs(px + ww / 2 - w / 2) < w * .17 && sy > h * .3) { px += ww + 6; continue; }
+      const col = [COL.pink, COL.teal, COL.yellow, '#7CC6D8', '#B9894F'][Math.floor(R() * 5)];
+      x.fillStyle = col; x.strokeStyle = COL.ink; x.lineWidth = 2;
+      if (kind < .5) { x.beginPath(); x.roundRect(px, sy - hh, ww, hh, 5); x.fill(); x.stroke(); x.fillStyle = '#E8E9E3'; x.fillRect(px + ww * .3, sy - hh - 6, ww * .4, 6); x.strokeRect(px + ww * .3, sy - hh - 6, ww * .4, 6); }
+      else { x.fillRect(px, sy - hh * .7, ww, hh * .7); x.strokeRect(px, sy - hh * .7, ww, hh * .7); x.beginPath(); x.moveTo(px, sy - hh * .35); x.lineTo(px + ww, sy - hh * .35); x.stroke(); }
+      px += ww + 6;
+    }
+  }
+  // the merchant
+  if (NPCS[SHOP_NPC] && !SPR['npcbig_' + SHOP_NPC]) regNpc(SHOP_NPC, 'npcbig_' + SHOP_NPC, 7);
+  const S = SPR['npcbig_' + SHOP_NPC] || SPR['p_lamp'];
+  if (S) {
+    const side = $('shopSide'), open = !$('scrSShop').querySelector('.shop2').classList.contains('closed'), sw2 = open && side ? side.getBoundingClientRect().width : 0, mx = (w - sw2) / 2;
+    const sz = Math.min(h * .82, (w - sw2) * .95), bob = Math.sin(t / 600) * 3, breath = 1 + Math.sin(t / 900) * .015;
+    x.save(); x.translate(mx, h * .76 + bob); x.scale(1, breath);
+    x.fillStyle = 'rgba(20,27,64,.25)'; x.beginPath(); x.ellipse(0, 0, sz * .32, sz * .07, 0, 0, TAU); x.fill();
+    x.drawImage(S.img, -sz / 2, -sz * .92, sz, sz);
+    x.restore();
+  }
+  // counter
+  const cy = h * .74;
+  x.fillStyle = COL.pink; x.fillRect(4, cy + 4, w, h - cy);
+  x.fillStyle = '#B9894F'; x.fillRect(0, cy, w, h - cy);
+  x.fillStyle = '#D9A86A'; x.fillRect(0, cy, w, 14);
+  x.strokeStyle = COL.ink; x.lineWidth = 3; x.strokeRect(-2, cy, w + 4, h - cy + 2); x.beginPath(); x.moveTo(0, cy + 14); x.lineTo(w, cy + 14); x.stroke();
+  x.lineWidth = 1.5; for (let i = 1; i < 6; i++) { x.beginPath(); x.moveTo(i * w / 6, cy + 14); x.lineTo(i * w / 6, h); x.stroke(); }
+  // things on the counter
+  const items = shopItems(SHOP_KIND).slice(0, 4);
+  items.forEach((it, i) => { const img = shopRowIcon(it); if (img) x.drawImage(img, w * (.12 + i * .2), cy - 30, 44, 44); });
+  // grain
+  x.fillStyle = 'rgba(37,53,111,.05)'; for (let i = 0; i < 160; i++) x.fillRect(R() * w, R() * h, 1.5, 1.5);
+}
+const SROW_IMG = {};
+function shopRowIcon(it) {
+  const src = it.k === 'sword' ? storyIcon('sword', it.id) : it.k === 'plus' ? storyIcon('plus', it.id) : it.k === 'class' ? storyIcon('class', it.id) : storyIcon(it.k);
+  if (!SROW_IMG[src]) { const im = new Image(); im.src = src; SROW_IMG[src] = im; }
+  return SROW_IMG[src].complete ? SROW_IMG[src] : null;
+}
+function shopLoop(t) { if ($('scrSShop').hidden) { SHOP_RAF = 0; return; } shopScene(t); SHOP_RAF = requestAnimationFrame(shopLoop); }
+
+/* ---------- the bag ---------- */
+function openInventory() {
+  if (G.mode !== 'story' || (STATE !== 'play' && STATE !== 'smenu')) return;
+  STATE = 'smenu'; INPUT.joy = null; updMove();
+  show('scrSInv'); renderInventory();
+}
+function invRow(icon, title, desc, btn, on, fn) {
+  const row = document.createElement('div'); row.className = 'row inv';
+  row.innerHTML = '<img alt="" src="' + icon + '"><div><b>' + esc(title) + '</b><p>' + esc(desc) + '</p></div>' + (btn ? '<button class="buy' + (on ? ' max' : '') + '">' + esc(btn) + '</button>' : '');
+  if (btn && fn) row.querySelector('button').addEventListener('click', fn);
+  return row;
+}
+function renderInventory() {
+  const S = SAVE.story, host = $('invBody'); host.innerHTML = '';
+  const sec = (title, sub) => { const d = document.createElement('div'); d.innerHTML = '<div class="label"><span class="eyebrow">' + esc(title) + '</span><span>' + esc(sub || '') + '</span></div><div class="shop"></div>'; host.appendChild(d); return d.querySelector('.shop'); };
+  const sw = sec(L('칼'), L('눌러서 바꿔 든다'));
+  for (const id of SWORD_ORDER) {
+    if (!S.swords.includes(id)) continue;
+    const d = SWORDS[id], p = S.plus[id] || 0, on = S.sword === id;
+    sw.appendChild(invRow(storyIcon('sword', id), d.name + (p ? ' +' + p : ''), d.desc + ' ' + L('피해') + ' ' + Math.round(d.dmg * (1 + p * .12)), on ? L('들고 있다') : L('든다'), on, () => { S.sword = id; applyStats(); persist(); SFX.tap(); renderInventory(); }));
+  }
+  if (!S.swords.length) sw.innerHTML = '<p class="note">' + esc(L('아직 칼이 없다.')) + '</p>';
+  const cl = sec(L('직업'), L('직업 상인 레아에게서 산다'));
+  for (const id in STORY_CLASSES) {
+    if (id !== 'wanderer' && !(S.classes || []).includes(id)) continue;
+    const d = STORY_CLASSES[id], on = (S.cls || 'wanderer') === id;
+    cl.appendChild(invRow(storyIcon('class', id), d.name, d.desc, on ? L('입고 있다') : L('입는다'), on, () => { S.cls = id; applyStats(); persist(); SFX.tap(); renderInventory(); }));
+  }
+  const it = sec(L('가방'), '');
+  for (const k of ['potion', 'bigpotion']) if (S.items[k]) it.appendChild(invRow(storyIcon(k), ITEM_NAME[k] + ' ×' + S.items[k], k === 'potion' ? L('체력 40% 회복') : L('체력 전부 회복'), L('마신다'), false, () => { S.items[k]--; heal(P.maxHp * (k === 'bigpotion' ? 1 : .4) * (curClass().pot || 1)); SFX.heal(); persist(); renderInventory(); }));
+  for (const k of ['stone', 'page', 'salt_heart', 'mushroom', 'jar', 'sentence']) if (S.items[k]) it.appendChild(invRow(storyIcon('item', k), ITEM_NAME[k] + ' ×' + S.items[k], '', null));
+  if (S.charms) it.appendChild(invRow(storyIcon('charm'), ITEM_NAME.charm + ' ×' + S.charms, L('최대 체력 +15') + ' ×' + S.charms, null));
+  if (!it.children.length) it.innerHTML = '<p class="note">' + esc(L('가방이 비어 있다.')) + '</p>';
+}
+
+/* ---------- waystones ---------- */
+const WAYSTONES = { village: L('등불 마을'), forest_gate: L('숲 입구'), oasis: L('오아시스'), harbor: L('얼어붙은 항구'), plaza: L('찢긴 광장') };
+function waystoneAct(e) {
+  const S = SAVE.story; S.ways = S.ways || { village: 1 };
+  if (!S.ways[WD.id]) { S.ways[WD.id] = 1; persist(); SFX.portal(); ringFx(e.x, e.y, 110, '#7CC6D8', .5, 8); burst(e.x, e.y - 20, 18, '#7CC6D8', 200); banner(L('길돌이 깨어났다'), L('이제 여기로 곧장 올 수 있다'), 'good'); return; }
+  const opts = Object.keys(WAYSTONES).filter(k => S.ways[k] && k !== WD.id).map(k => [AREAS[k].name, () => travelWay(k)]);
+  if (!opts.length) return dialog([['', L('다른 길돌을 깨우면 이곳에서 곧장 갈 수 있다.')]]);
+  opts.push([L('그만둔다'), null]);
+  dialog([['', L('길돌이 웅웅거린다. 어디로 갈까.')]], opts);
+}
+function travelWay(k) {
+  const st = AREAS[k].ents.find(e => e[0] === 'waystone');
+  SFX.portal(); G.flash = .6;
+  goTo(k, { x: (st[1] + .5) * TL, y: (st[2] + 1.6) * TL });
+}
+
+/* ---------- levers that clear a blocked pass, seen only from the far side ---------- */
+function leverAct(e) {
+  const g = e.o.g; if (gSolved(g)) return;
+  SAVE.story.solved[WD.id + ':' + g] = 1; persist(); refreshBlk();
+  SFX.clank(); SFX.rumble(); shake(10); buzz([30, 40, 80]);
+  for (const b of WD.ents) if (b.k === 'barrier' && b.o.g === g) { burst(b.x, b.y, 22, COL.ink, 260); burst(b.x, b.y, 10, COL.yellow, 200); splat(b.x, b.y, 60, false); }
+  banner(L('길이 뚫렸다'), L('이제 이쪽으로 곧장 다닐 수 있다'), 'good');
+}
+const BARRIER_LOOK = { 1: ['#7A5A3A', L('무너진 잔해')], 2: ['#5B4632', L('쓰러진 고목')], 3: ['#F2EEDF', L('소금 결정 벽')], 4: ['#CFE3EA', L('얼음 벽')], 5: ['#F4F1EA', L('구겨진 종이 벽')] };
+function drawEnt2(e, now) {
+  const x = e.x, y = e.y;
+  if (e.k === 'waystone') {
+    const on = SAVE.story.ways && SAVE.story.ways[WD.id];
+    wt();
+    ctx.fillStyle = 'rgba(20,27,64,.25)'; ctx.beginPath(); ctx.ellipse(x, y + 16, 20, 7, 0, 0, TAU); ctx.fill();
+    if (on) { ctx.globalAlpha = .35 + Math.sin(now * 3) * .1; spr(SP.glow, x, y - 14, 130, 130); wt(); ctx.globalAlpha = 1; }
+    ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.moveTo(x - 11 + 3, y + 16 + 2); ctx.lineTo(x - 7 + 3, y - 34 + 2); ctx.lineTo(x + 3, y - 42 + 2); ctx.lineTo(x + 7 + 3, y - 34 + 2); ctx.lineTo(x + 11 + 3, y + 16 + 2); ctx.fill();
+    ctx.fillStyle = '#8C93A3'; ctx.beginPath(); ctx.moveTo(x - 11, y + 16); ctx.lineTo(x - 7, y - 34); ctx.lineTo(x, y - 42); ctx.lineTo(x + 7, y - 34); ctx.lineTo(x + 11, y + 16); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = COL.ink; ctx.lineWidth = 2.4; ctx.stroke();
+    ctx.strokeStyle = on ? '#7CC6D8' : 'rgba(37,53,111,.5)'; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.arc(x, y - 14, 5, 0, TAU); ctx.moveTo(x, y - 26); ctx.lineTo(x, y - 20); ctx.moveTo(x, y - 8); ctx.lineTo(x, y + 2); ctx.stroke();
+    if (on) for (let k = 0; k < 3; k++) { const a = now * 1.4 + k / 3 * TAU; ctx.fillStyle = k % 2 ? COL.white : '#7CC6D8'; ctx.fillRect(x + Math.cos(a) * 18 - 2, y - 14 + Math.sin(a) * 8 - 2, 4, 4); }
+    if (Math.hypot(P.x - x, P.y - y) < TL * 3) label(x, y - 56, L('길돌'), on ? COL.teal : COL.ink);
+    return true;
+  }
+  if (e.k === 'lever') {
+    const open = gSolved(e.o.g);
+    wt();
+    ctx.fillStyle = '#6B7185'; ctx.fillRect(x - 12, y, 24, 14); ctx.strokeStyle = COL.ink; ctx.lineWidth = 2.2; ctx.strokeRect(x - 12, y, 24, 14);
+    const a = open ? .7 : -.7;
+    ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x, y + 4); ctx.lineTo(x + Math.sin(a) * 22, y + 4 - Math.cos(a) * 22); ctx.stroke();
+    ctx.fillStyle = open ? COL.teal : COL.pink; ctx.beginPath(); ctx.arc(x + Math.sin(a) * 22, y + 4 - Math.cos(a) * 22, 5, 0, TAU); ctx.fill(); ctx.stroke();
+    if (!open && Math.hypot(P.x - x, P.y - y) < TL * 3) label(x, y - 30, L('지렛대'));
+    return true;
+  }
+  if (e.k === 'barrier') {
+    if (gSolved(e.o.g)) { wt(); ctx.fillStyle = 'rgba(37,53,111,.2)'; for (let k = 0; k < 5; k++) ctx.fillRect(x - 18 + k * 8, y + 8 + (k % 2) * 6, 6, 4); return true; }
+    const [col] = BARRIER_LOOK[WD.reg] || BARRIER_LOOK[1];
+    wt();
+    ctx.fillStyle = COL.pink; ctx.beginPath(); ctx.roundRect(x - 22 + 3, y - 18 + 3, 44, 38, 6); ctx.fill();
+    ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(x - 22, y - 18, 44, 38, 6); ctx.fill();
+    ctx.strokeStyle = COL.ink; ctx.lineWidth = 2.4; ctx.stroke();
+    ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x - 16, y - 6); ctx.lineTo(x + 4, y - 12); ctx.moveTo(x - 8, y + 6); ctx.lineTo(x + 16, y + 2); ctx.moveTo(x - 2, y - 16); ctx.lineTo(x + 8, y + 14); ctx.stroke();
+    return true;
+  }
+  return false;
+}
+/* PC: the E key floats over whatever you can touch */
+function drawPcPrompt() {
+  if (!IS_PC || STATE !== 'play' || !WD || G.trans) return;
+  const a = nearAct(); if (!a || a.x === undefined) return;
+  const lab = L(ACT_LABEL[a.k] || '');
+  wt(); ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+  const tw = ctx.measureText(lab).width, bw = 22 + 8 + tw + 10, bx = a.x - bw / 2, by = a.y - 62 + Math.sin(performance.now() / 260) * 2;
+  ctx.fillStyle = COL.ink; ctx.fillRect(bx + 2, by + 2, bw, 24);
+  ctx.fillStyle = COL.paper; ctx.fillRect(bx, by, bw, 24); ctx.strokeStyle = COL.ink; ctx.lineWidth = 2; ctx.strokeRect(bx, by, bw, 24);
+  ctx.fillStyle = COL.yellow; ctx.fillRect(bx + 4, by + 3, 18, 18); ctx.strokeRect(bx + 4, by + 3, 18, 18);
+  ctx.fillStyle = COL.ink; ctx.textAlign = 'center'; ctx.font = '900 12px "IBM Plex Mono", monospace'; ctx.fillText('E', bx + 13, by + 12.5);
+  ctx.textAlign = 'left'; ctx.font = '800 12px "Gothic A1", "Noto Sans JP", "Noto Sans SC", system-ui, sans-serif'; ctx.fillText(lab, bx + 30, by + 12.5);
+}
+
+$('shopSide').addEventListener('click', e => {
+  const r = $('shopSide').getBoundingClientRect();
+  if (e.clientX < r.left + 4) { $('scrSShop').querySelector('.shop2').classList.toggle('closed'); SFX.tap(); }
+});
+$('shopSide').setAttribute('data-tab', L('상점'));
+
 /* ================= screens ================= */
-const SCREENS = ['scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
+const SCREENS = ['scrSInv', 'scrSettings', 'scrStory', 'scrSShop', 'scrSMenu', 'scrSMap', 'scrTitle', 'scrPrep', 'scrShop', 'scrQuest', 'scrRec', 'scrLevel', 'scrChest', 'scrPause', 'scrResult'];
 function show(id) { for (const s of SCREENS) $(s).hidden = s !== id; }
 function hideAll() { for (const s of SCREENS) $(s).hidden = true; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -10936,7 +11238,7 @@ addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   INPUT.keys[k] = true; updMove();
   if ((k === ' ' || k === 'f') && STATE === 'play' && G.mode !== 'story') { useUlt(); e.preventDefault(); }
-  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); if (k === 'm' && STATE === 'play') openStoryMap(); }
+  if (G && G.mode === 'story') { if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'play') { doAct(); e.preventDefault(); } else if ((k === 'e' || k === 'enter' || k === ' ') && STATE === 'talk') { advanceDlg(); e.preventDefault(); } if (k === 'q') usePotion(); if (k === 'm' && STATE === 'play') openStoryMap(); if ((k === 'i' || k === 'tab') && STATE === 'play') { openInventory(); e.preventDefault(); } }
   if (k === 'shift' || k === 'k') tryDash();
   if (k === 'escape') { if (STATE === 'play') pauseGame(); else if (STATE === 'pause') resumeGame(); else if (STATE === 'smenu') closeStoryScreen(); }
   if (STATE === 'level' && ['1', '2', '3', '4'].includes(k)) { const i = +k - 1, el = $('cards').children[i]; if (el && CHOICES[i]) chooseCard(i, el); }
@@ -10961,6 +11263,8 @@ $('sDash').addEventListener('pointerdown', e => { e.stopPropagation(); e.prevent
 $('sPot').addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); usePotion(); });
 $('sMenu').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openSMenu(); });
 $('sMap').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openStoryMap(); });
+$('sInv').addEventListener('click', e => { e.stopPropagation(); SFX.tap(); openInventory(); });
+$('invBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
 $('mapBack').addEventListener('click', () => { SFX.tap(); closeStoryScreen(); });
 $('smMap').addEventListener('click', () => { SFX.tap(); openStoryMap(); });
 $('sDlg').addEventListener('pointerdown', e => { e.preventDefault(); advanceDlg(); });
