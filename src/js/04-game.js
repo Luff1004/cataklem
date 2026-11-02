@@ -381,6 +381,7 @@ function bossAI(e, dt, ux, uy, dist) {
   const BD = BOSS[e.bk], B = BD.arch || e.bk;
   e.cd -= dt; e.cd2 -= dt;
   const hk = bossHook(e, dt, ux, uy, dist); if (hk) return hk;
+  if (e.story && G.mode === 'story' && BKIT[e.bk]) return storyBossAI(e, dt, ux, uy, dist);
   if (e.st === 'aim') { e.stT -= dt; if (e.stT <= 0) { e.st = 'dash'; e.stT = .5; SFX.swish(); buzz(15); } return Z0; }
   if (e.st === 'dash') {
     e.stT -= dt;

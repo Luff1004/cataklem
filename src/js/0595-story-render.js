@@ -335,6 +335,7 @@ function drawStoryOver() {
   if (!WD) return;
   drawTallFront();
   drawChase(performance.now() / 1000);
+  drawBossKit(performance.now() / 1000);
   const S = SAVE.story, now = performance.now();
   wt();
   for (const s of G.spk) {
