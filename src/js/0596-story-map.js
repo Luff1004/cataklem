@@ -145,7 +145,8 @@ function storySpecials() {
   const partFor = n => { let best = 0; STORY_PARTS.forEach((p, i) => { const k = p.upto ? STORY_STEPS.findIndex(s => s.f === p.upto) + 1 : 0; if (k <= n) best = i; }); return best; };
   const add = (name, n, area, at, unset) => { const pi = partFor(n); out.push({ name, n, area, at, unset, base: pi, lv: STORY_PARTS[pi].lv, swords: STORY_PARTS[pi].swords }); };
   const stepN = f => STORY_STEPS.findIndex(s => s.f === f);
-  for (const id in AREAS) { const A = AREAS[id]; if (!A.chase) continue; add('추격 · ' + A.name, Math.max(stepN(A.chase.after), id === 'root_run' ? stepN('beat_owl') : 0) + 1, id, { x: 2.5 * TL, y: (Math.floor(A.h / 2) + .5) * TL }, [A.chase.flag]); }
+  add('추격 · ' + AREAS.root_run.name, Math.max(stepN('beat_oak'), stepN('beat_owl')) + 1, 'root_run', { x: 2.5 * TL, y: AREAS.root_run.h / 2 * TL }, ['run_roots']);
+  add('추격 · ' + AREAS.sand_run.name, stepN('beat_sandking') + 1, 'sand_run', { x: 2.5 * TL, y: AREAS.sand_run.h / 2 * TL }, ['run_sand']);
   for (const id in AREAS) for (const e of (AREAS[id].ents || [])) {
     if (e[0] !== 'boss' || e[3].opt) continue;
     const n = stepN('beat_' + e[3].id); if (n < 0) continue;
