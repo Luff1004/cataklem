@@ -83,4 +83,5 @@ addEventListener('mousedown', e => {
 addEventListener('mouseup', e => { if (e.button === 0) MOUSE.down = false; });
 addEventListener('blur', () => { MOUSE.down = false; });
 function mouseWorld() { return [(MOUSE.x * DPR - OX) / K, (MOUSE.y * DPR - OY) / (K * TY)]; }
-function mouseAim() { return IS_PC && MOUSE.seen && !(typeof PAD !== 'undefined' && PAD.on); }
+// the sword swings by itself again on every platform; the mouse code stays for later
+function mouseAim() { return false; }

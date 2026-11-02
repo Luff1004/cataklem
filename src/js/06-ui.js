@@ -56,9 +56,11 @@ function openStoryStart() {
       '<p class="note">' + esc(step ? '할 일: ' + step.t : '이야기를 끝까지 봤다.') + '</p>' +
       '<button class="btn ghost" id="btnStoryNew">처음부터 다시</button>';
   }
-  if (LOCAL) h += '<div><div class="label"><span class="eyebrow">파트 골라 시작</span><span>로컬 전용 · 이야기 기록을 덮어쓴다</span></div><div class="parts">' + STORY_PARTS.map((p, i) => '<button class="btn ghost" data-part="' + i + '">' + esc(p.name) + '<span class="sub">LV ' + p.lv + (p.swords.length ? ' · ' + esc(SWORDS[p.swords[p.swords.length - 1]].name) : '') + '</span></button>').join('') + '</div></div>';
+  if (LOCAL) h += '<div><div class="label"><span class="eyebrow">파트 골라 시작</span><span>로컬 전용 · 이야기 기록을 덮어쓴다</span></div><div class="parts">' + STORY_PARTS.map((p, i) => '<button class="btn ghost" data-part="' + i + '">' + esc(p.name) + '<span class="sub">LV ' + p.lv + (p.swords.length ? ' · ' + esc(SWORDS[p.swords[p.swords.length - 1]].name) : '') + '</span></button>').join('') + '</div></div>'
+    + '<div><div class="label"><span class="eyebrow">' + '특별 구간 바로 가기' + '</span><span>' + '추격전 · 보스 등장 직전' + '</span></div><div class="parts">' + storySpecials().map((p, i) => '<button class="btn ghost" data-sp="' + i + '">' + esc(p.name) + '<span class="sub">LV ' + p.lv + ' · ' + esc(AREAS[p.area].name) + '</span></button>').join('') + '</div></div>';
   b.innerHTML = h;
   b.querySelectorAll('[data-part]').forEach(x => x.addEventListener('click', () => { SFX.tap(); startStoryPart(+x.dataset.part); }));
+  b.querySelectorAll('[data-sp]').forEach(x => x.addEventListener('click', () => { SFX.tap(); startStorySpecial(+x.dataset.sp); }));
   $('btnStoryGo').firstChild.textContent = S ? '이어 하기' : '시작한다';
   $('stSub').textContent = S ? AREAS[S.cp.area].name : '등불 마을';
   const nb = $('btnStoryNew');
@@ -384,8 +386,6 @@ function updMove() {
 cv.addEventListener('pointerdown', e => {
   audioInit();
   if (STATE !== 'play' || INPUT.joy) return;
-  // on PC the mouse swings the sword in story mode; walking stays on the keys
-  if (e.pointerType === 'mouse' && G.mode === 'story' && typeof IS_PC !== 'undefined' && IS_PC) { MOUSE.down = true; MOUSE.seen = true; MOUSE.x = e.clientX; MOUSE.y = e.clientY; return; }
   INPUT.joy = { id: e.pointerId, ox: e.clientX, oy: e.clientY, x: e.clientX, y: e.clientY };
   try { cv.setPointerCapture(e.pointerId); } catch (_) {}
   updMove(); e.preventDefault();

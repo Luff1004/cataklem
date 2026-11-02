@@ -139,9 +139,28 @@ const STORY_PARTS = [
   { name: '12. 하늘 끝', upto: 'beat_author', area: 'sky_edge', lv: 35, swords: ['wood', 'stone', 'copper', 'salt', 'ice', 'ink'] },
   { name: '13. 이름 없는 문', upto: 'got_scrib', area: 'sky_edge', lv: 37, swords: ['wood', 'stone', 'copper', 'salt', 'ice', 'ink', 'scrib'] },
 ];
-function startStoryPart(i) {
-  const pt = STORY_PARTS[i], S = SAVE.story = freshStory();
-  const n = pt.upto ? STORY_STEPS.findIndex(s => s.f === pt.upto) + 1 : 0;
+/* the special bits: each chase and each main boss, started right before it happens */
+function storySpecials() {
+  const out = [];
+  const partFor = n => { let best = 0; STORY_PARTS.forEach((p, i) => { const k = p.upto ? STORY_STEPS.findIndex(s => s.f === p.upto) + 1 : 0; if (k <= n) best = i; }); return best; };
+  const add = (name, n, area, at, unset) => { const pi = partFor(n); out.push({ name, n, area, at, unset, base: pi, lv: STORY_PARTS[pi].lv, swords: STORY_PARTS[pi].swords }); };
+  const stepN = f => STORY_STEPS.findIndex(s => s.f === f);
+  add('추격 · ' + AREAS.root_run.name, Math.max(stepN('beat_oak'), stepN('beat_owl')) + 1, 'root_run', { x: 2.5 * TL, y: AREAS.root_run.h / 2 * TL }, ['run_roots']);
+  add('추격 · ' + AREAS.sand_run.name, stepN('beat_sandking') + 1, 'sand_run', { x: 2.5 * TL, y: AREAS.sand_run.h / 2 * TL }, ['run_sand']);
+  for (const id in AREAS) for (const e of (AREAS[id].ents || [])) {
+    if (e[0] !== 'boss' || e[3].opt) continue;
+    const n = stepN('beat_' + e[3].id); if (n < 0) continue;
+    add('보스 · ' + BOSS[e[3].id].name, n, id, { x: (e[1] + .5) * TL, y: (e[2] + 8) * TL }, ['beat_' + e[3].id]);
+  }
+  return out.sort((a, b) => a.n - b.n);
+}
+function startStorySpecial(i) {
+  const sp = storySpecials()[i];
+  startStoryPart(sp.base, sp);
+}
+function startStoryPart(i, sp) {
+  const pt = sp || STORY_PARTS[i], S = SAVE.story = freshStory();
+  const n = sp ? sp.n : pt.upto ? STORY_STEPS.findIndex(s => s.f === pt.upto) + 1 : 0;
   for (let k = 0; k < n; k++) { const f = STORY_STEPS[k].f; S.flags[f] = 1; const a = STEP_AT[f]; if (a) S.seen[a] = 1; }
   if (S.flags.beat_oak) S.flags.got_copper = 1;
   if (pt.swords.includes('stone')) S.flags.got_stone = 1;
@@ -153,6 +172,14 @@ function startStoryPart(i) {
   const t = areaEnts(pt.area).find(e => e.k === 'torch');
   if (t) { S.lit[pt.area + ':' + t.tx + ',' + t.ty] = 1; S.cp = { area: pt.area, x: (t.tx + .5) * TL, y: (t.ty + 1.4) * TL }; }
   else S.cp = { area: pt.area, x: 13 * TL, y: 9 * TL };
+  if (sp) {
+    for (const f of sp.unset) delete S.flags[f];
+    for (const id in AREAS) S.seen[id] = S.seen[id] || 0;
+    S.seen[sp.area] = 1;
+    persist(); startStory({ area: sp.area, x: sp.at.x, y: sp.at.y });
+    banner(sp.name, '로컬 · 바로 직전부터', 'good');
+    return;
+  }
   persist(); startStory();
   banner(pt.name.replace(/^\d+\. /, ''), '로컬 · 이 파트부터', 'good');
 }

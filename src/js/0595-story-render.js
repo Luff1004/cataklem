@@ -202,6 +202,7 @@ function label(x, y, text, col = COL.ink) {
 function drawEnt(e, now) {
   const x = e.x, y = e.y, S = SAVE.story;
   wt();
+  if (drawProp(e, now)) { wt(); return; }
   if (drawEnt2(e, now)) return;
   switch (e.k) {
     case 'npc': {
