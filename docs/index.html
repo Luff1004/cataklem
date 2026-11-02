@@ -262,7 +262,7 @@ html[lang=en] .menu .btn,html[lang=en] .menu .three .btn{font-size:clamp(14px,4.
 .banner.warn small{color:var(--ink-deep)}
 .banner.good{background:var(--yellow);color:var(--ink-deep);box-shadow:0 6px 0 var(--ink)}
 .banner.good small{color:var(--ink)}
-@keyframes bannerIn{0%{clip-path:inset(0 100% 0 0)}10%{clip-path:inset(0 0 0 0)}84%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 0 100%)}}
+@keyframes bannerIn{0%{clip-path:inset(-30px 100% -30px -30px)}10%{clip-path:inset(-30px -30px -30px -30px)}84%{clip-path:inset(-30px -30px -30px -30px)}100%{clip-path:inset(-30px -30px -30px 100%)}}
 .hint{position:absolute;left:50%;bottom:calc(var(--sb) + 130px);transform:translateX(-50%);width:max-content;max-width:calc(100vw - 32px);text-align:center;background:var(--paper);border:2.5px solid var(--ink);padding:12px 14px;font:800 14px/1.45 var(--f-body);box-shadow:4px 4px 0 var(--pink);border-radius:3px;animation:bob 1.6s ease-in-out infinite}
 .hint small{display:block;font:700 12px/1.3 var(--f-body);margin-top:4px;opacity:.75}
 @keyframes bob{50%{transform:translateX(-50%) translateY(-5px)}}
@@ -378,6 +378,8 @@ body.story #hud:not(.arena) .bossbar{top:calc(var(--st) + 86px)}
 body.story #hud:not(.arena) .banner{left:50%;right:auto;top:calc(var(--st) + 104px);transform:translateX(-50%) skewY(-2deg);width:max-content;max-width:calc(100vw - 32px);font-size:19px;padding:7px 16px 8px;box-shadow:0 4px 0 var(--pink);border-radius:2px;animation-duration:2.2s}
 body.story #hud:not(.arena) .banner.warn,body.story #hud:not(.arena) .banner.good{box-shadow:0 4px 0 var(--ink)}
 body.story #hud:not(.arena) .banner small{font-size:10.5px;margin-bottom:3px}
+.banner{white-space:normal;word-break:keep-all;overflow-wrap:anywhere;line-height:1.2}
+body.story #hud:not(.arena) .banner{max-width:min(calc(100vw - 32px),560px);text-wrap:balance}
 #sHud{position:fixed;inset:0;z-index:11;pointer-events:none}
 .s-top{position:absolute;left:var(--sl);right:var(--sr);top:calc(var(--st) + 10px);display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .s-hp{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;row-gap:4px;align-items:center;width:min(250px,56vw);background:rgba(228,229,223,.92);border:2.5px solid var(--ink);border-radius:3px;padding:6px 8px;box-shadow:3px 3px 0 var(--ink)}
