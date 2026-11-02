@@ -289,6 +289,7 @@ function storyTick(dt) {
   for (const b of EB) if (!b.dead && BULLET_WALL.has(tileAt(b.x, b.y))) { b.dead = true; burst(b.x, b.y, 3, COL.ink, 80); }
   for (const p of PR) if (!p.dead && p.kind === 'swave' && BULLET_WALL.has(tileAt(p.x, p.y))) p.dead = true;
   storySword(dt);
+  storyBulletTick(dt);
   chaseTick(dt);
   // pickups
   for (const s of G.spk) {
