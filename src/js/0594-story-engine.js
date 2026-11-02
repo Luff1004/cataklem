@@ -104,6 +104,7 @@ function genArea(A) {
 }
 function buildArea(id) {
   const A = AREAS[id];
+  if (A.chase && !A.map) A.map = genChaseMap(A);
   const gen = A.map ? null : genArea2(A);
   let rows = A.map ? normRows(A.map, A.map[0].length) : gen.rows;
   const w = rows[0].length, h = rows.length, ents = [];
@@ -135,8 +136,9 @@ function refreshBlk() {
     const c = WD.grid[y][x];
     if (SOLID.has(c)) blk[y * W2 + x] = 1;
     const side = EXIT_CH[c];
-    if (side) { const ex = exitInfo(side); if (!ex || !ex.open || WD.bossLock || WD.locked || (WD.chase && side === 'W')) blk[y * W2 + x] = 1; }
+    if (side) { const ex = exitInfo(side); if (!ex || !ex.open || WD.bossLock || WD.locked || (WD.chase && (side === 'W' || side === 'E'))) blk[y * W2 + x] = 1; }
   }
+  if (WD.tmpBlk) for (const k of WD.tmpBlk.keys()) blk[k] = 1;
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
     if (e.k === 'gate' && !gSolved(e.o.g)) blk[e.ty * W2 + e.tx] = 1;
@@ -455,7 +457,7 @@ function nearAct() {
   let best = null, bd = TL * 1.45;
   for (const e of WD.ents) {
     if (!entOn(e)) continue;
-    if (!['npc', 'sign', 'chest', 'torch', 'brazier', 'lamp', 'portal', 'board', 'bell', 'waystone', 'lever'].includes(e.k)) continue;
+    if (!['npc', 'sign', 'chest', 'torch', 'brazier', 'lamp', 'portal', 'board', 'bell', 'waystone', 'lever', 'trap'].includes(e.k)) continue;
     if (e.k === 'chest' && SAVE.story.opened[e.o.id]) continue;
     const d = Math.hypot(e.x - P.x, e.y - P.y);
     if (d < bd) { bd = d; best = e; }
@@ -472,7 +474,7 @@ function nearAct() {
   }
   return best;
 }
-const ACT_LABEL = { waystone: '길돌', lever: '당기기', npc: '말 걸기', sign: '읽기', chest: '열기', torch: '불 붙이기', brazier: '불 붙이기', lamp: '켜고 끄기', portal: '들어가기', board: '의뢰판', bell: '두드리기', exitlock: '살펴보기' };
+const ACT_LABEL = { waystone: '길돌', lever: '당기기', trap: '당기기', npc: '말 걸기', sign: '읽기', chest: '열기', torch: '불 붙이기', brazier: '불 붙이기', lamp: '켜고 끄기', portal: '들어가기', board: '의뢰판', bell: '두드리기', exitlock: '살펴보기' };
 function doAct() {
   if (STATE !== 'play' || G.mode !== 'story' || G.trans) return;
   const e = nearAct(); if (!e) return;
@@ -480,6 +482,7 @@ function doAct() {
   if (e.k === 'npc') return talkTo(e.o.id);
   if (e.k === 'waystone') return waystoneAct(e);
   if (e.k === 'lever') return leverAct(e);
+  if (e.k === 'trap') return chaseLever(e);
   if (e.k === 'sign') return dialog([['', e.o.text]]);
   if (e.k === 'exitlock') return dialog([['', e.msg]]);
   if (e.k === 'chest') {
