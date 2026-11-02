@@ -749,8 +749,8 @@ body.story #hud:not(.arena) .banner{max-width:min(calc(100vw - 32px),560px);text
 /* ================= languages: Korean is the source; English, Japanese and Chinese come from tables ================= */
 const LANGS = { en: 'English', ko: '한국어', ja: '日本語', zh: '中文' };
 const LANG = (() => {
-  try { const v = JSON.parse(localStorage.getItem('cataklem.save.v1') || '{}').lang; return LANGS[v] ? v : 'en'; }
-  catch (e) { return 'en'; }
+  try { const v = JSON.parse(localStorage.getItem('cataklem.save.v1') || '{}').lang; return LANGS[v] ? v : 'ko'; }
+  catch (e) { return 'ko'; }
 })();
 const TR = {};
 const LI = { en: 1, ja: 2, zh: 3 }[LANG];
