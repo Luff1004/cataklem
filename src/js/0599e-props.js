@@ -263,11 +263,6 @@ function drawProp(e, now) {
       if (S.bounty && S.bounty.done) { wu(); ctx.fillStyle = COL.yellow; ctx.strokeStyle = COL.ink; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(x + 20, (y + 16) * TY - 60 + Math.sin(now * 4) * 2, 6, 0, TAU); ctx.fill(); ctx.stroke(); }
       return true;
     }
-    case 'trap': {
-      if (WD.chase) return true;
-      groundShadow(x, y + 10, 16); standUp(leverBase(), x, y + 14, 1);
-      return true;
-    }
     case 'torch': {
       const lit = S.lit[WD.id + ':' + e.tx + ',' + e.ty];
       groundShadow(x, y + 14, 12);
