@@ -90,8 +90,7 @@ function render(rdt) {
   drawHeaven();
 
   // enemy bullets
-  for (const b of EB) { if (!onScreen(b.x, b.y, 20)) continue; if (b.shape) { drawShapedBullet(b); continue; } spr(b.big ? SP.ebig : SP.ebul, b.x, b.y, b.big ? 20 : 13, b.big ? 20 : 13); }
-  wt();
+  for (const b of EB) { if (!onScreen(b.x, b.y, 20)) continue; spr(b.big ? SP.ebig : SP.ebul, b.x, b.y, b.big ? 20 : 13, b.big ? 20 : 13); }
 
   // rings
   wt();
